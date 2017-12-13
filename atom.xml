@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tokyle.com/"/>
-  <updated>2017-12-13T08:33:14.489Z</updated>
+  <updated>2017-12-13T09:12:37.017Z</updated>
   <id>http://www.tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python编码</title>
+    <link href="http://www.tokyle.com/2017/12/13/python%E7%BC%96%E7%A0%81/"/>
+    <id>http://www.tokyle.com/2017/12/13/python编码/</id>
+    <published>2017-12-13T08:44:58.000Z</published>
+    <updated>2017-12-13T09:12:37.017Z</updated>
+    
+    <content type="html"><![CDATA[<p>python日常踩坑系列（二）</p><a id="more"></a><p>日常编写python脚本，鉴于java各种坑编码经历，首先就会把pycharm编码设置成utf-8，但是不知道什么鬼，设置完成之后，编译还是会报编码gbk的错误</p><img src="/2017/12/13/python编码/utf8.jpg" title="pycharm settings"><p>问题如下：</p><p>“UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x80 in position 34: illegal multibyte sequence”</p><p>解决方案：</p><p>1，设置所有文件编码默认为utf-8（文件最前面指定）</p><img src="/2017/12/13/python编码/pycharm_setting.jpg" title="pycharm-utf8"><p>2，处理数据时进行转码：</p><p>with open(“population.json”,encoding=’UTF-8’) as data:</p><p>–完 (#^.^#)</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;python日常踩坑系列（二）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="coding" scheme="http://www.tokyle.com/categories/coding/"/>
+    
+      <category term="python" scheme="http://www.tokyle.com/categories/coding/python/"/>
+    
+    
+      <category term="python" scheme="http://www.tokyle.com/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>Django获取不到特定链接</title>
@@ -35,27 +59,6 @@
       <category term="python" scheme="http://www.tokyle.com/tags/python/"/>
     
       <category term="Django" scheme="http://www.tokyle.com/tags/Django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://www.tokyle.com/2017/12/13/hello-world/"/>
-    <id>http://www.tokyle.com/2017/12/13/hello-world/</id>
-    <published>2017-12-13T01:09:04.228Z</published>
-    <updated>2017-12-13T01:09:04.228Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
     
   </entry>
   
