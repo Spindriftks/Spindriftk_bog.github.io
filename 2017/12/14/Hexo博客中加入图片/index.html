@@ -146,13 +146,10 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="Hexo在写文章时，经常会需要在文中中添加图片，Hexo提供了多种图片插入方式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.tokyle.com/images/image.jpg">
-<meta property="og:image" content="http://www.tokyle.com/2017/12/14/Hexo博客中加入图片/image.jpg">
-<meta property="og:updated_time" content="2017-12-14T08:48:16.439Z">
+<meta property="og:updated_time" content="2017-12-14T09:15:04.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客中加入图片">
 <meta name="twitter:description" content="Hexo在写文章时，经常会需要在文中中添加图片，Hexo提供了多种图片插入方式">
-<meta name="twitter:image" content="http://www.tokyle.com/images/image.jpg">
 
 
 
@@ -263,16 +260,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-bug"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
@@ -299,6 +286,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bug"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -477,24 +474,12 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  244 字
+                  265 字
                 </span>
               
 
               
-                <span class="post-meta-divider">|</span>
-              
 
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟 
-                </span>
               
             </div>
           
@@ -517,23 +502,24 @@
         <p>Hexo在写文章时，经常会需要在文中中添加图片，Hexo提供了多种图片插入方式</p>
 <a id="more"></a>
 <h1 id="本地引用"><a href="#本地引用" class="headerlink" title="本地引用"></a>本地引用</h1><h2 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h2><p>markdown语法实现</p>
-<p>`<br> source/images/image.jpg</p>
-<ul>
-<li><img src="/images/image.jpg" alt=""><br>`<br>这样，图片既可以在首页内容访问，也可以在文章正文中使用</li>
-</ul>
+<p><code>source/images/image.jpg</code></p>
+<ol>
+<li><code>![](/images/image.jpg)</code></li>
+</ol>
+<p>这样，图片既可以在首页内容访问，也可以在文章正文中使用</p>
 <h2 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h2><p>首先在/blog/_config.yml 中设置 <em>post_asset_folder: true</em> ，这样在 <em>hexo new “文章”</em> 时会生成与文章标题一样的目录，将文章中需要使用的图片存在该目录下（source//_posts/文章）</p>
-<p>`<br>_posts/post_name/image.jpg</p>
-<ul>
-<li><img src="image.jpg" alt=""><br>`<br>如果希望图片在文章和首页同时显示，可以使用标签语法</li>
-</ul>
-<p>`<br>_posts/post_name/image.jpg</p>
-<ul>
-<li>
-`</li>
-</ul>
+<p><code>_posts/post_name/image.jpg</code></p>
+<ol>
+<li><code>![](image.jpg)</code></li>
+</ol>
+<p>如果希望图片在文章和首页同时显示，可以使用标签语法</p>
+<p><code>_posts/post_name/image.jpg</code></p>
+<ol>
+<li><code></code></li>
+</ol>
 <h1 id="CND引用"><a href="#CND引用" class="headerlink" title="CND引用"></a>CND引用</h1><p>现在大多数做法是使用图床，自己也看过七牛云之类的做为图床，但是，七牛云个流氓，还要手持身份证认证，所以暂时放弃。（该方法就是在图床中生成链接，直接引链接即可）</p>
 <blockquote>
-<p>参考文章：<br><a href="https://coding.net/help/doc/project/markdown.html" target="_blank" rel="noopener">Markdown 语法介绍</a></p>
+<p>参考文章：<br><a href="https://coding.net/help/doc/project/markdown.html" target="_blank" rel="noopener">Markdown 语法介绍</a><br><code>[Markdown 语法介绍](https://coding.net/help/doc/project/markdown.html)</code></p>
 </blockquote>
 
       
@@ -576,7 +562,7 @@
   </li>
   <li class="post-copyright-author">
     <strong>最后更新:</strong>
-    2017年12月14日 - 08:12
+    2017年12月14日 - 09:12
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>

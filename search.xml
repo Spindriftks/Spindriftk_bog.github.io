@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Hexo博客中加入图片]]></title>
     <url>%2F2017%2F12%2F14%2FHexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%8A%A0%E5%85%A5%E5%9B%BE%E7%89%87%2F</url>
-    <content type="text"><![CDATA[Hexo在写文章时，经常会需要在文中中添加图片，Hexo提供了多种图片插入方式 本地引用绝对路径markdown语法实现 ` source/images/image.jpg `这样，图片既可以在首页内容访问，也可以在文章正文中使用 相对路径首先在/blog/_config.yml 中设置 post_asset_folder: true ，这样在 hexo new “文章” 时会生成与文章标题一样的目录，将文章中需要使用的图片存在该目录下（source//_posts/文章） `_posts/post_name/image.jpg `如果希望图片在文章和首页同时显示，可以使用标签语法 `_posts/post_name/image.jpg ` CND引用现在大多数做法是使用图床，自己也看过七牛云之类的做为图床，但是，七牛云个流氓，还要手持身份证认证，所以暂时放弃。（该方法就是在图床中生成链接，直接引链接即可） 参考文章：Markdown 语法介绍]]></content>
+    <content type="text"><![CDATA[Hexo在写文章时，经常会需要在文中中添加图片，Hexo提供了多种图片插入方式 本地引用绝对路径markdown语法实现 source/images/image.jpg ![](/images/image.jpg) 这样，图片既可以在首页内容访问，也可以在文章正文中使用 相对路径首先在/blog/_config.yml 中设置 post_asset_folder: true ，这样在 hexo new “文章” 时会生成与文章标题一样的目录，将文章中需要使用的图片存在该目录下（source//_posts/文章） _posts/post_name/image.jpg ![](image.jpg) 如果希望图片在文章和首页同时显示，可以使用标签语法 _posts/post_name/image.jpg CND引用现在大多数做法是使用图床，自己也看过七牛云之类的做为图床，但是，七牛云个流氓，还要手持身份证认证，所以暂时放弃。（该方法就是在图床中生成链接，直接引链接即可） 参考文章：Markdown 语法介绍[Markdown 语法介绍](https://coding.net/help/doc/project/markdown.html)]]></content>
       <categories>
         <category>tools</category>
       </categories>
