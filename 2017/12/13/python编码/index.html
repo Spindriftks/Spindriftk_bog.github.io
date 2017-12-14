@@ -146,10 +146,13 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="python日常踩坑系列（二）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-13T09:12:37.017Z">
+<meta property="og:image" content="http://www.tokyle.com/images/utf8.jpg">
+<meta property="og:image" content="http://www.tokyle.com/images/pycharm_setting.jpg">
+<meta property="og:updated_time" content="2017-12-14T14:21:25.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python编码">
 <meta name="twitter:description" content="python日常踩坑系列（二）">
+<meta name="twitter:image" content="http://www.tokyle.com/images/utf8.jpg">
 
 
 
@@ -513,12 +516,12 @@
         <p>python日常踩坑系列（二）</p>
 <a id="more"></a>
 <p>日常编写python脚本，鉴于java各种坑编码经历，首先就会把pycharm编码设置成utf-8，但是不知道什么鬼，设置完成之后，编译还是会报编码gbk的错误</p>
-
+<p><img src="/images/utf8.jpg" alt=""></p>
 <p>问题如下：</p>
 <p>“UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x80 in position 34: illegal multibyte sequence”</p>
 <p>解决方案：</p>
 <p>1，设置所有文件编码默认为utf-8（文件最前面指定）</p>
-
+<p><img src="/images/pycharm_setting.jpg" alt=""></p>
 <p>2，处理数据时进行转码：</p>
 <p>with open(“population.json”,encoding=’UTF-8’) as data:</p>
 <p>–完 (#^.^#)</p>
@@ -563,7 +566,7 @@
   </li>
   <li class="post-copyright-author">
     <strong>最后更新:</strong>
-    2017年12月13日 - 09:12
+    2017年12月14日 - 14:12
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
