@@ -147,7 +147,7 @@
 <meta property="og:description" content="python日常踩坑系列">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.tokyle.com/2017/12/13/Django获取不到特定链接/new_python.jpg">
-<meta property="og:updated_time" content="2017-12-13T08:33:14.489Z">
+<meta property="og:updated_time" content="2017-12-14T08:26:15.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django获取不到特定链接">
 <meta name="twitter:description" content="python日常踩坑系列">
@@ -494,8 +494,7 @@
         <p>python日常踩坑系列</p>
 <a id="more"></a>
 <img src="/2017/12/13/Django获取不到特定链接/new_python.jpg">
-<p>按照教程方式打开本地特定链接报错<br>源码如下：</p>
-<p>from django.conf.urls import url<br>from . import views</p>
+<p>按照教程方式打开本地特定链接报错<br>源码如下：<br>‘’’<br>from django.conf.urls import url<br>from . import views</p>
 <p>urlpatterns = [</p>
 <pre><code># Home page.
 url(r&apos;^$&apos;, views.index, name=&apos;index&apos;),
@@ -505,19 +504,18 @@ url(r&apos;^topics/$&apos;, views.topics, name=&apos;topics&apos;),
 
 # Detail page for a single topic.
 url(r&apos;^topics/(?P&lt;topic_id&gt;\d+)/$&apos;, views.topic, name=&apos;topic&apos;),
-</code></pre><p>]</p>
-<p>打开<a href="http://127.0.0.1:8000/topics/1/报错：" target="_blank" rel="noopener">http://127.0.0.1:8000/topics/1/报错：</a><br>Using the URLconf defined in learning_log.urls, Django tried these URL patterns, in this order:</p>
+</code></pre><p>]<br>‘’’<br>打开<a href="http://127.0.0.1:8000/topics/1/报错：" target="_blank" rel="noopener">http://127.0.0.1:8000/topics/1/报错：</a><br>‘’’<br>Using the URLconf defined in learning_log.urls, Django tried these URL patterns, in this order:</p>
 <ol>
 <li>admin/</li>
 <li>[name=’index’]</li>
 <li>topics [name=’topics’]</li>
-<li>topics/?P<topic_id>\d+/ [name=’topic’]<br>The current path, topics/1/, didn’t match any of these.</topic_id></li>
+<li>topics/?P<topic_id>\d+/ [name=’topic’]<br>The current path, topics/1/, didn’t match any of these.<br>‘’’</topic_id></li>
 </ol>
-<p>原因：<br>Django2.0有更新<br>对于django.urls.path()函数，允许有简单的表示方法：</p>
-<p>url(r’^articles/(?P<year>[0-9]{4})/$’, views.year_archive),</year></p>
+<p>##原因：<br>Django2.0有更新<br>对于django.urls.path()函数，允许有简单的表示方法：</p>
+<p><em>url(r’^articles/(?P<year>[0-9]{4})/$’, views.year_archive),</year></em></p>
 <p>可以写成：</p>
-<p>path(‘articles/<int:year>/‘, views.year_archive),</int:year></p>
-<p>所以代码可更改为：<br>from django.urls import path<br>from . import views</p>
+<p><em>path(‘articles/<int:year>/‘, views.year_archive),</int:year></em></p>
+<p>所以代码可更改为：<br>‘’’<br>from django.urls import path<br>from . import views</p>
 <p>app_name = ‘lerning_logs’<br>urlpatterns = [</p>
 <pre><code>#主页
 path(&apos;&apos;, views.index, name=&apos;index&apos;),
@@ -526,7 +524,7 @@ path(&apos;topics&apos;, views.topics, name=&apos;topics&apos;),
 #特定主题的详细页面
 #path(&apos;topics/?P&lt;topic_id&gt;\d+/&apos;, views.topic, name=&apos;topic&apos;),
 path(&apos;topics/&lt;topic_id&gt;/&apos;, views.topic, name=&apos;topic&apos;),
-</code></pre><p>]</p>
+</code></pre><p>]<br>‘’’</p>
 
       
     </div>
@@ -568,7 +566,7 @@ path(&apos;topics/&lt;topic_id&gt;/&apos;, views.topic, name=&apos;topic&apos;),
   </li>
   <li class="post-copyright-author">
     <strong>最后更新:</strong>
-    2017年12月13日 - 08:12
+    2017年12月14日 - 08:12
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
@@ -699,7 +697,7 @@ path(&apos;topics/&lt;topic_id&gt;/&apos;, views.topic, name=&apos;topic&apos;),
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -710,7 +708,7 @@ path(&apos;topics/&lt;topic_id&gt;/&apos;, views.topic, name=&apos;topic&apos;),
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -721,7 +719,7 @@ path(&apos;topics/&lt;topic_id&gt;/&apos;, views.topic, name=&apos;topic&apos;),
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
