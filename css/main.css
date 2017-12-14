@@ -1913,7 +1913,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #8342a2;
+  background: #862438;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3105,6 +3105,14 @@ body {
   padding: 25px;
   -webkit-box-shadow: 0 0 14px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 14px rgba(202,203,204,0.5);
+}
+code {
+  color: #c7254e;
+  background: #f9f2f4;
+  border: 1px solid #d6d6d6;
+  padding: 1px 4px;
+  word-break: break-all;
+  border-radius: 4px;
 }
 @-moz-keyframes heartAnimate {
   0%, 100% {
