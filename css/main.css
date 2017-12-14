@@ -189,7 +189,7 @@ body {
   font-size: 16px;
   line-height: 2;
   color: #555;
-  background: #f5f7f9;
+  background: #fff;
 }
 @media (max-width: 767px) {
   body {
@@ -653,8 +653,8 @@ pre .javascript .function {
 @media (min-width: 992px) {
   .full-image.full-image.full-image {
     max-width: none;
-    width: 118%;
-    margin: 0 -9%;
+    width: 110%;
+    margin: 25px -5%;
   }
 }
 .blockquote-center,
@@ -984,11 +984,11 @@ pre .javascript .function {
   display: inline-block;
   padding: 0 20px;
   font-size: 14px;
-  color: #555;
-  background: #fff;
+  color: #fff;
+  background: #222;
   border: 2px solid #555;
   text-decoration: none;
-  border-radius: 2px;
+  border-radius: 0;
   transition-property: background-color;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -1103,14 +1103,14 @@ pre .javascript .function {
 .back-to-top {
   box-sizing: border-box;
   position: fixed;
-  bottom: -100px;
+  bottom: 40px;
   right: 30px;
   z-index: 1050;
   padding: 0 6px;
   width: initial;
   background: #222;
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 1;
   color: #fff;
   cursor: pointer;
   text-align: center;
@@ -1131,7 +1131,7 @@ pre .javascript .function {
   }
 }
 .back-to-top.back-to-top-on {
-  bottom: 30px;
+  bottom: 19px;
 }
 .header {
   background: transparent;
@@ -1829,18 +1829,18 @@ pre .javascript .function {
   display: block;
   margin: 0 auto;
   padding: 2px;
-  max-width: 120px;
+  max-width: 96px;
   height: auto;
-  border: 1px solid #eee;
+  border: 2px solid #333;
 }
 .site-author-name {
-  margin: 0;
+  margin: 5px 0 0;
   text-align: center;
   color: #222;
-  font-weight: 600;
+  font-weight: normal;
 }
 .site-description {
-  margin-top: 0;
+  margin-top: 5px;
   text-align: center;
   font-size: 13px;
   color: #999;
@@ -1854,7 +1854,7 @@ pre .javascript .function {
 .site-state-item {
   display: inline-block;
   padding: 0 15px;
-  border-left: 1px solid #eee;
+  border-left: 1px solid #ccc;
 }
 .site-state-item:first-child {
   border-left: none;
@@ -1913,7 +1913,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #0adeff;
+  background: #57ff96;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1951,7 +1951,7 @@ pre .javascript .function {
   color: #555;
 }
 .sidebar-nav li:hover {
-  color: #fc6423;
+  color: #222;
 }
 .page-post-detail .sidebar-nav-toc {
   padding: 0 5px;
@@ -1960,11 +1960,11 @@ pre .javascript .function {
   margin-left: 10px;
 }
 .sidebar-nav .sidebar-nav-active {
-  color: #fc6423;
-  border-bottom-color: #fc6423;
+  color: #222;
+  border-bottom-color: #222;
 }
 .sidebar-nav .sidebar-nav-active:hover {
-  color: #fc6423;
+  color: #222;
 }
 .sidebar-panel {
   display: none;
@@ -1997,12 +1997,12 @@ pre .javascript .function {
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
   transition-property: all;
-  color: #666;
-  border-bottom-color: #ccc;
+  color: #999;
+  border-bottom-color: #555;
 }
 .post-toc ol a:hover {
-  color: #000;
-  border-bottom-color: #000;
+  color: #ccc;
+  border-bottom-color: #ccc;
 }
 .post-toc .nav-item {
   overflow: hidden;
@@ -2022,14 +2022,14 @@ pre .javascript .function {
   display: block;
 }
 .post-toc .nav .active > a {
-  color: #fc6423;
-  border-bottom-color: #fc6423;
+  color: #87daff;
+  border-bottom-color: #87daff;
 }
 .post-toc .nav .active-current > a {
-  color: #fc6423;
+  color: #87daff;
 }
 .post-toc .nav .active-current > a:hover {
-  color: #fc6423;
+  color: #87daff;
 }
 .footer {
   font-size: 14px;
@@ -2679,19 +2679,25 @@ pre .javascript .function {
   }
 }
 .page-post-detail .sidebar-toggle-line {
-  background: #fc6423;
+  background: #222;
 }
 .page-post-detail .comments {
   overflow: hidden;
 }
-header {
-  width: 90%;
+.header {
+  position: relative;
+  margin: 0 auto;
+  width: 960px;
 }
-.container .main-inner {
-  width: 90%;
+@media (min-width: 768px) and (max-width: 991px) {
+  .header {
+    width: auto;
+  }
 }
-.content-wrap {
-  width: calc(100% - 260px);
+@media (max-width: 767px) {
+  .header {
+    width: auto;
+  }
 }
 .header-inner {
   position: absolute;
@@ -2700,8 +2706,6 @@ header {
   padding: 0;
   width: 240px;
   background: #fff;
-  box-shadow: initial;
-  border-radius: initial;
 }
 @media (min-width: 1600px) {
   .container .header-inner {
@@ -2712,14 +2716,12 @@ header {
   .header-inner {
     position: relative;
     width: auto;
-    border-radius: initial;
   }
 }
 @media (max-width: 767px) {
   .header-inner {
     position: relative;
     width: auto;
-    border-radius: initial;
   }
 }
 .main:before,
@@ -2759,23 +2761,17 @@ header {
   padding: 40px;
   width: 700px;
   background: #fff;
-  min-height: 700px;
-  box-shadow: initial;
-  border-radius: initial;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .content-wrap {
     width: 100%;
     padding: 20px;
-    border-radius: initial;
   }
 }
 @media (max-width: 767px) {
   .content-wrap {
     width: 100%;
     padding: 20px;
-    min-height: auto;
-    border-radius: initial;
   }
 }
 .sidebar {
@@ -2783,7 +2779,7 @@ header {
   float: left;
   margin-top: 300px;
   width: 240px;
-  background: #f5f7f9;
+  background: #fff;
   box-shadow: none;
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -2801,20 +2797,27 @@ header {
 }
 .footer-inner {
   width: 960px;
-  padding-left: 260px;
+}
+.footer-inner:before {
+  content: " ";
+  float: left;
+  width: 260px;
+  min-height: 50px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .footer-inner {
     width: auto;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+  }
+  .footer-inner:before {
+    display: none;
   }
 }
 @media (max-width: 767px) {
   .footer-inner {
     width: auto;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+  }
+  .footer-inner:before {
+    display: none;
   }
 }
 .sidebar-position-right .header-inner {
@@ -2826,9 +2829,8 @@ header {
 .sidebar-position-right .sidebar {
   float: right;
 }
-.sidebar-position-right .footer-inner {
-  padding-left: 0;
-  padding-right: 260px;
+.sidebar-position-right .footer-inner:before {
+  float: right;
 }
 .site-brand-wrapper {
   position: relative;
@@ -2941,13 +2943,13 @@ header {
   width: 240px;
   color: #555;
   background: #fff;
-  box-shadow: initial;
-  border-radius: initial;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius;
   opacity: 0;
 }
 .sidebar-inner.affix {
   position: fixed;
-  top: 12px;
+  top: $sidebar-offset;
 }
 .sidebar-inner.affix-bottom {
   position: absolute;
