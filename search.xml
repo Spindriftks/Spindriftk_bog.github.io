@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>%2F2017%2F12%2F14%2FHexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%8A%A0%E5%85%A5%E5%9B%BE%E7%89%87%2F</url>
+    <content type="text"><![CDATA[本地引用绝对路径markdown语法实现 &emsp;&emsp;source/images/image.jpg&emsp;&emsp;![](/images/image.jpg) 这样，图片既可以在首页内容访问，也可以在文章正文中使用 相对路径首先在/blog/_config.yml 中设置 post_asset_folder: true ，这样在 hexo new “文章” 时会生成与文章标题一样的目录，将文章中需要使用的图片存在该目录下（source//_posts/文章） &emsp;&emsp;_posts/post_name/image.jpg&emsp;&emsp;![](image.jpg) 如果希望图片在文章和首页中同时显示，可以使用标签插件语法。 CDN引用现在大多数做法是使用图床，自己也看过七牛云之类的做为图床，但是，七牛云个流氓，还要手持身份证认证，所以暂时放弃。（该方法就是在图床中生成链接，直接引链接即可） Markdown 语法介绍]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[python编码]]></title>
     <url>%2F2017%2F12%2F13%2Fpython%E7%BC%96%E7%A0%81%2F</url>
     <content type="text"><![CDATA[python日常踩坑系列（二） 日常编写python脚本，鉴于java各种坑编码经历，首先就会把pycharm编码设置成utf-8，但是不知道什么鬼，设置完成之后，编译还是会报编码gbk的错误 问题如下： “UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x80 in position 34: illegal multibyte sequence” 解决方案： 1，设置所有文件编码默认为utf-8（文件最前面指定） 2，处理数据时进行转码： with open(“population.json”,encoding=’UTF-8’) as data: –完 (#^.^#)]]></content>
