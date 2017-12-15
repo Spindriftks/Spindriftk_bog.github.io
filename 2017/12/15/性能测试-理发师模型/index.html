@@ -148,7 +148,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.tokyle.com/images/理发店.jpg">
 <meta property="og:image" content="http://www.tokyle.com/images/软件性能模型.jpg">
-<meta property="og:updated_time" content="2017-12-15T02:38:02.305Z">
+<meta property="og:updated_time" content="2017-12-15T02:46:03.728Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="性能测试-理发师模型">
 <meta name="twitter:description" content="性能测试有个有名的模型，理发店模型，理发店标配：一间或大或小的店面，一个或几个理发师，几张理发的椅子和顾客休息的椅子。本文介绍一下理发店模型（相关资料网上一堆，只是为了自己记录）">
@@ -477,7 +477,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,982 字
+                  1,987 字
                 </span>
               
 
@@ -518,6 +518,9 @@
 <p>根据这种性能表现，图中划分了三个区域，分别是Light Load（较轻的压力）、Heavy Load（较重的压力）和Buckle Zone（用户无法忍受并放弃请求）。在Light Load和Heavy Load 两个区域交界处的并发用户数，我们称为“<strong><em>最佳并发用户数</em></strong>（The Optimum Number of Concurrent Users）”，而Heavy Load和Buckle Zone两个区域交界处的并发用户数则称为“<strong>最大并发用户数</strong>（The Maximum Number of Concurrent Users）”。</p>
 <p>当系统的负载等于最佳并发用户数时，系统的整体效率最高，没有资源被浪费，用户也不需要等待；当系统负载处于最佳并发用户数和最大并发用户数之间时，系统可以继续工作，但是用户的等待时间延长，满意度开始降低，并且如果负载一直持续，将最终会导致有些用户无法忍受而放弃；而当系统负载大于最大并发用户数时，将注定会导致某些用户无法忍受超长的响应时间而放弃。</p>
 <p>对应到我们上面理发店的例子，每小时3个顾客就是这个理发店的最佳并发用户数，而每小时9个顾客则是它的最大并发用户数。当每小时都有3个顾客到来时，理发店的整体工作效率最高；而当每小时都有9个顾客到来时，前几个小时来的顾客还可以忍受，但是随着等待的顾客人数越来越多，等待时间越来越长，最终还是会有顾客无法忍受而离开。同时，随着理发店里顾客人数的增多和理发师工作时间的延长，理发师会逐渐产生疲劳，还要多花一些时间来清理环境和维持秩序，这些因素将最终导致理发师的工作效率随着顾客人数的增多和工作的延长而逐渐的下降，到最后可能要1.5小时甚至2个小时才能剪完1个发了。<br>当然，如果一开始就有10个顾客到来，则注定有1位顾客剪不到头发了。</p>
+<blockquote>
+<p><a href="http://www.cnblogs.com/jackei/archive/2006/11/20/565527.html" target="_blank" rel="noopener">大神原网址</a></p>
+</blockquote>
 
       
     </div>
