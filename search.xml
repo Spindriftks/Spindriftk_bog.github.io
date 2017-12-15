@@ -5,10 +5,11 @@
     <url>%2F2017%2F12%2F15%2FJmeter%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[Jmeter是测试人员经常会使用的一款压力测试工具，经常会使用来测试接口的性能；Jmeter同时具备监控服务器资源使用情况的功能。 主要介绍一下怎么使用Jmeter来监控服务器的CPU,内存,IO等信息。 下载使用Jmeter监控系统性能，实际上是插件的使用，可以认为是在Jmeter中装载了一个小型监控系统的客户端，同时在需要监控的系统内装载服务端，在允许Jmeter时，同时打开监控服务端，进行系统资源的监控。 12客户端：JMeterPlugins-Standard服务端：ServerAgent 下载地址： 官网下载 百度云链接： JMeterPlugins-Standard-1.4.0ServerAgent-2.2.1 配置说明将 JMeterPlugins-Standard-1.4.0.zip 中 lib\ext 目录下的 JmeterPlugins-Standard.jar 文件都放到apache-jmeter-2.13\lib\ext目录中。将 ServerAgent-2.2.1.zip 解压后放到要监控的服务器中待使用。 监控设置 启动Jmeter后，右击线程组，选择添加- 监听器- jp@gc-PerfMon Metrics Collector 打开jp@gc - PerfMon Metrics Collector，点击Add Row选择相应监控对象（服务器IP和监控内容），端口默认4444即可。 开启监控 设置永远循环，否则监控会运行一次就断开，设置方式：线程组-循环次数（选择永远） 服务端运行ServerAgent，Linux系统运行shell脚本，windows系统执行bat脚本（系统需事先完成jdk配置） 成功完成系统资源监控]]></content>
       <categories>
-        <category>-性能测试</category>
+        <category>性能测试</category>
       </categories>
       <tags>
-        <tag>-Jmeter -性能</tag>
+        <tag>Jmeter</tag>
+        <tag>性能</tag>
       </tags>
   </entry>
   <entry>
