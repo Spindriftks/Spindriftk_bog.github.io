@@ -5,12 +5,11 @@
     <url>%2F2017%2F12%2F19%2FDjango2-0%E6%9B%B4%E6%96%B0%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95%2F</url>
     <content type="text"><![CDATA[Django 2.0 变更内容(不按版本敲着实是有点坑o(╥﹏╥)o) 外键Django 1.9在创建models.ForeignKey外键时，可写成1topic = models.ForeignKey(Topic） Django 2.0需要多传一个字段on_delete，且可给定默认值models.CASCADE所以上述可写为：1topic = models.ForeignKey(Topic,on_delete=models.CASCADE) 指定app_nameDjango 1.9在映射URL时，工程的urls.py可写成：1234567from django.contrib import adminfrom django.urls import path,includeurlpatterns = [ path(&apos;admin/&apos;, admin.site.urls), path(&apos;&apos;,include(&apos;learning_logs.urls&apos;, namespace=&apos;learning_logs&apos;))] 应用的urls.py可写成：12345678&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;from django.urls import pathfrom . import viewsurlpatterns = [ #主页 path(&apos;&apos;, views.index, name=&apos;index&apos;)] 该写法在Django 2.0中会出现报错：12&apos;Specifying a namespace in include() without providing an app_name &apos;django.core.exceptions.ImproperlyConfigured: Specifying a namespace in include() without providing an app_name is not supported. Set the app_name attribute in the included module, or pass a 2-tuple containing the list of patterns and app_name instead. 意思是缺少了app_name，所以需要指定app_name，我的做法是在应用的urls.py文件中指定app_name，也就是工程的urls.py保持不变，应用的urls.py增加app_name指定：123456789&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;from django.urls import pathfrom . import viewsapp_name = &apos;learning_logs&apos;urlpatterns = [ #主页 path(&apos;&apos;, views.index, name=&apos;index&apos;)] 映射URL对于django.urls.path()函数，允许有简单的表示方法： 1url(r’^articles/(?P[0-9]&#123;4&#125;)/$’, views.year_archive), 可以写成： 1path(‘articles//‘, views.year_archive), 用法参见前博客记录]]></content>
       <categories>
-        <category>python</category>
         <category>coding</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>Django</tag>
       </tags>
   </entry>
   <entry>

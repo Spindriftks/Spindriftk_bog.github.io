@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tokyle.com/"/>
-  <updated>2017-12-19T09:43:24.082Z</updated>
+  <updated>2017-12-19T09:50:31.391Z</updated>
   <id>http://www.tokyle.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://www.tokyle.com/2017/12/19/Django2-0%E6%9B%B4%E6%96%B0%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95/"/>
     <id>http://www.tokyle.com/2017/12/19/Django2-0更新内容记录/</id>
     <published>2017-12-19T09:39:33.000Z</published>
-    <updated>2017-12-19T09:43:24.082Z</updated>
+    <updated>2017-12-19T09:50:31.391Z</updated>
     
     <content type="html"><![CDATA[<p>Django 2.0 变更内容(不按版本敲着实是有点坑o(╥﹏╥)o)</p><a id="more"></a><h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><p>Django 1.9在创建<code>models.ForeignKey</code>外键时，可写成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic = models.ForeignKey(Topic）</span><br></pre></td></tr></table></figure></p><p>Django 2.0需要多传一个字段<code>on_delete</code>，且可给定默认值<code>models.CASCADE</code><br>所以上述可写为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic = models.ForeignKey(Topic,on_delete=models.CASCADE)</span><br></pre></td></tr></table></figure></p><h2 id="指定app-name"><a href="#指定app-name" class="headerlink" title="指定app_name"></a>指定app_name</h2><p>Django 1.9在映射URL时，<em>工程的urls.py</em>可写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib import admin</span><br><span class="line">from django.urls import path,include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(&apos;admin/&apos;, admin.site.urls),</span><br><span class="line">    path(&apos;&apos;,include(&apos;learning_logs.urls&apos;, namespace=&apos;learning_logs&apos;))</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p><p><em>应用的urls.py</em>可写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;</span><br><span class="line">from django.urls import path</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    #主页</span><br><span class="line">    path(&apos;&apos;, views.index, name=&apos;index&apos;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p><p>该写法在Django 2.0中会出现报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;Specifying a namespace in include() without providing an app_name &apos;</span><br><span class="line">django.core.exceptions.ImproperlyConfigured: Specifying a namespace in include() without providing an app_name is not supported. Set the app_name attribute in the included module, or pass a 2-tuple containing the list of patterns and app_name instead.</span><br></pre></td></tr></table></figure></p><p>意思是缺少了app_name，所以需要指定app_name，我的做法是在应用的urls.py文件中指定app_name，也就是工程的urls.py保持不变，<em>应用的urls.py</em>增加app_name指定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;</span><br><span class="line">from django.urls import path</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">app_name = &apos;learning_logs&apos;</span><br><span class="line">urlpatterns = [</span><br><span class="line">    #主页</span><br><span class="line">    path(&apos;&apos;, views.index, name=&apos;index&apos;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p><h2 id="映射URL"><a href="#映射URL" class="headerlink" title="映射URL"></a>映射URL</h2><p>对于django.urls.path()函数，允许有简单的表示方法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(r’^articles/(?P[0-9]&#123;4&#125;)/$’, views.year_archive),</span><br></pre></td></tr></table></figure><p>可以写成：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path(‘articles//‘, views.year_archive),</span><br></pre></td></tr></table></figure><blockquote><p><a href="http://tokyle.com/2017/12/13/Django%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0%E7%89%B9%E5%AE%9A%E9%93%BE%E6%8E%A5/#more" target="_blank" rel="noopener">用法参见前博客记录</a></p></blockquote>]]></content>
     
@@ -31,14 +31,12 @@
     
     </summary>
     
-      <category term="python" scheme="http://www.tokyle.com/categories/python/"/>
+      <category term="coding" scheme="http://www.tokyle.com/categories/coding/"/>
     
-      <category term="coding" scheme="http://www.tokyle.com/categories/python/coding/"/>
+      <category term="python" scheme="http://www.tokyle.com/categories/coding/python/"/>
     
     
       <category term="python" scheme="http://www.tokyle.com/tags/python/"/>
-    
-      <category term="Django" scheme="http://www.tokyle.com/tags/Django/"/>
     
   </entry>
   
