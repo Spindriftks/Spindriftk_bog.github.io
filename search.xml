@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[matplotlib绘制渐变图]]></title>
+    <url>%2F2017%2F12%2F20%2Fmatplotlib%E7%BB%98%E5%88%B6%E6%B8%90%E5%8F%98%E5%9B%BE%2F</url>
+    <content type="text"><![CDATA[使用matplotlib绘制1-1000所有整数立方值图形报错 绘制1~1000所有整数的立方图，颜色采用渐变蓝色，点越接近坐标原点，颜色越浅。代码：123456789101112131415161718import matplotlib.pyplot as pltx_values = list(range(1,1001))y_values = [x**3 for x in x_values]plt.scatter(x_values, y_values, c=y_values,cmap=plt.cm.Blues,s=40)#设置图表坐标并设置坐标标签plt.title(&quot;Square Numbers&quot;,fontsize=24)plt.xlabel(&quot;Values&quot;,fontsize=14)plt.ylabel(&quot;Square of Value&quot;,fontsize=14)#设置坐标轴刻度plt.tick_params(axis=&apos;both&apos;, labelsize=14)#设置坐标轴取值plt.axes([0,1100,0,1100000])plt.show() 可以成功绘制图形，但是有警告报错：1UserWarning: Unable to find pixel distance along axis for interval padding of ticks; assuming no interval padding needed.warnings.warn(&quot;Unable to find pixel distance along axis &quot; 原因：设置坐标轴取值时，使用的是plt.axes，该函数创建的是一个轴对象，并将输入解释为指定位置的矩形，绘制的坐标轴中取值0在绘制的图形之外，超出了限制范围，所以警告报错。 解决方案：使用plt.axis()代替plt.axes()123#设置坐标轴取值plt.axis([0,1100,0,1100000])plt.show()]]></content>
+      <categories>
+        <category>coding</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Django2.0更新内容记录]]></title>
     <url>%2F2017%2F12%2F19%2FDjango2-0%E6%9B%B4%E6%96%B0%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95%2F</url>
     <content type="text"><![CDATA[Django 2.0 变更内容(不按版本敲着实是有点坑o(╥﹏╥)o) 外键Django 1.9在创建models.ForeignKey外键时，可写成1topic = models.ForeignKey(Topic） Django 2.0需要多传一个字段on_delete，且可给定默认值models.CASCADE所以上述可写为：1topic = models.ForeignKey(Topic,on_delete=models.CASCADE) 指定app_nameDjango 1.9在映射URL时，工程的urls.py可写成：1234567from django.contrib import adminfrom django.urls import path,includeurlpatterns = [ path(&apos;admin/&apos;, admin.site.urls), path(&apos;&apos;,include(&apos;learning_logs.urls&apos;, namespace=&apos;learning_logs&apos;))] 应用的urls.py可写成：12345678&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;from django.urls import pathfrom . import viewsurlpatterns = [ #主页 path(&apos;&apos;, views.index, name=&apos;index&apos;)] 该写法在Django 2.0中会出现报错：12&apos;Specifying a namespace in include() without providing an app_name &apos;django.core.exceptions.ImproperlyConfigured: Specifying a namespace in include() without providing an app_name is not supported. Set the app_name attribute in the included module, or pass a 2-tuple containing the list of patterns and app_name instead. 意思是缺少了app_name，所以需要指定app_name，我的做法是在应用的urls.py文件中指定app_name，也就是工程的urls.py保持不变，应用的urls.py增加app_name指定：123456789&quot;&quot;&quot;定义learning_logs的URL模式&quot;&quot;&quot;from django.urls import pathfrom . import viewsapp_name = &apos;learning_logs&apos;urlpatterns = [ #主页 path(&apos;&apos;, views.index, name=&apos;index&apos;)] 映射URL对于django.urls.path()函数，允许有简单的表示方法： 1url(r’^articles/(?P[0-9]&#123;4&#125;)/$’, views.year_archive), 可以写成： 1path(‘articles//‘, views.year_archive), 用法参见前博客记录]]></content>
