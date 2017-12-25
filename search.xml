@@ -5,7 +5,6 @@
     <url>%2F2017%2F12%2F25%2Fpycharm%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%2F</url>
     <content type="text"><![CDATA[使用pycharm编写/执行单元测试用例 python单元测试用例，调用方式使用1unittest.main() 该方式，在python shell中可执行成功，在pycharm中会一直报错，参考网上的写法，最后校验调用改为：12if _name_ == &apos;_main_&apos;: unittest.main() 结果一直报错，NameError: name &#39;_name_&#39; is not defined 简直了，找了半天，还是在墙外找到跟我有一样经历的哥们的求救，报错原因是_name_和_main都是双下划线，正确写法是： 12if __name__ == &apos;__main__&apos;: unittest.main() 真是日常坑自己…]]></content>
       <categories>
-        <category>python</category>
         <category>skill</category>
       </categories>
       <tags>
