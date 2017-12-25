@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[selenium3+python3.6搭建测试]]></title>
+    <url>%2F2017%2F12%2F25%2Fselenium3-python3-6%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%2F</url>
+    <content type="text"><![CDATA[python3.6selenium3chrome64firefox57 selenium3开始，需要浏览器驱动，加载驱动方式：121，驱动放在任意位置，代码中，引驱动，打开浏览器（webdriver.Chrome(executable_path=&quot;驱动路径&quot;）2，将驱动放到浏览器安装目录下，和浏览器启动程序同级，将浏览器安装路径加到环境变量Path中，重启pycharm 自动化测试示例： 12345678910111213141516171819202122232425262728#!/usr/bin/env python3# -*- coding: utf-8 -*-from selenium import webdriverimport time#加载驱动程序#firefox(驱动放到浏览器安装目录，目录加到Path)#driver = webdriver.Firefox()#chrome(驱动放到浏览器安装目录，目录加到Path)driver = webdriver.Chrome()#chrome默认安装路径，驱动指定路径#driver = webdriver.Chrome(executable_path=&quot;G:/Selenium/drivers/chromedriver.exe&quot;)#打开百度首页driver.get(&quot;https://www.baidu.com&quot;)#清空搜索输入框默认内容driver.find_element_by_id(&quot;kw&quot;).clear()#输入框中输入“自动化测试”driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;自动化测试&quot;)#单击搜索按钮driver.find_element_by_id(&quot;su&quot;).click()#等待3秒time.sleep(3)#退出浏览器driver.quit()]]></content>
+      <categories>
+        <category>coding</category>
+        <category>自动化测试</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>selenium</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[world_map]]></title>
     <url>%2F2017%2F12%2F21%2Fworld-map%2F</url>
     <content type="text"><![CDATA[pygal-2.4pygal-maps-world-1.0.2 世界地图模块位置变更 pygal内置世界地图模块，包括国别码模块COUNTRIES以及世界地图模块World。 当前版本下，绘制世界地图，需要从pygal_maps_world.i18n中引国别码，需要从pygal_maps_world.maps中引世界地图。 参考代码如下： countries.py12345678910#!/usr/bin/env python3# -*- coding: utf-8 -*-from pygal_maps_world.i18n import COUNTRIESdef get_country_code(country_name): &quot;&quot;&quot;根据指定国家，返回国别码&quot;&quot;&quot; for code, name in COUNTRIES.items(): if name == country_name or name == country_name.title(): return code return None population_data.py123456789101112131415161718192021222324252627282930313233343536373839404142#!/usr/bin/env python3# -*- coding: utf-8 -*-from settings import Settingsfrom countries import get_country_codefrom pygal.style import RotateStyle as RS,LightColorizedStyle as LCSimport pygal_maps_world.mapsimport jsondata_setting = Settings()filename = data_setting.json_populationwith open(filename) as f_obj: pop_data = json.load(f_obj)#打印每个国家2010年的人口cc_population = &#123;&#125;for pop_dict in pop_data: if pop_dict[&apos;Year&apos;] == &apos;2010&apos;: country_name = pop_dict[&apos;Country Name&apos;] population = int(float(pop_dict[&apos;Value&apos;])) code = get_country_code(country_name) if code: cc_population[code] = population#按人口给国家分组cc_pops_1, cc_pops_2, cc_pops_3 = &#123;&#125;, &#123;&#125;, &#123;&#125;for cc, pop in cc_population.items(): if pop &lt; 10000000: cc_pops_1[cc] = pop elif pop &lt; 1000000000: cc_pops_2[cc] = pop else: cc_pops_3[cc] = popwm_style = RS(&apos;#336699&apos;,base_style=LCS)wm = pygal_maps_world.maps.World(style=wm_style)wm.title = &quot;World Population in 2010.by Country&quot;wm.add(&apos;0-10m&apos;, cc_pops_1)wm.add(&apos;10m-1bn&apos;, cc_pops_2)wm.add(&apos;&gt;1bn&apos;, cc_pops_3)wm.render_to_file(&apos;world_population.svg&apos;)]]></content>

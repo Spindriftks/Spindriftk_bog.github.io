@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tokyle.com/"/>
-  <updated>2017-12-21T09:33:41.510Z</updated>
+  <updated>2017-12-25T05:29:03.431Z</updated>
   <id>http://www.tokyle.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>selenium3+python3.6搭建测试</title>
+    <link href="http://www.tokyle.com/2017/12/25/selenium3-python3-6%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95/"/>
+    <id>http://www.tokyle.com/2017/12/25/selenium3-python3-6搭建测试/</id>
+    <published>2017-12-25T05:26:29.000Z</published>
+    <updated>2017-12-25T05:29:03.431Z</updated>
+    
+    <content type="html"><![CDATA[<p>python3.6<br>selenium3<br>chrome64<br>firefox57</p><a id="more"></a><p>selenium3开始，需要浏览器驱动，加载驱动方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1，驱动放在任意位置，代码中，引驱动，打开浏览器（webdriver.Chrome(executable_path=&quot;驱动路径&quot;）</span><br><span class="line">2，将驱动放到浏览器安装目录下，和浏览器启动程序同级，将浏览器安装路径加到环境变量Path中，重启pycharm</span><br></pre></td></tr></table></figure></p><p>自动化测试示例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#加载驱动程序</span><br><span class="line">#firefox(驱动放到浏览器安装目录，目录加到Path)</span><br><span class="line">#driver = webdriver.Firefox()</span><br><span class="line">#chrome(驱动放到浏览器安装目录，目录加到Path)</span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">#chrome默认安装路径，驱动指定路径</span><br><span class="line">#driver = webdriver.Chrome(executable_path=&quot;G:/Selenium/drivers/chromedriver.exe&quot;)</span><br><span class="line">#打开百度首页</span><br><span class="line">driver.get(&quot;https://www.baidu.com&quot;)</span><br><span class="line"></span><br><span class="line">#清空搜索输入框默认内容</span><br><span class="line">driver.find_element_by_id(&quot;kw&quot;).clear()</span><br><span class="line">#输入框中输入“自动化测试”</span><br><span class="line">driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;自动化测试&quot;)</span><br><span class="line">#单击搜索按钮</span><br><span class="line">driver.find_element_by_id(&quot;su&quot;).click()</span><br><span class="line"></span><br><span class="line">#等待3秒</span><br><span class="line">time.sleep(3)</span><br><span class="line"></span><br><span class="line">#退出浏览器</span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;python3.6&lt;br&gt;selenium3&lt;br&gt;chrome64&lt;br&gt;firefox57&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="coding" scheme="http://www.tokyle.com/categories/coding/"/>
+    
+      <category term="自动化测试" scheme="http://www.tokyle.com/categories/coding/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="python" scheme="http://www.tokyle.com/tags/python/"/>
+    
+      <category term="selenium" scheme="http://www.tokyle.com/tags/selenium/"/>
+    
+  </entry>
   
   <entry>
     <title>world_map</title>
