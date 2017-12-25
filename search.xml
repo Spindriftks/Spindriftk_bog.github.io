@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[pycharm单元测试]]></title>
+    <url>%2F2017%2F12%2F25%2Fpycharm%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%2F</url>
+    <content type="text"><![CDATA[使用pycharm编写/执行单元测试用例 python单元测试用例，调用方式使用1unittest.main() 该方式，在python shell中可执行成功，在pycharm中会一直报错，参考网上的写法，最后校验调用改为：12if _name_ == &apos;_main_&apos;: unittest.main() 结果一直报错，NameError: name &#39;_name_&#39; is not defined 简直了，找了半天，还是在墙外找到跟我有一样经历的哥们的求救，报错原因是_name_和_main都是双下划线，正确写法是： 12if __name__ == &apos;__main__&apos;: unittest.main() 真是日常坑自己…]]></content>
+      <categories>
+        <category>python</category>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>pycharm</tag>
+        <tag>unittest</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[selenium3+python3.6搭建测试]]></title>
     <url>%2F2017%2F12%2F25%2Fselenium3-python3-6%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%2F</url>
     <content type="text"><![CDATA[python3.6selenium3chrome64firefox57 selenium3开始，需要浏览器驱动，加载驱动方式：121，驱动放在任意位置，代码中，引驱动，打开浏览器（webdriver.Chrome(executable_path=&quot;驱动路径&quot;）2，将驱动放到浏览器安装目录下，和浏览器启动程序同级，将浏览器安装路径加到环境变量Path中，重启pycharm 自动化测试示例： 12345678910111213141516171819202122232425262728#!/usr/bin/env python3# -*- coding: utf-8 -*-from selenium import webdriverimport time#加载驱动程序#firefox(驱动放到浏览器安装目录，目录加到Path)#driver = webdriver.Firefox()#chrome(驱动放到浏览器安装目录，目录加到Path)driver = webdriver.Chrome()#chrome默认安装路径，驱动指定路径#driver = webdriver.Chrome(executable_path=&quot;G:/Selenium/drivers/chromedriver.exe&quot;)#打开百度首页driver.get(&quot;https://www.baidu.com&quot;)#清空搜索输入框默认内容driver.find_element_by_id(&quot;kw&quot;).clear()#输入框中输入“自动化测试”driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;自动化测试&quot;)#单击搜索按钮driver.find_element_by_id(&quot;su&quot;).click()#等待3秒time.sleep(3)#退出浏览器driver.quit()]]></content>
