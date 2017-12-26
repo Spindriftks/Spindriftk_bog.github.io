@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[html报告乱码]]></title>
+    <url>%2F2017%2F12%2F26%2Fhtml%E6%8A%A5%E5%91%8A%E4%B9%B1%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[使用HTMLTestRunner进行测试报告输出时，错误说明，中午乱码，版本：12python3.6HTMLTestRunner 1.1.1 网上搜了一堆，全是用python2.x的，心痛，2.X到2020年不就不支持了嘛，为啥一个个的都在2.X上面，没办法，自己去捣鼓源码。 报告输出的html文件，使用类似于notepad的编辑器打开，编码格式改为UTF-8，重新在浏览器中打开，错误描述的中文显示就是正常文字。所以，只要在输出时，设置编码为“utf-8”应该就可以。 找到本地的HTMLTestRunner安装路径，一般都是在G:\skills\python36\Lib\site-packages\HtmlTestRunner类似这样的路径下，毕竟扩展包。下面有三个文件，和一个文件夹，文件夹里是报告的模板，不考虑，三个文件，一个是HtmlTestRunner的介绍，一个是runner.py，一个是result.py，输出报告，应该就在result.py文件中。 编辑器打开result.py，找到第350行1with open(path_file, &apos;w&apos;) as report_file: 只要修改成1with open(path_file, &apos;w&apos;,encoding=&apos;utf-8&apos;) as report_file: 即可。 附上百度搜索自动化测试代码 123456789101112131415161718192021222324252627282930313233#!/usr/bin/env python3# -*- coding: utf-8 -*-import unittestimport timefrom selenium import webdriverfrom HtmlTestRunner import HTMLTestRunnerclass GloryRoad(unittest.TestCase): def setUp(self): #启动chrome浏览器 self.brower = webdriver.Chrome() def test_baidu(self): #访问百度首页 self.brower.get(&quot;https://www.baidu.com&quot;) #清空输入框内容 self.brower.find_element_by_id(&apos;kw&apos;).clear() #搜索框输入“selenium3” self.brower.find_element_by_id(&apos;kw&apos;).send_keys(&apos;selenium3&apos;) #点击“百度一下”按键 self.brower.find_element_by_id(&apos;su&apos;).click() #休眠3s time.sleep(3) assert &quot;google&quot; in self.brower.page_source, &quot;页面中不存在要寻找的关键字！&quot; def tearDown(self): #退出浏览器 self.brower.quit()if __name__ == &apos;__main__&apos;: suite = unittest.TestLoader().loadTestsFromTestCase(GloryRoad) runner = HTMLTestRunner(output=&apos;G:/workstation/report&apos;, report_title=&apos;Test Result&apos;) runner.run(suite)]]></content>
+      <categories>
+        <category>自动化测试</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>selenium</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[pycharm单元测试]]></title>
     <url>%2F2017%2F12%2F25%2Fpycharm%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%2F</url>
     <content type="text"><![CDATA[使用pycharm编写/执行单元测试用例 python单元测试用例，调用方式使用1unittest.main() 该方式，在python shell中可执行成功，在pycharm中会一直报错，参考网上的写法，最后校验调用改为：12if _name_ == &apos;_main_&apos;: unittest.main() 结果一直报错，NameError: name &#39;_name_&#39; is not defined 简直了，找了半天，还是在墙外找到跟我有一样经历的哥们的求救，报错原因是_name_和_main都是双下划线，正确写法是： 12if __name__ == &apos;__main__&apos;: unittest.main() 真是日常坑自己…]]></content>
