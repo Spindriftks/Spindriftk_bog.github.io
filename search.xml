@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python3_map()函数]]></title>
+    <url>%2F2017%2F12%2F27%2Fpython3-map-%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[坑爹python3改动之map()函数 做自动化测试，获取并校验下拉列表中所有值，由于实在不想先写个空列表，再来个for循环全部加到列表中，就想到了map()函数，折腾半天，各种报错，墙里墙外翻半天，终于找到跟我一样入坑的人。 map()函数，python3改动 在python2中，以下代码可输出一个列表[1, 2, 3, 4, 5]12a = map(lambda x:x, [1, 2, 3, 4, 5])print(a) 但是python3，这玩意只能输出个map对象：&lt;map object at 0x00000278CB45D4E0&gt; 遇到这玩意也很多次了，直接加list：12a = list(map(lambda x: x, [1, 2, 3, 4, 5]))print(a) 这样，在python3就可以输出[1, 2, 3, 4, 5] 附自动化测试比较下拉列表值是否符合预期示例代码（百度新闻高级设置-显示条数为例）：12345678910111213141516171819202122232425262728293031323334353637#!/usr/bin/env python3# -*- coding: utf-8 -*-from selenium import webdriverfrom selenium.webdriver.support.ui import Selectimport unittestimport timeclass News_Baidu(unittest.TestCase): def setUp(self): #打开浏览器 self.brower = webdriver.Chrome() def test_Checklist(self): #打开百度新闻页面 self.brower.get(&quot;http://news.baidu.com/&quot;) #定位“高级设置”，并点击 self.brower.find_element_by_link_text(&quot;高级搜索&quot;).click() #定位“搜索结果显示条数” select_element = Select(self.brower.find_element_by_name(&apos;rn&apos;)) #获取下拉列表所有元素对象 select_options = select_element.options #声明一个期望下拉列表值的列表(百度也是够坑的，值前面还有一个空格) expect_optionlist = [&apos; 每页显示10条&apos;, &apos; 每页显示20条&apos;, &apos; 每页显示50条&apos;] #获取实际的下拉列表值的列表 actual_optionlist = list(map(lambda option:option.text, select_options)) #断言结果是否适合期望 self.assertListEqual(actual_optionlist, expect_optionlist) def tearDown(self): #休眠 time.sleep(5) #退出浏览器 self.brower.quit()if __name__ == &apos;__main__&apos;: unittest.main()]]></content>
+      <categories>
+        <category>coding</category>
+        <category>python</category>
+        <category>自动化测试</category>
+      </categories>
+      <tags>
+        <tag>selenium</tag>
+        <tag>python3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[html报告乱码]]></title>
     <url>%2F2017%2F12%2F26%2Fhtml%E6%8A%A5%E5%91%8A%E4%B9%B1%E7%A0%81%2F</url>
     <content type="text"><![CDATA[使用HTMLTestRunner进行测试报告输出时，错误说明，中午乱码，版本：12python3.6HTMLTestRunner 1.1.1 网上搜了一堆，全是用python2.x的，心痛，2.X到2020年不就不支持了嘛，为啥一个个的都在2.X上面，没办法，自己去捣鼓源码。 报告输出的html文件，使用类似于notepad的编辑器打开，编码格式改为UTF-8，重新在浏览器中打开，错误描述的中文显示就是正常文字。所以，只要在输出时，设置编码为“utf-8”应该就可以。 找到本地的HTMLTestRunner安装路径，一般都是在G:\skills\python36\Lib\site-packages\HtmlTestRunner类似这样的路径下，毕竟扩展包。下面有三个文件，和一个文件夹，文件夹里是报告的模板，不考虑，三个文件，一个是HtmlTestRunner的介绍，一个是runner.py，一个是result.py，输出报告，应该就在result.py文件中。 编辑器打开result.py，找到第350行1with open(path_file, &apos;w&apos;) as report_file: 只要修改成1with open(path_file, &apos;w&apos;,encoding=&apos;utf-8&apos;) as report_file: 即可。 附上百度搜索自动化测试代码 123456789101112131415161718192021222324252627282930313233#!/usr/bin/env python3# -*- coding: utf-8 -*-import unittestimport timefrom selenium import webdriverfrom HtmlTestRunner import HTMLTestRunnerclass GloryRoad(unittest.TestCase): def setUp(self): #启动chrome浏览器 self.brower = webdriver.Chrome() def test_baidu(self): #访问百度首页 self.brower.get(&quot;https://www.baidu.com&quot;) #清空输入框内容 self.brower.find_element_by_id(&apos;kw&apos;).clear() #搜索框输入“selenium3” self.brower.find_element_by_id(&apos;kw&apos;).send_keys(&apos;selenium3&apos;) #点击“百度一下”按键 self.brower.find_element_by_id(&apos;su&apos;).click() #休眠3s time.sleep(3) assert &quot;google&quot; in self.brower.page_source, &quot;页面中不存在要寻找的关键字！&quot; def tearDown(self): #退出浏览器 self.brower.quit()if __name__ == &apos;__main__&apos;: suite = unittest.TestLoader().loadTestsFromTestCase(GloryRoad) runner = HTMLTestRunner(output=&apos;G:/workstation/report&apos;, report_title=&apos;Test Result&apos;) runner.run(suite)]]></content>
