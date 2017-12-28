@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tokyle.com/"/>
-  <updated>2017-12-27T09:56:54.371Z</updated>
+  <updated>2017-12-28T08:50:30.946Z</updated>
   <id>http://www.tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python3.6安装pywin32</title>
+    <link href="http://www.tokyle.com/2017/12/28/python3-6%E5%AE%89%E8%A3%85pywin32/"/>
+    <id>http://www.tokyle.com/2017/12/28/python3-6安装pywin32/</id>
+    <published>2017-12-28T08:47:55.000Z</published>
+    <updated>2017-12-28T08:50:30.946Z</updated>
+    
+    <content type="html"><![CDATA[<p>python3.6装载win32api模块</p><a id="more"></a><p>使用pip安装win32报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Could not find a version that satisfies the requirement win32api (from versions: )No matching distribution found for win32api</span><br></pre></td></tr></table></figure><p>stack overflow上面有两种回答</p><ol><li><code>pip install pypiwin32</code></li><li>从<a href="https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/" target="_blank" rel="noopener">windowsapi官网</a>下载安装程序，点击安装</li></ol><p>首先尝试了第一种方式，没啥用，还是找不到win32api<br>尝试第二种方法，直接报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python version 3.6-32 required, which was not found in the registry.</span><br></pre></td></tr></table></figure></p><p>找半天问题，首先本地python是64位版本，下载的也是64位安装包，报这莫名其妙的注册表错误。<br>后来在注册表里加了个python3.6-32就能安装了，莫名其妙。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\3.6-32</span><br></pre></td></tr></table></figure></p><p>导入了个奇奇怪怪的win32api，貌似用不了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import win32.win32api</span><br><span class="line">import win32.win32clipboard</span><br><span class="line">import win32com</span><br></pre></td></tr></table></figure></p><p>根据以往踩坑经验，改注册表好像都没什么好下场，于是乎，把装好的win32全部删除，注册表还原，重新下载更新版本的pywin32：<a href="https://sourceforge.net/projects/pywin32/files/pywin32/Build%20221/" target="_blank" rel="noopener">下载链接</a></p><p>重新安装之后，重启pycharm，这次好像是成功了。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import win32api</span><br><span class="line">import win32con</span><br><span class="line"></span><br><span class="line">def keyDown(keyName):</span><br><span class="line">    win32api.keybd_event()</span><br><span class="line">    win32con.KEYEVENTF_KEYUP</span><br></pre></td></tr></table></figure></p><p>反正过程是挺无语的，莫名其妙的就好了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;python3.6装载win32api模块&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="自动化测试" scheme="http://www.tokyle.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="python" scheme="http://www.tokyle.com/tags/python/"/>
+    
+      <category term="pywin32" scheme="http://www.tokyle.com/tags/pywin32/"/>
+    
+  </entry>
   
   <entry>
     <title>python3_map()函数</title>

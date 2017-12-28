@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python3.6安装pywin32]]></title>
+    <url>%2F2017%2F12%2F28%2Fpython3-6%E5%AE%89%E8%A3%85pywin32%2F</url>
+    <content type="text"><![CDATA[python3.6装载win32api模块 使用pip安装win32报错 1Could not find a version that satisfies the requirement win32api (from versions: )No matching distribution found for win32api stack overflow上面有两种回答 pip install pypiwin32 从windowsapi官网下载安装程序，点击安装 首先尝试了第一种方式，没啥用，还是找不到win32api尝试第二种方法，直接报错：1Python version 3.6-32 required, which was not found in the registry. 找半天问题，首先本地python是64位版本，下载的也是64位安装包，报这莫名其妙的注册表错误。后来在注册表里加了个python3.6-32就能安装了，莫名其妙。。1HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\3.6-32 导入了个奇奇怪怪的win32api，貌似用不了12345#!/usr/bin/env python3# -*- coding: utf-8 -*-import win32.win32apiimport win32.win32clipboardimport win32com 根据以往踩坑经验，改注册表好像都没什么好下场，于是乎，把装好的win32全部删除，注册表还原，重新下载更新版本的pywin32：下载链接 重新安装之后，重启pycharm，这次好像是成功了。。123456import win32apiimport win32condef keyDown(keyName): win32api.keybd_event() win32con.KEYEVENTF_KEYUP 反正过程是挺无语的，莫名其妙的就好了。]]></content>
+      <categories>
+        <category>自动化测试</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>pywin32</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[python3_map()函数]]></title>
     <url>%2F2017%2F12%2F27%2Fpython3-map-%E5%87%BD%E6%95%B0%2F</url>
     <content type="text"><![CDATA[坑爹python3改动之map()函数 做自动化测试，获取并校验下拉列表中所有值，由于实在不想先写个空列表，再来个for循环全部加到列表中，就想到了map()函数，折腾半天，各种报错，墙里墙外翻半天，终于找到跟我一样入坑的人。 map()函数，python3改动 在python2中，以下代码可输出一个列表[1, 2, 3, 4, 5]12a = map(lambda x:x, [1, 2, 3, 4, 5])print(a) 但是python3，这玩意只能输出个map对象：&lt;map object at 0x00000278CB45D4E0&gt; 遇到这玩意也很多次了，直接加list：12a = list(map(lambda x: x, [1, 2, 3, 4, 5]))print(a) 这样，在python3就可以输出[1, 2, 3, 4, 5] 附自动化测试比较下拉列表值是否符合预期示例代码（百度新闻高级设置-显示条数为例）：12345678910111213141516171819202122232425262728293031323334353637#!/usr/bin/env python3# -*- coding: utf-8 -*-from selenium import webdriverfrom selenium.webdriver.support.ui import Selectimport unittestimport timeclass News_Baidu(unittest.TestCase): def setUp(self): #打开浏览器 self.brower = webdriver.Chrome() def test_Checklist(self): #打开百度新闻页面 self.brower.get(&quot;http://news.baidu.com/&quot;) #定位“高级设置”，并点击 self.brower.find_element_by_link_text(&quot;高级搜索&quot;).click() #定位“搜索结果显示条数” select_element = Select(self.brower.find_element_by_name(&apos;rn&apos;)) #获取下拉列表所有元素对象 select_options = select_element.options #声明一个期望下拉列表值的列表(百度也是够坑的，值前面还有一个空格) expect_optionlist = [&apos; 每页显示10条&apos;, &apos; 每页显示20条&apos;, &apos; 每页显示50条&apos;] #获取实际的下拉列表值的列表 actual_optionlist = list(map(lambda option:option.text, select_options)) #断言结果是否适合期望 self.assertListEqual(actual_optionlist, expect_optionlist) def tearDown(self): #休眠 time.sleep(5) #退出浏览器 self.brower.quit()if __name__ == &apos;__main__&apos;: unittest.main()]]></content>
