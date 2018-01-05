@@ -233,7 +233,7 @@ body {
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #999;
+  color: #ec4c02;
   margin-bottom: 1em;
   margin-left: 5px;
   line-height: 1em;
@@ -242,7 +242,7 @@ body {
 }
 .article-inner,
 .archive-article-inner {
-  background: 251, 251, 251;
+  background: #fbfbfb;
   -webkit-box-shadow: 1px 2px 3px #ddd;
   box-shadow: 1px 2px 3px #ddd;
   border: 1px solid #ddd;
@@ -271,7 +271,7 @@ body {
 .article-entry h6,
 .widget h6 {
   font-size: 1em;
-  color: #999;
+  color: #ec4c02;
 }
 .article-entry hr,
 .widget hr {
@@ -724,7 +724,7 @@ a.article-title:hover {
   margin-left: 1em;
 }
 .article-entry .caption {
-  color: #999;
+  color: #ec4c02;
   display: block;
   font-size: 0.9em;
   margin-top: 0.5em;
@@ -753,7 +753,7 @@ a.article-title:hover {
   padding: 6px 15px;
   border-radius: 15px;
   background: #eee;
-  color: #999;
+  color: #ec4c02;
   text-shadow: 0 1px #fff;
   text-decoration: none;
 }
@@ -779,14 +779,14 @@ a.article-title:hover {
   clear: both;
 }
 .article-footer a {
-  color: #999;
+  color: #ec4c02;
   text-decoration: none;
 }
 .article-footer a:hover {
   color: #258fb8;
 }
 .article-footer span {
-  color: #999;
+  color: #ec4c02;
 }
 .article-tag-list-item {
   float: left;
@@ -849,7 +849,7 @@ a.article-title:hover {
 .article-nav-link-wrap {
   text-decoration: none;
   text-shadow: 0 1px #fff;
-  color: #999;
+  color: #ec4c02;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1112,7 +1112,7 @@ a.article-title:hover {
   margin-top: 1em;
 }
 .archive-article-date {
-  color: #999;
+  color: #ec4c02;
   text-decoration: none;
   font-size: 0.85em;
   line-height: 1em;
@@ -1127,7 +1127,7 @@ a.article-title:hover {
   border: 1px solid #ddd;
   border-radius: 3px;
   text-align: center;
-  color: #999;
+  color: #ec4c02;
   overflow: hidden;
 }
 #page-nav:before,
@@ -1145,11 +1145,11 @@ a.article-title:hover {
   height: 2ex;
 }
 #page-nav a {
-  color: #999;
+  color: #ec4c02;
   text-decoration: none;
 }
 #page-nav a:hover {
-  background: #999;
+  background: #ec4c02;
   color: #fff;
 }
 #page-nav .prev {
@@ -1174,10 +1174,10 @@ a.article-title:hover {
   color: #ddd;
 }
 #footer {
-  background: #87ceeb;
+  background: #b0c4de;
   padding: 50px 0;
   border-top: 1px solid #ddd;
-  color: #999;
+  color: #ec4c02;
 }
 #footer a {
   color: #258fb8;
@@ -1377,7 +1377,7 @@ pre .javascript .function {
 @media screen and (max-width: 479px) {
   .mobile-nav-link {
     display: block;
-    color: #999;
+    color: #ec4c02;
     text-decoration: none;
     padding: 15px 20px;
     font-weight: bold;
@@ -1879,7 +1879,7 @@ pre .javascript .function {
 .tag-list-count,
 .archive-list-count {
   padding-left: 5px;
-  color: #999;
+  color: #ec4c02;
   font-size: 0.85em;
   vertical-align: super;
 }
