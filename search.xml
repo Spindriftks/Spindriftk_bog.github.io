@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[test]]></title>
+    <url>%2F2018%2F01%2F05%2Ftest%2F</url>
+    <content type="text"><![CDATA[测试搜索]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[登录网易邮箱]]></title>
     <url>%2F2018%2F01%2F05%2F%E7%99%BB%E5%BD%95%E7%BD%91%E6%98%93%E9%82%AE%E7%AE%B1%2F</url>
     <content type="text"><![CDATA[基于python3的自动化测试框架selenium3实践 登录网易邮箱（126,163） 登录16312345678910111213#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.Firefox()driver.get(&apos;http://mail.163.com/&apos;)driver.implicitly_wait(10)#切换iframedriver.switch_to_frame(&apos;x-URS-iframe&apos;)driver.find_element_by_name(&apos;email&apos;).send_keys(&apos;123&apos;)driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER) 或者123456789101112131415#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.Firefox()driver.get(&apos;http://mail.163.com/&apos;)driver.implicitly_wait(10)#切换iframeiframe = driver.find_elements_by_tag_name(&apos;iframe&apos;)driver.switch_to_frame(iframe)#driver.switch_to.frame(&apos;x-URS-iframe&apos;)driver.find_element_by_name(&apos;email&apos;).send_keys(&apos;123&apos;)driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER) 登录12612345678910#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysdriver=webdriver.Firefox()driver.get(&quot;http://mail.126.com&quot;)driver.implicitly_wait(10)driver.switch_to.frame(&quot;x-URS-iframe&quot;) #切换framedriver.find_element_by_name(&quot;email&quot;).send_keys(&quot;123&quot;) #使用name定位driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER)]]></content>
