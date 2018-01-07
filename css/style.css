@@ -1195,7 +1195,7 @@ a.article-title:hover {
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #f9f2f4;
+  background: #e3e3e3;
   margin: 0 -1.2em;
   padding: 15px 1.2em;
   border-style: solid;
@@ -1269,7 +1269,7 @@ a.article-title:hover {
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
-  background: #f9f2f4;
+  background: #e3e3e3;
   padding: 15px 1.2em 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -1295,7 +1295,7 @@ a.article-title:hover {
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #f9f2f4;
+  background: #e3e3e3;
   color: #999;
   font: 0.85em -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   text-shadow: 0 0;
