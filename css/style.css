@@ -645,9 +645,6 @@ a.article-title:hover {
   line-height: 1.1em;
   margin: 1.1em 0;
 }
-.article-entry code {
-  color: #ec4c02;
-}
 .article-entry a {
   color: #258fb8;
   text-decoration: none;
