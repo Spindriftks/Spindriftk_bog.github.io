@@ -724,7 +724,7 @@ a.article-title:hover {
   margin-left: 1em;
 }
 .article-entry .caption {
-  color: color-black;
+  color: #ec4c02;
   display: block;
   font-size: 0.9em;
   margin-top: 0.5em;
@@ -1192,7 +1192,7 @@ a.article-title:hover {
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #e3e3e3;
+  background: #2d2d2d;
   margin: 0 -1.2em;
   padding: 15px 1.2em;
   border-style: solid;
@@ -1229,6 +1229,8 @@ a.article-title:hover {
 .article-entry .highlight table {
   margin: 0;
   width: auto;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 .article-entry .highlight td {
   border: none;
@@ -1266,7 +1268,7 @@ a.article-title:hover {
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
-  background: #e3e3e3;
+  background: #2d2d2d;
   padding: 15px 1.2em 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -1292,7 +1294,7 @@ a.article-title:hover {
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #e3e3e3;
+  background: #2d2d2d;
   color: #999;
   font: 0.85em -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   text-shadow: 0 0;
