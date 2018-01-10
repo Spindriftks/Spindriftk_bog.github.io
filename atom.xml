@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-01-10T01:28:54.559Z</updated>
+  <updated>2018-01-10T09:55:42.041Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>selenium无干预下载</title>
+    <link href="http://tokyle.com/2018/01/10/selenium%E6%97%A0%E5%B9%B2%E9%A2%84%E4%B8%8B%E8%BD%BD/"/>
+    <id>http://tokyle.com/2018/01/10/selenium无干预下载/</id>
+    <published>2018-01-10T09:52:01.000Z</published>
+    <updated>2018-01-10T09:55:42.041Z</updated>
+    
+    <content type="html"><![CDATA[<p>selenium自带了无人工干预实现下载功能的模块，下载时不需要弹窗点击确定下载</p><a id="more"></a><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">class MacDownload():</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        &quot;&quot;&quot;初始化&quot;&quot;&quot;</span><br><span class="line">        # 创建一个FirefoxProfile实例，用于存放自定义配置</span><br><span class="line">        profile = webdriver.FirefoxProfile()</span><br><span class="line">        # 指定下载路径，默认自动创建一级目录</span><br><span class="line">        profile.set_preference(&apos;browser.download.dir&apos;, &apos;G:\idownload&apos;)</span><br><span class="line">        # 将browser.download.folderLis设置为2，表示将文件下载到指定目录（0表示桌面，1表示默认路径）</span><br><span class="line">        profile.set_preference(&quot;browser.download.folderList&quot;, 2)</span><br><span class="line">        # browser.helperApps.alwaysAsk.force对于未知的MIME类型文件会弹出窗口</span><br><span class="line">        # 让用户处理，默认值为True，设定为False表示不会记录打开未知MIME类型文件的方式</span><br><span class="line">        profile.set_preference(&quot;browser.helperApps.alwaysAsk.force&quot;, False)</span><br><span class="line">        # 在开始下载时是否显示下载管理器</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.showWhenStarting&quot;, False)</span><br><span class="line">        # 设定为False会把下载狂隐藏</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.useWindow&quot;, False)</span><br><span class="line">        # 默认为True，设定为False表示不获取焦点</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.focusWhenStarting&quot;, False)</span><br><span class="line">        # 下载.exe文件弹出警告，默认值为True，设定为False则不会弹出警告</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.alertOnEXEOpen&quot;, False)</span><br><span class="line">        # browser.helperApps.neverAsk.openFile表示直接打开下载文件，不显示确定框</span><br><span class="line">        # 默认值为空字符串，下行代码行设定了多种文件的MIME类型，</span><br><span class="line">        # 例如application/exe,表示 .exe类型的文件；application/excel表示excel类型的文件</span><br><span class="line">        profile.set_preference(&quot;browser.helperApps.neverAsk.openFile&quot;, &quot;application/pdf&quot;)</span><br><span class="line">        # 对所给出文件类型不在弹出提示框进行询问，直接保存到本地磁盘</span><br><span class="line">        profile.set_preference(&quot;browser.helperApps.neverAsk.saveToDisk&quot;, &quot;application/zip, application/octet-stream&quot;)</span><br><span class="line">        # browser.download.manager.showAlertOnComplete设定下载文件结束后是否显示下载完成提示框</span><br><span class="line">        # 默认为True，设定为False表示下载完成后不显示下载完成提示框</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.showAlertOnComplete&quot;, False)</span><br><span class="line">        # browser.download.manager.closeWhenDone设定下载结束后是都自动关闭下载框</span><br><span class="line">        # 默认为True，设定为False表示不关闭下载管理器</span><br><span class="line">        profile.set_preference(&quot;browser.download.manager.closeWhenDone&quot;, False)</span><br><span class="line"></span><br><span class="line">        # 启动浏览器，通过firfox_profile参数将自动配置添加到FirefoxProfile对象中sef.driver = webdriver.Firefox(firefox_profile=profile)</span><br><span class="line">        self.driver = webdriver.Firefox(firefox_profile=profile)</span><br><span class="line"></span><br><span class="line">    def test_dataPicker(self):</span><br><span class="line">        #访问WebDriver驱动firefox的驱动文件下载网址</span><br><span class="line">        # url1 = &quot;https://github.com/mozilla/geckodriver/releases&quot;</span><br><span class="line">        # self.driver.get(url1)</span><br><span class="line">        # #选择下载ZIP类型的文件，使用application/zip指代此类型文件</span><br><span class="line">        # self.driver.find_element_by_xpath(&apos;//strong[. = &quot;geckodriver-v0.19.1-win32.zip&quot;]&apos;).click()</span><br><span class="line">        # time.sleep(10)</span><br><span class="line"></span><br><span class="line">        #访问Python2.7.12文件下载页面，下载扩展名为msi的文件</span><br><span class="line">        #使用application/octet - stream来指明次文件类型</span><br><span class="line">        url = &quot;https://www.python.org/downloads/release/python-2712/&quot;</span><br><span class="line">        self.driver.get(url)</span><br><span class="line">        self.driver.find_element_by_link_text(&apos;Windows x86-64 MSI installer&apos;).click()</span><br><span class="line">        time.sleep(100)</span><br><span class="line"></span><br><span class="line">        self.driver.quit()</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;selenium自带了无人工干预实现下载功能的模块，下载时不需要弹窗点击确定下载&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="selenium" scheme="http://tokyle.com/categories/selenium/"/>
+    
+    
+      <category term="selenium" scheme="http://tokyle.com/tags/selenium/"/>
+    
+      <category term="python" scheme="http://tokyle.com/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>12306余票监控</title>
