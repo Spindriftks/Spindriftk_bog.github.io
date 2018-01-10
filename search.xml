@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[12306余票监控]]></title>
+    <url>%2F2018%2F01%2F10%2F12306%E4%BD%99%E7%A5%A8%E7%9B%91%E6%8E%A7%2F</url>
+    <content type="text"><![CDATA[翻日历突然意识到，好像要放假了，又是一年春运时，就想着可不可以用selenium做个自己的监控12306余票的程序。 动手：思路也就是输入起点，终点，选择列车，选择座位，查询是否有余票。 代码：1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071#!/usr/bin/env python3# -*- coding: utf-8 -*-from selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timebrower = webdriver.Chrome()url = &apos;https://kyfw.12306.cn/otn/leftTicket/init&apos;brower.get(url)G7372_start = [u&apos;上海虹桥&apos;, u&apos;昆山南&apos;, u&apos;苏州&apos;]G7372_end = [u&apos;南京南&apos;, u&apos;全椒&apos;, u&apos;合肥南&apos;]G7576_start = [u&apos;上海虹桥&apos;, u&apos;苏州&apos;]G7576_end = [u&apos;南京南&apos;, u&apos;合肥南&apos;, u&apos;六安&apos;]while True: brower.refresh() print(u&quot;开始查询G7372次（苏州-南京南，10:08-11:32）次列车二等座余票&quot;) for start_station in G7372_start: for end_station in G7372_end: starts = brower.find_element_by_id(&quot;fromStationText&quot;) starts.click() starts.clear() starts.send_keys(start_station) starts.send_keys(Keys.ENTER) ends = brower.find_element_by_id(&quot;toStationText&quot;) ends.click() ends.clear() ends.send_keys(end_station) ends.send_keys(Keys.ENTER) brower.find_element_by_id(&quot;query_ticket&quot;).click() time.sleep(3) text = brower.find_element_by_id(&quot;ZE_56000G737215&quot;).text if text != u&quot;无&quot;: print(u&quot;发现【%s】到【%s】的余票，请赶紧抢&quot; % (start_station, end_station)) time.sleep(1) else: print(u&quot;【%s】到【%s】的余票为0&quot; % (start_station, end_station)) print(u&quot;开始查询G7576次（苏州-南京南，12:43-14:14）次列车二等座&quot;) for start_station in G7576_start: for end_station in G7576_end: starts = brower.find_element_by_id(&quot;fromStationText&quot;) starts.click() starts.clear() starts.send_keys(start_station) starts.send_keys(Keys.ENTER) ends = brower.find_element_by_id(&quot;toStationText&quot;) ends.click() ends.clear() ends.send_keys(end_station) ends.send_keys(Keys.ENTER) brower.find_element_by_id(&quot;query_ticket&quot;).click() time.sleep(3) text = brower.find_element_by_id(&quot;ZE_5j000G757630&quot;).text if text != u&quot;无&quot;: print(u&quot;发现【%s】到【%s】的余票，请赶紧抢&quot; % (start_station, end_station)) time.sleep(1) else: print(u&quot;【%s】到【%s】的余票为0&quot; % (start_station, end_station)) msg = input(&quot;Enter &apos;q&apos; whenever you found your tickets.&quot;) if msg == &apos;q&apos;: breaktime.sleep(5)brower.quit() 实现是挺简单的，交互不行，后期可以优化成做个界面出来，输入站点，而不是写死。。。（12306的验证码哪天去找个demo破了，是不是就可以实现订票了~~~）]]></content>
+      <categories>
+        <category>selenium</category>
+      </categories>
+      <tags>
+        <tag>selenium</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[登录网易邮箱]]></title>
     <url>%2F2018%2F01%2F05%2F%E7%99%BB%E5%BD%95%E7%BD%91%E6%98%93%E9%82%AE%E7%AE%B1%2F</url>
     <content type="text"><![CDATA[基于python3的自动化测试框架selenium3实践 登录网易邮箱（126,163） 登录16312345678910111213#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.Firefox()driver.get(&apos;http://mail.163.com/&apos;)driver.implicitly_wait(10)#切换iframedriver.switch_to_frame(&apos;x-URS-iframe&apos;)driver.find_element_by_name(&apos;email&apos;).send_keys(&apos;123&apos;)driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER) 或者123456789101112131415#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.Firefox()driver.get(&apos;http://mail.163.com/&apos;)driver.implicitly_wait(10)#切换iframeiframe = driver.find_elements_by_tag_name(&apos;iframe&apos;)driver.switch_to_frame(iframe)#driver.switch_to.frame(&apos;x-URS-iframe&apos;)driver.find_element_by_name(&apos;email&apos;).send_keys(&apos;123&apos;)driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER) 登录12612345678910#coding:utf-8from selenium import webdriverfrom selenium.webdriver.common.keys import Keysdriver=webdriver.Firefox()driver.get(&quot;http://mail.126.com&quot;)driver.implicitly_wait(10)driver.switch_to.frame(&quot;x-URS-iframe&quot;) #切换framedriver.find_element_by_name(&quot;email&quot;).send_keys(&quot;123&quot;) #使用name定位driver.find_element_by_name(&apos;password&apos;).send_keys(&apos;456&apos;)brower.find_element_by_name(&quot;password&quot;).send_keys(Keys.ENTER)]]></content>
@@ -43,8 +55,8 @@
         <category>python</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -68,8 +80,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -80,8 +92,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -104,8 +116,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
