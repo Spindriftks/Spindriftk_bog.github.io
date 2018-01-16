@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-01-12T09:54:44.409Z</updated>
+  <updated>2018-01-16T08:38:34.500Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>appium入门篇</title>
+    <link href="http://tokyle.com/2018/01/16/appium%E5%85%A5%E9%97%A8%E7%AF%87/"/>
+    <id>http://tokyle.com/2018/01/16/appium入门篇/</id>
+    <published>2018-01-16T08:37:10.000Z</published>
+    <updated>2018-01-16T08:38:34.500Z</updated>
+    
+    <content type="html"><![CDATA[<p>appium环境搭建及简单使用</p><p>测试人员进行app自动化测试的可选框架之一—— <strong>appium</strong></p><a id="more"></a><p>平台说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WIN10_64</span><br><span class="line">python 3.6</span><br></pre></td></tr></table></figure></p><h2 id="appium环境安装"><a href="#appium环境安装" class="headerlink" title="appium环境安装"></a>appium环境安装</h2><h3 id="安装Android-Studio"><a href="#安装Android-Studio" class="headerlink" title="安装Android Studio"></a>安装Android Studio</h3><p>网上之前的教程基本都是安装SDK或者ADT来进行安装，开始我也是这么装的，在最后创建完虚拟机，开启虚拟机时候报错了，报错信息只记得是建议安装Android Studio，索性也就换成了Android Studio。</p><blockquote><p><a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio下载链接</a></p></blockquote><p>如果下载的是不包含SDK的版本，还需要另外下载SDK。安装Android Studio很简单，和Pycharm一模一样，有使用Pycharm经验或者IntelliJ IDEA的应该很熟悉，安装完成之后，找到SDK Manager<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File-Settings-Appearance&amp;Behavior &gt; System Settings &gt; Android SDK</span><br></pre></td></tr></table></figure></p><p>如果本地有SDK，可以在此选择本地的SDK路径，该设置页也支持下载各种SDK Platforms。<br>对应的SDK安装完成之后就可以进行创建虚拟机，找到<code>AVD Manager</code>按键，点击创建。</p><h3 id="安装Android-SDK（和安装Android-Studio任选一种方式即可）"><a href="#安装Android-SDK（和安装Android-Studio任选一种方式即可）" class="headerlink" title="安装Android SDK（和安装Android Studio任选一种方式即可）"></a>安装Android SDK（和安装Android Studio任选一种方式即可）</h3><p><a href="http://developer.android.com/sdk/index.html" target="_blank" rel="noopener">官方下载地址</a></p><p>但是由于国内众所周知的某种原因，不能科学上网貌似无法保证可以下载~</p><p><a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">国内优质android工具网站</a></p><p>搜索<code>android-sdk</code>找到对应系统版本，进行下载。</p><h4 id="配置android环境变量"><a href="#配置android环境变量" class="headerlink" title="配置android环境变量"></a>配置android环境变量</h4><p>与配置JAVA环境变量类似，新增系统变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">变量名：ANDROID_HOME </span><br><span class="line">变量值：D:\android\android-sdk-windows</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">变量名：PATH</span><br><span class="line">变量值：;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;</span><br></pre></td></tr></table></figure></p><h4 id="SDK-Manager安装模拟器"><a href="#SDK-Manager安装模拟器" class="headerlink" title="SDK Manager安装模拟器"></a>SDK Manager安装模拟器</h4><p>在你本地解压完成之后的<code>android-sdk-windows</code>目录下找到<code>SDK Manager.exe</code>，双击打开；</p><p><a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">配置参考</a></p><h4 id="安装SDK-Platform-Tools"><a href="#安装SDK-Platform-Tools" class="headerlink" title="安装SDK Platform-Tools"></a>安装SDK Platform-Tools</h4><p>在AndroidDevTools.cn 网站上找到Android SDK Platform-tools下载链接，下载，解压，把解压出来的 platform-tools 文件夹放在<code>android-sdk-windows</code>目录下</p><h3 id="安装Appium"><a href="#安装Appium" class="headerlink" title="安装Appium"></a>安装Appium</h3><h4 id="安装方式一：-使用NodeJS-安装"><a href="#安装方式一：-使用NodeJS-安装" class="headerlink" title="安装方式一： 使用NodeJS 安装"></a>安装方式一： 使用NodeJS 安装</h4><p>1，首先到<a href="https://nodejs.org/zh-cn/download/" target="_blank" rel="noopener">官网</a>下载安装最新的NodeJS，Windows下属于傻瓜安装。<br>安装完成验证<code>npm</code>或者<code>node -v</code>不报错表明安装完成</p><p>2，安装appium，<code>npm install -g appium</code>命令安装appium（个人实验的效果不好，太慢了，建议采用第二种，安装包安装）</p><h4 id="安装方式二：安装包安装"><a href="#安装方式二：安装包安装" class="headerlink" title="安装方式二：安装包安装"></a>安装方式二：安装包安装</h4><p>建议直接安装appium-desktop，appium server在2015年就不再更新，取而代之的是appium-desktop的出现。</p><p>Appium安装包托管在github上，<a href="https://github.com/appium/appium-desktop/releases" target="_blank" rel="noopener">下载地址</a></p><p>但是个人实验，很多版本都是跳转404页面。。。无语。。。</p><p><a href="https://pan.baidu.com/s/1dmsyiM" target="_blank" rel="noopener">个人网盘地址</a>，密码：<code>v3lt</code>（版本1.2.7）</p><p>下载完成后，安装即可。</p><h4 id="appium环境检查"><a href="#appium环境检查" class="headerlink" title="appium环境检查"></a>appium环境检查</h4><p>可以使用<code>appium-doctor</code>工具进行环境检查，<code>npm install -g appium-doctor</code>进行安装。</p><h2 id="Appium-desktop使用简介"><a href="#Appium-desktop使用简介" class="headerlink" title="Appium-desktop使用简介"></a>Appium-desktop使用简介</h2><p>打开appium-desktop，点击“放大镜”图标进行设置，</p><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1fnij5mz213j21an0qs40e.jpg" alt="示例"><br>设置完成后点击 Start Session</p><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1fnij7beapkj21cr0qm77r.jpg" alt="完成之后"></p><p>直接单击最左栏的元素，在中间和右边会显示该元素属性，找到对应的ID值等，定位方式和selenium类似。</p><h2 id="查找appPackage和appActivity"><a href="#查找appPackage和appActivity" class="headerlink" title="查找appPackage和appActivity"></a>查找appPackage和appActivity</h2><p>appium进行自动化测试，需要<code>appPackage</code>和<code>appActivity</code>两个参数，下面是从apk文件获取的方法：</p><h3 id="apk反编译"><a href="#apk反编译" class="headerlink" title="apk反编译"></a>apk反编译</h3><h4 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h4><blockquote><p>地址： <a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool</a></p></blockquote><p>用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool.jar d yourApkFile.apk</span><br></pre></td></tr></table></figure></p><h3 id="获取appPackage和appActivity"><a href="#获取appPackage和appActivity" class="headerlink" title="获取appPackage和appActivity"></a>获取appPackage和appActivity</h3><p>打开apk反编译之后的文件夹，打开<code>AndroidManifest.xml</code>文件</p><p><code>package</code>获取 <code>appPackage</code>，<code>activity</code>获取<code>appActivity</code>。</p><h2 id="appium-Demo"><a href="#appium-Demo" class="headerlink" title="appium Demo"></a>appium Demo</h2><p>实现计算器计算，代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">from appium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">desired_caps = &#123;&#125;</span><br><span class="line">desired_caps[&apos;platformName&apos;] = &apos;Android&apos;</span><br><span class="line">desired_caps[&apos;platformVersion&apos;] = &apos;7.1.1&apos;</span><br><span class="line">desired_caps[&apos;deviceName&apos;] = &apos;Android Emulator&apos;</span><br><span class="line">desired_caps[&apos;appPackage&apos;] = &apos;com.android.calculator2&apos;</span><br><span class="line">desired_caps[&apos;appActivity&apos;] = &apos;.Calculator&apos;</span><br><span class="line">desired_caps[&apos;noReset&apos;] = True</span><br><span class="line"></span><br><span class="line">driver = webdriver.Remote(&apos;http://localhost:4723/wd/hub&apos;, desired_caps)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_id(&apos;com.android.calculator2:id/digit_4&apos;).click()</span><br><span class="line">driver.find_element_by_accessibility_id(&apos;multiply&apos;).click()</span><br><span class="line">driver.find_element_by_id(&apos;com.android.calculator2:id/digit_9&apos;).click()</span><br><span class="line">driver.find_element_by_accessibility_id(&apos;plus&apos;).click()</span><br><span class="line">driver.find_element_by_id(&apos;com.android.calculator2:id/digit_1&apos;).click()</span><br><span class="line">driver.find_element_by_id(&apos;com.android.calculator2:id/digit_4&apos;).click()</span><br><span class="line">driver.find_element_by_accessibility_id(&apos;equals&apos;).click()</span><br><span class="line"></span><br><span class="line">time.sleep(3)</span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;appium环境搭建及简单使用&lt;/p&gt;
+&lt;p&gt;测试人员进行app自动化测试的可选框架之一—— &lt;strong&gt;appium&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="appium" scheme="http://tokyle.com/categories/appium/"/>
+    
+    
+      <category term="python" scheme="http://tokyle.com/tags/python/"/>
+    
+      <category term="自动化测试" scheme="http://tokyle.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="appium" scheme="http://tokyle.com/tags/appium/"/>
+    
+  </entry>
   
   <entry>
     <title>smtp发邮件</title>
@@ -466,28 +493,6 @@
     
     
       <category term="Hexo" scheme="http://tokyle.com/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python编码</title>
-    <link href="http://tokyle.com/2017/12/13/python%E7%BC%96%E7%A0%81/"/>
-    <id>http://tokyle.com/2017/12/13/python编码/</id>
-    <published>2017-12-13T08:44:58.000Z</published>
-    <updated>2017-12-27T09:55:13.823Z</updated>
-    
-    <content type="html"><![CDATA[<p>python日常踩坑系列（二）</p><a id="more"></a><p>日常编写python脚本，鉴于java各种坑编码经历，首先就会把pycharm编码设置成utf-8，但是不知道什么鬼，设置完成之后，编译还是会报编码gbk的错误</p><p><img src="/images/utf8.jpg" alt=""></p><p>问题如下：</p><p>“UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x80 in position 34: illegal multibyte sequence”</p><p>解决方案：</p><p>1，设置所有文件编码默认为utf-8（文件最前面指定）</p><p><img src="/images/pycharm_setting.jpg" alt=""></p><p>2，处理数据时进行转码：</p><p>with open(“population.json”,encoding=’UTF-8’) as data:</p><p>–完 (#^.^#)</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;python日常踩坑系列（二）&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://tokyle.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://tokyle.com/tags/python/"/>
     
   </entry>
   
