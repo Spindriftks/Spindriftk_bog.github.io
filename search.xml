@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[appium键盘事件]]></title>
+    <url>%2F2018%2F01%2F17%2Fappium%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[appium键盘事件 语法：1driver.keyevent(keyCode) 电话键1234567891011121314KEYCODE_CALL 拨号键 5KEYCODE_ENDCALL 挂机键 6KEYCODE_HOME 按键Home 3KEYCODE_MENU 菜单键 82KEYCODE_BACK 返回键 4KEYCODE_SEARCH 搜索键 84KEYCODE_CAMERA 拍照键 27KEYCODE_FOCUS 拍照对焦键 80KEYCODE_POWER 电源键 26KEYCODE_NOTIFICATION 通知键 83KEYCODE_MUTE 话筒静音键 91KEYCODE_VOLUME_MUTE 扬声器静音键 164KEYCODE_VOLUME_UP 音量增加键 24KEYCODE_VOLUME_DOWN 音量减小键 25 控制键123456789101112131415161718192021KEYCODE_ENTER 回车键 66KEYCODE_ESCAPE ESC键 111KEYCODE_DPAD_CENTER 导航键 确定键 23KEYCODE_DPAD_UP 导航键 向上 19KEYCODE_DPAD_DOWN 导航键 向下 20KEYCODE_DPAD_LEFT 导航键 向左 21KEYCODE_DPAD_RIGHT 导航键 向右 22KEYCODE_MOVE_HOME 光标移动到开始键 122KEYCODE_MOVE_END 光标移动到末尾键 123KEYCODE_PAGE_UP 向上翻页键 92KEYCODE_PAGE_DOWN 向下翻页键 93KEYCODE_DEL 退格键 67KEYCODE_FORWARD_DEL 删除键 112KEYCODE_INSERT 插入键 124KEYCODE_TAB Tab键 61KEYCODE_NUM_LOCK 小键盘锁 143KEYCODE_CAPS_LOCK 大写锁定键 115KEYCODE_BREAK Break/Pause键 121KEYCODE_SCROLL_LOCK 滚动锁定键 116KEYCODE_ZOOM_IN 放大键 168KEYCODE_ZOOM_OUT 缩小键 169 组合键123456KEYCODE_ALT_LEFT Alt+LeftKEYCODE_ALT_RIGHT Alt+RightKEYCODE_CTRL_LEFT Control+LeftKEYCODE_CTRL_RIGHT Control+RightKEYCODE_SHIFT_LEFT Shift+LeftKEYCODE_SHIFT_RIGHT Shift+Right 基本123456789101112131415161718192021222324252627282930313233343536KEYCODE_0 按键&apos;0&apos; 7KEYCODE_1 按键&apos;1&apos; 8KEYCODE_2 按键&apos;2&apos; 9KEYCODE_3 按键&apos;3&apos; 10KEYCODE_4 按键&apos;4&apos; 11KEYCODE_5 按键&apos;5&apos; 12KEYCODE_6 按键&apos;6&apos; 13KEYCODE_7 按键&apos;7&apos; 14KEYCODE_8 按键&apos;8&apos; 15KEYCODE_9 按键&apos;9&apos; 16KEYCODE_A 按键&apos;A&apos; 29KEYCODE_B 按键&apos;B&apos; 30KEYCODE_C 按键&apos;C&apos; 31KEYCODE_D 按键&apos;D&apos; 32KEYCODE_E 按键&apos;E&apos; 33KEYCODE_F 按键&apos;F&apos; 34KEYCODE_G 按键&apos;G&apos; 35KEYCODE_H 按键&apos;H&apos; 36KEYCODE_I 按键&apos;I&apos; 37KEYCODE_J 按键&apos;J&apos; 38KEYCODE_K 按键&apos;K&apos; 39KEYCODE_L 按键&apos;L&apos; 40KEYCODE_M 按键&apos;M&apos; 41KEYCODE_N 按键&apos;N&apos; 42KEYCODE_O 按键&apos;O&apos; 43KEYCODE_P 按键&apos;P&apos; 44KEYCODE_Q 按键&apos;Q&apos; 45KEYCODE_R 按键&apos;R&apos; 46KEYCODE_S 按键&apos;S&apos; 47KEYCODE_T 按键&apos;T&apos; 48KEYCODE_U 按键&apos;U&apos; 49KEYCODE_V 按键&apos;V&apos; 50KEYCODE_W 按键&apos;W&apos; 51KEYCODE_X 按键&apos;X&apos; 52KEYCODE_Y 按键&apos;Y&apos; 53KEYCODE_Z 按键&apos;Z&apos; 54]]></content>
+      <categories>
+        <category>appium</category>
+      </categories>
+      <tags>
+        <tag>自动化测试</tag>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[appium定位]]></title>
+    <url>%2F2018%2F01%2F17%2Fappium%E5%AE%9A%E4%BD%8D%2F</url>
+    <content type="text"><![CDATA[appium的常用操作以及元素定位的简单介绍 appium常用操作锁屏1driver.lock(5) 切换应用至后台123driver.background_app(5) # 置于后台，持续5秒driver.background_app(-1) # 持续置于后台driver.background_app(&#123;&apos;timeout&apos;: None&#125;) # 持续置于后台 收起键盘1driver.hide_keyboard() 启动Activity1driver.start_activity(&apos;com.example.android.apis&apos;, &apos;.Foo&apos;) 检测应用是否被安装1driver.is_app_installed(&apos;com.example.android.apis&apos;) 安装应用1driver.install_app(&apos;path/to/my.apk&apos;) 卸载应用1driver.remove_app(&apos;com.example.android.apis&apos;) 模拟设备摇一摇1driver.shake() 关闭应用1driver.close_app() 启动应用使用前提是desired capabilities设置了 autoLaunch=false 关键字1driver.launch_app() 操作上下文（Contexts）获取所有1driver.contexts 获取当前1driver.current_context 切换至默认1driver.switch_to.context(None) 按键事件1driver.keyevent(176) 点击操作/多点触控操作12action = TouchAction(driver)action.press(element=el, x=10, y=10).release().perform() 滑动屏幕1driver.swipe(start_x=75, start_y=500, end_x=75, end_y=0, duration=800) 从设备拉去文件1driver.pull_file(&apos;Library/AddressBook/AddressBook.sqlitedb&apos;) 推送文件到设备123data = &quot;some data for the file&quot;path = &quot;/data/local/tmp/file.txt&quot;driver.push_file(path, data.encode(&apos;base64&apos;)) appium元素定位使用id，class等和selenium基本没差别的定位就不介绍了，主要介绍appium独有uiautomator UiSelector 页面class和id等都不能唯一确定元素，但是元素有text属性时，可以使用以下进行定位：1234driver.find_element_by_android_uiautomator(&apos;new UiSelector().text(&quot;Custom View&quot;)&apos;).click() #textdriver.find_element_by_android_uiautomator(&apos;new UiSelector().textContains(&quot;View&quot;)&apos;).click() #textContainsdriver.find_element_by_android_uiautomator(&apos;new UiSelector().textStartsWith(&quot;Custom&quot;)&apos;).click() #textStartsWithdriver.find_element_by_android_uiautomator(&apos;new UiSelector().textMatches(&quot;^Custom.*&quot;)&apos;).click() #textMatches 也可以加上class属性：12driver.find_element_by_android_uiautomator(&apos;new UiSelector().className(&quot;android.widget.TextView&quot;).text(&quot;Custom View&quot;)&apos;).click() #classNamedriver.find_element_by_android_uiautomator(&apos;new UiSelector().classNameMatches(&quot;.*TextView$&quot;).text(&quot;Custom View&quot;)&apos;).click() #classNameMatches 操作坐标appium在进行元素定位时，定位不到唯一标志的元素，可以获取元素的坐标，使用坐标进行操作 appium以及uiautomatorviewer都可以很容易获取到坐标 appium操作坐标 1driver.tap([(100, 20), (100, 60), (100, 100)], 500) 三个坐标表示模拟三根手指，只需要一个手指，改成一个坐标即可，500表示持续时间500ms 或者使用adb命令也可实现同样效果：1os.popen(&quot;adb shell input tap &quot; + str(100) + &quot; &quot; + str(20))]]></content>
+      <categories>
+        <category>appium</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>自动化测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[app安装卸载]]></title>
     <url>%2F2018%2F01%2F17%2Fapp%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%2F</url>
     <content type="text"><![CDATA[appium-模拟器安装卸载app 模拟器安装apk1adb install XXX.apk 卸载apk1adb uninstall your_package 例子： 启动android模拟器，参数：12345desired_caps[&apos;platformName&apos;] = &apos;Android&apos;desired_caps[&apos;platformVersion&apos;] = &apos;7.1.1&apos;desired_caps[&apos;deviceName&apos;] = &apos;Android Emulator&apos;desired_caps[&apos;appPackage&apos;] = &apos;com.anmav.cashierdesk&apos;desired_caps[&apos;appActivity&apos;] = &apos;com.anmav.cashierdesk.view.LoginActivity&apos; win10打开控制台，进入apk文件所在目录，执行命令1adb install cashierdesk.apk 在模拟器中可以发现该app已完成安装。 控制台执行命令：1adb remove com.anmav.cashierdesk 模拟器中可以看见该app完成卸载]]></content>
