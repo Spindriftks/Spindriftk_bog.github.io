@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>python项目依赖管理工具-pipenv | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="python,pipenv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python项目依赖管理工具-pipenv">
+<meta property="og:url" content="http://tokyle.com/2018/01/18/python项目依赖管理工具-pipenv/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-18T02:08:14.403Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python项目依赖管理工具-pipenv">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-python项目依赖管理工具-pipenv" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/01/18/python项目依赖管理工具-pipenv/" class="article-date">
+  <time datetime="2018-01-18T02:06:43.000Z" itemprop="datePublished">2018-01-18</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python项目依赖管理工具-pipenv
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#具体功能："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;" class="headerlink" title="&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;"></a>&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用简介"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x7B80;&#x4ECB;" class="headerlink" title="&#x4F7F;&#x7528;&#x7B80;&#x4ECB;"></a>&#x4F7F;&#x7528;&#x7B80;&#x4ECB;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#首先安装pipenv"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv" class="headerlink" title="&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv"></a>&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管理依赖包"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;" class="headerlink" title="&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;"></a>&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境分离"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x5206;&#x79BB;" class="headerlink" title="&#x73AF;&#x5883;&#x5206;&#x79BB;"></a>&#x73AF;&#x5883;&#x5206;&#x79BB;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7528;&#x6CD5;" class="headerlink" title="&#x7528;&#x6CD5;"></a>&#x7528;&#x6CD5;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位工程"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;" class="headerlink" title="&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;"></a>&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他使用"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#&#x5176;&#x4ED6;&#x4F7F;&#x7528;" class="headerlink" title="&#x5176;&#x4ED6;&#x4F7F;&#x7528;"></a>&#x5176;&#x4ED6;&#x4F7F;&#x7528;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#激活工程环境"><span class="toc-number">3.2.1.</span> <span class="toc-text"><a href="#&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;" class="headerlink" title="&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;"></a>&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行python脚本"><span class="toc-number">3.2.2.</span> <span class="toc-text"><a href="#&#x8FD0;&#x884C;python&#x811A;&#x672C;" class="headerlink" title="&#x8FD0;&#x884C;python&#x811A;&#x672C;"></a>&#x8FD0;&#x884C;python&#x811A;&#x672C;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#展示依赖关系图"><span class="toc-number">3.2.3.</span> <span class="toc-text"><a href="#&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;" class="headerlink" title="&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;"></a>&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#卸载所有"><span class="toc-number">3.2.4.</span> <span class="toc-text"><a href="#&#x5378;&#x8F7D;&#x6240;&#x6709;" class="headerlink" title="&#x5378;&#x8F7D;&#x6240;&#x6709;"></a>&#x5378;&#x8F7D;&#x6240;&#x6709;</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考地址"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x5730;&#x5740;" class="headerlink" title="&#x53C2;&#x8003;&#x5730;&#x5740;"></a>&#x53C2;&#x8003;&#x5730;&#x5740;</span></a></li></ol>
+		
+		</div>
+		
+        <p>偶然发现一个很好用的python项目包管理工具<strong>pipenv</strong><br><a id="more"></a></p>
+<p>github上简介是一句话<code>Pipenv: Python Development Workflow for Humans</code></p>
+<p>现在已经是<a href="https://packaging.python.org/tutorials/managing-dependencies/#managing-dependencies" target="_blank" rel="noopener">python.org</a>官方推荐的工具。</p>
+<h2 id="具体功能："><a href="#具体功能：" class="headerlink" title="具体功能："></a>具体功能：</h2><p>pipenv能够自动创建和管理你工程的虚拟环境，当你安装/卸载包时，会自动从你的Pipfile中添加/移除包；为啥要用这个工具，python的特点，python进行工程环境创建，一般是创建一个<code>Virtualenv</code>虚拟环境，然后列出所需要的工具包，pip安装，但是这样你就要手动去添加你需要的包，删除你已经不需要的包，并且由于工具包的更新，你可能还需要手动去更新你的工具包，而且，类似于单元测试这样的场景，需要安装<code>nose</code>包，但是生产环境又不需要该包，也就无法做到生产环境和开发环境安装包的分离，而以上这些，pipenv都可以解决。</p>
+<h2 id="使用简介"><a href="#使用简介" class="headerlink" title="使用简介"></a>使用简介</h2><h3 id="首先安装pipenv"><a href="#首先安装pipenv" class="headerlink" title="首先安装pipenv"></a>首先安装pipenv</h3><p>使用pip安装pipenv及其依赖项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure></p>
+<p>macOS安装则使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure></p>
+<p>进入你项目所在文件夹，启动Pipenv<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd your_project</span><br><span class="line">pipenv install</span><br></pre></td></tr></table></figure></p>
+<p>启动之后，项目文件夹下会多出两个文件<code>Pipfile</code>，<code>Pipfile.lock</code><br>Pipfile文件包含项目的依赖包信息。</p>
+<h3 id="管理依赖包"><a href="#管理依赖包" class="headerlink" title="管理依赖包"></a>管理依赖包</h3><p>要为项目安装依赖包，跟pip类似<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv install nose</span><br></pre></td></tr></table></figure></p>
+<p>卸载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv uninstall nose</span><br></pre></td></tr></table></figure></p>
+<p>可以通过更新<code>Pipfile.lock</code>来冻结软件包名称及其版本以及其自己的依赖关系的列表。 这是使用lock关键字完成:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv lock</span><br></pre></td></tr></table></figure></p>
+<p>如果你同事或者朋友想clone你的依赖库，直接拿你的<code>Pipfile</code>，然后他本地安装pipenv之后，<code>pipenv install</code>即可完成依赖库安装</p>
+<h3 id="环境分离"><a href="#环境分离" class="headerlink" title="环境分离"></a>环境分离</h3><p>只为开发环境安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv install --dev nose</span><br></pre></td></tr></table></figure></p>
+<p>这样，在生产环境执行<code>pipenv install</code>是不会安装<code>nose</code>的，想要安装开发环境的依赖，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv install --dev</span><br></pre></td></tr></table></figure></p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><strong>pipenv</strong>所有关键字及解释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">$ pipenv</span><br><span class="line">Usage: pipenv [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --update         Update Pipenv &amp; pip to latest.</span><br><span class="line">  --where          Output project home information.</span><br><span class="line">  --venv           Output virtualenv information.</span><br><span class="line">  --py             Output Python interpreter information.</span><br><span class="line">  --envs           Output Environment Variable options.</span><br><span class="line">  --rm             Remove the virtualenv.</span><br><span class="line">  --bare           Minimal output.</span><br><span class="line">  --completion     Output completion (to be eval&apos;d).</span><br><span class="line">  --man            Display manpage.</span><br><span class="line">  --three / --two  Use Python 3/2 when creating virtualenv.</span><br><span class="line">  --python TEXT    Specify which version of Python virtualenv should use.</span><br><span class="line">  --site-packages  Enable site-packages for the virtualenv.</span><br><span class="line">  --jumbotron      An easter egg, effectively.</span><br><span class="line">  --version        Show the version and exit.</span><br><span class="line">  -h, --help       Show this message and exit.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Usage Examples:</span><br><span class="line">   Create a new project using Python 3.6, specifically:</span><br><span class="line">   $ pipenv --python 3.6</span><br><span class="line"></span><br><span class="line">   Install all dependencies for a project (including dev):</span><br><span class="line">   $ pipenv install --dev</span><br><span class="line"></span><br><span class="line">   Create a lockfile containing pre-releases:</span><br><span class="line">   $ pipenv lock --pre</span><br><span class="line"></span><br><span class="line">   Show a graph of your installed dependencies:</span><br><span class="line">   $ pipenv graph</span><br><span class="line"></span><br><span class="line">   Check your installed dependencies for security vulnerabilities:</span><br><span class="line">   $ pipenv check</span><br><span class="line"></span><br><span class="line">   Install a local setup.py into your virtual environment/Pipfile:</span><br><span class="line">   $ pipenv install -e .</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  check      Checks for security vulnerabilities and...</span><br><span class="line">  graph      Displays currently–installed dependency graph...</span><br><span class="line">  install    Installs provided packages and adds them to...</span><br><span class="line">  lock       Generates Pipfile.lock.</span><br><span class="line">  open       View a given module in your editor.</span><br><span class="line">  run        Spawns a command installed into the...</span><br><span class="line">  shell      Spawns a shell within the virtualenv.</span><br><span class="line">  uninstall  Un-installs a provided package and removes it...</span><br><span class="line">  update     Uninstalls all packages, and re-installs...</span><br></pre></td></tr></table></figure></p>
+<h3 id="定位工程"><a href="#定位工程" class="headerlink" title="定位工程"></a>定位工程</h3><p>展示工程路径以及环境路径，进入工程(类似于linux)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --where</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --venv</span><br></pre></td></tr></table></figure>
+<p>定位python解释器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --py</span><br></pre></td></tr></table></figure></p>
+<h3 id="其他使用"><a href="#其他使用" class="headerlink" title="其他使用"></a>其他使用</h3><h4 id="激活工程环境"><a href="#激活工程环境" class="headerlink" title="激活工程环境"></a>激活工程环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
+<h4 id="运行python脚本"><a href="#运行python脚本" class="headerlink" title="运行python脚本"></a>运行python脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv run python main.py</span><br></pre></td></tr></table></figure>
+<h4 id="展示依赖关系图"><a href="#展示依赖关系图" class="headerlink" title="展示依赖关系图"></a>展示依赖关系图</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
+<h4 id="卸载所有"><a href="#卸载所有" class="headerlink" title="卸载所有"></a>卸载所有</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv uninstall --all</span><br></pre></td></tr></table></figure>
+<h2 id="参考地址"><a href="#参考地址" class="headerlink" title="参考地址"></a>参考地址</h2><blockquote>
+<p><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">github项目地址</a><br><a href="https://packaging.python.org/tutorials/managing-dependencies/#managing-dependencies" target="_blank" rel="noopener">python.org官网推荐地址</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pipenv/">pipenv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-01-18T02:08:14.403Z" itemprop="dateModified">2018-01-18</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/18/cmder简介/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">cmder简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#具体功能："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;" class="headerlink" title="&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;"></a>&#x5177;&#x4F53;&#x529F;&#x80FD;&#xFF1A;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用简介"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x7B80;&#x4ECB;" class="headerlink" title="&#x4F7F;&#x7528;&#x7B80;&#x4ECB;"></a>&#x4F7F;&#x7528;&#x7B80;&#x4ECB;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#首先安装pipenv"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv" class="headerlink" title="&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv"></a>&#x9996;&#x5148;&#x5B89;&#x88C5;pipenv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管理依赖包"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;" class="headerlink" title="&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;"></a>&#x7BA1;&#x7406;&#x4F9D;&#x8D56;&#x5305;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境分离"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x5206;&#x79BB;" class="headerlink" title="&#x73AF;&#x5883;&#x5206;&#x79BB;"></a>&#x73AF;&#x5883;&#x5206;&#x79BB;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7528;&#x6CD5;" class="headerlink" title="&#x7528;&#x6CD5;"></a>&#x7528;&#x6CD5;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位工程"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;" class="headerlink" title="&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;"></a>&#x5B9A;&#x4F4D;&#x5DE5;&#x7A0B;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他使用"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#&#x5176;&#x4ED6;&#x4F7F;&#x7528;" class="headerlink" title="&#x5176;&#x4ED6;&#x4F7F;&#x7528;"></a>&#x5176;&#x4ED6;&#x4F7F;&#x7528;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#激活工程环境"><span class="toc-number">3.2.1.</span> <span class="toc-text"><a href="#&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;" class="headerlink" title="&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;"></a>&#x6FC0;&#x6D3B;&#x5DE5;&#x7A0B;&#x73AF;&#x5883;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行python脚本"><span class="toc-number">3.2.2.</span> <span class="toc-text"><a href="#&#x8FD0;&#x884C;python&#x811A;&#x672C;" class="headerlink" title="&#x8FD0;&#x884C;python&#x811A;&#x672C;"></a>&#x8FD0;&#x884C;python&#x811A;&#x672C;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#展示依赖关系图"><span class="toc-number">3.2.3.</span> <span class="toc-text"><a href="#&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;" class="headerlink" title="&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;"></a>&#x5C55;&#x793A;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x56FE;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#卸载所有"><span class="toc-number">3.2.4.</span> <span class="toc-text"><a href="#&#x5378;&#x8F7D;&#x6240;&#x6709;" class="headerlink" title="&#x5378;&#x8F7D;&#x6240;&#x6709;"></a>&#x5378;&#x8F7D;&#x6240;&#x6709;</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考地址"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x5730;&#x5740;" class="headerlink" title="&#x53C2;&#x8003;&#x5730;&#x5740;"></a>&#x53C2;&#x8003;&#x5730;&#x5740;</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 14.75px; color: #65bfa7">Django</a> <a href="/tags/Hexo/" style="font-size: 13px; color: #7dc3de">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 14.75px; color: #65bfa7">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/matplotlib/" style="font-size: 14.75px; color: #65bfa7">matplotlib</a> <a href="/tags/nose/" style="font-size: 14.75px; color: #65bfa7">nose</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 13px; color: #7dc3de">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 18.25px; color: #35b838">selenium</a> <a href="/tags/smtplib/" style="font-size: 13px; color: #7dc3de">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/单元测试/" style="font-size: 14.75px; color: #65bfa7">单元测试</a> <a href="/tags/性能/" style="font-size: 14.75px; color: #65bfa7">性能</a> <a href="/tags/自动化测试/" style="font-size: 16.5px; color: #4dbc6f">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/18/python项目依赖管理工具-pipenv/">python项目依赖管理工具-pipenv</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/cmder简介/">cmder简介</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/17/appium键盘事件/">appium键盘事件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/17/appium定位/">appium定位</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/17/app安装卸载/">app安装卸载</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pictures</a></li>
+    
+    <li><a href="http://wentuotuo.com/" target="_BLANK">(¬､¬)稳妥妥(￢_￢)</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
