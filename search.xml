@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[cmder简介]]></title>
+    <url>%2F2018%2F01%2F18%2Fcmder%E7%AE%80%E4%BB%8B%2F</url>
+    <content type="text"><![CDATA[windows小工具介绍 windows系统cmd工具，说实话，用的还是有点不舒服的，用习惯vim之后，真的是很想在windows上用类似的，还好，找到个小工具cmder。 下载地址：照旧，官方下载地址是托管在github上 github下载地址 但是不知道最近抽什么疯，github上n多项目下载页面直接404，索性提供本地度娘盘地址： 度娘盘地址密码：xhuu 使用说明下载完成之后，解压缩，然后将cmder.exe所在目录添加到系统环境变量中，完成~双击打开即可使用。 简单设置解决中文乱码问题：类似于linux，alias文件中添加设置即可；alias文件位置：cmder/config/aliases添加：123l=ls --show-control-charsla=ls -aF --show-control-charsll=ls -alF --show-control-chars 中文字重叠在一起cmder进入设置（快捷键win+alt+p），找到main，取消monospace(固定宽度)勾选 基本就是设置完成了，可以进行使用了，后续再发现什么其他的好功能再更新。123456789#切换盘D:#展示文件lsll#查看文件内容cat xxx.txt#编辑文件内容vim xxx.txt]]></content>
+      <categories>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>cmder</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[appium键盘事件]]></title>
     <url>%2F2018%2F01%2F17%2Fappium%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6%2F</url>
     <content type="text"><![CDATA[appium键盘事件 语法：1driver.keyevent(keyCode) 电话键1234567891011121314KEYCODE_CALL 拨号键 5KEYCODE_ENDCALL 挂机键 6KEYCODE_HOME 按键Home 3KEYCODE_MENU 菜单键 82KEYCODE_BACK 返回键 4KEYCODE_SEARCH 搜索键 84KEYCODE_CAMERA 拍照键 27KEYCODE_FOCUS 拍照对焦键 80KEYCODE_POWER 电源键 26KEYCODE_NOTIFICATION 通知键 83KEYCODE_MUTE 话筒静音键 91KEYCODE_VOLUME_MUTE 扬声器静音键 164KEYCODE_VOLUME_UP 音量增加键 24KEYCODE_VOLUME_DOWN 音量减小键 25 控制键123456789101112131415161718192021KEYCODE_ENTER 回车键 66KEYCODE_ESCAPE ESC键 111KEYCODE_DPAD_CENTER 导航键 确定键 23KEYCODE_DPAD_UP 导航键 向上 19KEYCODE_DPAD_DOWN 导航键 向下 20KEYCODE_DPAD_LEFT 导航键 向左 21KEYCODE_DPAD_RIGHT 导航键 向右 22KEYCODE_MOVE_HOME 光标移动到开始键 122KEYCODE_MOVE_END 光标移动到末尾键 123KEYCODE_PAGE_UP 向上翻页键 92KEYCODE_PAGE_DOWN 向下翻页键 93KEYCODE_DEL 退格键 67KEYCODE_FORWARD_DEL 删除键 112KEYCODE_INSERT 插入键 124KEYCODE_TAB Tab键 61KEYCODE_NUM_LOCK 小键盘锁 143KEYCODE_CAPS_LOCK 大写锁定键 115KEYCODE_BREAK Break/Pause键 121KEYCODE_SCROLL_LOCK 滚动锁定键 116KEYCODE_ZOOM_IN 放大键 168KEYCODE_ZOOM_OUT 缩小键 169 组合键123456KEYCODE_ALT_LEFT Alt+LeftKEYCODE_ALT_RIGHT Alt+RightKEYCODE_CTRL_LEFT Control+LeftKEYCODE_CTRL_RIGHT Control+RightKEYCODE_SHIFT_LEFT Shift+LeftKEYCODE_SHIFT_RIGHT Shift+Right 基本123456789101112131415161718192021222324252627282930313233343536KEYCODE_0 按键&apos;0&apos; 7KEYCODE_1 按键&apos;1&apos; 8KEYCODE_2 按键&apos;2&apos; 9KEYCODE_3 按键&apos;3&apos; 10KEYCODE_4 按键&apos;4&apos; 11KEYCODE_5 按键&apos;5&apos; 12KEYCODE_6 按键&apos;6&apos; 13KEYCODE_7 按键&apos;7&apos; 14KEYCODE_8 按键&apos;8&apos; 15KEYCODE_9 按键&apos;9&apos; 16KEYCODE_A 按键&apos;A&apos; 29KEYCODE_B 按键&apos;B&apos; 30KEYCODE_C 按键&apos;C&apos; 31KEYCODE_D 按键&apos;D&apos; 32KEYCODE_E 按键&apos;E&apos; 33KEYCODE_F 按键&apos;F&apos; 34KEYCODE_G 按键&apos;G&apos; 35KEYCODE_H 按键&apos;H&apos; 36KEYCODE_I 按键&apos;I&apos; 37KEYCODE_J 按键&apos;J&apos; 38KEYCODE_K 按键&apos;K&apos; 39KEYCODE_L 按键&apos;L&apos; 40KEYCODE_M 按键&apos;M&apos; 41KEYCODE_N 按键&apos;N&apos; 42KEYCODE_O 按键&apos;O&apos; 43KEYCODE_P 按键&apos;P&apos; 44KEYCODE_Q 按键&apos;Q&apos; 45KEYCODE_R 按键&apos;R&apos; 46KEYCODE_S 按键&apos;S&apos; 47KEYCODE_T 按键&apos;T&apos; 48KEYCODE_U 按键&apos;U&apos; 49KEYCODE_V 按键&apos;V&apos; 50KEYCODE_W 按键&apos;W&apos; 51KEYCODE_X 按键&apos;X&apos; 52KEYCODE_Y 按键&apos;Y&apos; 53KEYCODE_Z 按键&apos;Z&apos; 54]]></content>
