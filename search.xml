@@ -15,7 +15,7 @@
   <entry>
     <title><![CDATA[cmder简介]]></title>
     <url>%2F2018%2F01%2F18%2Fcmder%E7%AE%80%E4%BB%8B%2F</url>
-    <content type="text"><![CDATA[windows小工具介绍 windows系统cmd工具，说实话，用的还是有点不舒服的，用习惯vim之后，真的是很想在windows上用类似的，还好，找到个小工具cmder。 下载地址：照旧，官方下载地址是托管在github上 github下载地址 但是不知道最近抽什么疯，github上n多项目下载页面直接404，索性提供本地度娘盘地址： 度娘盘地址密码：xhuu 使用说明下载完成之后，解压缩，然后将cmder.exe所在目录添加到系统环境变量中，完成~双击打开即可使用。 简单设置解决中文乱码问题：类似于linux，alias文件中添加设置即可；alias文件位置：cmder/config/aliases添加：123l=ls --show-control-charsla=ls -aF --show-control-charsll=ls -alF --show-control-chars 中文字重叠在一起cmder进入设置（快捷键win+alt+p），找到main，取消monospace(固定宽度)勾选 基本就是设置完成了，可以进行使用了，后续再发现什么其他的好功能再更新。123456789#切换盘D:#展示文件lsll#查看文件内容cat xxx.txt#编辑文件内容vim xxx.txt]]></content>
+    <content type="text"><![CDATA[windows小工具介绍 windows系统cmd工具，说实话，用的还是有点不舒服的，用习惯vim之后，真的是很想在windows上用类似的，还好，找到个小工具cmder。 下载地址：照旧，官方下载地址是托管在github上 github下载地址 但是不知道最近抽什么疯，github上n多项目下载页面直接404，索性提供本地度娘盘地址： 度娘盘地址 使用说明下载完成之后，解压缩，然后将cmder.exe所在目录添加到系统环境变量中，完成~双击打开即可使用。 简单设置解决中文乱码问题：类似于linux，alias文件中添加设置即可；alias文件位置：cmder/config/aliases添加：123l=ls --show-control-charsla=ls -aF --show-control-charsll=ls -alF --show-control-chars 中文字重叠在一起cmder进入设置（快捷键win+alt+p），找到main，取消monospace(固定宽度)勾选 基本就是设置完成了，可以进行使用了，后续再发现什么其他的好功能再更新。123456789#切换盘D:#展示文件lsll#查看文件内容cat xxx.txt#编辑文件内容vim xxx.txt]]></content>
       <categories>
         <category>skill</category>
       </categories>
