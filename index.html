@@ -106,34 +106,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-		
-		<div id="toc" class="toc-article">
-			<h2 class="toc-title"><span>Contents</span></h2>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载地址："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;" class="headerlink" title="&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;"></a>&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用说明"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x8BF4;&#x660E;" class="headerlink" title="&#x4F7F;&#x7528;&#x8BF4;&#x660E;"></a>&#x4F7F;&#x7528;&#x8BF4;&#x660E;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单设置"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7B80;&#x5355;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x7B80;&#x5355;&#x8BBE;&#x7F6E;"></a>&#x7B80;&#x5355;&#x8BBE;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决中文乱码问题："><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x89E3;&#x51B3;&#x4E2D;&#x6587;&#x4E71;&#x7801;&#x95EE;&#x9898;&#xFF1A;" class="headerlink" title="&#x89E3;&#x51B3;&#x4E2D;&#x6587;&#x4E71;&#x7801;&#x95EE;&#x9898;&#xFF1A;"></a>&#x89E3;&#x51B3;&#x4E2D;&#x6587;&#x4E71;&#x7801;&#x95EE;&#x9898;&#xFF1A;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中文字重叠在一起"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#&#x4E2D;&#x6587;&#x5B57;&#x91CD;&#x53E0;&#x5728;&#x4E00;&#x8D77;" class="headerlink" title="&#x4E2D;&#x6587;&#x5B57;&#x91CD;&#x53E0;&#x5728;&#x4E00;&#x8D77;"></a>&#x4E2D;&#x6587;&#x5B57;&#x91CD;&#x53E0;&#x5728;&#x4E00;&#x8D77;</span></a></li></ol></li></ol>
-		
-		</div>
-		
         <p>windows小工具介绍</p>
 <p>windows系统cmd工具，说实话，用的还是有点不舒服的，用习惯<code>vim</code>之后，真的是很想在windows上用类似的，还好，找到个小工具<code>cmder</code>。</p>
-<h2 id="下载地址："><a href="#下载地址：" class="headerlink" title="下载地址："></a>下载地址：</h2><p>照旧，官方下载地址是托管在github上</p>
-<blockquote>
-<p><a href="https://github.com/cmderdev/cmder/releases/" target="_blank" rel="noopener">github下载地址</a></p>
-</blockquote>
-<p>但是不知道最近抽什么疯，github上n多项目下载页面直接404，索性提供本地度娘盘地址：</p>
-<blockquote>
-<p><a href="https://pan.baidu.com/s/1pMS5yUR" target="_blank" rel="noopener">度娘盘地址</a><br>密码：<code>xhuu</code></p>
-</blockquote>
-<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>下载完成之后，解压缩，然后将<code>cmder.exe</code>所在目录添加到系统环境变量中，完成~双击打开即可使用。</p>
-<h2 id="简单设置"><a href="#简单设置" class="headerlink" title="简单设置"></a>简单设置</h2><h3 id="解决中文乱码问题："><a href="#解决中文乱码问题：" class="headerlink" title="解决中文乱码问题："></a>解决中文乱码问题：</h3><p>类似于linux，alias文件中添加设置即可；alias文件位置：<code>cmder/config/aliases</code><br>添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">l=ls --show-control-chars</span><br><span class="line">la=ls -aF --show-control-chars</span><br><span class="line">ll=ls -alF --show-control-chars</span><br></pre></td></tr></table></figure></p>
-<h3 id="中文字重叠在一起"><a href="#中文字重叠在一起" class="headerlink" title="中文字重叠在一起"></a>中文字重叠在一起</h3><p>cmder进入设置（快捷键<code>win+alt+p</code>），找到<code>main</code>，取消<code>monospace(固定宽度)</code>勾选</p>
-<p>基本就是设置完成了，可以进行使用了，后续再发现什么其他的好功能再更新。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#切换盘</span><br><span class="line">D:</span><br><span class="line">#展示文件</span><br><span class="line">ls</span><br><span class="line">ll</span><br><span class="line">#查看文件内容</span><br><span class="line">cat xxx.txt</span><br><span class="line">#编辑文件内容</span><br><span class="line">vim xxx.txt</span><br></pre></td></tr></table></figure></p>
-
+        
+          <p class="article-more-link">
+            <a href="/2018/01/18/cmder简介/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/18/cmder简介/" data-id="cjcju6rh0000pllxu78cweowj" data_title="cmder简介" data_summary="windows小工具介绍
+	  <a data-url="http://tokyle.com/2018/01/18/cmder简介/" data-id="cjcju862q000pmmxue07w73p4" data_title="cmder简介" data_summary="windows小工具介绍
 windows系统cmd工具..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/18/cmder简介/#disqus_thread" class="article-comment-link">Kommentare</a>
@@ -145,7 +129,7 @@ windows系统cmd工具..." class="article-share-link">Teilen</a>
 
 	  
 <span>
-Updated:<time datetime="2018-01-18T01:47:36.004Z" itemprop="dateModified">2018-01-18</time>
+Updated:<time datetime="2018-01-18T01:48:44.681Z" itemprop="dateModified">2018-01-18</time>
 </span>
 
 
@@ -195,7 +179,7 @@ Updated:<time datetime="2018-01-18T01:47:36.004Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/17/appium键盘事件/" data-id="cjcju6rgu000illxu7mmvsann" data_title="appium键盘事件" data_summary="appium键盘事件
+	  <a data-url="http://tokyle.com/2018/01/17/appium键盘事件/" data-id="cjcju862l000immxudz9it6o3" data_title="appium键盘事件" data_summary="appium键盘事件
 
 语法：1driver.keye..." class="article-share-link">Teilen</a>
       
@@ -258,7 +242,7 @@ Updated:<time datetime="2018-01-17T09:27:47.903Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/17/appium定位/" data-id="cjcju6rgp000ellxuufj9wjgk" data_title="appium定位" data_summary="appium的常用操作以及元素定位的简单介绍
+	  <a data-url="http://tokyle.com/2018/01/17/appium定位/" data-id="cjcju862g000emmxu7tq3ksc9" data_title="appium定位" data_summary="appium的常用操作以及元素定位的简单介绍
 
 app..." class="article-share-link">Teilen</a>
       
@@ -321,7 +305,7 @@ Updated:<time datetime="2018-01-17T09:34:55.902Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/17/app安装卸载/" data-id="cjcju6rgx000kllxu3tzn51yx" data_title="app安装卸载" data_summary="appium-模拟器安装卸载app
+	  <a data-url="http://tokyle.com/2018/01/17/app安装卸载/" data-id="cjcju862n000kmmxuwnmav17h" data_title="app安装卸载" data_summary="appium-模拟器安装卸载app
 
 模拟器安装apk..." class="article-share-link">Teilen</a>
       
@@ -385,7 +369,7 @@ Updated:<time datetime="2018-01-17T02:55:34.151Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/16/appium入门篇/" data-id="cjcju6rgn000dllxu4q45f1ra" data_title="appium入门篇" data_summary="appium环境搭建及简单使用
+	  <a data-url="http://tokyle.com/2018/01/16/appium入门篇/" data-id="cjcju8624000dmmxu8687sbhm" data_title="appium入门篇" data_summary="appium环境搭建及简单使用
 测试人员进行app自动..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/16/appium入门篇/#disqus_thread" class="article-comment-link">Kommentare</a>
@@ -447,7 +431,7 @@ Updated:<time datetime="2018-01-16T08:38:34.500Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/12/smtp发邮件/" data-id="cjcju6rhx001sllxuy8kibpwa" data_title="smtp发邮件" data_summary="使用python3发送网易邮箱邮件
+	  <a data-url="http://tokyle.com/2018/01/12/smtp发邮件/" data-id="cjcju863k001smmxuxq7a5uvy" data_title="smtp发邮件" data_summary="使用python3发送网易邮箱邮件
 
 代码：12345..." class="article-share-link">Teilen</a>
       
