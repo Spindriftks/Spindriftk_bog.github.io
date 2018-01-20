@@ -5,17 +5,19 @@
   
 
   
-  <title>Tag: 单元测试 | 它夏了夏天</title>
+  <title>自娱自乐一 | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta property="og:type" content="website">
-<meta property="og:title" content="它夏了夏天">
-<meta property="og:url" content="http://tokyle.com/tags/单元测试/index.html">
+<meta name="keywords" content="python,lives">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自娱自乐一">
+<meta property="og:url" content="http://tokyle.com/2018/01/20/自娱自乐一/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-20T01:38:52.515Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="它夏了夏天">
+<meta name="twitter:title" content="自娱自乐一">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -75,71 +77,100 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
+        <section id="main"><article id="post-自娱自乐一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/01/04/nose跳过测试/" class="archive-article-date">
-  <time datetime="2018-01-04T03:39:45.000Z" itemprop="datePublished">Jan 4</time>
+<a href="/2018/01/20/自娱自乐一/" class="article-date">
+  <time datetime="2018-01-20T01:37:02.000Z" itemprop="datePublished">2018-01-20</time>
 </a>
 
 
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/just-for-fun/">just for fun</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/04/nose跳过测试/">nose跳过测试</a>
+    <h1 class="article-title" itemprop="name">
+      自娱自乐一
     </h1>
   
 
-    </header>
-  </div>
-</article>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#输入年龄判断是否有投票资格："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;" class="headerlink" title="&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;"></a>&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断输入的正整数"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;" class="headerlink" title="&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;:"></a>&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;:</span></a></li></ol>
+		
+		</div>
+		
+        <p>自娱自乐系列一：</p>
+<p>为了过年提前回家，周六过来加班调休，又不大想干活，就想着捣鼓点自娱自乐的东西：</p>
+<a id="more"></a>
+<h3 id="输入年龄判断是否有投票资格："><a href="#输入年龄判断是否有投票资格：" class="headerlink" title="输入年龄判断是否有投票资格："></a>输入年龄判断是否有投票资格：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def judge_age():</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        try:</span><br><span class="line">            age = int(input(&quot;\nPlease enter your age：&quot;))</span><br><span class="line">        except ValueError:</span><br><span class="line">            print(&quot;Sorry,I can&apos;t understand what you entered.Please enter a correct number.&quot;)</span><br><span class="line">            continue</span><br><span class="line">        else:</span><br><span class="line">            break</span><br><span class="line">    if age &gt;= 18:</span><br><span class="line">        print(&quot;You are able to vote in the United States!&quot;)</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;You are too young to vote in the United States!&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    judge_age()</span><br></pre></td></tr></table></figure>
+<h3 id="判断输入的正整数"><a href="#判断输入的正整数" class="headerlink" title="判断输入的正整数:"></a>判断输入的正整数:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">def get_non_negative_int(prompt):</span><br><span class="line">    try:</span><br><span class="line">        value = int(input(prompt))</span><br><span class="line">    except ValueError:</span><br><span class="line">        print(&quot;Sorry,I can&apos;t understand that.&quot;)</span><br><span class="line">        return get_non_negative_int(prompt)</span><br><span class="line"></span><br><span class="line">    if value &lt; 0:</span><br><span class="line">        print(&quot;Sorry,your response must not be negative.&quot;)</span><br><span class="line">        return get_non_negative_int(prompt)</span><br><span class="line">    else:</span><br><span class="line">        return value</span><br><span class="line"></span><br><span class="line">def guess_number():</span><br><span class="line">    number = get_non_negative_int(&quot;Please enter a number to guess: (only positive integer can work,thanks!)&quot;)</span><br><span class="line">    while True:</span><br><span class="line">        guess = get_non_negative_int(&quot;guess the number.&quot;)</span><br><span class="line">        if guess &gt; number:</span><br><span class="line">            print(&quot;You could enter a lower one.&quot;)</span><br><span class="line">        elif guess &lt; number:</span><br><span class="line">            print(&quot;I think it could be higher.&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;Congratulations! You got it!&quot;)</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    guess_number()</span><br></pre></td></tr></table></figure>
+<p>纯属自娱自乐，毫无技术含量，下雨天来加班，真的是不爽~</p>
 
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lives/">lives</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-01-20T01:38:52.515Z" itemprop="dateModified">2018-01-20</time>
+</span>
+
+
+    </footer>
+  </div>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/01/03/python单元测试框架-nose/" class="archive-article-date">
-  <time datetime="2018-01-03T04:59:38.000Z" itemprop="datePublished">Jan 3</time>
-</a>
-
-
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/03/python单元测试框架-nose/">python单元测试框架-nose</a>
-    </h1>
   
+    <a href="/2018/01/19/appium应用简介/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">appium应用简介</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
 
-  
-  
-    </div></section>
-  
 
-
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#输入年龄判断是否有投票资格："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;" class="headerlink" title="&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;"></a>&#x8F93;&#x5165;&#x5E74;&#x9F84;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x6295;&#x7968;&#x8D44;&#x683C;&#xFF1A;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断输入的正整数"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;" class="headerlink" title="&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;:"></a>&#x5224;&#x65AD;&#x8F93;&#x5165;&#x7684;&#x6B63;&#x6574;&#x6570;:</span></a></li></ol>
+    
+  </div>
+
 <aside id="sidebar">
 
   
@@ -290,13 +321,17 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
     </script>
 
 
 
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
 
 
 <script src="/js/jquery.min.js"></script>
@@ -311,6 +346,9 @@
 	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
 	<script src="/js/gotop.js"></script>
 
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
 
 </div>
 

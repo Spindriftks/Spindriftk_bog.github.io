@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[自娱自乐一]]></title>
+    <url>%2F2018%2F01%2F20%2F%E8%87%AA%E5%A8%B1%E8%87%AA%E4%B9%90%E4%B8%80%2F</url>
+    <content type="text"><![CDATA[自娱自乐系列一： 为了过年提前回家，周六过来加班调休，又不大想干活，就想着捣鼓点自娱自乐的东西： 输入年龄判断是否有投票资格：1234567891011121314151617def judge_age(): while True: try: age = int(input(&quot;\nPlease enter your age：&quot;)) except ValueError: print(&quot;Sorry,I can&apos;t understand what you entered.Please enter a correct number.&quot;) continue else: break if age &gt;= 18: print(&quot;You are able to vote in the United States!&quot;) else: print(&quot;You are too young to vote in the United States!&quot;)if __name__ == &apos;__main__&apos;: judge_age() 判断输入的正整数:12345678910111213141516171819202122232425262728293031#!/usr/bin/env python3# -*- coding: utf-8 -*-def get_non_negative_int(prompt): try: value = int(input(prompt)) except ValueError: print(&quot;Sorry,I can&apos;t understand that.&quot;) return get_non_negative_int(prompt) if value &lt; 0: print(&quot;Sorry,your response must not be negative.&quot;) return get_non_negative_int(prompt) else: return valuedef guess_number(): number = get_non_negative_int(&quot;Please enter a number to guess: (only positive integer can work,thanks!)&quot;) while True: guess = get_non_negative_int(&quot;guess the number.&quot;) if guess &gt; number: print(&quot;You could enter a lower one.&quot;) elif guess &lt; number: print(&quot;I think it could be higher.&quot;) else: print(&quot;Congratulations! You got it!&quot;) breakif __name__ == &apos;__main__&apos;: guess_number() 纯属自娱自乐，毫无技术含量，下雨天来加班，真的是不爽~]]></content>
+      <categories>
+        <category>just for fun</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>lives</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[appium应用简介]]></title>
     <url>%2F2018%2F01%2F19%2Fappium%E5%BA%94%E7%94%A8%E7%AE%80%E4%BB%8B%2F</url>
     <content type="text"><![CDATA[appium应用篇，简单介绍自己工作中用到的一些appium应用。 Appium等待类型固定时间等待123import timetime.sleep(3) 固定等待时间3秒，强制等待，必须等完3秒之后才会进行下一步操作。 隐式等待1driver.implicitly_wait(5) 隐式等待的好处是不用想固定时间（time.sleep()）一样死等固定时间，可以在一定程度上提高执行效率，但是这种等待方式也是需要等页面所有元素都加载完成才会去进行下一步操作，例如有的时候，页面你需要的元素已经加载完成，但是必须还是要等待个别资源加载完才会执行下一步，一定程度上来说还是效率降低。 显示等待1234from selenium.webdriver.support.ui import WebDriverWaitWebDriverWait(driver, 10).\ until(lambda x:x.find_element_by_id(&apos;com.anmav.cashierdesk:id/tvOpenTable&apos;)) 显示等待原理是每隔一段时间（默认0.5秒），执行一次判断条件，如果条件成立，就执行下一步，直到超过设定的最大等待时间，抛出TimeoutException异常 Appium定位弹窗切换webview原理和selenium一样，类似于selenium中先获取页面句柄，再切换。1234driver.contexts方法一：driver.switch_to.context(&quot;contextname&quot;) #contextname为想切换到的上下文方法二：driver.switch_to.context(contexts[1]) # 从contexts里取第二个参数]]></content>
