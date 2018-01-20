@@ -106,38 +106,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-		
-		<div id="toc" class="toc-article">
-			<h2 class="toc-title"><span>Contents</span></h2>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件："><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;" class="headerlink" title="&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;"></a>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读取配置信息"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;" class="headerlink" title="&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;"></a>&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件实例-简单的数据分离-："><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5B9E;&#x4F8B;-&#x7B80;&#x5355;&#x7684;&#x6570;&#x636E;&#x5206;&#x79BB;-&#xFF1A;" class="headerlink" title="&#x4F7F;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5B9E;&#x4F8B;(&#x7B80;&#x5355;&#x7684;&#x6570;&#x636E;&#x5206;&#x79BB;)&#xFF1A;"></a>&#x4F7F;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5B9E;&#x4F8B;(&#x7B80;&#x5355;&#x7684;&#x6570;&#x636E;&#x5206;&#x79BB;)&#xFF1A;</span></a></li></ol>
-		
-		</div>
-		
         <p>python数据分离——读取配置文件</p>
-<p>版本：<br><code>python 3.6</code></p>
-<p>进行数据/配置和代码分离时，python3.6 可以使用<code>configparser</code>进行配置信息读取或创建。可以实现程序和数据的分离，便于后期维护程序，也能在一定程序上满足不会编码的人进行自动化测试（只需改配置文件。）</p>
-<p>以创建/读取<code>ini</code>格式配置文件为例：</p>
-<h3 id="创建配置文件："><a href="#创建配置文件：" class="headerlink" title="创建配置文件："></a>创建配置文件：</h3><p>每个ini文件都是有n个<code>sections</code>组成（可以理解为组成部分或者是段落。。我是这么理解的），每个<code>sections</code>包含若干个键值对（keys:values），所有某种程度上，你可以把每个section看成是个字典（dictionary），虽然这俩意义上完全无关。<br>python3.6创建ini配置文件代码示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import configparser</span><br><span class="line"></span><br><span class="line">cf = configparser.ConfigParser()</span><br><span class="line">cf[&apos;DEFAULT&apos;] = &#123;&quot;browser&quot; : &quot;Chrome&quot;,</span><br><span class="line">                 &quot;version&quot; : &quot;63.0.3239.132&quot;,</span><br><span class="line">                 &quot;driver&quot; : &quot;chromedriver.exe&quot;,</span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line">cf[&apos;tokyle.com&apos;] = &#123;&#125;</span><br><span class="line">cf[&apos;tokyle.com&apos;][&apos;Author&apos;] = &apos;kyle&apos;</span><br><span class="line"></span><br><span class="line">cf[&apos;baidu.com&apos;] = &#123;&#125;</span><br><span class="line">baiduSearch = cf[&apos;baidu.com&apos;]</span><br><span class="line">baiduSearch[&apos;searchBox&apos;] = &apos;id &gt; kw&apos;</span><br><span class="line">baiduSearch[&apos;searchButton&apos;] = &apos;id &gt; su&apos;</span><br><span class="line"></span><br><span class="line">cf[&apos;DEFAULT&apos;][&apos;noRetry&apos;] = &apos;yes&apos;</span><br><span class="line"></span><br><span class="line">with open(&apos;test.ini&apos;, &apos;w&apos;) as configfile:</span><br><span class="line">    cf.write(configfile)</span><br></pre></td></tr></table></figure></p>
-<p>上述代码执行完成之后会在该.py文件所在目录下创建一个<code>test.ini</code>的配置文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[DEFAULT]</span><br><span class="line">browser = Chrome</span><br><span class="line">version = 63.0.3239.132</span><br><span class="line">driver = chromedriver.exe</span><br><span class="line">noretry = yes</span><br><span class="line"></span><br><span class="line">[tokyle.com]</span><br><span class="line">author = kyle</span><br><span class="line"></span><br><span class="line">[baidu.com]</span><br><span class="line">searchbox = id &gt; kw</span><br><span class="line">searchbutton = id &gt; su</span><br></pre></td></tr></table></figure></p>
-<p>每个ini文件可以包含一个<code>[&#39;DEFAULT&#39;]</code> section，也可以没有，<code>[&#39;DEFAULT&#39;]</code>部分定义了默认设置，例如默认使用的浏览器，浏览器版本等。</p>
-<h3 id="读取配置信息"><a href="#读取配置信息" class="headerlink" title="读取配置信息"></a>读取配置信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import configparser</span><br><span class="line"></span><br><span class="line">cf = configparser.ConfigParser()</span><br><span class="line">cf.read(&apos;test.ini&apos;)</span><br></pre></td></tr></table></figure>
-<p>获取所有<code>sections</code>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cf.sections()</span><br></pre></td></tr></table></figure></p>
-<p>即可，需要注意的是，这样，是默认不会获取都[‘DEFAULT’]的，可以实验一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">section = cf.sections()</span><br><span class="line">print(section)</span><br></pre></td></tr></table></figure></p>
-<p>打印出的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&apos;tokyle.com&apos;, &apos;baidu.com&apos;]</span><br></pre></td></tr></table></figure></p>
-<p>可以看见默认不包含[‘DEFAULT’]。</p>
-<p>其实读取配置信息就喝读取字典里的数据做法一样，使用for循环就可以打印出全部信息，例如进行自动化测试时想获取[‘baidu.com’]里存的<code>百度搜索输入框</code>以及<code>百度一下按键</code>，可以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">baidu_msg = cf[&apos;baidu.com&apos;]</span><br><span class="line">for key,value in baidu_msg.items():</span><br><span class="line">    print(key + &apos; : &apos; + value)</span><br></pre></td></tr></table></figure></p>
-<p>打印出的信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">searchbox : id &gt; kw</span><br><span class="line">searchbutton : id &gt; su</span><br><span class="line">browser : Chrome</span><br><span class="line">version : 63.0.3239.132</span><br><span class="line">driver : chromedriver.exe</span><br><span class="line">noretry : yes</span><br></pre></td></tr></table></figure></p>
-<p>可以看见，这样不仅会把[‘baidu.com’]模块的信息全部打印，[‘DEFAULT’]模块的信息也会被打印出来。</p>
-<h3 id="使用配置文件实例-简单的数据分离-："><a href="#使用配置文件实例-简单的数据分离-：" class="headerlink" title="使用配置文件实例(简单的数据分离)："></a>使用配置文件实例(简单的数据分离)：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import configparser</span><br><span class="line">import traceback,time</span><br><span class="line">from selenium import webdriver</span><br><span class="line">from selenium.webdriver.support.ui import WebDriverWait</span><br><span class="line">from nose.tools import assert_true</span><br><span class="line"></span><br><span class="line">class ElementId():</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        #读取配置文件</span><br><span class="line">        self.cf = configparser.ConfigParser()</span><br><span class="line">        self.cf.read(&apos;test.ini&apos;)</span><br><span class="line">        self.cf.sections()</span><br><span class="line"></span><br><span class="line">    def get_elementId(self, driver, webSiteName, webelement):</span><br><span class="line">        try:</span><br><span class="line">            #获取配置文件中的定位方法以及定位元素</span><br><span class="line">            webElemnt = self.cf.get(webSiteName, webelement).split(&apos;&gt;&apos;)</span><br><span class="line">            webelement_method = webElemnt[0].strip()</span><br><span class="line">            webelement_expression = webElemnt[1].strip()</span><br><span class="line">            element = WebDriverWait(driver, 10).until\</span><br><span class="line">                (lambda x: x.find_element(webelement_method, webelement_expression))</span><br><span class="line">        except Exception as e:</span><br><span class="line">            print(traceback.print_exc(), e)</span><br><span class="line">        else:</span><br><span class="line">            return element</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    &quot;&quot;&quot;测试百度搜索&quot;&quot;&quot;</span><br><span class="line">    #打开百度首页</span><br><span class="line">    browser = webdriver.Chrome()</span><br><span class="line">    browser.get(&quot;https://www.baidu.com&quot;)</span><br><span class="line">    #获取定位元素</span><br><span class="line">    elementid = ElementId()</span><br><span class="line">    searchBox = elementid.get_elementId(browser, &apos;baidu.com&apos;, &apos;searchbox&apos;)</span><br><span class="line">    searchBox.send_keys(&apos;selenium&apos;)</span><br><span class="line">    searchButton = elementid.get_elementId(browser, &apos;baidu.com&apos;, &apos;searchbutton&apos;)</span><br><span class="line">    searchButton.click()</span><br><span class="line">    time.sleep(3)</span><br><span class="line">    #断言完成百度搜索&quot;selenium&quot;</span><br><span class="line">    assert_true(u&quot;Selenium - Web Browser Automation&quot; in browser.page_source)</span><br><span class="line">    browser.quit()</span><br></pre></td></tr></table></figure>
-<p>（我在执行上述示例之前，把<code>test.ini</code>中的[‘DEFAULT’]注释掉了，此例不需要[‘DEFAULT’]中的信息）</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2018/01/20/python数据分离/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/20/python数据分离/" data-id="cjcn2vszv001j00xuq99ryi2z" data_title="python数据分离" data_summary="python数据分离——读取配置文件
-版本：pytho..." class="article-share-link">Teilen</a>
+	  <a data-url="http://tokyle.com/2018/01/20/python数据分离/" data-id="cjcn4bst2001j0txuotdzmx55" data_title="python数据分离" data_summary="python数据分离——读取配置文件
+
+版本：pyth..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/20/python数据分离/#disqus_thread" class="article-comment-link">Kommentare</a>
       
@@ -148,7 +129,7 @@
 
 	  
 <span>
-Updated:<time datetime="2018-01-20T08:14:19.324Z" itemprop="dateModified">2018-01-20</time>
+Updated:<time datetime="2018-01-20T08:54:44.843Z" itemprop="dateModified">2018-01-20</time>
 </span>
 
 
@@ -199,7 +180,7 @@ Updated:<time datetime="2018-01-20T08:14:19.324Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/20/自娱自乐一/" data-id="cjcn2vt0n002o00xudr43g747" data_title="自娱自乐一" data_summary="自娱自乐系列一：
+	  <a data-url="http://tokyle.com/2018/01/20/自娱自乐一/" data-id="cjcn4bsu0002o0txuwkcxd8gw" data_title="自娱自乐一" data_summary="自娱自乐系列一：
 为了过年提前回家，周六过来加班调休，..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/20/自娱自乐一/#disqus_thread" class="article-comment-link">Kommentare</a>
@@ -261,7 +242,7 @@ Updated:<time datetime="2018-01-20T03:56:48.253Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/19/appium应用简介/" data-id="cjcn2vsz1000i00xuhlzmvwp6" data_title="appium应用简介" data_summary="appium应用篇，简单介绍自己工作中用到的一些app..." class="article-share-link">Teilen</a>
+	  <a data-url="http://tokyle.com/2018/01/19/appium应用简介/" data-id="cjcn4bss9000i0txue9hd5ylo" data_title="appium应用简介" data_summary="appium应用篇，简单介绍自己工作中用到的一些app..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/19/appium应用简介/#disqus_thread" class="article-comment-link">Kommentare</a>
       
@@ -322,7 +303,7 @@ Updated:<time datetime="2018-01-19T03:04:27.121Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/18/python项目依赖管理工具-pipenv/" data-id="cjcn2vt01001r00xuv5lbbw4u" data_title="python项目依赖管理工具-pipenv" data_summary="偶然发现一个很好用的python项目包管理工具pipe..." class="article-share-link">Teilen</a>
+	  <a data-url="http://tokyle.com/2018/01/18/python项目依赖管理工具-pipenv/" data-id="cjcn4bstd001r0txuy23ue9so" data_title="python项目依赖管理工具-pipenv" data_summary="偶然发现一个很好用的python项目包管理工具pipe..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/18/python项目依赖管理工具-pipenv/#disqus_thread" class="article-comment-link">Kommentare</a>
       
@@ -384,7 +365,7 @@ Updated:<time datetime="2018-01-18T02:08:14.403Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/18/cmder简介/" data-id="cjcn2vsz8000q00xuaxh48wat" data_title="cmder简介" data_summary="windows小工具介绍
+	  <a data-url="http://tokyle.com/2018/01/18/cmder简介/" data-id="cjcn4bssg000q0txu57wi83i4" data_title="cmder简介" data_summary="windows小工具介绍
 windows系统cmd工具..." class="article-share-link">Teilen</a>
       
         <a href="http://tokyle.com/2018/01/18/cmder简介/#disqus_thread" class="article-comment-link">Kommentare</a>
@@ -446,7 +427,7 @@ Updated:<time datetime="2018-01-18T02:24:38.173Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/17/appium键盘事件/" data-id="cjcn2vsz4000k00xu7nfh5k53" data_title="appium键盘事件" data_summary="appium键盘事件
+	  <a data-url="http://tokyle.com/2018/01/17/appium键盘事件/" data-id="cjcn4bssc000k0txu6m0c5ey6" data_title="appium键盘事件" data_summary="appium键盘事件
 
 语法：1driver.keye..." class="article-share-link">Teilen</a>
       
@@ -509,7 +490,7 @@ Updated:<time datetime="2018-01-17T09:27:47.903Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/01/17/appium定位/" data-id="cjcn2vsyx000e00xuch2tszk8" data_title="appium定位" data_summary="appium的常用操作以及元素定位的简单介绍
+	  <a data-url="http://tokyle.com/2018/01/17/appium定位/" data-id="cjcn4bss3000e0txus9wq8w2g" data_title="appium定位" data_summary="appium的常用操作以及元素定位的简单介绍
 
 app..." class="article-share-link">Teilen</a>
       
