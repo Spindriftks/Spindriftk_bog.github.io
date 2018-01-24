@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[测试]]></title>
+    <url>%2F2018%2F01%2F24%2F%E6%B5%8B%E8%AF%95%2F</url>
+    <content type="text"><![CDATA[重新安装hexo centos7重新搭建hexo博客]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>安装hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[python实现自动化测试报告邮件实时发送]]></title>
     <url>%2F2018%2F01%2F23%2Fpython%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E9%82%AE%E4%BB%B6%E5%AE%9E%E6%97%B6%E5%8F%91%E9%80%81%2F</url>
     <content type="text"><![CDATA[实现自动化用例执行完成之后，自动发送带html附件的邮件到邮箱 实现思路：读取html附件内容，添加到邮件正文中，添加html附件，实现用例执行完成，测试报告自动发送到邮箱。代码： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869#!/usr/bin/env python3# -*- coding: utf-8 -*-import osimport smtplibfrom datetime import datetime as dtfrom email.mime.text import MIMETextfrom email.mime.multipart import MIMEMultipartfrom nose.tools import assert_equaldef send_mail(): &quot;&quot;&quot;读取测试报告&quot;&quot;&quot; with open(report_file, &apos;r&apos;, encoding=&apos;utf-8&apos;) as f_obj: content = f_obj.read() msg = MIMEMultipart(&apos;mixed&apos;) # 添加邮件内容 msg_html = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;) msg.attach(msg_html) #添加附件 msg_attachment = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;) msg_attachment[&quot;Content-Disposition&quot;] = &apos;attachment; filename=&quot;&#123;0&#125;&quot;&apos;.format(report_file) msg.attach(msg_attachment) msg[&apos;Subject&apos;] = mail_subject msg[&apos;Form&apos;] = mail_user msg[&apos;To&apos;] = mail_to try: # 连接邮件服务器 s = smtplib.SMTP() s.connect(mail_host) # 登录 s.login(mail_user, mail_pwd) # 发送邮件 s.sendmail(mail_user, mail_to, msg.as_string()) # 退出 s.quit() except Exception as e: print(&quot;Exception&quot;, e)class Mailsend(): def test_mul(self): a = 1 b = 2 res = 3 assert_equal(res, a+b)if __name__ == &apos;__main__&apos;: # 邮件服务器 mail_host = &apos;smtp.163.com&apos; # 发件人地址 mail_user = &apos;***&apos; # 发件人密码 mail_pwd = &apos;***&apos; # 邮件标题 mail_subject = u&apos;NoseTests_测试报告_&#123;0&#125;&apos;.format(dt.now().strftime(&apos;%Y%m%d&apos;)) # 收件人地址 mail_to = &apos;***&apos; # 测试报告名称 report_file = &apos;NoseTestReport.html&apos; # 运行nosetests进行自动化测试并生成测试报告 print(&apos;Run NoseTests Now...&apos;) os.system(&apos;nosetests -v mail_html.py:Mailsend --with-html --html-file=NoseTestReport.html&apos;) # 发送测试报告邮件 print(&apos;Send Test Report Mail Now...&apos;) send_mail() tips:123python客户端进行163,126邮箱邮件发送前，需要在web版邮箱中设置允许客户端访问，设置客户端授权码设置完授权码之后，此时的客户端登录密码为授权码，不是原来的邮箱密码]]></content>
@@ -140,8 +151,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -152,8 +163,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -199,8 +210,8 @@
         <category>python</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -224,8 +235,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -236,8 +247,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -260,8 +271,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
