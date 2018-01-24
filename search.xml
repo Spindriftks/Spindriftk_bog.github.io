@@ -111,11 +111,12 @@
   <entry>
     <title><![CDATA[app安装卸载]]></title>
     <url>%2F2018%2F01%2F17%2Fapp%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%2F</url>
-    <content type="text"><![CDATA[appium-模拟器安装卸载app 模拟器安装apk1adb install XXX.apk 卸载apk1adb uninstall your_package 例子： 启动android模拟器，参数：12345desired_caps[&apos;platformName&apos;] = &apos;Android&apos;desired_caps[&apos;platformVersion&apos;] = &apos;7.1.1&apos;desired_caps[&apos;deviceName&apos;] = &apos;Android Emulator&apos;desired_caps[&apos;appPackage&apos;] = &apos;com.anmav.cashierdesk&apos;desired_caps[&apos;appActivity&apos;] = &apos;com.anmav.cashierdesk.view.LoginActivity&apos; win10打开控制台，进入apk文件所在目录，执行命令1adb install cashierdesk.apk 在模拟器中可以发现该app已完成安装。 控制台执行命令：1adb remove com.anmav.cashierdesk 模拟器中可以看见该app完成卸载]]></content>
+    <content type="text"><![CDATA[appium-模拟器安装卸载app 模拟器安装apk1adb install XXX.apk 卸载apk1adb uninstall your_package 例子： 启动android模拟器，参数：12345desired_caps[&apos;platformName&apos;] = &apos;Android&apos;desired_caps[&apos;platformVersion&apos;] = &apos;7.1.1&apos;desired_caps[&apos;deviceName&apos;] = &apos;Android Emulator&apos;desired_caps[&apos;appPackage&apos;] = &apos;com.anmav.cashierdesk&apos;desired_caps[&apos;appActivity&apos;] = &apos;com.anmav.cashierdesk.view.LoginActivity&apos; win10打开控制台，进入apk文件所在目录，执行命令1adb install cashierdesk.apk 在模拟器中可以发现该app已完成安装。 控制台执行命令：1adb uninstall com.anmav.cashierdesk 模拟器中可以看见该app完成卸载]]></content>
       <categories>
-        <category>自动化测试</category>
+        <category>appium</category>
       </categories>
       <tags>
+        <tag>自动化测试</tag>
         <tag>appium</tag>
       </tags>
   </entry>
