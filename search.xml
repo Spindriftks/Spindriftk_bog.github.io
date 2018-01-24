@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[测试]]></title>
-    <url>%2F2018%2F01%2F24%2F%E6%B5%8B%E8%AF%95%2F</url>
-    <content type="text"><![CDATA[重新安装hexo centos7重新搭建hexo博客]]></content>
+    <title><![CDATA[VPS重建记]]></title>
+    <url>%2F2018%2F01%2F24%2FVPS%E9%87%8D%E5%BB%BA%E8%AE%B0%2F</url>
+    <content type="text"><![CDATA[VPS重新部署日常环境，及hexo博客快速重建 VPS受灾记大早上来发现stackoverflow首页都打不开，对于天天科学上网的我来说，简直莫名其妙。 本地网络原因本地windows PC机，控制台ping IP：1ping VPS_IP 直接就超时了，匪夷所思。。VPS服务器 ping自己：1ping 127.0.0.1 好歹能通，那就是中间路由断了。 手机下载个网络工具，尝试在手机端ping VPS的IP（排除公司DNS搞的鬼），手机上ping也直接超时了，好吧，可以去检查是不是在某个不知名的时候自己把防火墙开了，还把22等端口关了。。 VPS排查我的VPS是在LA的CENTOS7主机，centos7查看防火墙状态：1firewall-cmd --state 发现是关着的。。。为了排除自己之前装过iptables的服务，查看iptables.service：1systemctl status iptables.service 这个果然是开着的，查看启用的端口：1cat /etc/sysconfig/iptables 该开的端口也都开了，好吧，无语了。 大环境排查基于大家都懂的网络环境，怀疑是IP被墙了，检测：1http://ping.chinaz.com 果然，除了香港和国外，其他都ping不通VPS，好吧，可以下结论了:IP被墙了… 真的很想骂人啊！到底是哪个JR没事瞎玩，搞出个异常流量，害的无辜躺枪！！！hexo还在VPS上，小飞机也在VPS上，没有梯子，科学上网个鬼啊！！！ 骂人几轮，该弄得还是得弄，方案嘛，无非就是换IP，还好Vultr重建台服务还是很方便的。 VPS重建Vultr重买服务器，这次比较幸运，居然有$2.5的，直接买：Vultr官网拿到IP之后，第一件事，肯定是ping IP，还好，可以ping通，就是你了！ VPS简单设置 防火墙设置xshell远程连接上VPS之后，习惯性操作，第一步，更新yum1yum update firewall设置由于centos7默认的防火墙服务时firewalld的，很不习惯，改！ 查看防火墙状态1firewall-cmd --state 关闭防火墙1systemctl stop firewalld.service 禁止开机启动启动防火墙1systemctl disable firewalld.service iptables设置安装iptables服务：1yum install iptables-services 开启iptables防火墙:1systemctl start iptables.service 开启特定端口：编辑文件：/etc/sysconfig/iptables，加入想要开放的端口即可，例如开放8090端口：1-A INPUT -p tcp -m tcp --dport 8090 -j ACCEPT 保存，退出之后，重启防火墙完成设置:1systemctl restart iptables.service ShadowsocksR（小飞机）配置科学上网必不可少的工具，ShadowsocksR 安装：123wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.shchmod +x shadowsocksR.sh./shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log 完成配置：12345服务器端口：自己设定（如不设定，默认为 8989）密码：自己设定（如不设定，默认为 teddysun.com）加密方式：自己设定（如不设定，默认为 aes-256-cfb）协议（Protocol）：自己设定（如不设定，默认为 origin）混淆（obfs）：自己设定（如不设定，默认为 plain） 附上我的配置，仅供参考：123456Your Server IP : ***.***.***.*** Your Server Port : ***** Your Password : ******* Your Protocol : auth_sha1_v4 Your obfs : tls1.2_ticket_auth Your Encryption Method: aes-256-cfb 配置完成之后就可以在本地PC机使用客户端进行梯子配置，完了就可以科学上网啦！！！客户端度娘盘链接 Hexo重建预备动作：原来VPS上面的hexo所在目录，直接打成压缩包scp出来 安装node.js首先安装gcc用于编译：1yum -y install gcc gcc-c++ kernel-devel 开始安装node.js12wget https://nodejs.org/dist/v4.5.0/node-v4.5.0.tar.gztar -xf node-v4.5.0.tar.gz 解压缩之后，进入目录，编译：1234cd node-v4.5.0./configuremakemake install 完成！验证：12node -vnpm 安装完成的是4.5的版本，升级：12npm install -g nn stable 安装git由于买的VPS已经集成了git，所以怎么安装，怎么配置环境变量啥的就不废话了。1、VPS设置git：12git config --global user.email &quot;you@example.com&quot;git config --global user.name &quot;Your Name&quot; 邮箱和用户名都对应于github 2、生成ssh秘钥1ssh-keygen -t rsa -C example@163.com 默认保存路径是/root/.ssh下：1cat /root/.ssh/id_rsa.pub 获取秘钥，然后到github的web页面将秘钥配置进去，完成！ 安装hexo1、安装hexo创建目录1mkdir blog 安装1234cd blognpm install -g hexo-cli#初始化hexo init 2、安装插件12345678910111213npm install hexo-generator-index --savenpm install hexo-generator-archive --savenpm install hexo-generator-category --savenpm install hexo-generator-tag --savenpm install hexo-server --savenpm install hexo-deployer-git --savenpm install hexo-deployer-heroku --savenpm install hexo-deployer-rsync --savenpm install hexo-deployer-openshift --savenpm install hexo-renderer-marked --savenpm install hexo-renderer-stylus --savenpm install hexo-generator-feed --savenpm install hexo-generator-sitemap --save 3、修改Hexo配置文件，完成！ 或者，直接把原来VPS上面hexo的压缩包解压，再配置安装hexo即可1npm install hexo --save 环境测试12hexo new &quot;安装测试&quot;hexo g -d 执行不报错，进入博客可以看见安装测试该文章，部署成功！ 真的是坑啊，又重布环境，国内的网络环境啊，ε=(´ο｀*)))唉~ 参考链接 centos搭建hexo博客]]></content>
       <categories>
-        <category>测试</category>
+        <category>skill</category>
       </categories>
       <tags>
-        <tag>安装hexo</tag>
+        <tag>Hexo</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -151,8 +152,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -163,8 +164,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -210,8 +211,8 @@
         <category>python</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -235,8 +236,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -247,8 +248,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -271,8 +272,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>

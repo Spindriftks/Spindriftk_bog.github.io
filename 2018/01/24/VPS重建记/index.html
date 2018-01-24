@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>VPS重建记 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Hexo,Centos7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPS重建记">
+<meta property="og:url" content="http://tokyle.com/2018/01/24/VPS重建记/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-24T07:08:47.139Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VPS重建记">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-VPS重建记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/01/24/VPS重建记/" class="article-date">
+  <time datetime="2018-01-24T07:07:13.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/skill/">skill</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      VPS重建记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS受灾记"><span class="toc-number">1.</span> <span class="toc-text"><a href="#VPS&#x53D7;&#x707E;&#x8BB0;" class="headerlink" title="VPS&#x53D7;&#x707E;&#x8BB0;"></a>VPS&#x53D7;&#x707E;&#x8BB0;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地网络原因"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;" class="headerlink" title="&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;"></a>&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VPS排查"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#VPS&#x6392;&#x67E5;" class="headerlink" title="VPS&#x6392;&#x67E5;"></a>VPS&#x6392;&#x67E5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大环境排查"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;" class="headerlink" title="&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;"></a>&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS重建"><span class="toc-number">2.</span> <span class="toc-text"><a href="#VPS&#x91CD;&#x5EFA;" class="headerlink" title="VPS&#x91CD;&#x5EFA;"></a>VPS&#x91CD;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#防火墙设置"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;"></a>&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#firewall设置"><span class="toc-number">2.1.1.</span> <span class="toc-text"><a href="#firewall&#x8BBE;&#x7F6E;" class="headerlink" title="firewall&#x8BBE;&#x7F6E;"></a>firewall&#x8BBE;&#x7F6E;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#iptables设置"><span class="toc-number">2.1.2.</span> <span class="toc-text"><a href="#iptables&#x8BBE;&#x7F6E;" class="headerlink" title="iptables&#x8BBE;&#x7F6E;"></a>iptables&#x8BBE;&#x7F6E;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ShadowsocksR（小飞机）配置"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;" class="headerlink" title="ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;"></a>ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hexo重建"><span class="toc-number">3.</span> <span class="toc-text"><a href="#Hexo&#x91CD;&#x5EFA;" class="headerlink" title="Hexo&#x91CD;&#x5EFA;"></a>Hexo&#x91CD;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装node-js"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;node-js" class="headerlink" title="&#x5B89;&#x88C5;node.js"></a>&#x5B89;&#x88C5;node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装git"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;git" class="headerlink" title="&#x5B89;&#x88C5;git"></a>&#x5B89;&#x88C5;git</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装hexo"><span class="toc-number">3.3.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;hexo" class="headerlink" title="&#x5B89;&#x88C5;hexo"></a>&#x5B89;&#x88C5;hexo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境测试"><span class="toc-number">3.4.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x6D4B;&#x8BD5;" class="headerlink" title="&#x73AF;&#x5883;&#x6D4B;&#x8BD5;"></a>&#x73AF;&#x5883;&#x6D4B;&#x8BD5;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x94FE;&#x63A5;" class="headerlink" title="&#x53C2;&#x8003;&#x94FE;&#x63A5;"></a>&#x53C2;&#x8003;&#x94FE;&#x63A5;</span></a></li></ol>
+		
+		</div>
+		
+        <p>VPS重新部署日常环境，及hexo博客快速重建</p>
+<a id="more"></a>
+<h3 id="VPS受灾记"><a href="#VPS受灾记" class="headerlink" title="VPS受灾记"></a>VPS受灾记</h3><p>大早上来发现<code>stackoverflow</code>首页都打不开，对于天天科学上网的我来说，简直莫名其妙。</p>
+<h4 id="本地网络原因"><a href="#本地网络原因" class="headerlink" title="本地网络原因"></a>本地网络原因</h4><p>本地windows PC机，控制台ping IP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping VPS_IP</span><br></pre></td></tr></table></figure></p>
+<p>直接就超时了，匪夷所思。。VPS服务器 ping自己：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 127.0.0.1</span><br></pre></td></tr></table></figure></p>
+<p>好歹能通，那就是中间路由断了。</p>
+<p>手机下载个网络工具，尝试在手机端ping VPS的IP（排除公司DNS搞的鬼），手机上ping也直接超时了，好吧，可以去检查是不是在某个不知名的时候自己把防火墙开了，还把22等端口关了。。</p>
+<h4 id="VPS排查"><a href="#VPS排查" class="headerlink" title="VPS排查"></a>VPS排查</h4><p>我的VPS是在LA的<code>CENTOS7</code>主机，centos7查看防火墙状态：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd    --state</span><br></pre></td></tr></table></figure></p>
+<p>发现是关着的。。。为了排除自己之前装过<code>iptables</code>的服务，查看<code>iptables.service</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status iptables.service</span><br></pre></td></tr></table></figure></p>
+<p>这个果然是开着的，查看启用的端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure></p>
+<p>该开的端口也都开了，好吧，无语了。</p>
+<h4 id="大环境排查"><a href="#大环境排查" class="headerlink" title="大环境排查"></a>大环境排查</h4><p>基于大家都懂的网络环境，怀疑是IP被墙了，检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ping.chinaz.com</span><br></pre></td></tr></table></figure></p>
+<p>果然，除了香港和国外，其他都ping不通VPS，好吧，可以下结论了:IP被墙了…</p>
+<p>真的很想骂人啊！到底是哪个JR没事瞎玩，搞出个异常流量，害的无辜躺枪！！！<br>hexo还在VPS上，小飞机也在VPS上，没有梯子，科学上网个鬼啊！！！</p>
+<p>骂人几轮，该弄得还是得弄，方案嘛，无非就是换IP，还好<code>Vultr</code>重建台服务还是很方便的。</p>
+<h3 id="VPS重建"><a href="#VPS重建" class="headerlink" title="VPS重建"></a>VPS重建</h3><p><code>Vultr</code>重买服务器，这次比较幸运，居然有$2.5的，直接买：<br><a href="https://www.vultr.com/" target="_blank" rel="noopener">Vultr官网</a><br>拿到IP之后，第一件事，肯定是ping IP，还好，可以ping通，就是你了！</p>
+<p>VPS简单设置</p>
+<h4 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h4><p><code>xshell</code>远程连接上VPS之后，习惯性操作，第一步，更新<code>yum</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure></p>
+<h5 id="firewall设置"><a href="#firewall设置" class="headerlink" title="firewall设置"></a>firewall设置</h5><p>由于centos7默认的防火墙服务时<code>firewalld</code>的，很不习惯，改！</p>
+<p>查看防火墙状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd    --state</span><br></pre></td></tr></table></figure></p>
+<p>关闭防火墙<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl  stop   firewalld.service</span><br></pre></td></tr></table></figure></p>
+<p>禁止开机启动启动防火墙<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl   disable   firewalld.service</span><br></pre></td></tr></table></figure></p>
+<h5 id="iptables设置"><a href="#iptables设置" class="headerlink" title="iptables设置"></a>iptables设置</h5><p>安装iptables服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install  iptables-services</span><br></pre></td></tr></table></figure></p>
+<p>开启iptables防火墙:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl  start  iptables.service</span><br></pre></td></tr></table></figure></p>
+<p>开启特定端口：<br>编辑文件：/etc/sysconfig/iptables，加入想要开放的端口即可，例如开放8090端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -p tcp -m tcp --dport 8090 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>保存，退出之后，重启防火墙完成设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl  restart  iptables.service</span><br></pre></td></tr></table></figure></p>
+<h4 id="ShadowsocksR（小飞机）配置"><a href="#ShadowsocksR（小飞机）配置" class="headerlink" title="ShadowsocksR（小飞机）配置"></a>ShadowsocksR（小飞机）配置</h4><p>科学上网必不可少的工具，<code>ShadowsocksR</code></p>
+<p>安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh</span><br><span class="line">chmod +x shadowsocksR.sh</span><br><span class="line">./shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log</span><br></pre></td></tr></table></figure></p>
+<p>完成配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">服务器端口：自己设定（如不设定，默认为 8989）</span><br><span class="line">密码：自己设定（如不设定，默认为 teddysun.com）</span><br><span class="line">加密方式：自己设定（如不设定，默认为 aes-256-cfb）</span><br><span class="line">协议（Protocol）：自己设定（如不设定，默认为 origin）</span><br><span class="line">混淆（obfs）：自己设定（如不设定，默认为 plain）</span><br></pre></td></tr></table></figure></p>
+<p>附上我的配置，仅供参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Your Server IP        :  ***.***.***.*** </span><br><span class="line">Your Server Port      :  ***** </span><br><span class="line">Your Password         :  ******* </span><br><span class="line">Your Protocol         :  auth_sha1_v4 </span><br><span class="line">Your obfs             :  tls1.2_ticket_auth </span><br><span class="line">Your Encryption Method:  aes-256-cfb</span><br></pre></td></tr></table></figure></p>
+<p>配置完成之后就可以在本地PC机使用客户端进行梯子配置，完了就可以科学上网啦！！！<br><a href="https://pan.baidu.com/s/1dMkFYe" target="_blank" rel="noopener">客户端度娘盘链接</a></p>
+<h3 id="Hexo重建"><a href="#Hexo重建" class="headerlink" title="Hexo重建"></a>Hexo重建</h3><p>预备动作：<strong>原来VPS上面的hexo所在目录，直接打成压缩包scp出来</strong></p>
+<h4 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h4><p>首先安装gcc用于编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc gcc-c++ kernel-devel</span><br></pre></td></tr></table></figure></p>
+<p>开始安装node.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://nodejs.org/dist/v4.5.0/node-v4.5.0.tar.gz</span><br><span class="line">tar -xf node-v4.5.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>解压缩之后，进入目录，编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd node-v4.5.0</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>完成！<br>验证：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm</span><br></pre></td></tr></table></figure></p>
+<p>安装完成的是4.5的版本，升级：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g n</span><br><span class="line">n stable</span><br></pre></td></tr></table></figure></p>
+<h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><p>由于买的VPS已经集成了git，所以怎么安装，怎么配置环境变量啥的就不废话了。<br>1、VPS设置git：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure></p>
+<p>邮箱和用户名都对应于github</p>
+<p>2、生成ssh秘钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C example@163.com</span><br></pre></td></tr></table></figure></p>
+<p>默认保存路径是/root/.ssh下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure></p>
+<p>获取秘钥，然后到<code>github</code>的web页面将秘钥配置进去，完成！</p>
+<h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h4><p>1、安装hexo<br>创建目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir blog</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd blog</span><br><span class="line">npm install -g hexo-cli</span><br><span class="line">#初始化</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure></p>
+<p>2、安装插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br><span class="line">npm install hexo-deployer-rsync --save</span><br><span class="line">npm install hexo-deployer-openshift --save</span><br><span class="line">npm install hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-stylus --save</span><br><span class="line">npm install hexo-generator-feed --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure></p>
+<p>3、修改Hexo配置文件，完成！</p>
+<p>或者，直接把原来VPS上面hexo的压缩包解压，再配置安装hexo即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure></p>
+<h4 id="环境测试"><a href="#环境测试" class="headerlink" title="环境测试"></a>环境测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;安装测试&quot;</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+<p>执行不报错，进入博客可以看见<code>安装测试</code>该文章，部署成功！</p>
+<p>真的是坑啊，又重布环境，国内的网络环境啊，ε=(´ο｀*)))唉~</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><blockquote>
+<p><a href="https://www.jianshu.com/p/0823e387c019" target="_blank" rel="noopener">centos搭建hexo博客</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-01-24T07:08:47.139Z" itemprop="dateModified">2018-01-24</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/23/python实现自动化测试报告邮件实时发送/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">python实现自动化测试报告邮件实时发送</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS受灾记"><span class="toc-number">1.</span> <span class="toc-text"><a href="#VPS&#x53D7;&#x707E;&#x8BB0;" class="headerlink" title="VPS&#x53D7;&#x707E;&#x8BB0;"></a>VPS&#x53D7;&#x707E;&#x8BB0;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地网络原因"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;" class="headerlink" title="&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;"></a>&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x539F;&#x56E0;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VPS排查"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#VPS&#x6392;&#x67E5;" class="headerlink" title="VPS&#x6392;&#x67E5;"></a>VPS&#x6392;&#x67E5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大环境排查"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;" class="headerlink" title="&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;"></a>&#x5927;&#x73AF;&#x5883;&#x6392;&#x67E5;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS重建"><span class="toc-number">2.</span> <span class="toc-text"><a href="#VPS&#x91CD;&#x5EFA;" class="headerlink" title="VPS&#x91CD;&#x5EFA;"></a>VPS&#x91CD;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#防火墙设置"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;"></a>&#x9632;&#x706B;&#x5899;&#x8BBE;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#firewall设置"><span class="toc-number">2.1.1.</span> <span class="toc-text"><a href="#firewall&#x8BBE;&#x7F6E;" class="headerlink" title="firewall&#x8BBE;&#x7F6E;"></a>firewall&#x8BBE;&#x7F6E;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#iptables设置"><span class="toc-number">2.1.2.</span> <span class="toc-text"><a href="#iptables&#x8BBE;&#x7F6E;" class="headerlink" title="iptables&#x8BBE;&#x7F6E;"></a>iptables&#x8BBE;&#x7F6E;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ShadowsocksR（小飞机）配置"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;" class="headerlink" title="ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;"></a>ShadowsocksR&#xFF08;&#x5C0F;&#x98DE;&#x673A;&#xFF09;&#x914D;&#x7F6E;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hexo重建"><span class="toc-number">3.</span> <span class="toc-text"><a href="#Hexo&#x91CD;&#x5EFA;" class="headerlink" title="Hexo&#x91CD;&#x5EFA;"></a>Hexo&#x91CD;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装node-js"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;node-js" class="headerlink" title="&#x5B89;&#x88C5;node.js"></a>&#x5B89;&#x88C5;node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装git"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;git" class="headerlink" title="&#x5B89;&#x88C5;git"></a>&#x5B89;&#x88C5;git</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装hexo"><span class="toc-number">3.3.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;hexo" class="headerlink" title="&#x5B89;&#x88C5;hexo"></a>&#x5B89;&#x88C5;hexo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境测试"><span class="toc-number">3.4.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x6D4B;&#x8BD5;" class="headerlink" title="&#x73AF;&#x5883;&#x6D4B;&#x8BD5;"></a>&#x73AF;&#x5883;&#x6D4B;&#x8BD5;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x94FE;&#x63A5;" class="headerlink" title="&#x53C2;&#x8003;&#x94FE;&#x63A5;"></a>&#x53C2;&#x8003;&#x94FE;&#x63A5;</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 14.4px; color: #6ac0b2">Django</a> <a href="/tags/Hexo/" style="font-size: 14.4px; color: #6ac0b2">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.8px; color: #57bd85">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/lives/" style="font-size: 13px; color: #7dc3de">lives</a> <a href="/tags/matplotlib/" style="font-size: 14.4px; color: #6ac0b2">matplotlib</a> <a href="/tags/nose/" style="font-size: 14.4px; color: #6ac0b2">nose</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 14.4px; color: #6ac0b2">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 18.6px; color: #30b72c">selenium</a> <a href="/tags/smtplib/" style="font-size: 14.4px; color: #6ac0b2">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/单元测试/" style="font-size: 14.4px; color: #6ac0b2">单元测试</a> <a href="/tags/性能/" style="font-size: 14.4px; color: #6ac0b2">性能</a> <a href="/tags/自动化测试/" style="font-size: 17.2px; color: #43ba59">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/24/VPS重建记/">VPS重建记</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/23/python实现自动化测试报告邮件实时发送/">python实现自动化测试报告邮件实时发送</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/20/python数据分离/">python数据分离</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/20/自娱自乐一/">自娱自乐一</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/19/appium应用简介/">appium应用简介</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pictures</a></li>
+    
+    <li><a href="http://wentuotuo.com/" target="_BLANK">(¬､¬)稳妥妥(￢_￢)</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
