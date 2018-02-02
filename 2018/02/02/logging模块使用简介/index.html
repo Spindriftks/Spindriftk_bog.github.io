@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>logging模块使用简介 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="selenium,python3,logging">
+<meta property="og:type" content="article">
+<meta property="og:title" content="logging模块使用简介">
+<meta property="og:url" content="http://tokyle.com/2018/02/02/logging模块使用简介/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-02T09:20:12.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="logging模块使用简介">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-logging模块使用简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/02/02/logging模块使用简介/" class="article-date">
+  <time datetime="2018-02-02T09:17:58.000Z" itemprop="datePublished">2018-02-02</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python黑科技/">python黑科技</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      logging模块使用简介
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#日志打印"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x65E5;&#x5FD7;&#x6253;&#x5370;" class="headerlink" title="&#x65E5;&#x5FD7;&#x6253;&#x5370;"></a>&#x65E5;&#x5FD7;&#x6253;&#x5370;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单应用"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x7B80;&#x5355;&#x5E94;&#x7528;" class="headerlink" title="&#x7B80;&#x5355;&#x5E94;&#x7528;"></a>&#x7B80;&#x5355;&#x5E94;&#x7528;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块介绍"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x6A21;&#x5757;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x6A21;&#x5757;&#x4ECB;&#x7ECD;"></a>&#x6A21;&#x5757;&#x4ECB;&#x7ECD;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Handler"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-logging-StreamHandler"><span class="toc-number">3.2.1.</span> <span class="toc-text"><a href="#1-logging-StreamHandler" class="headerlink" title="1) logging.StreamHandler"></a>1) logging.StreamHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-logging-FileHandler"><span class="toc-number">3.2.2.</span> <span class="toc-text"><a href="#2-logging-FileHandler" class="headerlink" title="2) logging.FileHandler"></a>2) logging.FileHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-logging-handlers-RotatingFileHandler"><span class="toc-number">3.2.3.</span> <span class="toc-text"><a href="#3-logging-handlers-RotatingFileHandler" class="headerlink" title="3) logging.handlers.RotatingFileHandler"></a>3) logging.handlers.RotatingFileHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-logging-handlers-TimedRotatingFileHandler"><span class="toc-number">3.2.4.</span> <span class="toc-text"><a href="#4-logging-handlers-TimedRotatingFileHandler" class="headerlink" title="4) logging.handlers.TimedRotatingFileHandler"></a>4) logging.handlers.TimedRotatingFileHandler</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x5B9E;&#x4F8B;" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#同时输出日志到控制台和文件"><span class="toc-number">4.1.</span> <span class="toc-text"><a href="#&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;" class="headerlink" title="&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;"></a>&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>&#x914D;&#x7F6E;&#x6587;&#x4EF6;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger-conf"><span class="toc-number">5.1.</span> <span class="toc-text"><a href="#Logger-conf" class="headerlink" title="Logger.conf"></a>Logger.conf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装方法"><span class="toc-number">5.2.</span> <span class="toc-text"><a href="#&#x5C01;&#x88C5;&#x65B9;&#x6CD5;" class="headerlink" title="&#x5C01;&#x88C5;&#x65B9;&#x6CD5;"></a>&#x5C01;&#x88C5;&#x65B9;&#x6CD5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用"><span class="toc-number">5.3.</span> <span class="toc-text"><a href="#&#x5E94;&#x7528;" class="headerlink" title="&#x5E94;&#x7528;"></a>&#x5E94;&#x7528;</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>python3日志模块，logging使用简介</p>
+<a id="more"></a>
+<h3 id="日志打印"><a href="#日志打印" class="headerlink" title="日志打印"></a>日志打印</h3><p>python3使用<code>logging</code>进行日志打印，很简单，直接引<code>logging</code>包即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import logging</span><br><span class="line"></span><br><span class="line">logging.warning(&quot;This is warning message&quot;)</span><br><span class="line">logging.critical(&quot;This is critical message&quot;)</span><br><span class="line">logging.error(&quot;This is error message&quot;)</span><br><span class="line"># 打印结果</span><br><span class="line">WARNING:root:This is warning message</span><br><span class="line">CRITICAL:root:This is critical message</span><br><span class="line">ERROR:root:This is error message</span><br></pre></td></tr></table></figure></p>
+<p>默认情况下只显示了大于等于WARNING级别的日志。<br><strong>日志级别</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">critical(50) &gt; error(40) &gt; warning(30) &gt; info(20) &gt; debug(10)</span><br></pre></td></tr></table></figure></p>
+<h3 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h3><p>通过<code>logging.basicConfig</code>函数对日志的输出格式及方式做相关配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(</span><br><span class="line">    filename=&apos;test.log&apos;,</span><br><span class="line">    format=&apos;%(asctime)s - %(name)s - %(levelname)s - %(module)s: %(message)s&apos;,</span><br><span class="line">    datefmt=&apos;%Y-%m-%d %H-%M-%S&apos;,</span><br><span class="line">    level=logging.DEBUG,</span><br><span class="line">    #level=10</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">logging.critical(&quot;This ia critical message&quot;)</span><br><span class="line">logging.error(&quot;This is error message&quot;)</span><br><span class="line">logging.warning(&quot;This is warning message&quot;)</span><br><span class="line">logging.info(&quot;This is info message&quot;)</span><br><span class="line">logging.debug(&quot;This is debug message&quot;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>logging.basicConfig</strong>函数各参数</p>
+<p>1.filename：指定日志文件名<br>2.filemode：和file函数意义相同，指定日志文件的打开模式，’w’或’a’；默认为’a’表示“append”。<br>3.format：指定输出的格式和内容，format可以输出很多有用信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">format参数中可能用到的格式化串：</span><br><span class="line">%(name)s Logger的名字</span><br><span class="line">%(levelno)s 数字形式的日志级别</span><br><span class="line">%(levelname)s 文本形式的日志级别</span><br><span class="line">%(pathname)s 调用日志输出函数的模块的完整路径名，可能没有</span><br><span class="line">%(filename)s 调用日志输出函数的模块的文件名</span><br><span class="line">%(module)s 调用日志输出函数的模块名</span><br><span class="line">%(funcName)s 调用日志输出函数的函数名</span><br><span class="line">%(lineno)d 调用日志输出函数的语句所在的代码行</span><br><span class="line">%(created)f 当前时间，用UNIX标准的表示时间的浮 点数表示</span><br><span class="line">%(relativeCreated)d 输出日志信息时的，自Logger创建以 来的毫秒数</span><br><span class="line">%(asctime)s 字符串形式的当前时间。默认格式是 “2003-07-08 16:49:45,896”。逗号后面的是毫秒</span><br><span class="line">%(thread)d 线程ID。可能没有</span><br><span class="line">%(threadName)s 线程名。可能没有</span><br><span class="line">%(process)d 进程ID。可能没有</span><br><span class="line">%(message)s用户输出的消息</span><br></pre></td></tr></table></figure>
+<p>4.datefmt：指定时间格式，同time.strftime()<br>5.level：设置日志级别，默认为logging.WARNING<br>6.stream：指定将日志的输出流，可以指定输出到<code>sys.stderr</code>，<code>sys.stdout</code>或者文件，默认输出到sys.stderr，当stream和filename同时指定时，stream被忽略</p>
+<h3 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h3><p>若要对logging进行更多灵活的控制，必须了解Logger，Handler，Formatter，Filter的概念：<br>logger提供了应用程序可以直接使用的接口；<br>handle将（logger创建的）日志记录发送到合适的目的输出；<br>filter提供了细度设备来决定输出哪条日志记录；<br>formatter决定日志记录的最终输出格式；</p>
+<h4 id="Logger"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</h4><p>每个程序在输出信息之前都要获得一个Logger。Logger通常对应了程序的模块名，比如聊天工具的图形界面模块可以这样获得它的Logger：<br>LOG=logging.getLogger(”chat.gui”)<br>而核心模块可以这样：<br>LOG=logging.getLogger(”chat.kernel”)</p>
+<p>Logger.setLevel(lel):指定最低的日志级别，低于lel的级别将被忽略。debug是最低的内置级别，critical为最高<br>Logger.addFilter(filt)、Logger.removeFilter(filt):添加或删除指定的filter<br>Logger.addHandler(hdlr)、Logger.removeHandler(hdlr)：增加或删除指定的handler<br>Logger.debug()、Logger.info()、Logger.warning()、Logger.error()、Logger.critical()：可以设置的日志级别</p>
+<h4 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h4><p>handler对象负责发送相关的信息到指定目的地。Python的日志系统有多种Handler可以使用。有些Handler可以把信息输出到控制台，有些Logger可以把信息输出到文件，还有些Handler可以把信息发送到网络上。如果觉得不够用，还可以编写自己的Handler。可以通过addHandler()方法添加多个多handler<br>Handler.setLevel(lel):指定被处理的信息级别，低于lel级别的信息将被忽略<br>Handler.setFormatter()：给这个handler选择一个格式<br>Handler.addFilter(filt)、Handler.removeFilter(filt)：新增或删除一个filter对象</p>
+<p>每个Logger可以附加多个Handler。接下来我们就来介绍一些常用的Handler：</p>
+<h5 id="1-logging-StreamHandler"><a href="#1-logging-StreamHandler" class="headerlink" title="1) logging.StreamHandler"></a>1) logging.StreamHandler</h5><p>使用这个Handler可以向类似与sys.stdout或者sys.stderr的任何文件对象(file object)输出信息。它的构造函数是:StreamHandler([strm])<br>其中strm参数是一个文件对象。默认是sys.stderr</p>
+<h5 id="2-logging-FileHandler"><a href="#2-logging-FileHandler" class="headerlink" title="2) logging.FileHandler"></a>2) logging.FileHandler</h5><p>和StreamHandler类似，用于向一个文件输出日志信息。不过FileHandler会帮你打开这个文件。它的构造函数是：FileHandler(filename[,mode])<br>filename是文件名，必须指定一个文件名。<br>mode是文件的打开方式。参见Python内置函数open()的用法。默认是’a’，即添加到文件末尾。</p>
+<h5 id="3-logging-handlers-RotatingFileHandler"><a href="#3-logging-handlers-RotatingFileHandler" class="headerlink" title="3) logging.handlers.RotatingFileHandler"></a>3) logging.handlers.RotatingFileHandler</h5><p>这个Handler类似于上面的FileHandler，但是它可以管理文件大小。当文件达到一定大小之后，它会自动将当前日志文件改名，然后创建 一个新的同名日志文件继续输出。比如日志文件是chat.log。当chat.log达到指定的大小之后，RotatingFileHandler自动把文件改名为chat.log.1。不过，如果chat.log.1已经存在，会先把chat.log.1重命名为chat.log.2。。。最后重新创建 chat.log，继续输出日志信息。它的构造函数是：<br>RotatingFileHandler( filename[, mode[, maxBytes[, backupCount]]])<br>其中filename和mode两个参数和FileHandler一样。<br>maxBytes用于指定日志文件的最大文件大小。如果maxBytes为0，意味着日志文件可以无限大，这时上面描述的重命名过程就不会发生。<br>backupCount用于指定保留的备份文件的个数。比如，如果指定为2，当上面描述的重命名过程发生时，原有的chat.log.2并不会被更名，而是被删除。</p>
+<h5 id="4-logging-handlers-TimedRotatingFileHandler"><a href="#4-logging-handlers-TimedRotatingFileHandler" class="headerlink" title="4) logging.handlers.TimedRotatingFileHandler"></a>4) logging.handlers.TimedRotatingFileHandler</h5><p>这个Handler和RotatingFileHandler类似，不过，它没有通过判断文件大小来决定何时重新创建日志文件，而是间隔一定时间就 自动创建新的日志文件。重命名的过程与RotatingFileHandler类似，不过新的文件不是附加数字，而是当前时间。它的构造函数是：<br>TimedRotatingFileHandler( filename [,when [,interval [,backupCount]]])<br>其中filename参数和backupCount参数和RotatingFileHandler具有相同的意义。<br>interval是时间间隔。<br>when参数是一个字符串。表示时间间隔的单位，不区分大小写。它有以下取值：<br>S 秒<br>M 分<br>H 小时<br>D 天<br>W 每星期（interval==0时代表星期一）<br>midnight 每天凌晨</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>日志的一般操作顺序为：<br>1.创建一个流类型handler用于输出日志到控制台(控制器)<br>2.定义输出日志级别<br>3.定义handler的输出格式formatter<br>4.将handler添加到logging对象</p>
+<h4 id="同时输出日志到控制台和文件"><a href="#同时输出日志到控制台和文件" class="headerlink" title="同时输出日志到控制台和文件"></a>同时输出日志到控制台和文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(</span><br><span class="line">    filename=&apos;test.log&apos;,</span><br><span class="line">    format=&apos;%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s&apos;,</span><br><span class="line">    datefmt=&apos;%Y-%m-%d %H-%M-%S&apos;,</span><br><span class="line">    level=10</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 定义一个StreamHandler(日志流处理器)，将INFO级别或更高的日志信息打印到标准错误，并将其添加到当前的日志处理对象</span><br><span class="line">console = logging.StreamHandler()</span><br><span class="line">console.setLevel(logging.INFO)</span><br><span class="line"># 格式化，设置控制台的日志输出格式</span><br><span class="line">formatter = logging.Formatter(&apos;%(name)-12s: %(levelname)-8s %(message)s&apos;)</span><br><span class="line"># 定义控制器的日志输出格式</span><br><span class="line">console.setFormatter(formatter)</span><br><span class="line"># 将控制器添加到logging对象</span><br><span class="line">logging.getLogger(&apos;&apos;).addHandler(console)</span><br><span class="line"></span><br><span class="line">logging.critical(&quot;This is critical message&quot;)</span><br><span class="line">logging.error(&quot;This is error message&quot;)</span><br><span class="line">logging.warning(&quot;This is warning message&quot;)</span><br><span class="line">logging.info(&quot;This is info message&quot;)</span><br><span class="line">logging.debug(&quot;This is debug message&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>用法类似于java中的log4j的logging.config，我们也可以自己配置<code>logger.conf</code>文件：</p>
+<h4 id="Logger-conf"><a href="#Logger-conf" class="headerlink" title="Logger.conf"></a>Logger.conf</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">###############################################</span><br><span class="line">[loggers]</span><br><span class="line">keys=root,example01,example02</span><br><span class="line"></span><br><span class="line">[logger_root]</span><br><span class="line">level=DEBUG</span><br><span class="line">handlers=hand01</span><br><span class="line"></span><br><span class="line">[logger_example01]</span><br><span class="line">handlers=hand01</span><br><span class="line">qualname=example01</span><br><span class="line">propagate=0</span><br><span class="line"></span><br><span class="line">[logger_example02]</span><br><span class="line">handlers=hand02</span><br><span class="line">qualname=example02</span><br><span class="line">propagate=0</span><br><span class="line"></span><br><span class="line">###############################################</span><br><span class="line">[handlers]</span><br><span class="line">keys=hand01,hand02</span><br><span class="line"></span><br><span class="line">[handler_hand01]</span><br><span class="line">class=FileHandler</span><br><span class="line">level=DEBUG</span><br><span class="line">formatter=form01</span><br><span class="line">args=(&apos;D:/bug_things/selenium/logs/AutoTest.log&apos;, &apos;a&apos;, &apos;utf-8&apos;)</span><br><span class="line"></span><br><span class="line">[handler_hand02]</span><br><span class="line">class=handlers.RotatingFileHandler</span><br><span class="line">level=INFO</span><br><span class="line">formatter=form02</span><br><span class="line">args=(&apos;D:/bug_things/selenium/logs/AutoTest.log&apos;, &apos;a&apos;, 10*1024*1024, 5, &apos;utf-8&apos;)</span><br><span class="line"></span><br><span class="line">###############################################</span><br><span class="line">[formatters]</span><br><span class="line">keys=form01,form02</span><br><span class="line"></span><br><span class="line">[formatter_form01]</span><br><span class="line">format=%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s</span><br><span class="line">datefmt=%a, %d %b %Y %H:%M:%S</span><br><span class="line"></span><br><span class="line">[formatter_form02]</span><br><span class="line">format=%(name)-12s: %(levelname)-8s %(message)</span><br><span class="line">datefmt=%a, %d %b %Y %H:%M:%S</span><br></pre></td></tr></table></figure>
+<h4 id="封装方法"><a href="#封装方法" class="headerlink" title="封装方法"></a>封装方法</h4><p>将配置文件中定义的日志打印的配置进行封装，生成<code>debug</code>，<code>info</code>，<code>message</code>方法：<br>Log.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import logging.config</span><br><span class="line"></span><br><span class="line">logging.config.fileConfig(&quot;Logger.conf&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def debug(message):</span><br><span class="line">    # 打印debug级别的日志方法</span><br><span class="line">    logging.debug(message)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def warning(message):</span><br><span class="line">    # 打印warning级别的日志方法</span><br><span class="line">    logging.warning(message)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def info(message):</span><br><span class="line">    # 打印info级别的日志方法</span><br><span class="line">    logging.info(message)</span><br></pre></td></tr></table></figure></p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>以百度搜索为例:<br>BaiDu.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from selenium import webdriver</span><br><span class="line">from Log import *</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class TestBaiDuSearch():</span><br><span class="line">    def __init__(self):</span><br><span class="line">        # 启动浏览器</span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line"></span><br><span class="line">    def test_baidu_search(self):</span><br><span class="line">        info(u&quot;===================搜索====================&quot;)</span><br><span class="line">        url = &quot;https://www.baidu.com&quot;</span><br><span class="line">        self.browser.get(url)</span><br><span class="line">        info(u&quot;访问百度首页&quot;)</span><br><span class="line">        self.browser.find_element_by_id(&apos;kw&apos;).send_keys(u&quot;自动化测试&quot;)</span><br><span class="line">        info(u&quot;在输入框中搜索关键字“自动化测试”&quot;)</span><br><span class="line">        self.browser.find_element_by_id(&apos;su&apos;).click()</span><br><span class="line">        info(u&quot;单击搜索按键&quot;)</span><br><span class="line">        info(u&quot;=================测试执行结束================&quot;)</span><br><span class="line"></span><br><span class="line">        time.sleep(3)</span><br><span class="line">        self.browser.quit()</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    testbaidu = TestBaiDuSearch()</span><br><span class="line">    testbaidu.test_baidu_search()</span><br></pre></td></tr></table></figure></p>
+<p>执行BaiDu.py文件，在<code>D:/bug_things/selenium/logs</code>目录下会生成<code>AutoTest.log</code>日志文件，文件内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Fri, 02 Feb 2018 17:10:52 Log.py[line:20] INFO ===================搜索====================</span><br><span class="line">Fri, 02 Feb 2018 17:10:53 Log.py[line:20] INFO 访问百度首页</span><br><span class="line">Fri, 02 Feb 2018 17:10:53 Log.py[line:20] INFO 在输入框中搜索关键字“自动化测试”</span><br><span class="line">Fri, 02 Feb 2018 17:10:53 Log.py[line:20] INFO 单击搜索按键</span><br><span class="line">Fri, 02 Feb 2018 17:10:53 Log.py[line:20] INFO =================测试执行结束================</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="http://blog.csdn.net/a953713428/article/details/78648298" target="_blank" rel="noopener">参考文章</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logging/">logging</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium/">selenium</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-02-02T09:20:12.846Z" itemprop="dateModified">2018-02-02</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/02/字符编码简单总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">字符编码简单总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#日志打印"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x65E5;&#x5FD7;&#x6253;&#x5370;" class="headerlink" title="&#x65E5;&#x5FD7;&#x6253;&#x5370;"></a>&#x65E5;&#x5FD7;&#x6253;&#x5370;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单应用"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x7B80;&#x5355;&#x5E94;&#x7528;" class="headerlink" title="&#x7B80;&#x5355;&#x5E94;&#x7528;"></a>&#x7B80;&#x5355;&#x5E94;&#x7528;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块介绍"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x6A21;&#x5757;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x6A21;&#x5757;&#x4ECB;&#x7ECD;"></a>&#x6A21;&#x5757;&#x4ECB;&#x7ECD;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Handler"><span class="toc-number">3.2.</span> <span class="toc-text"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-logging-StreamHandler"><span class="toc-number">3.2.1.</span> <span class="toc-text"><a href="#1-logging-StreamHandler" class="headerlink" title="1) logging.StreamHandler"></a>1) logging.StreamHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-logging-FileHandler"><span class="toc-number">3.2.2.</span> <span class="toc-text"><a href="#2-logging-FileHandler" class="headerlink" title="2) logging.FileHandler"></a>2) logging.FileHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-logging-handlers-RotatingFileHandler"><span class="toc-number">3.2.3.</span> <span class="toc-text"><a href="#3-logging-handlers-RotatingFileHandler" class="headerlink" title="3) logging.handlers.RotatingFileHandler"></a>3) logging.handlers.RotatingFileHandler</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-logging-handlers-TimedRotatingFileHandler"><span class="toc-number">3.2.4.</span> <span class="toc-text"><a href="#4-logging-handlers-TimedRotatingFileHandler" class="headerlink" title="4) logging.handlers.TimedRotatingFileHandler"></a>4) logging.handlers.TimedRotatingFileHandler</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x5B9E;&#x4F8B;" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#同时输出日志到控制台和文件"><span class="toc-number">4.1.</span> <span class="toc-text"><a href="#&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;" class="headerlink" title="&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;"></a>&#x540C;&#x65F6;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x548C;&#x6587;&#x4EF6;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>&#x914D;&#x7F6E;&#x6587;&#x4EF6;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger-conf"><span class="toc-number">5.1.</span> <span class="toc-text"><a href="#Logger-conf" class="headerlink" title="Logger.conf"></a>Logger.conf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装方法"><span class="toc-number">5.2.</span> <span class="toc-text"><a href="#&#x5C01;&#x88C5;&#x65B9;&#x6CD5;" class="headerlink" title="&#x5C01;&#x88C5;&#x65B9;&#x6CD5;"></a>&#x5C01;&#x88C5;&#x65B9;&#x6CD5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用"><span class="toc-number">5.3.</span> <span class="toc-text"><a href="#&#x5E94;&#x7528;" class="headerlink" title="&#x5E94;&#x7528;"></a>&#x5E94;&#x7528;</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 14.4px; color: #6ac0b2">Django</a> <a href="/tags/Hexo/" style="font-size: 14.4px; color: #6ac0b2">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.8px; color: #57bd85">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/lives/" style="font-size: 13px; color: #7dc3de">lives</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 14.4px; color: #6ac0b2">matplotlib</a> <a href="/tags/nose/" style="font-size: 14.4px; color: #6ac0b2">nose</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 17.2px; color: #43ba59">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 18.6px; color: #30b72c">selenium</a> <a href="/tags/smtplib/" style="font-size: 14.4px; color: #6ac0b2">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/单元测试/" style="font-size: 14.4px; color: #6ac0b2">单元测试</a> <a href="/tags/性能/" style="font-size: 14.4px; color: #6ac0b2">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 18.6px; color: #30b72c">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/02/logging模块使用简介/">logging模块使用简介</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/字符编码简单总结/">字符编码简单总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/实现断言失败截图/">实现断言失败截图</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/01/实现自动化测试数据分离/">实现自动化测试数据分离</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/31/【转】python元类介绍/">【转】python元类介绍</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pictures</a></li>
+    
+    <li><a href="http://wentuotuo.com/" target="_BLANK">(¬､¬)稳妥妥(￢_￢)</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
