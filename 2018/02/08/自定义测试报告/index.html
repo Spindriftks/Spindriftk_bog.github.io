@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-08T10:01:56.917Z">
+<meta property="og:updated_time" content="2018-02-09T00:54:08.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义测试报告">
 <meta name="twitter:description" content="素履以往">
@@ -125,7 +125,7 @@
 <blockquote>
 <p><a href="http://tokyle.com/2018/02/01/%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%88%86%E7%A6%BB/">邮件模块</a><br><a href="http://tokyle.com/2018/02/02/logging%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8%E7%AE%80%E4%BB%8B/">日志配置</a></p>
 </blockquote>
-<p>其中日志模块增加了对error级别的日志的配置，很简单，和info级别类似，就不多说了。</p>
+<p>其中日志模块增加了对error级别的日志的配置，很简单，和info级别类似，就不多说了。<br>最终实现效果，测试过程中在控制台以及<code>D:/bug_things/selenium/logs/info/AutoDDT.log</code>中实时写入<strong>info</strong>以及<strong>error</strong>的日志，当出现堆栈错误，写入<code>D:/bug_things/selenium/logs/errors/DdtTest.log</code>文件中，两个日志文件的写入方式都是<code>append</code>，测试完成之后邮件发送包含html附件的测试报告到指定邮箱；同时邮件正文中展示包含测试结果的表格，出现<code>fail</code>状态，可直接前往<code>D:/bug_things/selenium/logs/errors/DdtTest.log</code>日志中查看具体出错，以及具体出错行。<br>需要改进的是，<code>D:/bug_things/selenium/logs/errors/DdtTest.log</code>文件没有明显对各个用例的区分，甚至没有空格行来让显示更明确，还是需要自己去搜索。</p>
 <h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>现在终于是完成了自动化测试的基本模块，日志和测试报告真的是折腾了…后期自己前端知识丰富之后，还需要优化测试报告。接下来，除了完成从excel和数据库中读取测试数据之外，就真的开始搭建自己的框架了（这几天这牛角尖钻的，解决之后还是挺舒服的~）</p>
 
       
@@ -141,7 +141,7 @@
 
 	  
 <span>
-Updated:<time datetime="2018-02-08T10:01:56.917Z" itemprop="dateModified">2018-02-08</time>
+Updated:<time datetime="2018-02-09T00:54:08.383Z" itemprop="dateModified">2018-02-09</time>
 </span>
 
 
