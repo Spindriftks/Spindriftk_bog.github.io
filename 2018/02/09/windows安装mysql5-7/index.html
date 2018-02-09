@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>windows安装mysql5.7 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="mysql,windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows安装mysql5.7">
+<meta property="og:url" content="http://tokyle.com/2018/02/09/windows安装mysql5-7/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-09T07:07:40.876Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows安装mysql5.7">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-windows安装mysql5-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/02/09/windows安装mysql5-7/" class="article-date">
+  <time datetime="2018-02-09T07:06:20.000Z" itemprop="datePublished">2018-02-09</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/skill/">skill</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      windows安装mysql5.7
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x4E0B;&#x8F7D;" class="headerlink" title="&#x4E0B;&#x8F7D;"></a>&#x4E0B;&#x8F7D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装及配置"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;" class="headerlink" title="&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;"></a>&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="headerlink" title="&#x73AF;&#x5883;&#x53D8;&#x91CF;"></a>&#x73AF;&#x5883;&#x53D8;&#x91CF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;" class="headerlink" title="&#x914D;&#x7F6E;"></a>&#x914D;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务注册"><span class="toc-number">2.3.1.</span> <span class="toc-text"><a href="#&#x670D;&#x52A1;&#x6CE8;&#x518C;" class="headerlink" title="&#x670D;&#x52A1;&#x6CE8;&#x518C;"></a>&#x670D;&#x52A1;&#x6CE8;&#x518C;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATA文件夹"><span class="toc-number">2.3.2.</span> <span class="toc-text"><a href="#DATA&#x6587;&#x4EF6;&#x5939;" class="headerlink" title="DATA&#x6587;&#x4EF6;&#x5939;"></a>DATA&#x6587;&#x4EF6;&#x5939;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.4.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;mysql" class="headerlink" title="&#x5B89;&#x88C5;mysql"></a>&#x5B89;&#x88C5;mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动服务"><span class="toc-number">2.5.</span> <span class="toc-text"><a href="#&#x542F;&#x52A8;&#x670D;&#x52A1;" class="headerlink" title="&#x542F;&#x52A8;&#x670D;&#x52A1;"></a>&#x542F;&#x52A8;&#x670D;&#x52A1;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-number">3.</span> <span class="toc-text"><a href="#mysql&#x64CD;&#x4F5C;" class="headerlink" title="mysql&#x64CD;&#x4F5C;"></a>mysql&#x64CD;&#x4F5C;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改root密码"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x4FEE;&#x6539;root&#x5BC6;&#x7801;" class="headerlink" title="&#x4FEE;&#x6539;root&#x5BC6;&#x7801;"></a>&#x4FEE;&#x6539;root&#x5BC6;&#x7801;</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>winwods环境安装配置mysql5.7</p>
+<a id="more"></a>
+<p>版本信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">win 10</span><br><span class="line">mysql 5.7.21</span><br></pre></td></tr></table></figure></p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>直接上官网下载：</p>
+<blockquote>
+<p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载官网</a></p>
+</blockquote>
+<p>以前官网上的下载是有<code>.msi</code>格式的安装包的，现在好像没怎么找到（也可能是眼睛花了。。），现在下载的是<code>.zip</code>压缩包，也就是直接解压缩就可以了。</p>
+<h3 id="安装及配置"><a href="#安装及配置" class="headerlink" title="安装及配置"></a>安装及配置</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>将压缩包下载到本地，解压缩到你自定义的目录下，如我下载的是<code>mysql-5.7.21-winx64.zip</code>文件，解压缩到我本地软件安装盘：<code>E:\Test\</code></p>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>解压完成之后，进行日常操作，配置环境变量，将你解压完成之后的mysql的<strong>bin</strong>目录所在路径添加到系统环境变量<strong>path</strong>中，另外可以新建一个<code>MYSQL_HOME</code>的环境变量，变量值也是你的bin目录所在路径，例如我的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">path</span><br><span class="line">E:\Test\mysql-5.7.21-winx64\bin</span><br><span class="line">MYSQL_HOME</span><br><span class="line">E:\Test\mysql-5.7.21-winx64\bin</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><h5 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h5><p>在你的mysql目录下，新建<code>my.ini</code>文件，来完成windows系统服务的注册，内容可参考我的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">port=3306</span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">#解压目录</span><br><span class="line">basedir=E:\Test\mysql-5.7.21-winx64</span><br><span class="line">#解压目录下data目录</span><br><span class="line">datadir=E:\Test\mysql-5.7.21-winx64\data</span><br><span class="line">port=3306</span><br><span class="line">character_set_server=utf8</span><br><span class="line">#导出mysql数据的目录</span><br><span class="line">secure_file_priv =E:\Test\mysql-5.7.21-winx64\data</span><br><span class="line">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line">#开启查询缓存</span><br><span class="line">explicit_defaults_for_timestamp=true</span><br><span class="line">#skip-grant-tables</span><br><span class="line"></span><br><span class="line">[WinMySQLAdmin]</span><br><span class="line">E:\Test\mysql-5.7.21-winx64\bin\mysql.exe</span><br></pre></td></tr></table></figure></p>
+<h5 id="DATA文件夹"><a href="#DATA文件夹" class="headerlink" title="DATA文件夹"></a>DATA文件夹</h5><p>在mysql 5.6版本之前，默认就是在<code>E:\Test\mysql-5.7.21-winx64</code>下就有<code>data</code>文件夹，现在没有了，需要自己手动新建<code>E:\Test\mysql-5.7.21-winx64\data</code><br>新建完成之后，右键<strong>管理员</strong>打开<code>cmd</code>，进入mysql的bin目录下（<code>E:\Test\mysql-5.7.21-winx64\bin</code>），执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --initialize</span><br></pre></td></tr></table></figure></p>
+<p>运行完成之后，在data目录下就有生成一些初始化的文件，里面有个<code>你的机器.err</code>格式的文件，用文本编辑器打开之后，可以看见随机生成的root的密码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-02-09T01:51:43.117196Z 1 [Note] A temporary password is generated for root@localhost: PaFe#w##v6zD</span><br></pre></td></tr></table></figure></p>
+<h4 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h4><p>管理员模式打开的cmd中，进入\mysql\bin目录下，输入服务安装命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld -install</span><br></pre></td></tr></table></figure></p>
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><p>安装没有报错情况下，可以选择在windows的服务中手动起服务，也可以命令行起：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start mysql</span><br></pre></td></tr></table></figure></p>
+<p>打印信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; net start mysql</span><br><span class="line">MySQL 服务正在启动 .</span><br><span class="line">MySQL 服务已经启动成功。</span><br></pre></td></tr></table></figure></p>
+<p>表明mysql服务已经成功启动。</p>
+<h3 id="mysql操作"><a href="#mysql操作" class="headerlink" title="mysql操作"></a>mysql操作</h3><p>mysql服务启动之后，用root用户登录(密码在前步生成的xxx.err文件中)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p密码</span><br></pre></td></tr></table></figure></p>
+<p>进入mysql控制台。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 4</span><br><span class="line">Server version: 5.7.21 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></p>
+<p>表示成功进入控制台。</p>
+<h4 id="修改root密码"><a href="#修改root密码" class="headerlink" title="修改root密码"></a>修改root密码</h4><p>控制台下执行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;新密码&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>回车即可。<br>用新密码重新登录进控制台，随意看看mysql吧（关于数据库的操作就不提了，教程一大堆，用多了就熟悉了）~<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use sys;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+-----------------------------------------------+</span><br><span class="line">| Tables_in_sys                                 |</span><br><span class="line">+-----------------------------------------------+</span><br><span class="line">| host_summary                                  |</span><br><span class="line">| host_summary_by_file_io                       |</span><br><span class="line">| host_summary_by_file_io_type                  |</span><br><span class="line">| host_summary_by_stages</span><br></pre></td></tr></table></figure>
+<p>慢查询及版本信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;</span><br><span class="line">mysql&gt; show variables like &quot;%slow%&quot;;</span><br><span class="line">+---------------------------+-----------------------------------------------------------+</span><br><span class="line">| Variable_name             | Value                                                     |</span><br><span class="line">+---------------------------+-----------------------------------------------------------+</span><br><span class="line">| log_slow_admin_statements | OFF                                                       |</span><br><span class="line">| log_slow_slave_statements | OFF                                                       |</span><br><span class="line">| slow_launch_time          | 2                                                         |</span><br><span class="line">| slow_query_log            | OFF                                                       |</span><br><span class="line">| slow_query_log_file       | E:\Test\mysql-5.7.21-winx64\data\DESKTOP-PBQIU7V-slow.log |</span><br><span class="line">+---------------------------+-----------------------------------------------------------+</span><br><span class="line">5 rows in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;  show variables like &quot;%version%&quot;;</span><br><span class="line">+-------------------------+------------------------------+</span><br><span class="line">| Variable_name           | Value                        |</span><br><span class="line">+-------------------------+------------------------------+</span><br><span class="line">| innodb_version          | 5.7.21                       |</span><br><span class="line">| protocol_version        | 10                           |</span><br><span class="line">| slave_type_conversions  |                              |</span><br><span class="line">| tls_version             | TLSv1,TLSv1.1                |</span><br><span class="line">| version                 | 5.7.21                       |</span><br><span class="line">| version_comment         | MySQL Community Server (GPL) |</span><br><span class="line">| version_compile_machine | x86_64                       |</span><br><span class="line">| version_compile_os      | Win64                        |</span><br><span class="line">+-------------------------+------------------------------+</span><br><span class="line">8 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-02-09T07:07:40.876Z" itemprop="dateModified">2018-02-09</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/09/python3操作excel/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">python3操作excel</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x4E0B;&#x8F7D;" class="headerlink" title="&#x4E0B;&#x8F7D;"></a>&#x4E0B;&#x8F7D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装及配置"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;" class="headerlink" title="&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;"></a>&#x5B89;&#x88C5;&#x53CA;&#x914D;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="headerlink" title="&#x73AF;&#x5883;&#x53D8;&#x91CF;"></a>&#x73AF;&#x5883;&#x53D8;&#x91CF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;" class="headerlink" title="&#x914D;&#x7F6E;"></a>&#x914D;&#x7F6E;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务注册"><span class="toc-number">2.3.1.</span> <span class="toc-text"><a href="#&#x670D;&#x52A1;&#x6CE8;&#x518C;" class="headerlink" title="&#x670D;&#x52A1;&#x6CE8;&#x518C;"></a>&#x670D;&#x52A1;&#x6CE8;&#x518C;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATA文件夹"><span class="toc-number">2.3.2.</span> <span class="toc-text"><a href="#DATA&#x6587;&#x4EF6;&#x5939;" class="headerlink" title="DATA&#x6587;&#x4EF6;&#x5939;"></a>DATA&#x6587;&#x4EF6;&#x5939;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.4.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;mysql" class="headerlink" title="&#x5B89;&#x88C5;mysql"></a>&#x5B89;&#x88C5;mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动服务"><span class="toc-number">2.5.</span> <span class="toc-text"><a href="#&#x542F;&#x52A8;&#x670D;&#x52A1;" class="headerlink" title="&#x542F;&#x52A8;&#x670D;&#x52A1;"></a>&#x542F;&#x52A8;&#x670D;&#x52A1;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-number">3.</span> <span class="toc-text"><a href="#mysql&#x64CD;&#x4F5C;" class="headerlink" title="mysql&#x64CD;&#x4F5C;"></a>mysql&#x64CD;&#x4F5C;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改root密码"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#&#x4FEE;&#x6539;root&#x5BC6;&#x7801;" class="headerlink" title="&#x4FEE;&#x6539;root&#x5BC6;&#x7801;"></a>&#x4FEE;&#x6539;root&#x5BC6;&#x7801;</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium-ui框架/">appium ui框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 14px; color: #6fc1be">Django</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #6fc1be">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15px; color: #62bf9f">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15px; color: #62bf9f">ddt</a> <a href="/tags/lives/" style="font-size: 13px; color: #7dc3de">lives</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 14px; color: #6fc1be">matplotlib</a> <a href="/tags/mysql/" style="font-size: 13px; color: #7dc3de">mysql</a> <a href="/tags/nose/" style="font-size: 17px; color: #46ba5f">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19px; color: #2bb620">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 18px; color: #38b83f">selenium</a> <a href="/tags/smtplib/" style="font-size: 14px; color: #6fc1be">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/单元测试/" style="font-size: 16px; color: #54bd7f">单元测试</a> <a href="/tags/性能/" style="font-size: 14px; color: #6fc1be">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 19px; color: #2bb620">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/09/windows安装mysql5-7/">windows安装mysql5.7</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/09/python3操作excel/">python3操作excel</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/08/自定义测试报告/">自定义测试报告</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/07/nose执行顺序/">nose执行顺序</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pictures</a></li>
+    
+    <li><a href="http://wentuotuo.com/" target="_BLANK">(¬､¬)稳妥妥(￢_￢)</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
