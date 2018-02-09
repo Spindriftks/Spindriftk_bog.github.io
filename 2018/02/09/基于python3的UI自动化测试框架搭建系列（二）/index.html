@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>基于python3的UI自动化框架搭建系列（二） | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="selenium,自动化测试,python3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于python3的UI自动化框架搭建系列（二）">
+<meta property="og:url" content="http://tokyle.com/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-09T09:35:23.341Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于python3的UI自动化框架搭建系列（二）">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-基于python3的UI自动化测试框架搭建系列（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/" class="article-date">
+  <time datetime="2018-02-09T09:26:34.000Z" itemprop="datePublished">2018-02-09</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/自动化测试框架/">自动化测试框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基于python3的UI自动化框架搭建系列（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B9E;&#x4F8B;" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7ED3;&#x6784;" class="headerlink" title="&#x7ED3;&#x6784;"></a>&#x7ED3;&#x6784;</span></a></li></ol>
+		
+		</div>
+		
+        <p>自动化测试框架雏形搭建完成<br><a id="more"></a></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>框架终于差不多完成了，包含了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">自定义日志</span><br><span class="line">自定义测试报告</span><br><span class="line">实时邮件发送</span><br></pre></td></tr></table></figure></p>
+<p>等模块。<br>目前可以实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">测试过程中控制台实时打印日志</span><br><span class="line">测试过程中实时写日志入自定义log文件</span><br><span class="line">测试过程中发生断言失败，实时截图，并且将堆栈日志打印到指定log文件</span><br><span class="line">测试完成自动生成html格式测试报告</span><br><span class="line">测试完成自动发送邮件</span><br></pre></td></tr></table></figure></p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>以下是实现的简单的从excel中读取数据进行自动化测试的实例（测试用例使用excel编写）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">@author: kyle</span><br><span class="line">@time: 2018/2/9 15:30</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">from selenium import webdriver</span><br><span class="line">from ExcelUtil import GetDataFromExcel</span><br><span class="line">from selenium.common.exceptions import NoSuchElementException</span><br><span class="line">from Log import *</span><br><span class="line">from MailSend import MailSend</span><br><span class="line">from ReportTemplate import htmlTemplate</span><br><span class="line">from nose.tools import assert_true</span><br><span class="line">from MakeDirs import *</span><br><span class="line">import time,traceback</span><br><span class="line">import sys,ddt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># excel路径，sheet名</span><br><span class="line">path = &quot;G:/workstation/py_workstation/DataDriverTest/DdtData/testData.xlsx&quot;</span><br><span class="line">sheetname = &quot;search_data&quot;</span><br><span class="line">excel = GetDataFromExcel(path, sheetname)</span><br><span class="line">@ddt.ddt</span><br><span class="line">class TestDdtByExcel():</span><br><span class="line"></span><br><span class="line">    @classmethod</span><br><span class="line">    def setUpClass(cls):</span><br><span class="line">        TestDdtByExcel.trStr = &quot;&quot;</span><br><span class="line"></span><br><span class="line">    def setUp(self):</span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        # 设置测试状态及结果标志</span><br><span class="line">        self.status = None</span><br><span class="line">        self.flag = 0</span><br><span class="line"></span><br><span class="line">    @ddt.data(* excel.getData())</span><br><span class="line">    def test_ddtbyexcel(self, data):</span><br><span class="line">        # 声明全局变量</span><br><span class="line">        global start, starttime</span><br><span class="line">        # 定义执行结果的颜色</span><br><span class="line">        flagDict = &#123;0: &apos;red&apos;, 1: &apos;00AC4E&apos;&#125;</span><br><span class="line">        # 获取测试用例名称</span><br><span class="line">        casename = sys._getframe().f_code.co_name</span><br><span class="line">        testdata, expectdata = tuple(data)</span><br><span class="line">        url = &quot;https://www.baidu.com&quot;</span><br><span class="line">        self.browser.get(url)</span><br><span class="line">        self.browser.implicitly_wait(10)</span><br><span class="line">        try:</span><br><span class="line">            # 获取当前时间戳</span><br><span class="line">            start = time.time()</span><br><span class="line">            # 获取当前时间</span><br><span class="line">            starttime = time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, time.localtime())</span><br><span class="line">            # 搜索</span><br><span class="line">            self.browser.find_element_by_id(&apos;kw&apos;).send_keys(testdata)</span><br><span class="line">            self.browser.find_element_by_id(&apos;su&apos;).click()</span><br><span class="line">            # 休眠3s</span><br><span class="line">            time.sleep(3)</span><br><span class="line">            # 断言</span><br><span class="line">            assert_true(expectdata in self.browser.page_source)</span><br><span class="line">        except NoSuchElementException as e:</span><br><span class="line">            error(u&quot;页面元素不存在：&quot; +</span><br><span class="line">                  str(traceback.print_exc(</span><br><span class="line">                      file=open(&quot;G:/workstation/py_workstation/DataDriverTest/Logs/Error/DdtTest.log&quot;, &quot;a&quot;))))</span><br><span class="line">            self.flag = 0</span><br><span class="line">            self.status = &apos;fail&apos;</span><br><span class="line">            takeScreenShot(self.browser)</span><br><span class="line">        except AssertionError as e:</span><br><span class="line">            error(u&quot;搜索“&#123;0&#125;，期望“&#123;1&#125;”，失败”&quot;.format(testdata, expectdata) +</span><br><span class="line">                  str(traceback.print_exc(</span><br><span class="line">                      file=open(&quot;G:/workstation/py_workstation/DataDriverTest/Logs/Error/DdtTest.log&quot;, &quot;a&quot;))))</span><br><span class="line">            self.flag = 0</span><br><span class="line">            self.status = &apos;fail&apos;</span><br><span class="line">            takeScreenShot(self.browser)</span><br><span class="line">        except Exception as e:</span><br><span class="line">            error(u&quot;未知错误：&quot; +</span><br><span class="line">                  str(traceback.print_exc(</span><br><span class="line">                      file=open(&quot;G:/workstation/py_workstation/DataDriverTest/Logs/Error/DdtTest.log&quot;, &quot;a&quot;))))</span><br><span class="line">            self.flag = 0</span><br><span class="line">            self.status = &apos;fail&apos;</span><br><span class="line">            takeScreenShot(self.browser)</span><br><span class="line">        else:</span><br><span class="line">            info(u&quot;搜索“&#123;0&#125;，期望“&#123;1&#125;”，通过”&quot;.format(testdata, expectdata))</span><br><span class="line">            self.status = &apos;pass&apos;</span><br><span class="line">            self.flag = 1</span><br><span class="line">        # 计算消耗时间</span><br><span class="line">        # 10位时间戳，单位为s</span><br><span class="line">        spends = time.time() - start - 3</span><br><span class="line">        # 取两位小数</span><br><span class="line">        spendtime = &quot;%.2f&quot; %spends</span><br><span class="line">        # 报告中添加数据</span><br><span class="line">        TestDdtByExcel.trStr += u&apos;&apos;&apos;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;&#123;0&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;1&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;2&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;3&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;4&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td style=&quot;color: &#123;5&#125;&quot;&gt;&#123;6&#125;&lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">                &apos;&apos;&apos;.format(casename, testdata, expectdata, starttime, spendtime, flagDict[self.flag], self.status)</span><br><span class="line"></span><br><span class="line">    def tearDown(self):</span><br><span class="line">        self.browser.quit()</span><br><span class="line"></span><br><span class="line">    @classmethod</span><br><span class="line">    def tearDownClass(cls):</span><br><span class="line">        # 写自定义报告</span><br><span class="line">        htmlTemplate(TestDdtByExcel.trStr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    os.system(&quot;nosetests  -s -v &#123;0&#125;&quot;.format(__file__))</span><br><span class="line">    info(u&quot;*****测试报告开始发送*****&quot;)</span><br><span class="line">    report_file = &quot;G:/workstation/py_workstation/DataDriverTest/Report/DDTByExcel.html&quot;</span><br><span class="line">    mail_subject = &quot;NoseTest测试报告_&#123;0&#125;&quot;.format(dt.now().strftime(&quot;%Y%m%d&quot;))</span><br><span class="line">    mailsend = MailSend(mail_subject, report_file)</span><br><span class="line">    mailsend.sendMail()</span><br><span class="line">    info(u&quot;~~~测试报告发送完成，请注意查收~~~&quot;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>粗略结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">project</span><br><span class="line">|—— coding						 #主要代码</span><br><span class="line">|—— DdtConf						#一些配置，包括邮箱（.ini），日志(logger.conf)等</span><br><span class="line">|—— DdtData						#测试数据（excel，xml，json）等</span><br><span class="line">|—— DdtTools					   #工具类（生成html文件，创建文件夹，截图，邮件发送，从文件读数据））等</span><br><span class="line">|—— Logs						   #日志</span><br><span class="line">	|—— Info</span><br><span class="line">    |—— Error</span><br><span class="line">|—— Pictures						#断言失败的截图</span><br><span class="line">|—— Report						  #测试报告</span><br></pre></td></tr></table></figure></p>
+<p>后期再慢慢改进，可以修改的地方还有很多！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selenium/">selenium</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动化测试/">自动化测试</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-02-09T09:35:23.341Z" itemprop="dateModified">2018-02-09</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/09/windows安装mysql5-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">windows安装mysql5.7</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B9E;&#x4F8B;" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7ED3;&#x6784;" class="headerlink" title="&#x7ED3;&#x6784;"></a>&#x7ED3;&#x6784;</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium-ui框架/">appium ui框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 14px; color: #6fc1be">Django</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #6fc1be">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15px; color: #62bf9f">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15px; color: #62bf9f">ddt</a> <a href="/tags/lives/" style="font-size: 13px; color: #7dc3de">lives</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 14px; color: #6fc1be">matplotlib</a> <a href="/tags/mysql/" style="font-size: 13px; color: #7dc3de">mysql</a> <a href="/tags/nose/" style="font-size: 17px; color: #46ba5f">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19px; color: #2bb620">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 18px; color: #38b83f">selenium</a> <a href="/tags/smtplib/" style="font-size: 14px; color: #6fc1be">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/单元测试/" style="font-size: 16px; color: #54bd7f">单元测试</a> <a href="/tags/性能/" style="font-size: 14px; color: #6fc1be">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 19px; color: #2bb620">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/">基于python3的UI自动化框架搭建系列（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/09/windows安装mysql5-7/">windows安装mysql5.7</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/09/python3操作excel/">python3操作excel</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/08/自定义测试报告/">自定义测试报告</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pictures</a></li>
+    
+    <li><a href="http://wentuotuo.com/" target="_BLANK">(¬､¬)稳妥妥(￢_￢)</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
