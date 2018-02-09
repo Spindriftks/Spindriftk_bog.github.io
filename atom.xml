@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-02-09T00:54:08.383Z</updated>
+  <updated>2018-02-09T06:32:07.226Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python3操作excel</title>
+    <link href="http://tokyle.com/2018/02/09/python3%E6%93%8D%E4%BD%9Cexcel/"/>
+    <id>http://tokyle.com/2018/02/09/python3操作excel/</id>
+    <published>2018-02-09T06:30:44.000Z</published>
+    <updated>2018-02-09T06:32:07.226Z</updated>
+    
+    <content type="html"><![CDATA[<p>python3使用openpyxl完成excel数据读和写</p><a id="more"></a><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>python3操作excel数据，对于excel 2007及以上版本，一般使用<code>openpyxl</code>来进行操作；windows下，只需要控制台执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install openpyxl</span><br></pre></td></tr></table></figure></p><p>即可，若是使用<code>pipenv</code>进行类库管理的，控制台下进入工程所在目录（<code>Pipfile</code>所在路径），执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv install openpyxl</span><br></pre></td></tr></table></figure></p><p>即可。对于<code>pipenv</code>在之前的一篇博客中有提及：</p><blockquote><p><a href="http://tokyle.com/2018/01/18/python%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-pipenv/">python项目依赖管理工具</a></p></blockquote><p>安装完成之后，执行命令<code>python</code>进入python交互环境，引包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import openpyxl</span><br></pre></td></tr></table></figure></p><p>不报错则安装成功</p><h3 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 引包</span><br><span class="line">import openpyxl</span><br><span class="line"></span><br><span class="line"># excel文件路径</span><br><span class="line">file = &quot;G:\workstation\py_workstation\DataDriverTest\DdtData\testData.xlsx&quot;</span><br><span class="line"># 打开excel</span><br><span class="line">wb = openpyxl.load_workbook(file)</span><br><span class="line"># 获取指定sheet页，名称：“search_data”</span><br><span class="line">sheet = wb[&quot;search_data&quot;]</span><br><span class="line"># 获取所有sheet的名称</span><br><span class="line">sheets = wb.sheetnames</span><br><span class="line"></span><br><span class="line"># 获取行数</span><br><span class="line">nrow = sheet.max_row</span><br><span class="line"># 获取列数</span><br><span class="line">ncol = sheet.max_column</span><br><span class="line"># 获取单元格值</span><br><span class="line">cell_1 = sheet.cell(row=2, column=2).value</span><br><span class="line"># 单元格赋值</span><br><span class="line">cell_2 = sheet.cell(row=2, column=2, value=&quot;YIDA&quot;)</span><br><span class="line"></span><br><span class="line"># 保存excel</span><br><span class="line">wb.save(file)</span><br></pre></td></tr></table></figure><h3 id="读写excel"><a href="#读写excel" class="headerlink" title="读写excel"></a>读写excel</h3><p>进行ddt时，有的时候测试数据，甚至测试用例是在excel中，如下表，标示出了测试数据，预期结果。</p><p>number&emsp;&emsp;testdata    &emsp;&emsp;&emsp;expectdata<br>1&emsp;&emsp;&emsp;&emsp;&ensp;Jordan&emsp;&emsp;&emsp;&emsp;&ensp;DRFSA<br>2&emsp;&emsp;&emsp;&emsp;&ensp;Garnett&emsp;&emsp;&emsp;&emsp;&ensp;Kevin<br>3&emsp;&emsp;&emsp;&emsp;&ensp;Oneal&emsp;&emsp;&emsp;&emsp;&emsp;Shaquille<br>4&emsp;&emsp;&emsp;&emsp;&ensp;Nowitzki&emsp;&emsp;&emsp;&emsp;rsdffd<br>5&emsp;&emsp;&emsp;&emsp;&ensp;Duncan&emsp;&emsp;&emsp;&emsp;Tim</p><p>首先是尝试使用python3 把数据写入excel</p><h4 id="写数据"><a href="#写数据" class="headerlink" title="写数据"></a>写数据</h4><p>直接上代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">@author: kyle</span><br><span class="line">@time: 2018/2/9 13:25</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">import openpyxl</span><br><span class="line"></span><br><span class="line">file = &quot;G:/workstation/py_workstation/DataDriverTest/DdtData/test.xlsx&quot;</span><br><span class="line">wb = openpyxl.load_workbook(file)</span><br><span class="line">sheet = wb.active</span><br><span class="line">sheet.title = &quot;search_data&quot;</span><br><span class="line"></span><br><span class="line">value = [</span><br><span class="line">    [&quot;number&quot;, &quot;testdata&quot;, &quot;expectdata&quot;],</span><br><span class="line">    [&quot;1&quot;, &quot;Jordan&quot;, &quot;DRFSA&quot;],</span><br><span class="line">    [&quot;2&quot;, &quot;Garnett&quot;, &quot;Kevin&quot;]</span><br><span class="line">]</span><br><span class="line">for i in range(0, 3):</span><br><span class="line">    for j in range(0, len(value[i])):</span><br><span class="line">        sheet.cell(row=i+1, column=j+1, value=str(value[i][j]))</span><br><span class="line">wb.save(file)</span><br></pre></td></tr></table></figure></p><h4 id="读数据"><a href="#读数据" class="headerlink" title="读数据"></a>读数据</h4><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import openpyxl</span><br><span class="line"></span><br><span class="line"># 打开excel</span><br><span class="line">wb = openpyxl.load_workbook(&quot;G:/workstation/py_workstation/DataDriverTest/DdtData/testData.xlsx&quot;)</span><br><span class="line"># 获取指定sheet页</span><br><span class="line">sheet = wb[&quot;search_data&quot;]</span><br><span class="line"></span><br><span class="line"># 获取列表中最大行数和最大列数</span><br><span class="line">nrows = sheet.max_row</span><br><span class="line">ncol = sheet.max_column</span><br><span class="line"></span><br><span class="line">testdata = []</span><br><span class="line"></span><br><span class="line"># 获取2到6行</span><br><span class="line">for i in list(range(2,nrows+1)):</span><br><span class="line">    tmplist = []</span><br><span class="line">    tmplist.append(sheet.cell(row=i, column=2).value) #2,2</span><br><span class="line">    tmplist.append(sheet.cell(row=i, column=3).value) #2,3</span><br><span class="line">    testdata.append(tmplist)</span><br><span class="line">print(testdata)</span><br></pre></td></tr></table></figure></p><p>完成！！！</p><h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>估计是快过年，快放假了，都没什么心思敲了；真的是弄了好久才读出数据。。。python3操作excel是真的跟python2很不一样，网上的教程很多都不能用，最明显的就是:<br>python2可以遍历工作表区域每一行，跳过第一行，直接写成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for row in sheet.rows[1:]</span><br></pre></td></tr></table></figure></p><p>但是python3实现不了。。<br>不过自己能折腾出来，感觉还是有点小小的成就感的~</p><p>附环境版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python  3.6</span><br><span class="line">openpyxl 2.5.0</span><br><span class="line">win 10</span><br><span class="line">office 2013</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;python3使用openpyxl完成excel数据读和写&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="python" scheme="http://tokyle.com/categories/python/"/>
+    
+    
+      <category term="python3" scheme="http://tokyle.com/tags/python3/"/>
+    
+      <category term="openpyxl" scheme="http://tokyle.com/tags/openpyxl/"/>
+    
+      <category term="ddt" scheme="http://tokyle.com/tags/ddt/"/>
+    
+  </entry>
   
   <entry>
     <title>自定义测试报告</title>
@@ -480,30 +506,6 @@
       <category term="python" scheme="http://tokyle.com/tags/python/"/>
     
       <category term="自动化测试" scheme="http://tokyle.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>app安装卸载</title>
-    <link href="http://tokyle.com/2018/01/17/app%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD/"/>
-    <id>http://tokyle.com/2018/01/17/app安装卸载/</id>
-    <published>2018-01-17T02:54:00.000Z</published>
-    <updated>2018-01-24T07:34:55.713Z</updated>
-    
-    <content type="html"><![CDATA[<p>appium-模拟器安装卸载app</p><a id="more"></a><p>模拟器安装apk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb install XXX.apk</span><br></pre></td></tr></table></figure></p><p>卸载apk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb uninstall your_package</span><br></pre></td></tr></table></figure></p><p>例子：</p><p>启动android模拟器，参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">desired_caps[&apos;platformName&apos;] = &apos;Android&apos;</span><br><span class="line">desired_caps[&apos;platformVersion&apos;] = &apos;7.1.1&apos;</span><br><span class="line">desired_caps[&apos;deviceName&apos;] = &apos;Android Emulator&apos;</span><br><span class="line">desired_caps[&apos;appPackage&apos;] = &apos;com.anmav.cashierdesk&apos;</span><br><span class="line">desired_caps[&apos;appActivity&apos;] = &apos;com.anmav.cashierdesk.view.LoginActivity&apos;</span><br></pre></td></tr></table></figure></p><p>win10打开控制台，进入apk文件所在目录，执行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb install cashierdesk.apk</span><br></pre></td></tr></table></figure></p><p>在模拟器中可以发现该app已完成安装。</p><p>控制台执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb uninstall com.anmav.cashierdesk</span><br></pre></td></tr></table></figure></p><p>模拟器中可以看见该app完成卸载</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;appium-模拟器安装卸载app&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="appium" scheme="http://tokyle.com/categories/appium/"/>
-    
-    
-      <category term="自动化测试" scheme="http://tokyle.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="appium" scheme="http://tokyle.com/tags/appium/"/>
     
   </entry>
   
