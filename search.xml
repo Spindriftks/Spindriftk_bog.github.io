@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[重建测试]]></title>
+    <url>%2F2018%2F03%2F05%2F%E9%87%8D%E5%BB%BA%E6%B5%8B%E8%AF%95%2F</url>
+    <content type="text"><![CDATA[日常再搭建一遍 哎，风头什么时候才能过去]]></content>
+      <categories>
+        <category>test</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[新年伊始-开年记]]></title>
+    <url>%2F2018%2F02%2F28%2F%E6%96%B0%E5%B9%B4%E4%BC%8A%E5%A7%8B-%E5%BC%80%E5%B9%B4%E8%AE%B0%2F</url>
+    <content type="text"><![CDATA[随波逐流，还是不停的瞎折腾~ 新年伊始过年来上班第一天就发现，SSR又登不上了，也就意味着，google啊，又离我远去。。。搞啥啊，查了下黄历，没啥问题啊，翻了下新华社新闻，好吧，开会了。。不出所料，被墙了。 周二时候有点不服，把vultr上几乎所有VPS都重搭了下，好吧，居然IP全挂，这么多台都全挂，有点服。。今天早上过来，感觉还是有点不爽，主要是每次打开浏览器，由于我设置的Chrome主页就是google，每次进来都是空荡荡的，感觉很难受，抱着不死就折腾的心态，又开始搭，结果还真找到个漏网之鱼，苍天啊，真的是泪流满面o(╥﹏╥)o 立刻重建，还好有这个经历： VPS重建记 一台新机器，花了半个小时就完成了，终于，又可以科学上网，hexo又可以更博了！！ 日常记忆随手记下昨天遇到的小白问题：在搭建自动化框架时，基本会把页面元素的定位信息放在类似于example.ini的配置文件中，然后从文件中获取定位方式以及定位表达式，这样方便维护。读取example.ini文件配置内容，我是使用的configparser，用法：12cf = configparser.ConfigParser()cf.read(&apos;example.ini&apos;) 这样就会把配置文件中的配置信息加载到内存中，获取信息一般使用两种方式： 获取特定的optionValue使用cf.get(section, option)即可获取特定的option的值例如，有一个example.ini内容如下：12345[126mail_login]loginPage.frame = id &gt; x-URS-iframeloginPage.username = xpath &gt; //input[@name=&quot;email&quot;]loginPage.password = xpath &gt; //input[@name=&quot;password&quot;]loginPage.loginbutton = id &gt; dologin 想要获取切换到登录frame的定位方式及表达式，只需要：12frame126 = cf.get(&quot;126mail_login&quot;, &quot;loginPage.frame&quot;)print(frame126) 打印出定位方式及表达式：1id &gt; x-URS-iframe 获取指定section下的所有option使用cf.items(section)即可获取该section下的所有option，返回的是一个列表，包含option以及对应的value示例：12options = cf.items(&quot;126mail_login&quot;)print(options) 返回结果：1[(&apos;loginpage.frame&apos;, &apos;id &gt; x-URS-iframe&apos;), (&apos;loginpage.username&apos;, &apos;xpath &gt; //input[@name=&quot;email&quot;]&apos;), (&apos;loginpage.password&apos;, &apos;xpath &gt; //input[@name=&quot;password&quot;]&apos;), (&apos;loginpage.loginbutton&apos;, &apos;id &gt; dologin&apos;)] 问题由于日常的开发环境是windows，系统的默认编码是gbk，所有在windows下使用configparser来读取配置文件时，有的时候会报编码错误：1UnicodeDecodeError: &apos;gbk&apos; codec can&apos;t decode byte 0xae in position 272: illegal multibyte sequence 解决解决方法很简单，直接看cf.read()的源码，源码是这样的：1234567891011121314151617181920212223def read(self, filenames, encoding=None): &quot;&quot;&quot;Read and parse a filename or a list of filenames. Files that cannot be opened are silently ignored; this is designed so that you can specify a list of potential configuration file locations (e.g. current directory, user&apos;s home directory, systemwide directory), and all existing configuration files in the list will be read. A single filename may also be given. Return list of successfully read files. &quot;&quot;&quot; if isinstance(filenames, str): filenames = [filenames] read_ok = [] for filename in filenames: try: with open(filename, encoding=encoding) as fp: self._read(fp, filename) except OSError: continue read_ok.append(filename) return read_ok 默认的read()是没有指定编码的encoding=None，所以只需要指定编码为utf-8即可解决：1cf.read(pageElementLocatorPath, encoding=&apos;utf-8&apos;) 其中pageElementLocatorPath为example.ini文件 后记生活不就是不断的折腾嘛，墙了继续试，大不了你再墙嘛~]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>selenium</tag>
+        <tag>自动化测试</tag>
+        <tag>lives</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[写在2018新年来临]]></title>
     <url>%2F2018%2F02%2F12%2F%E5%86%99%E5%9C%A82018%E6%96%B0%E5%B9%B4%E6%9D%A5%E4%B8%B4%2F</url>
     <content type="text"><![CDATA[写在春节来临之际农历2017年最后一个工作日，明天就要回家过春节了，想想，2017，好像过去的挺快的。来篇流水账，写写，我的2017。 活在苏州： 工作篇有苦有甜才是生活，作为占据我一天一半时间的大头，首先还是想看看在这上面，我的2017到底发生了些什么。工作内容还是日常的做个行走的BUG，以做一个开发及其烦躁的tester为荣，并在这条道上，坚定的走到黑！ 安硕生涯2016年7月来到安硕，工作了也有段时间，工作方式，好歹是从个外人眼中看来，测试就是定点点的工作转换成了性能测试做的多一点的，入门级性能测试工程师。日常工作，积累了一套性能需求分析-脚本编写-结果分析-瓶颈定位-性能调优的性能测试步骤，说起来，做的还是有点乐此不疲的，就是记忆力有点差，mysql性能调优经常忘。。（(ಥ_ಥ) ）同时，接触到了大数据相关，虽然和我的关联不是特别大，最多就是帮着测测规则，测测数据，好歹是打开了另一扇窗；眼界不是来自于期刊杂志，有真正自己去接触了，才是有自己的感受，所以，还是挺感激这段经历。然后2017年9月，离开了安硕。 新的开始2017年9月21日，正式从安硕来到了这，正式开始了测试带队（虽然手下就一人~~~），也正式捡起了放下一年半的python。刚毕业那会，和舍友选语言，他选了python做爬虫，我选了java，后来兜兜转转，我的java技术还是那么菜，压根入门都没达到就半路夭折，好在，还有补牢的机会，重新拿起python，做起了自动化。9月至今，python书籍看完两本，简陋自动化框架搭建完成一个，算是还对的起自己。路还在脚下，当慢慢走。 生活篇2017年的生活，不再那么浑浑噩噩，上班下班，周末宅；生活中发生了好几件大事。2017年5月13日，在苏州买了房，从此开始房奴生涯（o(╥﹏╥)o）2017年5月23日，回句容领了证，从此告别一个人的时光（(｀・ω・´)）7月，失去了一位亲人..总的来说，2017，算是翻天覆地的一年，本命年的我，经历了也就这些。人间烟火，不过是比落叶还轻的生活；该开的开，山野鲜花依然澎湃；该来的来，路上精彩还在等待。 玩乐篇换个心情，回忆点轻松的，作为一个从小就喜欢满田野疯的“野孩子”，整年不出门去看看那是不现实的。3月，的确是个赏樱花的季节，无锡-鼋头渚 原谅手残，技术不到家，樱花实在没拍的好，照片只能待在自己手机没事用来傻笑~4月，好像是万条垂下绿丝绦的时节了，杭州-西湖九溪烟树，云栖竹径，苏堤春晓，柳浪闻莺，梅坞春早，钱塘江，龙井村等等，带着个小胖子，也有过一天翻越无数山头，暴走30公里的经历。（杭州之行，照片太丑，不拿出来丢人。。。）8月，拿着婚假，怀着点点感伤，踏上了川藏线的朝圣之路，成都-&gt;拉萨成都遇上海燕和莉儿，一行，10天，成都出发，终点拉萨。南方的孩子，还是应该在8月到雪山上去看看雪的，不是吗~感芸芸众生，人世无常，茫茫大海，谁可争流；不如步入山野，凭栏远眺，闲庭信步，观云卷云舒。 竺法渐传三界远，盛音近绕佛堂前。达布拉宫，只有亲眼看见，才知道，眼前，真的就是一幅画。 然后，12月，前往丽江拍婚纱照，天和西藏一样蓝，就是商业气息过于浓重了点，小憩可以，不宜久居。时间有限，没去成泸沽湖，没机会去洱海，都算是遗憾，谁说不是呢，有遗憾，才是真正的活着嘛。（照片，在相机，忘了传手机了。。。） 后记不大不小，24周岁，不多不少，两个人了；愿能够笑看沧桑，轻盈过往；淡看流年烟火，细品岁月静好。花有花的灿烂，云有云的诗意，淡然的面对生命的一切逝去，在似水流年间细细品味每一个过往，每一种滋味，每一份流逝。 最后，最后一天了，祝所有，在未来的日子里，恬然，静候花开。 （原谅通篇流水账~~~太久不会写文字了￣□￣｜｜）]]></content>
@@ -19,8 +40,8 @@
         <category>python</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>mysql</tag>
+        <tag>python3</tag>
         <tag>pymysql</tag>
       </tags>
   </entry>
@@ -34,8 +55,8 @@
       <tags>
         <tag>selenium</tag>
         <tag>自动化测试</tag>
-        <tag>python3</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -72,8 +93,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -86,8 +107,8 @@
       </categories>
       <tags>
         <tag>自动化测试</tag>
-        <tag>python3</tag>
         <tag>单元测试</tag>
+        <tag>python3</tag>
       </tags>
   </entry>
   <entry>
@@ -112,8 +133,8 @@
       <tags>
         <tag>自动化测试</tag>
         <tag>appium</tag>
-        <tag>python3</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
