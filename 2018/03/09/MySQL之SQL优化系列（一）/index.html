@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MySQL之SQL优化系列（一） | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL之SQL优化系列（一）">
+<meta property="og:url" content="http://tokyle.com/2018/03/09/MySQL之SQL优化系列（一）/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-09T08:59:53.814Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL之SQL优化系列（一）">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MySQL之SQL优化系列（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/03/09/MySQL之SQL优化系列（一）/" class="article-date">
+  <time datetime="2018-03-09T08:55:19.000Z" itemprop="datePublished">2018-03-09</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL之SQL优化系列（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例库"><span class="toc-number">1.</span> <span class="toc-text">案例库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#show-status查看SQL执行频率"><span class="toc-number">2.</span> <span class="toc-text">show status查看SQL执行频率</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参数解释"><span class="toc-number">2.1.</span> <span class="toc-text">参数解释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定位执行效率低的SQL"><span class="toc-number">3.</span> <span class="toc-text">定位执行效率低的SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢查询示例"><span class="toc-number">3.1.</span> <span class="toc-text">慢查询示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li></ol>
+		
+		</div>
+		
+        <p>作为一个不知道几分之几的程序员，日常性能测试的关注点之一就是SQL的执行效率，SQL优化。</p>
+<h3 id="案例库"><a href="#案例库" class="headerlink" title="案例库"></a>案例库</h3><p>mysql提供有类似oracle的scott库（root/tiger，至今记得接触oracle时候这个趣闻，创始人是库名，猫的名字是密码）的案例库sakila，基本可以使用来完成测试。</p>
+<blockquote>
+<p><a href="http://downloads.mysql.com/docs/sakila-db.zip" target="_blank" rel="noopener">sakila库下载地址</a></p>
+</blockquote>
+<p>压缩包中有三个文件：<code>sakila-schema.sql</code>，<code>sakila-data.sql</code>，<code>sakila.mwb</code>；sakila-schema.sql建库及表，sakila-data.sql插数据，sakila.mwb可以使用<code>mysql workbench</code>打开，是sakila的数据模型（MySQL Mode）</p>
+<blockquote>
+<p><a href="https://dev.mysql.com/downloads/workbench/" target="_blank" rel="noopener">MySQL workbench官方下载地址</a><br><a href="https://pan.baidu.com/s/1uiiOk-O0h3O4dtiiQolXVg" target="_blank" rel="noopener">度娘盘地址</a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;密码：25y4</p>
+</blockquote>
+<p>安装完成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use sakila;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+----------------------------+</span><br><span class="line">| Tables_in_sakila           |</span><br><span class="line">+----------------------------+</span><br><span class="line">| actor                      |</span><br><span class="line">| actor_info                 |</span><br><span class="line">| address                    |</span><br><span class="line">| category                   |</span><br><span class="line">| city                       |</span><br><span class="line">| country                    |</span><br><span class="line">| customer                   |</span><br><span class="line">| customer_list              |</span><br><span class="line">| film                       |</span><br><span class="line">| film_actor                 |</span><br><span class="line">| film_category              |</span><br><span class="line">| film_list                  |</span><br><span class="line">| film_text                  |</span><br><span class="line">| inventory                  |</span><br><span class="line">| language                   |</span><br><span class="line">| nicer_but_slower_film_list |</span><br><span class="line">| payment                    |</span><br><span class="line">| rental                     |</span><br><span class="line">| sales_by_film_category     |</span><br><span class="line">| sales_by_store             |</span><br><span class="line">| staff                      |</span><br><span class="line">| staff_list                 |</span><br><span class="line">| store                      |</span><br><span class="line">+----------------------------+</span><br><span class="line">23 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h3 id="show-status查看SQL执行频率"><a href="#show-status查看SQL执行频率" class="headerlink" title="show status查看SQL执行频率"></a>show status查看SQL执行频率</h3><p>MySQL可以通过<code>show [session|global] status</code>命令来查看服务器状态信息；其中<code>session</code>，<code>global</code>为可选参数，session表示显示当前连接的统计结果，global表示统计自数据库上次启动至今的信息，不写默认为<code>session</code>。<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show status like &apos;Com_%&apos;;        </span><br><span class="line">+-----------------------------+-------+ </span><br><span class="line">| Variable_name               | Value | </span><br><span class="line">+-----------------------------+-------+ </span><br><span class="line">| Com_admin_commands          | 0     | </span><br><span class="line">| Com_assign_to_keycache      | 0     | </span><br><span class="line">| Com_alter_db                | 0     | </span><br><span class="line">| Com_alter_db_upgrade        | 0     | </span><br><span class="line">| Com_alter_event             | 0     | </span><br><span class="line">| Com_alter_function          | 0     | </span><br><span class="line">| Com_alter_instance          | 0     | </span><br><span class="line">| Com_alter_procedure         | 0     | </span><br><span class="line">| Com_alter_server            | 0     | </span><br><span class="line">| Com_alter_table             | 2     | </span><br><span class="line">| Com_alter_tablespace        | 0     | </span><br><span class="line">| Com_alter_user              | 0     | </span><br><span class="line">| Com_analyze                 | 0     | </span><br><span class="line">| Com_begin                   | 0     | </span><br><span class="line">| Com_binlog                  | 0     | </span><br><span class="line">| Com_call_procedure          | 0     | </span><br><span class="line">| Com_change_db               | 3     | </span><br><span class="line">| Com_change_master           | 0     | </span><br><span class="line">| Com_change_repl_filter      | 0     | </span><br><span class="line">| Com_check                   | 0     | </span><br><span class="line">| Com_checksum                | 0     | </span><br><span class="line">| Com_commit                  | 15    | </span><br><span class="line">| Com_create_db               | 1     | </span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>统计当前连接下的信息。</p>
+<h4 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h4><p>Com_xxx表示每个xxx语句执行的次数，通常比较关注的是以下几个：<br>◆&ensp;Com_select：&ensp;执行SELECT操作的次数，执行一次累加1；<br>◆&ensp;Com_insert：&ensp;执行INSERT操作的次数，对于批量插入的INSERT操作，只累加一次；<br>◆&ensp;Com_update：&ensp;执行UPDATE操作的次数。<br>◆&ensp;Com_delete：&ensp;执行DELETE操作的次数。<br>上述参数对于所有的存储引擎的表操作都会进行累计，下面的参数，只针对InnoDB存储引擎：<br>◆&ensp;Innodb_read：SELECT查询返回的<strong>行数</strong>。<br>◆&ensp;Innodb_rows_inserted：执行INSERT操作插入的<strong>行数</strong>。<br>◆&ensp;Innodb_rows_updated：执行UPDATE操作更新的<strong>行数</strong>。<br>◆&ensp;Innodb_rows_deleted：执行DELETE操作删除的<strong>行数</strong>。<br>通过以上参数，比较容易得出当前数据库的应用是插入更新为主还是查询操作为主，以及各种类型的SQL大致执行的比例是多少。（对于更新操作的技术，是对执行次数的技术，不论commit还是rollback都会累加）。<br>对于事务型应用，通过<code>Com_commit</code>和<code>Com_rollback</code>可以了解事务提交和回滚的情况，对于回滚操作很频繁的数据库，可能意味着应用编写存在问题。<br>另外，一下几个参数便于了解数据库的基本情况：<br>◆&ensp;Connections：尝试连接MySQL服务器的次数。<br>◆&ensp;Uptime：服务器工作时间。<br>◆&ensp;Slow_queried：慢查询次数</p>
+<h3 id="定位执行效率低的SQL"><a href="#定位执行效率低的SQL" class="headerlink" title="定位执行效率低的SQL"></a>定位执行效率低的SQL</h3><p>我在工作中，使用过两种方式来查看当前执行效率低的SQL：<br>一：查看线程：<code>show processlist</code><br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show processlist;</span><br><span class="line">+----+------+-----------------+--------+---------+-------+----------+------------------+</span><br><span class="line">| Id | User | Host            | db     | Command | Time  | State    | Info             |</span><br><span class="line">+----+------+-----------------+--------+---------+-------+----------+------------------+</span><br><span class="line">|  6 | root | localhost:16830 | test1  | Sleep   | 18721 |          | NULL             |</span><br><span class="line">|  7 | root | localhost:17154 | test1  | Sleep   | 18721 |          | NULL             |</span><br><span class="line">| 18 | root | localhost:47691 | sakila | Query   |     0 | starting | show processlist |</span><br><span class="line">| 19 | root | localhost:49737 | NULL   | Sleep   |   393 |          | NULL             |</span><br><span class="line">| 20 | root | localhost:49738 | sakila | Sleep   |   393 |          | NULL             |</span><br><span class="line">+----+------+-----------------+--------+---------+-------+----------+------------------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>该命令可以查看当前MySQL在进行的线程，包括状态，信息（是否锁表）等，便于实时查看SQL执行情况</p>
+<p>二：慢查询日志定位<br>MySQL的慢查询日志位置可以命令查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%slow_query_log%&apos;;</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| Variable_name       | Value                                                     |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| slow_query_log      | OFF                                                       |</span><br><span class="line">| slow_query_log_file | /home/data/mysql/centos7-db-slow.log 					  |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>默认情况下慢查询是关闭的，慢查询日志保存路径可以看见。<br>只需要给<code>slow_query_log</code>设置值即可开启慢查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global slow_query_log=1;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &apos;%slow_query_log%&apos;;</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| Variable_name       | Value                                                     |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| slow_query_log      | ON                                                        |</span><br><span class="line">| slow_query_log_file | /home/data/mysql/centos7-db-slow.log					  |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>同时，可以配置慢查询时间，以及慢查询日志保存路径：<br>在mysql安装路径下找到<code>my.cnf</code>文件，在其中增加或者修改<code>long_query_time</code>和<code>slow_query_log_file</code>即可完成配置。或者命令行更改也可以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%long_query_time%&apos;;</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Variable_name   | Value     |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| long_query_time | 10.000000 |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set long_query_time=2;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &apos;long_query_time&apos;;</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Variable_name   | Value    |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| long_query_time | 2.000000 |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h4 id="慢查询示例"><a href="#慢查询示例" class="headerlink" title="慢查询示例"></a>慢查询示例</h4><p>当MySQL开启了慢查询，并且慢查询时间也根据自己情况进行了更改，下面实验下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%slow_query_log%&apos;;</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| Variable_name       | Value                                                     |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">| slow_query_log      | ON                                                        |</span><br><span class="line">| slow_query_log_file | /home/data/mysql/centos7-db-slow.log					  |</span><br><span class="line">+---------------------+-----------------------------------------------------------+</span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>可以看见，当前系统慢查询是开启状态，且一旦出现慢查询，会记录日志在<code>/home/data/mysql/centos7-db-slow.log</code>中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;long_query_time&apos;;</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Variable_name   | Value    |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| long_query_time | 2.000000 |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>慢查询时间设置为2s，一旦有SQL执行时间超过2s，就会被认为是慢查询，记录在慢查询日志中。</p>
+<p>执行4s查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select sleep(4);</span><br><span class="line">+----------+</span><br><span class="line">| sleep(4) |</span><br><span class="line">+----------+</span><br><span class="line">|        0 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (4.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>该SQL执行时间为固定的4s，按照设置，肯定是慢查询了，进入日志文件，查看日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MySQL, Version: 5.7.21 (MySQL Community Server (GPL)). started with:</span><br><span class="line">TCP Port: 3306, Named Pipe: MySQL</span><br><span class="line">Time                 Id Command    Argument</span><br><span class="line"># Time: 2018-03-09T08:34:16.502235Z</span><br><span class="line"># User@Host: root[root] @ localhost [::1]  Id:     2</span><br><span class="line"># Query_time: 4.000101  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 0</span><br><span class="line">use sakila;</span><br><span class="line">SET timestamp=1520584456;</span><br><span class="line">select sleep(4);</span><br></pre></td></tr></table></figure></p>
+<p>以上就是慢查询内容，包含数据库，SQL执行时间，具体SQL，即定位到执行效率低的SQL，进行优化。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>定位到慢查询的SQL之后，接下来就是对低效SQL进行分析，后序再说…</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-03-09T08:59:53.814Z" itemprop="dateModified">2018-03-09</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/08/python基础之-args与-kwargs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">python基础之*args与**kwargs</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例库"><span class="toc-number">1.</span> <span class="toc-text">案例库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#show-status查看SQL执行频率"><span class="toc-number">2.</span> <span class="toc-text">show status查看SQL执行频率</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参数解释"><span class="toc-number">2.1.</span> <span class="toc-text">参数解释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定位执行效率低的SQL"><span class="toc-number">3.</span> <span class="toc-text">定位执行效率低的SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#慢查询示例"><span class="toc-number">3.1.</span> <span class="toc-text">慢查询示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux运维/">Linux运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/">k8s</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pymysql/">pymysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">20</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 13.88px; color: #71c1c2">Django</a> <a href="/tags/Hexo/" style="font-size: 13.88px; color: #71c1c2">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #7dc3de">MySQL</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.63px; color: #59bd8b">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.63px; color: #59bd8b">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/lives/" style="font-size: 14.75px; color: #65bfa7">lives</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 13.88px; color: #71c1c2">matplotlib</a> <a href="/tags/mysql/" style="font-size: 13.88px; color: #71c1c2">mysql</a> <a href="/tags/nose/" style="font-size: 16.5px; color: #4dbc6f">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.13px; color: #29b61c">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 17.38px; color: #41ba53">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.88px; color: #71c1c2">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/单元测试/" style="font-size: 15.63px; color: #59bd8b">单元测试</a> <a href="/tags/性能/" style="font-size: 13.88px; color: #71c1c2">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 18.25px; color: #35b838">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/09/MySQL之SQL优化系列（一）/">MySQL之SQL优化系列（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/08/python基础之-args与-kwargs/">python基础之*args与**kwargs</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/05/docker使用简介/">docker使用简介</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/28/新年伊始-开年记/">新年伊始-开年记</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/12/写在2018新年来临/">写在2018新年来临</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
