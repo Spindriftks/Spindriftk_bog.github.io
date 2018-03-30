@@ -5,23 +5,20 @@
   
 
   
-  <title>python编码 | 它夏了夏天</title>
+  <title>loadrunner监控SiteScope | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta name="keywords" content="python">
+<meta name="keywords" content="loadrunner,SiteScope">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python编码">
-<meta property="og:url" content="http://tokyle.com/2017/12/13/python编码/index.html">
+<meta property="og:title" content="loadrunner监控SiteScope">
+<meta property="og:url" content="http://tokyle.com/2018/03/30/loadrunner监控SiteScope/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://tokyle.com/images/utf8.jpg">
-<meta property="og:image" content="http://tokyle.com/images/pycharm_setting.jpg">
-<meta property="og:updated_time" content="2018-03-08T07:05:55.000Z">
+<meta property="og:updated_time" content="2018-03-30T07:35:34.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python编码">
+<meta name="twitter:title" content="loadrunner监控SiteScope">
 <meta name="twitter:description" content="素履以往">
-<meta name="twitter:image" content="http://tokyle.com/images/utf8.jpg">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
   
@@ -80,17 +77,17 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-python编码" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-loadrunner监控SiteScope" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
-<a href="/2017/12/13/python编码/" class="article-date">
-  <time datetime="2017-12-13T08:44:58.000Z" itemprop="datePublished">2017-12-13</time>
+<a href="/2018/03/30/loadrunner监控SiteScope/" class="article-date">
+  <time datetime="2018-03-30T07:31:34.000Z" itemprop="datePublished">2018-03-30</time>
 </a>
 
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/python基础/">python基础</a>
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
   </div>
 
   </div>
@@ -101,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      python编码
+      loadrunner监控SiteScope
     </h1>
   
 
@@ -113,22 +110,38 @@
 		<div id="toc" class="toc-article">
 			<h2 class="toc-title"><span>Contents</span></h2>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql性能监控"><span class="toc-number">2.</span> <span class="toc-text">mysql性能监控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#吞吐量"><span class="toc-number">2.1.</span> <span class="toc-text">吞吐量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HP-SiteScope"><span class="toc-number">3.</span> <span class="toc-text">HP SiteScope</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LR监控MySQL操作"><span class="toc-number">4.</span> <span class="toc-text">LR监控MySQL操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可能遇到的问题"><span class="toc-number">4.1.</span> <span class="toc-text">可能遇到的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lr配置监控"><span class="toc-number">4.2.</span> <span class="toc-text">lr配置监控</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">5.</span> <span class="toc-text">后记</span></a></li></ol>
 		
 		</div>
 		
-        <p>python日常踩坑系列（二）</p>
-<a id="more"></a>
-<p>日常编写python脚本，鉴于java各种坑编码经历，首先就会把pycharm编码设置成utf-8，但是不知道什么鬼，设置完成之后，编译还是会报编码gbk的错误</p>
-<p><img src="/images/utf8.jpg" alt=""></p>
-<p>问题如下：</p>
-<p>“UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x80 in position 34: illegal multibyte sequence”</p>
-<p>解决方案：</p>
-<p>1，设置所有文件编码默认为utf-8（文件最前面指定）</p>
-<p><img src="/images/pycharm_setting.jpg" alt=""></p>
-<p>2，处理数据时进行转码：</p>
-<p>with open(“population.json”,encoding=’UTF-8’) as data:</p>
-<p>–完 (#^.^#)</p>
+        <p>使用loadrunner监控mysql<br>&lt;– more –&gt;</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近工作需要研究怎么深度性能测试，使用的工具基本是loadrunner，jmeter或者基于python的框架locust。<br>近期一段时间应该和lr打交道会比较多，lr最为一个收费的专业性能测试软件，功能是毋庸置疑的相当强大，但是，貌似我没有找到监控mysql的模块。。sql server倒是有，也可能是我远离lr太长时间了。</p>
+<h3 id="mysql性能监控"><a href="#mysql性能监控" class="headerlink" title="mysql性能监控"></a>mysql性能监控</h3><p>在日常性能测试过程中，除了需要对系统TPS，RT这样的参数进行监控以及各服务器的CPU，MEMORY，IO之外，还要实时对数据库进行监控，因为接触的多的是mysql，就以MySQL为例。</p>
+<p>当mysql出现运行缓慢，或者出于某种原因无法响应查询，可以监控以下几个指标来获取解决：</p>
+<ol>
+<li>查询吞吐量</li>
+<li>查询执行性能</li>
+<li>连接情况</li>
+<li>数据库缓冲池</li>
+</ol>
+<h4 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h4><p>由于本篇重点是介绍监控MySQL，对于mysql的性能指标就只解释一种，以吞吐量为例：<br>MySQL中有一个<code>Questions</code>的内部计数器，客户端每发送一个查询，改值加一。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status like &quot;Questions&quot;;</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Questions     | 665   |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>所以对<code>Questions</code>该指标进行监控，当该指标发生突变，如骤降或者骤增，很可能数据库出现了问题。</p>
+<h3 id="HP-SiteScope"><a href="#HP-SiteScope" class="headerlink" title="HP SiteScope"></a>HP SiteScope</h3><p>WIKIPEDIA给的解释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HP SiteScope is agentless monitoring software focused on monitoring the availability and performance of distributed IT infrastructures, including Servers, Network devices and services, Applications and application components, operating systems and various IT enterprise components.</span><br></pre></td></tr></table></figure></p>
+<p>大致意思是：HP SiteScope是无代理监控软件，专注于监控分布式IT基础架构的可用性和性能，包括服务器，网络设备和服务，应用程序和应用程序组件，操作系统和各种IT企业组件。<br>所以，HP SiteScope很适合用来监控MySQL。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>网上找一圈硬是没找到安装包，很怀疑对于mysql的监控有更简单的方法，或者就是压根没人做开源的。。直接梯子到官网下了个11.3的版本：</p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1h3MZP0JM3TTTw8q9nbcG2A" target="_blank" rel="noopener">度娘盘连接</a>  密码：7l99<br><a href="https://pan.baidu.com/s/1GpszOZXKS8od5barKx0c1g" target="_blank" rel="noopener">mysql驱动</a>密码：y9i8</p>
+</blockquote>
+<p>安装很简单，压缩包打开，找到<code>HPSiteScope_11.30_setup.exe</code>一路next即可，mysql驱动放在<code>D:\HP\SiteScope\java\lib\ext</code>下。</p>
+<h3 id="LR监控MySQL操作"><a href="#LR监控MySQL操作" class="headerlink" title="LR监控MySQL操作"></a>LR监控MySQL操作</h3><p>安装完成HP SiteScope后，在浏览器输入url：<code>http://127.0.0.1:8080/SiteScope</code>即可打开主页</p>
+<h4 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h4><p>输入url之后，可能会遇见页面是空白的情况（我就遇到过），首先，别用chrome和firefox，这玩意貌似只能在IE上面打开；其次，你本地需要JDK环境（java -version）要求JDK1.6以上。最后，IE的internet选项中，把局域网设置里的代理勾掉。以上就是我解决的页面空白的三个办法（我全中过，折腾老半天）</p>
+<p>进入HP SiteScope首页，在<code>SiteScope</code>上右键，<code>新建组</code>，输入组名之后，右键创建的组，<code>新建监控器</code>，选择<code>数据库计数器</code>，只需要配置几项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">数据库连接URL:	jdbc:mysql://localhost/sakila</span><br><span class="line">查询：	show status</span><br><span class="line">数据库驱动程序： org.gjt.mm.mysql.Driver</span><br><span class="line">凭据：输入数据库用户名及密码</span><br><span class="line">计数器：选择计数器：</span><br><span class="line">Com_insert_select/Value	</span><br><span class="line">Com_select/Value	</span><br><span class="line">counters in error	</span><br><span class="line">Questions/Value	</span><br><span class="line">Select_scan/Value</span><br></pre></td></tr></table></figure></p>
+<p>点击验证保存，完成保存。</p>
+<h4 id="lr配置监控"><a href="#lr配置监控" class="headerlink" title="lr配置监控"></a>lr配置监控</h4><p>打开LR Contraller，配置完场景，在run页面，可用图，选择<code>SiteScope图</code>，右键SiteScope，点击打开，右击打开的SiteScope图，点击<code>添加度量</code>，弹出的窗口有两个添加，上面一个是添加服务器，我添加的是<code>localhost</code>端口<code>8888</code>，下一个添加是选择添加的组件，选择需要的添加组件，点击确定，即可完成配置。<br>（没办法，图床都太坑了，所以全程无图。。。请原谅。。。）</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>官网下载的HP SiteScope是未破解版，有时间还是需要折腾个破解版的研究研究。工具是会用了，原理根本没去看，这是病，不懂原理就直接使用，总感觉不踏实。</p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/fce30e333578" target="_blank" rel="noopener">参考地址</a></p>
+</blockquote>
 
       
     </div>
@@ -139,11 +152,11 @@
 	  <!-- 百度分享 End -->
 	  
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SiteScope/">SiteScope</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/loadrunner/">loadrunner</a></li></ul>
 
 	  
 <span>
-Updated:<time datetime="2018-03-08T07:05:55.000Z" itemprop="dateModified">2018-03-08</time>
+Updated:<time datetime="2018-03-30T07:35:34.878Z" itemprop="dateModified">2018-03-30</time>
 </span>
 
 
@@ -153,19 +166,10 @@ Updated:<time datetime="2018-03-08T07:05:55.000Z" itemprop="dateModified">2018-0
     
 <nav id="article-nav">
   
-    <a href="/2017/12/14/Hexo博客中加入图片/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          Hexo博客中加入图片
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/13/Django获取不到特定链接/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/09/MySQL之SQL优化系列（一）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">Django获取不到特定链接</div>
+      <div class="article-nav-title">MySQL之SQL优化系列（一）</div>
     </a>
   
 </nav>
@@ -185,7 +189,7 @@ Updated:<time datetime="2018-03-08T07:05:55.000Z" itemprop="dateModified">2018-0
   <div id="toc" class="toc-aside">
   <h2 class="toc-title">Contents</h2>
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql性能监控"><span class="toc-number">2.</span> <span class="toc-text">mysql性能监控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#吞吐量"><span class="toc-number">2.1.</span> <span class="toc-text">吞吐量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HP-SiteScope"><span class="toc-number">3.</span> <span class="toc-text">HP SiteScope</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LR监控MySQL操作"><span class="toc-number">4.</span> <span class="toc-text">LR监控MySQL操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可能遇到的问题"><span class="toc-number">4.1.</span> <span class="toc-text">可能遇到的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lr配置监控"><span class="toc-number">4.2.</span> <span class="toc-text">lr配置监控</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">5.</span> <span class="toc-text">后记</span></a></li></ol>
     
   </div>
 
