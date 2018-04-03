@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MySQL之SQL优化系列（二） | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="mysql,explain">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL之SQL优化系列（二）">
+<meta property="og:url" content="http://tokyle.com/2018/04/03/MySQL之SQL优化系列（二）/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-03T05:05:09.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL之SQL优化系列（二）">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MySQL之SQL优化系列（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/04/03/MySQL之SQL优化系列（二）/" class="article-date">
+  <time datetime="2018-04-03T05:03:10.000Z" itemprop="datePublished">2018-04-03</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MYSQL-SQL优化/">MYSQL-SQL优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL之SQL优化系列（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#序言"><span class="toc-number">1.</span> <span class="toc-text">序言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用EXPLAIN分析低效SQL的执行计划"><span class="toc-number">2.</span> <span class="toc-text">使用EXPLAIN分析低效SQL的执行计划</span></a></li></ol>
+		
+		</div>
+		
+        <p>通过explain分析低效SQL的执行计划</p>
+<a id="more"></a>
+<h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><p>使用的数据库依然是mysql示例库sakila<br>接着上篇的<a href="http://tokyle.com/2018/03/09/MySQL%E4%B9%8BSQL%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/#more">MySQL之SQL优化系列（一）</a><br>当通过慢查询日志定位到执行效率较低的SQL之后，使用explain进行低效SQL的分析。</p>
+<h3 id="使用EXPLAIN分析低效SQL的执行计划"><a href="#使用EXPLAIN分析低效SQL的执行计划" class="headerlink" title="使用EXPLAIN分析低效SQL的执行计划"></a>使用EXPLAIN分析低效SQL的执行计划</h3><p>使用EXPLAIN可以获取MySQL是如何执行SELECT语句的，包括在SELECT语句执行过程中表如何连接以及连接的顺序，如下示例SQL执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select sum(amount) from customer a,payment b where 1=1 and a.customer_id = b.customer_id and email=&apos;JANE.BENNETT@sakilacustomer.org&apos;\G  </span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: a</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: ALL</span><br><span class="line">possible_keys: PRIMARY</span><br><span class="line">          key: NULL</span><br><span class="line">      key_len: NULL</span><br><span class="line">          ref: NULL</span><br><span class="line">         rows: 599</span><br><span class="line">     filtered: 10.00</span><br><span class="line">        Extra: Using where</span><br><span class="line">*************************** 2. row *************************** </span><br><span class="line">           id: 1                                               </span><br><span class="line">  select_type: SIMPLE                                          </span><br><span class="line">        table: b                                               </span><br><span class="line">   partitions: NULL                                            </span><br><span class="line">         type: ref                                             </span><br><span class="line">possible_keys: idx_fk_customer_id                              </span><br><span class="line">          key: idx_fk_customer_id                     	         </span><br><span class="line">      key_len: 2                                               </span><br><span class="line">          ref: sakila.a.customer_id                            </span><br><span class="line">         rows: 26                                              </span><br><span class="line">     filtered: 100.00                                          </span><br><span class="line">        Extra: NULL                                            </span><br><span class="line">2 rows in set, 1 warning (0.01 sec)</span><br></pre></td></tr></table></figure></p>
+<p>字段解释：</p>
+<ul>
+<li>select_type:表示select的类型，常见取值有SIMPLE(简单表，不使用表连接或子查询)、PRIMARY(主查询，外层的查询)、UNION(UNION中的第二个或者后面的查询语句)、SUBQUERY(子查询中的第一个SELECT)</li>
+<li>table:输出结果集的表</li>
+<li>type:表示MySQL在表中找到所需行的方法，或者称为访问类型，常见的有：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALL —— index —— range —— ref —— eq_ref —— const,system —— NULL</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>从做到右，性能由最差到最好。示例：</p>
+<ol>
+<li>type=ALL，全表扫描，MySQL遍历全表来找到匹配行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from film limit 1\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1                                              </span><br><span class="line">  select_type: SIMPLE                                         </span><br><span class="line">        table: film                                           </span><br><span class="line">   partitions: NULL                                           </span><br><span class="line">         type: ALL                                            </span><br><span class="line">possible_keys: NULL                                           </span><br><span class="line">          key: NULL                                           </span><br><span class="line">      key_len: NULL                                           </span><br><span class="line">          ref: NULL                                           </span><br><span class="line">         rows: 1000                                           </span><br><span class="line">     filtered: 100.00                                         </span><br><span class="line">        Extra: NULL                                           </span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>2.type=index，索引全扫描，MySQL遍历整个索引来查询匹配的行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show index from film;</span><br></pre></td></tr></table></figure></p>
+<p>获取得到film表的索引：<code>film_id(主键)</code>,<code>title</code>,<code>language_id</code>,<code>original_language_id</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;  explain select title from film\G</span><br><span class="line">*************************** 1. row *************************** </span><br><span class="line">           id: 1                                               </span><br><span class="line">  select_type: SIMPLE                                          </span><br><span class="line">        table: film                                            </span><br><span class="line">   partitions: NULL                                            </span><br><span class="line">         type: index                                           </span><br><span class="line">possible_keys: NULL                                            </span><br><span class="line">          key: idx_title                                       </span><br><span class="line">      key_len: 767                                             </span><br><span class="line">          ref: NULL                                            </span><br><span class="line">         rows: 1000                                            </span><br><span class="line">     filtered: 100.00                                          </span><br><span class="line">        Extra: Using index                                     </span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>3.type=range,索引范围扫描，常见的有<code>between</code>,<code>&gt;</code>,<code>&lt;</code>等。<br>4.type=ref，使用非唯一索引扫描或唯一索引的前缀扫描，返回匹配单独值得记录行，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from payment where customer_id=24\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1                                              </span><br><span class="line">  select_type: SIMPLE                                         </span><br><span class="line">        table: payment                                        </span><br><span class="line">   partitions: NULL                                           </span><br><span class="line">         type: ref                                            </span><br><span class="line">possible_keys: idx_fk_customer_id                             </span><br><span class="line">          key: idx_fk_customer_id                             </span><br><span class="line">      key_len: 2                                              </span><br><span class="line">          ref: const                                          </span><br><span class="line">         rows: 25                                             </span><br><span class="line">     filtered: 100.00                                         </span><br><span class="line">        Extra: NULL                                           </span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>索引idx_fk_customer_id是非唯一索引，查询条件为等值查询条件customer_id=24，所以扫描索引的类型为ref。ref还经常出现在join操作中。<br>5.type=eq_ref，类似ref，区别在于使用的索引是唯一索引，对于每一个索引的键值，表中只有一条记录匹配。换句换说，就是在进行多表连接时，使用得失primary key或者unique index作为关联条件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from film a,film_text b where a.film_id = b.film_id\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1                                              </span><br><span class="line">  select_type: SIMPLE                                         </span><br><span class="line">        table: b                                              </span><br><span class="line">   partitions: NULL                                           </span><br><span class="line">         type: ALL                                            </span><br><span class="line">possible_keys: PRIMARY                                        </span><br><span class="line">          key: NULL                                           </span><br><span class="line">      key_len: NULL                                           </span><br><span class="line">          ref: NULL                                           </span><br><span class="line">         rows: 1000                                           </span><br><span class="line">     filtered: 100.00                                         </span><br><span class="line">        Extra: NULL                                           </span><br><span class="line">*************************** 2. row ***************************</span><br><span class="line">           id: 1                                              </span><br><span class="line">  select_type: SIMPLE                                         </span><br><span class="line">        table: a                                              </span><br><span class="line">   partitions: NULL                                           </span><br><span class="line">         type: eq_ref                                         </span><br><span class="line">possible_keys: PRIMARY                                        </span><br><span class="line">          key: PRIMARY                                        </span><br><span class="line">      key_len: 2                                              </span><br><span class="line">          ref: sakila.b.film_id                               </span><br><span class="line">         rows: 1                                              </span><br><span class="line">     filtered: 100.00                                         </span><br><span class="line">        Extra: Using where                                    </span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>6.type=const/system，表单中有最多一个匹配行，查询起来非常迅速，所以这个匹配行中的其他列的值可以被优化器在当前查询中当做常量来处理，例如，根据主键primary key或者唯一索引unique index进行的查询。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">alter table customer add unique index uk_email(email);</span><br><span class="line">mysql&gt; explain select * from (select * from customer where email=&apos;LINDA.WILLIAMS@sakilacustomer.org&apos;) a\G</span><br><span class="line">*************************** 1. row *************************** </span><br><span class="line">           id: 1                                               </span><br><span class="line">  select_type: SIMPLE                                          </span><br><span class="line">        table: customer                                        </span><br><span class="line">   partitions: NULL                                            </span><br><span class="line">         type: const                                           </span><br><span class="line">possible_keys: uk_email                                        </span><br><span class="line">          key: uk_email                                        </span><br><span class="line">      key_len: 153                                             </span><br><span class="line">          ref: const                                           </span><br><span class="line">         rows: 1                                               </span><br><span class="line">     filtered: 100.00                                          </span><br><span class="line">        Extra: NULL                                            </span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>通过唯一索引uk_email访问的时候，类型type为const。</p>
+<ul>
+<li>possible_keys：表示查询时可能使用的索引</li>
+<li>key：表示实际使用的索引</li>
+<li>key_len：使用到索引字段的长度、</li>
+<li>rows：扫描行的数量</li>
+<li>Extra：执行情况的说明和描述，包含不适合在其他列中显示但是对执行计划非常重要的额外信息。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/explain/">explain</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-04-03T05:05:09.674Z" itemprop="dateModified">2018-04-03</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/30/python性能测试框架locust（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">python性能测试框架locust（一）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#序言"><span class="toc-number">1.</span> <span class="toc-text">序言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用EXPLAIN分析低效SQL的执行计划"><span class="toc-number">2.</span> <span class="toc-text">使用EXPLAIN分析低效SQL的执行计划</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MYSQL-SQL优化/">MYSQL-SQL优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux运维/">Linux运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Locust/">Locust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SiteScope/">SiteScope</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/explain/">explain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/">k8s</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loadrunner/">loadrunner</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pymysql/">pymysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">21</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 13.88px; color: #71c1c2">Django</a> <a href="/tags/Hexo/" style="font-size: 13.88px; color: #71c1c2">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #7dc3de">MySQL</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.63px; color: #59bd8b">appium</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.63px; color: #59bd8b">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/lives/" style="font-size: 14.75px; color: #65bfa7">lives</a> <a href="/tags/loadrunner/" style="font-size: 13px; color: #7dc3de">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 13.88px; color: #71c1c2">matplotlib</a> <a href="/tags/mysql/" style="font-size: 14.75px; color: #65bfa7">mysql</a> <a href="/tags/nose/" style="font-size: 16.5px; color: #4dbc6f">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.13px; color: #29b61c">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 17.38px; color: #41ba53">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.88px; color: #71c1c2">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/单元测试/" style="font-size: 15.63px; color: #59bd8b">单元测试</a> <a href="/tags/性能/" style="font-size: 13.88px; color: #71c1c2">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 18.25px; color: #35b838">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/04/03/MySQL之SQL优化系列（二）/">MySQL之SQL优化系列（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/30/python性能测试框架locust（一）/">python性能测试框架locust（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/30/loadrunner监控Mysql/">loadrunner监控Mysql</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/09/MySQL之SQL优化系列（一）/">MySQL之SQL优化系列（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/08/python基础之-args与-kwargs/">python基础之*args与**kwargs</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
