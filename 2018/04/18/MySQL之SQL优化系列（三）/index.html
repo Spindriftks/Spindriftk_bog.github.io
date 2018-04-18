@@ -5,22 +5,20 @@
   
 
   
-  <title>谁是我 | 它夏了夏天</title>
+  <title>MySQL之SQL优化系列（三） | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta property="og:type" content="website">
-<meta property="og:title" content="谁是我">
-<meta property="og:url" content="http://tokyle.com/about/index.html">
+<meta name="keywords" content="profiler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL之SQL优化系列（三）">
+<meta property="og:url" content="http://tokyle.com/2018/04/18/MySQL之SQL优化系列（三）/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://tokyle.com/images/cat.jpg">
-<meta property="og:image" content="http://tokyle.com/images/cats.png">
-<meta property="og:updated_time" content="2017-12-14T14:16:06.000Z">
+<meta property="og:updated_time" content="2018-04-18T08:56:40.287Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谁是我">
+<meta name="twitter:title" content="MySQL之SQL优化系列（三）">
 <meta name="twitter:description" content="素履以往">
-<meta name="twitter:image" content="http://tokyle.com/images/cat.jpg">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
   
@@ -79,15 +77,19 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MySQL之SQL优化系列（三）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
-<a href="/about/index.html" class="article-date">
-  <time datetime="2017-12-14T07:27:57.000Z" itemprop="datePublished">2017-12-14</time>
+<a href="/2018/04/18/MySQL之SQL优化系列（三）/" class="article-date">
+  <time datetime="2018-04-18T08:55:17.000Z" itemprop="datePublished">2018-04-18</time>
 </a>
 
 
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -96,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      谁是我
+      MySQL之SQL优化系列（三）
     </h1>
   
 
@@ -108,19 +110,21 @@
 		<div id="toc" class="toc-article">
 			<h2 class="toc-title"><span>Contents</span></h2>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Query-Profiler"><span class="toc-number">1.</span> <span class="toc-text">Query Profiler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对系统分析"><span class="toc-number">2.1.</span> <span class="toc-text">对系统分析</span></a></li></ol></li></ol>
 		
 		</div>
 		
-        <p>貌似是枚测试来着</p>
-<p>时不时还客串下运维</p>
-<p>最近又在研究机器学习的网红语言-python</p>
-<p>所以，一个纠结的1/4程序猿就是了</p>
-<p><img src="/images/cat.jpg" alt=""><br>有事没事发个呆</p>
-<p>没事有事抽个疯</p>
-<p>音乐、旅行、历史、文字</p>
-<p>争取精致的过着每一天~</p>
-<p><img src="/images/cats.png" alt=""></p>
+        <p>MySQL精准分析执行时间</p>
+<a id="more"></a>
+<p>当进行sql性能瓶颈分析时，第一反应肯定是查看sql执行时间，那么当使用慢查询日志，以及explain都无法知晓具体信息时，怎么分析。</p>
+<h3 id="Query-Profiler"><a href="#Query-Profiler" class="headerlink" title="Query Profiler"></a>Query Profiler</h3><p>Query Profiler是MYSQL自带的一种query诊断分析工具，通过它可以分析出一条SQL语句的性能瓶颈在什么地方。通过<code>show variables like &quot;%pro%&quot;;</code>可以查看该工具是否开启：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%pro%&quot;;</span><br><span class="line">+------------------------------------------+-------+</span><br><span class="line">| Variable_name                            | Value |</span><br><span class="line">+------------------------------------------+-------+</span><br><span class="line">| check_proxy_users                        | OFF   |</span><br><span class="line">| have_profiling                           | YES   |</span><br><span class="line">| mysql_native_password_proxy_users        | OFF   |</span><br><span class="line">| performance_schema_max_program_instances | -1    |</span><br><span class="line">| profiling                                | OFF   |</span><br><span class="line">| profiling_history_size                   | 15    |</span><br><span class="line">| protocol_version                         | 10    |</span><br><span class="line">| proxy_user                               |       |</span><br><span class="line">| sha256_password_proxy_users              | OFF   |</span><br><span class="line">| slave_compressed_protocol                | OFF   |</span><br><span class="line">| stored_program_cache                     | 256   |</span><br><span class="line">+------------------------------------------+-------+</span><br><span class="line">11 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>发现当前为关闭状态，手动开启：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set profiling = 1;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>首先执行几条sql，作为分析样本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select sleep(3);</span><br><span class="line">+----------+</span><br><span class="line">| sleep(3) |</span><br><span class="line">+----------+</span><br><span class="line">|        0 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (3.00 sec)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1;</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>查看执行情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profiles;</span><br><span class="line">+----------+------------+-----------------------------+</span><br><span class="line">| Query_ID | Duration   | Query                       |</span><br><span class="line">+----------+------------+-----------------------------+</span><br><span class="line">|        1 | 0.00325925 | show variables like &quot;%pro%&quot; |</span><br><span class="line">|        2 | 2.99971075 | select sleep(3)             |</span><br><span class="line">|        3 | 0.00051050 | select 1                    |</span><br><span class="line">+----------+------------+-----------------------------+</span><br><span class="line">3 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>可以看出具体执行时间，若想查看具体那一条SQL的具体信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profile for query 2;      </span><br><span class="line">+----------------------+----------+   </span><br><span class="line">| Status               | Duration |   </span><br><span class="line">+----------------------+----------+   </span><br><span class="line">| starting             | 0.000103 |   </span><br><span class="line">| checking permissions | 0.000008 |   </span><br><span class="line">| Opening tables       | 0.000006 |   </span><br><span class="line">| init                 | 0.000016 |   </span><br><span class="line">| optimizing           | 0.000008 |   </span><br><span class="line">| executing            | 0.000018 |   </span><br><span class="line">| User sleep           | 2.999385 |   </span><br><span class="line">| end                  | 0.000016 |   </span><br><span class="line">| query end            | 0.000009 |   </span><br><span class="line">| closing tables       | 0.000005 |   </span><br><span class="line">| freeing items        | 0.000115 |   </span><br><span class="line">| cleaning up          | 0.000023 |   </span><br><span class="line">+----------------------+----------+   </span><br><span class="line">12 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h4 id="对系统分析"><a href="#对系统分析" class="headerlink" title="对系统分析"></a>对系统分析</h4><p>查看执行sql中对系统的影响，例如，查看磁盘IO：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profile block io for query 2;</span><br><span class="line">+----------------------+----------+--------------+---------------+</span><br><span class="line">| Status               | Duration | Block_ops_in | Block_ops_out |</span><br><span class="line">+----------------------+----------+--------------+---------------+</span><br><span class="line">| starting             | 0.000103 |         NULL |          NULL |</span><br><span class="line">| checking permissions | 0.000008 |         NULL |          NULL |</span><br><span class="line">| Opening tables       | 0.000006 |         NULL |          NULL |</span><br><span class="line">| init                 | 0.000016 |         NULL |          NULL |</span><br><span class="line">| optimizing           | 0.000008 |         NULL |          NULL |</span><br><span class="line">| executing            | 0.000018 |         NULL |          NULL |</span><br><span class="line">| User sleep           | 2.999385 |         NULL |          NULL |</span><br><span class="line">| end                  | 0.000016 |         NULL |          NULL |</span><br><span class="line">| query end            | 0.000009 |         NULL |          NULL |</span><br><span class="line">| closing tables       | 0.000005 |         NULL |          NULL |</span><br><span class="line">| freeing items        | 0.000115 |         NULL |          NULL |</span><br><span class="line">| cleaning up          | 0.000023 |         NULL |          NULL |</span><br><span class="line">+----------------------+----------+--------------+---------------+</span><br><span class="line">12 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>可以完整的看出<code>select sleep(3);</code>该sql执行过程中对磁盘IO的影响。类似的还有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profile cpu for query 2;</span><br><span class="line">mysql&gt; show profile memory for query 2;</span><br><span class="line">mysql&gt; show profile swaps for query 2;</span><br><span class="line">mysql&gt; show profile context switches for query 2;</span><br><span class="line">mysql&gt; show profile all for query 2;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -131,9 +135,11 @@
 	  <!-- 百度分享 End -->
 	  
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/profiler/">profiler</a></li></ul>
+
 	  
 <span>
-Updated:<time datetime="2017-12-14T14:16:06.000Z" itemprop="dateModified">2017-12-14</time>
+Updated:<time datetime="2018-04-18T08:56:40.287Z" itemprop="dateModified">2018-04-18</time>
 </span>
 
 
@@ -141,6 +147,16 @@ Updated:<time datetime="2017-12-14T14:16:06.000Z" itemprop="dateModified">2017-1
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/18/loadruner日常总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">loadruner日常总结</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
@@ -153,6 +169,13 @@ Updated:<time datetime="2017-12-14T14:16:06.000Z" itemprop="dateModified">2017-1
 </section>
         
           
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Query-Profiler"><span class="toc-number">1.</span> <span class="toc-text">Query Profiler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对系统分析"><span class="toc-number">2.1.</span> <span class="toc-text">对系统分析</span></a></li></ol></li></ol>
+    
+  </div>
+
 <aside id="sidebar">
 
   
@@ -324,6 +347,9 @@ Updated:<time datetime="2017-12-14T14:16:06.000Z" itemprop="dateModified">2017-1
 	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
 	<script src="/js/gotop.js"></script>
 
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
 
 </div>
 
