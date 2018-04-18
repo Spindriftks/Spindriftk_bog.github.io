@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>loadruner日常总结 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="loadrunner">
+<meta property="og:type" content="article">
+<meta property="og:title" content="loadruner日常总结">
+<meta property="og:url" content="http://tokyle.com/2018/04/18/loadruner日常总结/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-18T01:41:14.879Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="loadruner日常总结">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-loadruner日常总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/04/18/loadruner日常总结/" class="article-date">
+  <time datetime="2018-04-18T01:39:54.000Z" itemprop="datePublished">2018-04-18</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      loadruner日常总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境说明"><span class="toc-number">1.1.</span> <span class="toc-text">环境说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#艰难的环境搭建"><span class="toc-number">1.2.</span> <span class="toc-text">艰难的环境搭建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题"><span class="toc-number">2.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CV证书"><span class="toc-number">2.1.</span> <span class="toc-text">CV证书</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#解决办法"><span class="toc-number">2.1.1.</span> <span class="toc-text">解决办法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loadrunner未响应"><span class="toc-number">2.2.</span> <span class="toc-text">loadrunner未响应</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求接口HTTP-CODE-500"><span class="toc-number">2.3.</span> <span class="toc-text">请求接口HTTP CODE 500</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">3.</span> <span class="toc-text">后记</span></a></li></ol>
+		
+		</div>
+		
+        <p>日常工作中遇到的loadrunner的相关问题的总结：</p>
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>首先，使用的环境（版本）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WIN7 企业版 Service Pack1</span><br><span class="line">loadrunner 12.50</span><br><span class="line">IE 11</span><br></pre></td></tr></table></figure></p>
+<h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>本来用习惯了，到了新公司第一件事就是装了<code>WIN10</code>，loadrunner版本使用的也是<code>loadrunner 12.50</code>，然后，开始工作，录制脚本时候，开始了各种神坑问题，对了，先说一句，笔记本是<code>Thinkpad T430</code>（不是win 10系统的锅）。录制时候就开始了坑死人的经历，第一个是基本相当于不支持<code>chrome</code>，想用chrome录制，必须开代理或者<code>fiddle</code>，简直是愁；换成firefox，浏览器都打不开，用IE，各种的需要安全证书，或者就是压根浏览器直接未响应。<br>好不容易开着代理，用chrome录制好了，回放，70%的概率电脑会蓝屏，无语至极。</p>
+<h4 id="艰难的环境搭建"><a href="#艰难的环境搭建" class="headerlink" title="艰难的环境搭建"></a>艰难的环境搭建</h4><p>没办法，日常工作现在就是在性能测试上，只好放弃win10，转用win7了（再次再次提醒，T430千万别用win10来搭配loadrunner！！！）<br>再次重装系统，这次用了什么鬼纯净版，也就是<code>ghost版</code>，是人为在官方原本基础上的优化版，唉，装是装好了，事又来了，众所周知，loadrunner和浏览器的兼容实在是个很深的坑尤其是64位的windows系统，更是能选用的很少。试了各种chrome，firefox，ie甚至什么遨游，世界之窗，基本是快奔溃的状态。实验半天，基本兼容性是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IE &gt; firefox &gt; chrome</span><br></pre></td></tr></table></figure></p>
+<p>IE最好，firefox网上基本是建议用25左右的版本，但是，没有64位的啊。。。chrome就别提了，老样子，要么是要开代理，要么是直接打开浏览器就未响应。所以，首选还是IE啊，但是，试了下，公司的测试网站，在IE8上压根就打不开（win7自带是IE8），版本太低了！必须要升级到IE11，升级是简单，找到<code>windows update</code>搜索下载，下载完更新即可，安装完成需要重启系统，然后坑来了：<strong>ghost版装的系统，直接帮你“优化了”权限，基本你是默认就是管理员，然后在安装windows更新时候，问题就来了，系统会在判断你权限时候，发现权限混乱，直接更新失败，返回还原点，windows——update failure，error code：80070005</strong>，唉，简直是半疯。在实验了其他n中手动更新IE的方法失败之后，只能放弃。<br>直接上<a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener">MSDN</a>下载官方镜像，重新安装系统，这次终于是成功将IE8更新到IE11了。</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="CV证书"><a href="#CV证书" class="headerlink" title="CV证书"></a>CV证书</h4><p>在录制时候，经常会遇到不适用loadrunner录制，网页可以打开，使用loadrunner录制，网页打开显示“无法此页”；可能在浏览器显示该页面之前，已经弹出了一个类似<code>该网站CV证书。。。</code>的弹窗提示，意思很明显，该测试网站，在你的浏览器安全证书中没有它的证书，所以浏览器的安全策略就过滤了该浏览器的连接，页面就打不开了。</p>
+<h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><p>在录制时候：<br>点击Recoding Oftions，在Network栏，点击Mapping and Filtering，Port mapping选择WinINet level data，点击确定，录制即可。</p>
+<h4 id="loadrunner未响应"><a href="#loadrunner未响应" class="headerlink" title="loadrunner未响应"></a>loadrunner未响应</h4><p>该问题，网上有很多解答，基本第一条就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IE - Internet选项 - 高级 - 启用第三方软件扩展（取消勾选）</span><br></pre></td></tr></table></figure></p>
+<p>然后，我是直接用管理员登录的系统，再进行录制就可以了。附上网上有个很全的回答：<br><a href="http://www.cnblogs.com/boheyixia/p/3758508.html" target="_blank" rel="noopener">loadrunner点击录制不响应</a></p>
+<h4 id="请求接口HTTP-CODE-500"><a href="#请求接口HTTP-CODE-500" class="headerlink" title="请求接口HTTP CODE 500"></a>请求接口HTTP CODE 500</h4><p>在排除接口异常，使用其他如postman，soupui等工具直接请求可以成功返回数据情况下，查看使用loadrunner录制的脚本，是否在传参的时候将参数进行格式化，以<code>JSON</code>格式传参，我是遇到过很多次，直接使用loadrunner录制脚本，录制出来的脚本中缺少格式化:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;EncType=application/json; charset=utf-8&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>录制出来的脚本类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">web_custom_request(&quot;2018_1&quot;, </span><br><span class="line">		&quot;URL=https://www.test.com/api/config/calendar/1/2018&quot;, </span><br><span class="line">		&quot;Method=PUT&quot;, </span><br><span class="line">		&quot;Resource=0&quot;, </span><br><span class="line">		&quot;RecContentType=application/json&quot;, </span><br><span class="line">		&quot;Referer=https://www.test.com/app&quot;, </span><br><span class="line">		&quot;Snapshot=t16.inf&quot;, </span><br><span class="line">		&quot;EncType=application/json; charset=utf-8&quot;, </span><br><span class="line">		&quot;Mode=HTML&quot;, </span><br><span class="line">		&quot;Body=&#123;\&quot;2018-11-01\&quot;:1&#125;&quot;, </span><br><span class="line">		LAST);</span><br></pre></td></tr></table></figure></p>
+<p>这样请求，即使加上所有token，很可能还是会500，所以手工加上一句格式化json的即可。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>loadrunner作为付费软件，限制其实还是挺多的，日常生活中遇到什么问题，还需要继续记录。<br>P.S 做性能测试，真的是，能用Jmeter或者locust，真的，就转吧。。。破解个限制这么多的，实在是，唉。。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/loadrunner/">loadrunner</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-04-18T01:41:14.879Z" itemprop="dateModified">2018-04-18</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/04/CentOs7强制修改MySQL中root密码/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">CentOs7强制修改MySQL中root密码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境说明"><span class="toc-number">1.1.</span> <span class="toc-text">环境说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#艰难的环境搭建"><span class="toc-number">1.2.</span> <span class="toc-text">艰难的环境搭建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题"><span class="toc-number">2.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CV证书"><span class="toc-number">2.1.</span> <span class="toc-text">CV证书</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#解决办法"><span class="toc-number">2.1.1.</span> <span class="toc-text">解决办法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loadrunner未响应"><span class="toc-number">2.2.</span> <span class="toc-text">loadrunner未响应</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求接口HTTP-CODE-500"><span class="toc-number">2.3.</span> <span class="toc-text">请求接口HTTP CODE 500</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">3.</span> <span class="toc-text">后记</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 13px; color: #7dc3de">Centos7</a> <a href="/tags/Django/" style="font-size: 13.78px; color: #72c1c5">Django</a> <a href="/tags/Hexo/" style="font-size: 13.78px; color: #72c1c5">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.33px; color: #5dbe94">appium</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.33px; color: #5dbe94">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/linux/" style="font-size: 13.78px; color: #72c1c5">linux</a> <a href="/tags/lives/" style="font-size: 14.56px; color: #68c0ad">lives</a> <a href="/tags/loadrunner/" style="font-size: 13.78px; color: #72c1c5">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 13.78px; color: #72c1c5">matplotlib</a> <a href="/tags/mysql/" style="font-size: 16.11px; color: #52bc7b">mysql</a> <a href="/tags/nose/" style="font-size: 16.89px; color: #48bb63">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.22px; color: #28b619">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.78px; color: #72c1c5">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/yum/" style="font-size: 13px; color: #7dc3de">yum</a> <a href="/tags/单元测试/" style="font-size: 15.33px; color: #5dbe94">单元测试</a> <a href="/tags/性能/" style="font-size: 13.78px; color: #72c1c5">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 18.44px; color: #32b731">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/04/18/loadruner日常总结/">loadruner日常总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/04/CentOs7强制修改MySQL中root密码/">CentOs7强制修改MySQL中root密码</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/04/yum安装软件失败/">yum安装软件失败</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/03/MySQL之SQL优化系列（二）/">MySQL之SQL优化系列（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/30/python性能测试框架locust（一）/">python性能测试框架locust（一）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
