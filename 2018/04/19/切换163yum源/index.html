@@ -5,17 +5,19 @@
   
 
   
-  <title>Tag: pygal | 它夏了夏天</title>
+  <title>切换163yum源 | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta property="og:type" content="website">
-<meta property="og:title" content="它夏了夏天">
-<meta property="og:url" content="http://tokyle.com/tags/pygal/index.html">
+<meta name="keywords" content="linux,yum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="切换163yum源">
+<meta property="og:url" content="http://tokyle.com/2018/04/19/切换163yum源/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-19T08:54:31.740Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="它夏了夏天">
+<meta name="twitter:title" content="切换163yum源">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -75,48 +77,104 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
+        <section id="main"><article id="post-切换163yum源" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2017/12/21/world-map/" class="archive-article-date">
-  <time datetime="2017-12-21T09:32:33.000Z" itemprop="datePublished">Dec 21</time>
+<a href="/2018/04/19/切换163yum源/" class="article-date">
+  <time datetime="2018-04-19T08:53:10.000Z" itemprop="datePublished">2018-04-19</time>
 </a>
 
 
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Devops/">Devops</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/21/world-map/">world_map</a>
+    <h1 class="article-title" itemprop="name">
+      切换163yum源
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#备份"><span class="toc-number">2.</span> <span class="toc-text">备份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下载163源"><span class="toc-number">3.</span> <span class="toc-text">下载163源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改名"><span class="toc-number">4.</span> <span class="toc-text">改名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成缓存"><span class="toc-number">5.</span> <span class="toc-text">生成缓存</span></a></li></ol>
+		
+		</div>
+		
+        <p>来篇福利文</p>
+<a id="more"></a>
+<p>经常装环境的应该遇过下包基本没动静，基于这“伟大”的互联网环境，下包真的是很心累的一件事，好在国内有志之士还是弄了很多福利的，下面：<code>Centos切换国内163yum源</code></p>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>前提条件，linux服务器支持<code>wget</code>，没有则装一个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y wget</span><br></pre></td></tr></table></figure></p>
+<p>装好之后，开始切换yum源。</p>
+<h4 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h4><p>首先，搭环境的必要素质，修改配置文件之前，一定要先备份！（踩了n多坑的教训）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure></p>
+<h4 id="下载163源"><a href="#下载163源" class="headerlink" title="下载163源"></a>下载163源</h4><p>切换到<code>/etc/yum.repos.d</code>，wget下载163源配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.163.com/.help/CentOS6-Base-163.repo</span><br></pre></td></tr></table></figure></p>
+<h4 id="改名"><a href="#改名" class="headerlink" title="改名"></a>改名</h4><p>修改下载完成的文件的名称<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS6-Base-163.repo /etc/yum.repos.d/CentOS-Base.rep</span><br></pre></td></tr></table></figure></p>
+<h4 id="生成缓存"><a href="#生成缓存" class="headerlink" title="生成缓存"></a>生成缓存</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<p>完工~~~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yum/">yum</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-04-19T08:54:31.740Z" itemprop="dateModified">2018-04-19</time>
+</span>
+
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/18/MySQL之SQL优化系列（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">MySQL之SQL优化系列（三）</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-  
-  
-    </div></section>
-  
 
-
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#备份"><span class="toc-number">2.</span> <span class="toc-text">备份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下载163源"><span class="toc-number">3.</span> <span class="toc-text">下载163源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改名"><span class="toc-number">4.</span> <span class="toc-text">改名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成缓存"><span class="toc-number">5.</span> <span class="toc-text">生成缓存</span></a></li></ol>
+    
+  </div>
+
 <aside id="sidebar">
 
   
@@ -263,13 +321,17 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
     </script>
 
 
 
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
 
 
 <script src="/js/jquery.min.js"></script>
@@ -284,6 +346,9 @@
 	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
 	<script src="/js/gotop.js"></script>
 
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
 
 </div>
 
