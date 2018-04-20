@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos下升级python2.7到3.6]]></title>
+    <url>%2F2018%2F04%2F20%2FCentos%E4%B8%8B%E5%8D%87%E7%BA%A7python2-7%E5%88%B03-6%2F</url>
+    <content type="text"><![CDATA[Centos下，修改python版本，保留原2.7.5版本同时，更改默认版本为3.6 保留原版本由于yum中会配置python版本，在进行python版本更新时，需要先将yum的配置文件都更改了。首先，切用户1su - root 1mv /usr/bin/python2.7 /usr/bin/python2.7.5 # 保留默认版本python为python2.7.5 1ln -s /usr/bin/python2.7.5 /usr/local/bin/python2.7.5 # 创建软连接 1ls -al /usr/bin/yum* # 查看/usr/bin/目录下所有yum文件，共7个 一个一个改：1#!/usr/bin/python —&gt; #!/usr/bin/python2.7.5 12vi /usr/libexec/urlgrabber-ext-down # 修改/usr/libexec/目录下 urlgrabber-ext-down#!/usr/bin/python —&gt; #!/usr/bin/python2.7.5 安装python3.6安装配置环境wget首先检查是否有安装wget，没有则需要安装：1yum install wget 准备编译环境12yum groupinstall &apos;Development Tools&apos;yum install zlib-devel bzip2-devel openssl-devel ncurses-devel 开始安装123456789101112131415161718192021222324wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tgztar zxvf Python-3.6.2.tgzcd Python-3.6.2./configuremake allmake installmake cleanmake distcleanrm -rf /usr/bin/pythonrm -rf /usr/bin/python3rm -rf /usr/bin/python3.6ln -s /usr/local/bin/python3.6 /usr/bin/pythonln -s /usr/local/bin/python3.6 /usr/bin/python3ln -s /usr/local/bin/python3.6 /usr/bin/python3.6/usr/bin/python -V/usr/bin/python3 -V/usr/bin/python3.6 -Vrm -rf /usr/local/bin/pythonrm -rf /usr/local/bin/python3ln -s /usr/local/bin/python3.6 /usr/local/bin/pythonln -s /usr/local/bin/python3.6 /usr/local/bin/python3python -Vpython3 -Vpython3.6 -V 123456[root@localhost Python-3.6.2]# python -VPython 3.6.2[root@localhost Python-3.6.2]# python3 -VPython 3.6.2[root@localhost Python-3.6.2]# python3.6 -VPython 3.6.2 安装成功~ 参考链接]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>Centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[切换163yum源]]></title>
     <url>%2F2018%2F04%2F19%2F%E5%88%87%E6%8D%A2163yum%E6%BA%90%2F</url>
     <content type="text"><![CDATA[来篇福利文 经常装环境的应该遇过下包基本没动静，基于这“伟大”的互联网环境，下包真的是很心累的一件事，好在国内有志之士还是弄了很多福利的，下面：Centos切换国内163yum源 前言前提条件，linux服务器支持wget，没有则装一个：1yum install -y wget 装好之后，开始切换yum源。 备份首先，搭环境的必要素质，修改配置文件之前，一定要先备份！（踩了n多坑的教训）1mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup 下载163源切换到/etc/yum.repos.d，wget下载163源配置文件1wget http://mirrors.163.com/.help/CentOS6-Base-163.repo 改名修改下载完成的文件的名称1mv /etc/yum.repos.d/CentOS6-Base-163.repo /etc/yum.repos.d/CentOS-Base.rep 生成缓存12yum clean allyum makecache 完工~~~]]></content>
@@ -340,8 +352,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
         <tag>Centos7</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
