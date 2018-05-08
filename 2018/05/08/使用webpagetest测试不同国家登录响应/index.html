@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用webpagetest测试不同国家登录响应 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="webpagetest,response time">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用webpagetest测试不同国家登录响应">
+<meta property="og:url" content="http://tokyle.com/2018/05/08/使用webpagetest测试不同国家登录响应/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T07:56:20.808Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用webpagetest测试不同国家登录响应">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-使用webpagetest测试不同国家登录响应" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/05/08/使用webpagetest测试不同国家登录响应/" class="article-date">
+  <time datetime="2018-05-08T07:54:34.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用webpagetest测试不同国家登录响应
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webpagetest"><span class="toc-number">2.</span> <span class="toc-text">webpagetest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录"><span class="toc-number">3.</span> <span class="toc-text">登录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明"><span class="toc-number">3.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#官方示例"><span class="toc-number">4.</span> <span class="toc-text">官方示例</span></a></li></ol>
+		
+		</div>
+		
+        <p>使用webpageTest模拟不同国家进行登录操作</p>
+<a id="more"></a>
+<p>产品boss提了个从不同国家测试系统访问响应时间的需求，目前完成的是不同国家登录操作。</p>
+<p>先来个套话：网站的打开速度直接影响用户体验，据悉，网站若没有在4秒内读取出来，大多数的访客就会选择离开，而且网页的载入速度也会影响网站的排名，因此，网站的打开速度极其重要。根据不同的需求去分析网站的加载速度，有助于促进网站高效运行</p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>拿到需求之后，上网搜过很多工具，接触了的有：</p>
+<blockquote>
+<p><a href="https://tools.pingdom.com/" target="_blank" rel="noopener">Pingdom</a><br><a href="https://performance.sucuri.net/" target="_blank" rel="noopener">sucuri</a></p>
+</blockquote>
+<p>以及正在使用的：</p>
+<blockquote>
+<p><a href="http://www.webpagetest.org" target="_blank" rel="noopener">webpagetest</a></p>
+</blockquote>
+<h3 id="webpagetest"><a href="#webpagetest" class="headerlink" title="webpagetest"></a>webpagetest</h3><p>其他的就不介绍了，只介绍怎么使用webpagetest进行不同国家的登录操作。<br>说实话，刚开始接触时候有点懵，webpagetest自己有个<code>Auth</code>模块，原以为可以直接通过这个来进行登录鉴权，结果可以预料，压根没用，后来就开始琢磨<code>Script</code>模块。看了n久官方文档之后，实验出来了，鼓励大家看官方文档啊。。。上链接：</p>
+<blockquote>
+<p><a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/scripting" target="_blank" rel="noopener">script模块</a></p>
+</blockquote>
+<p>webpagetest提供脚本的形式，帮助用户使用脚本来填充表单，达到登录的目的。这点看下来有点类似于自动化测试时候，先看页面源码，找到用户名/密码源码的唯一标识，在script代码框中使用该唯一标识来指代需要用到的元素，例如：登录页面源码展示的用户名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input name=&quot;username&quot; class=&quot;ant-input ng-not-empty ng-dirty ng-valid-parse userInput ng-touched&quot; id=&quot;username&quot; type=&quot;text&quot; placeholder=&quot;用户名或邮箱&quot; ng-model=&quot;model.username&quot; ng-change=&quot;onChange()&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>从上面的源码可以看出，使用<code>id</code>可以唯一标志该字段，在自动化测试中使用<code>find_element_by_id(&#39;username&#39;)</code>即可获得该页面元素，类比到webpagetest的script，也是如此：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setValue id=username yourusername</span><br></pre></td></tr></table></figure></p>
+<p>即可完成定位到用户名并且完成用户名输入，同样的，密码：<br>源码为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=&quot;password&quot; name=&quot;password&quot; type=&quot;password&quot; class=&quot;ant-input ant-input-lg ng-not-empty ng-dirty ng-valid-parse userInput ng-touched&quot; placeholder=&quot;密码&quot; ng-model=&quot;model.password&quot; autocomplete=&quot;off&quot; focus-if=&quot;model.username&quot; ng-change=&quot;pwdOnChange()&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>webpagetest定位：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setValue id=password yourpassword</span><br></pre></td></tr></table></figure></p>
+<p>当然，点击登录按钮也类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clickAndWait innerText=Login</span><br></pre></td></tr></table></figure></p>
+<p>以上演示的只是一种定位方式，更多的使用，还是去看官方文档吧，有各种情况可供选择~~</p>
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>直接上我的登录脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">logData 0</span><br><span class="line">navigate https://test-login.com</span><br><span class="line">logData 1</span><br><span class="line">setValue name=username yourusername</span><br><span class="line">setValue name=password yourpassword</span><br><span class="line">clickAndWait type=submit</span><br></pre></td></tr></table></figure></p>
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p><code>logData</code>个人理解是是否开启数据记录的标志，类似开启缓存（可能理解不对），0为关闭，1为开启，对于登录之后的操作，可以在登录前设置<code>logData</code>为1，打开数据记录，这样在后续的操作中就可以使用登录之后的用户信息。</p>
+<h3 id="官方示例"><a href="#官方示例" class="headerlink" title="官方示例"></a>官方示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">// load the account name and password</span><br><span class="line">loadVariables	accounts.txt</span><br><span class="line"></span><br><span class="line">// bring up the login screen</span><br><span class="line">setEventName	launch</span><br><span class="line">navigate	http://webmail.aol.com</span><br><span class="line"></span><br><span class="line">// ignore any errors from here on (in case the mailbox is empty or we get image challenged)</span><br><span class="line">ignoreErrors	1</span><br><span class="line"></span><br><span class="line">// log in</span><br><span class="line">setValue	name=loginId	%AOLSN%</span><br><span class="line">setValue	name=password	%AOLPW%</span><br><span class="line">setEventName	load</span><br><span class="line">submitForm	name=AOLLoginForm</span><br><span class="line"></span><br><span class="line">// only read and send a mail once an hour</span><br><span class="line">minInterval	AOLMail	60</span><br><span class="line"></span><br><span class="line">// close the today curtain</span><br><span class="line">click	className=backdrop</span><br><span class="line">sleep	5</span><br><span class="line"></span><br><span class="line">// Open the first message with a subject of &quot;test&quot;</span><br><span class="line">setEventName	read</span><br><span class="line">clickAndWait	innerText=test</span><br><span class="line"></span><br><span class="line">// delete the message</span><br><span class="line">click	title=Delete (del)</span><br><span class="line">sleep	5</span><br><span class="line"></span><br><span class="line">// open the compose mail form</span><br><span class="line">setEventName	compose</span><br><span class="line">clickAndWait	title=Write mail (Alt + w)</span><br><span class="line"></span><br><span class="line">// send a test message to myself</span><br><span class="line">sleep	1</span><br><span class="line">setValue	tabindex=100	%AOLSN%</span><br><span class="line">setValue	name=Subject	test</span><br><span class="line">loadFile	msg.txt	%MSG%</span><br><span class="line">setInnerText	contentEditable=true	%MSG%</span><br><span class="line">sleep	1</span><br><span class="line">setDOMElement	className=confirmMessage</span><br><span class="line">setEventName	send</span><br><span class="line">clickAndWait	innerText=Send</span><br><span class="line"></span><br><span class="line">endInterval</span><br><span class="line"></span><br><span class="line">// sign off</span><br><span class="line">setEventName	logout</span><br><span class="line">clickAndWait	className=signOutLink</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/response-time/">response time</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpagetest/">webpagetest</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-05-08T07:56:20.808Z" itemprop="dateModified">2018-05-08</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/22/Centos7搭建Nitrate/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Centos7搭建Nitrate</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webpagetest"><span class="toc-number">2.</span> <span class="toc-text">webpagetest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录"><span class="toc-number">3.</span> <span class="toc-text">登录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明"><span class="toc-number">3.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#官方示例"><span class="toc-number">4.</span> <span class="toc-text">官方示例</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Centos7/" style="font-size: 14.56px; color: #68c0ad">Centos7</a> <a href="/tags/Django/" style="font-size: 13.78px; color: #72c1c5">Django</a> <a href="/tags/Hexo/" style="font-size: 13.78px; color: #72c1c5">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.33px; color: #5dbe94">appium</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.33px; color: #5dbe94">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/linux/" style="font-size: 14.56px; color: #68c0ad">linux</a> <a href="/tags/lives/" style="font-size: 14.56px; color: #68c0ad">lives</a> <a href="/tags/loadrunner/" style="font-size: 13.78px; color: #72c1c5">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 13.78px; color: #72c1c5">matplotlib</a> <a href="/tags/mysql/" style="font-size: 16.11px; color: #52bc7b">mysql</a> <a href="/tags/nose/" style="font-size: 16.89px; color: #48bb63">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.22px; color: #28b619">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.78px; color: #72c1c5">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13px; color: #7dc3de">windows</a> <a href="/tags/yum/" style="font-size: 13.78px; color: #72c1c5">yum</a> <a href="/tags/单元测试/" style="font-size: 15.33px; color: #5dbe94">单元测试</a> <a href="/tags/性能/" style="font-size: 13.78px; color: #72c1c5">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/自动化测试/" style="font-size: 18.44px; color: #32b731">自动化测试</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/05/08/使用webpagetest测试不同国家登录响应/">使用webpagetest测试不同国家登录响应</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/Centos7搭建Nitrate/">Centos7搭建Nitrate</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/20/Centos下升级python2-7到3-6/">Centos下升级python2.7到3.6</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/19/切换163yum源/">切换163yum源</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/18/MySQL之SQL优化系列（三）/">MySQL之SQL优化系列（三）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
