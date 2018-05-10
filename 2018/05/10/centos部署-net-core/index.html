@@ -5,19 +5,19 @@
   
 
   
-  <title>python实现自动化测试报告邮件实时发送 | 它夏了夏天</title>
+  <title>centos部署.net core | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta name="keywords" content="python,自动化测试,smtplib">
+<meta name="keywords" content="Centos7,.net core">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python实现自动化测试报告邮件实时发送">
-<meta property="og:url" content="http://tokyle.com/2018/01/23/python实现自动化测试报告邮件实时发送/index.html">
+<meta property="og:title" content="centos部署.net core">
+<meta property="og:url" content="http://tokyle.com/2018/05/10/centos部署-net-core/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-23T09:14:00.000Z">
+<meta property="og:updated_time" content="2018-05-10T09:21:51.478Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python实现自动化测试报告邮件实时发送">
+<meta name="twitter:title" content="centos部署.net core">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -77,17 +77,17 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-python实现自动化测试报告邮件实时发送" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-centos部署-net-core" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
-<a href="/2018/01/23/python实现自动化测试报告邮件实时发送/" class="article-date">
-  <time datetime="2018-01-23T09:11:37.000Z" itemprop="datePublished">2018-01-23</time>
+<a href="/2018/05/10/centos部署-net-core/" class="article-date">
+  <time datetime="2018-05-10T09:20:07.000Z" itemprop="datePublished">2018-05-10</time>
 </a>
 
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/自动化测试/">自动化测试</a>
+    <a class="article-category-link" href="/categories/Devops/">Devops</a>
   </div>
 
   </div>
@@ -98,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      python实现自动化测试报告邮件实时发送
+      centos部署.net core
     </h1>
   
 
@@ -110,15 +110,37 @@
 		<div id="toc" class="toc-article">
 			<h2 class="toc-title"><span>Contents</span></h2>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dotnet产品提要"><span class="toc-number">1.1.</span> <span class="toc-text">dotnet产品提要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装-NET-SDK"><span class="toc-number">1.2.</span> <span class="toc-text">安装.NET SDK</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署应用"><span class="toc-number">2.</span> <span class="toc-text">部署应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx代理"><span class="toc-number">2.1.</span> <span class="toc-text">nginx代理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装nginx"><span class="toc-number">2.1.1.</span> <span class="toc-text">安装nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#启动nginx"><span class="toc-number">2.1.2.</span> <span class="toc-text">启动nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设置nginx开机启动"><span class="toc-number">2.1.3.</span> <span class="toc-text">设置nginx开机启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改配置"><span class="toc-number">2.1.4.</span> <span class="toc-text">修改配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题记录"><span class="toc-number">3.</span> <span class="toc-text">问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决linux-netcore-https请求使用自签名证书忽略安全检查方法"><span class="toc-number">3.1.</span> <span class="toc-text">解决linux netcore https请求使用自签名证书忽略安全检查方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
 		
 		</div>
 		
-        <p>实现自动化用例执行完成之后，自动发送带html附件的邮件到邮箱</p>
-<a id="more"></a>
-<p>实现思路：<br>读取html附件内容，添加到邮件正文中，添加html附件，实现用例执行完成，测试报告自动发送到邮箱。<br>代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import os</span><br><span class="line">import smtplib</span><br><span class="line">from datetime import datetime as dt</span><br><span class="line">from email.mime.text import MIMEText</span><br><span class="line">from email.mime.multipart import MIMEMultipart</span><br><span class="line">from nose.tools import assert_equal</span><br><span class="line"></span><br><span class="line">def send_mail():</span><br><span class="line">    &quot;&quot;&quot;读取测试报告&quot;&quot;&quot;</span><br><span class="line">    with open(report_file, &apos;r&apos;, encoding=&apos;utf-8&apos;) as f_obj:</span><br><span class="line">        content = f_obj.read()</span><br><span class="line"></span><br><span class="line">    msg = MIMEMultipart(&apos;mixed&apos;)</span><br><span class="line">    # 添加邮件内容</span><br><span class="line">    msg_html = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;)</span><br><span class="line">    msg.attach(msg_html)</span><br><span class="line"></span><br><span class="line">    #添加附件</span><br><span class="line">    msg_attachment = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;)</span><br><span class="line">    msg_attachment[&quot;Content-Disposition&quot;] = &apos;attachment; filename=&quot;&#123;0&#125;&quot;&apos;.format(report_file)</span><br><span class="line">    msg.attach(msg_attachment)</span><br><span class="line"></span><br><span class="line">    msg[&apos;Subject&apos;] = mail_subject</span><br><span class="line">    msg[&apos;Form&apos;] = mail_user</span><br><span class="line">    msg[&apos;To&apos;] = mail_to</span><br><span class="line">    try:</span><br><span class="line">        # 连接邮件服务器</span><br><span class="line">        s = smtplib.SMTP()</span><br><span class="line">        s.connect(mail_host)</span><br><span class="line">        # 登录</span><br><span class="line">        s.login(mail_user, mail_pwd)</span><br><span class="line">        # 发送邮件</span><br><span class="line">        s.sendmail(mail_user, mail_to, msg.as_string())</span><br><span class="line">        # 退出</span><br><span class="line">        s.quit()</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(&quot;Exception&quot;, e)</span><br><span class="line"></span><br><span class="line">class Mailsend():</span><br><span class="line"></span><br><span class="line">    def test_mul(self):</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 3</span><br><span class="line">        assert_equal(res, a+b)</span><br><span class="line"></span><br><span class="line">if  __name__ == &apos;__main__&apos;:</span><br><span class="line">    # 邮件服务器</span><br><span class="line">    mail_host = &apos;smtp.163.com&apos;</span><br><span class="line">    # 发件人地址</span><br><span class="line">    mail_user = &apos;***&apos;</span><br><span class="line">    # 发件人密码</span><br><span class="line">    mail_pwd = &apos;***&apos;</span><br><span class="line">    # 邮件标题</span><br><span class="line">    mail_subject = u&apos;NoseTests_测试报告_&#123;0&#125;&apos;.format(dt.now().strftime(&apos;%Y%m%d&apos;))</span><br><span class="line">    # 收件人地址</span><br><span class="line">    mail_to = &apos;***&apos;</span><br><span class="line">    # 测试报告名称</span><br><span class="line">    report_file = &apos;NoseTestReport.html&apos;</span><br><span class="line"></span><br><span class="line">    # 运行nosetests进行自动化测试并生成测试报告</span><br><span class="line">    print(&apos;Run NoseTests Now...&apos;)</span><br><span class="line">    os.system(&apos;nosetests -v mail_html.py:Mailsend --with-html --html-file=NoseTestReport.html&apos;)</span><br><span class="line"></span><br><span class="line">    # 发送测试报告邮件</span><br><span class="line">    print(&apos;Send Test Report Mail Now...&apos;)</span><br><span class="line">    send_mail()</span><br></pre></td></tr></table></figure>
-<p>tips:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python客户端进行163,126邮箱邮件发送前，需要在web版邮箱中设置允许客户端访问，设置客户端授权码</span><br><span class="line"></span><br><span class="line">设置完授权码之后，此时的客户端登录密码为授权码，不是原来的邮箱密码</span><br></pre></td></tr></table></figure></p>
+        <p>Centos7部署.net core应用<br><a id="more"></a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="dotnet产品提要"><a href="#dotnet产品提要" class="headerlink" title="dotnet产品提要"></a>dotnet产品提要</h4><p>首先需要注册Microsoft签名密钥并添加Microsoft产品提要，才能安装.net<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packages.microsoft.com/keys/microsoft.asc</span><br><span class="line">sh -c &apos;echo -e &quot;[packages-microsoft-com-prod]\nname=packages-microsoft-com-prod \nbaseurl= https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/dotnetdev.repo&apos;</span><br></pre></td></tr></table></figure></p>
+<p>默认使用<code>root</code>用户操作</p>
+<h4 id="安装-NET-SDK"><a href="#安装-NET-SDK" class="headerlink" title="安装.NET SDK"></a>安装.NET SDK</h4><p>首先更新yum<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure></p>
+<p>安装所需组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install libunwind libicu</span><br></pre></td></tr></table></figure></p>
+<p>安装.NET SDK<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install dotnet-sdk-2.1.200</span><br></pre></td></tr></table></figure></p>
+<p>完成安装，<code>dotnet --version</code>验证安装</p>
+<h3 id="部署应用"><a href="#部署应用" class="headerlink" title="部署应用"></a>部署应用</h3><p>将你的.net core应用随意放置在某个目录，进入目录，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet YourApp.WebApi.dll</span><br></pre></td></tr></table></figure></p>
+<p>即可启动服务，默认启动端口为5000.</p>
+<h4 id="nginx代理"><a href="#nginx代理" class="headerlink" title="nginx代理"></a>nginx代理</h4><h5 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h5><p>安装nginx需要添加EPEL仓库，然后再安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure></p>
+<h5 id="启动nginx"><a href="#启动nginx" class="headerlink" title="启动nginx"></a>启动nginx</h5><p>启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure></p>
+<h5 id="设置nginx开机启动"><a href="#设置nginx开机启动" class="headerlink" title="设置nginx开机启动"></a>设置nginx开机启动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable nginx</span><br></pre></td></tr></table></figure>
+<h5 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h5><p>将nginx的默认配置文件中的80端口内容注释掉，文件路径：<code>/etc/nginx/nginx.conf</code>,然后在nginx的配置加载目录下创建你需要代理的端口配置文件<code>yourapp.conf</code>，路径：<code>/etc/nginx/conf.d</code>，文件内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:5000;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection keep-alive;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_cache_bypass $http_upgrade;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重启nginx即可通过80端口访问部署的.net core服务。</p>
+<h3 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h3><p>由于安装在linux上，不同于windows，出现了一个现象，页面进行请求之后，消息队列中的消息一直无法被消费，查看日志，显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The handler does not support custom handling of certificates with this combination of libcurl (7.29.0) and its SSL backend (&quot;NSS/3.28.4&quot;).) ---&gt; System.PlatformNotSupportedException: The handler does not support custom handling of certificates with this combination of libcurl (7.29.0) and its SSL backend (&quot;NSS/3.28.4&quot;).</span><br><span class="line">at System.Net.Http.CurlHandler.SslProvider.SetSslOptionsForUnsupportedBackend(EasyRequest easy, ClientCertificateProvider certProvider)</span><br><span class="line">at System.Net.Http.CurlHandler.SslProvider.SetSslOptions(EasyRequest easy, ClientCertificateOption clientCertOption</span><br></pre></td></tr></table></figure></p>
+<p>原因就是linux不支持ssl（貌似是这样），搜了一堆答案，大部分是建议升级<code>curl</code></p>
+<h4 id="解决linux-netcore-https请求使用自签名证书忽略安全检查方法"><a href="#解决linux-netcore-https请求使用自签名证书忽略安全检查方法" class="headerlink" title="解决linux netcore https请求使用自签名证书忽略安全检查方法"></a>解决linux netcore https请求使用自签名证书忽略安全检查方法</h4><p>开始：<br>首先安装openssl和gcc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install openssl-devel gcc</span><br></pre></td></tr></table></figure></p>
+<p>然后是最新版本的curl：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://curl.haxx.se/download/curl-7.59.0.tar.gz</span><br><span class="line">tar -zxf curl-7.59.0.tar.gz</span><br><span class="line">cd curl-7.59.0</span><br><span class="line">./configure --prefix=/usr/local/curl/ --without-nss --with-ssl=/usr/local/ssl/</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>备份原来的curl：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /usr/bin/curl /usr/bin/curl.bak</span><br></pre></td></tr></table></figure></p>
+<p>新安装的curl创建软链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/curl/bin/curl /usr/bin/curl</span><br></pre></td></tr></table></figure></p>
+<p>查看此时curl版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --version</span><br></pre></td></tr></table></figure></p>
+<p>编辑搜索目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ld.so.conf</span><br></pre></td></tr></table></figure></p>
+<p>增加一行：<code>/usr/local/curl/lib</code></p>
+<p>重启服务，完成！</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><blockquote>
+<p><a href="https://www.cnblogs.com/esofar/p/8043792.html" target="_blank" rel="noopener">centos部署.net core</a></p>
+</blockquote>
 
       
     </div>
@@ -129,11 +151,11 @@
 	  <!-- 百度分享 End -->
 	  
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/smtplib/">smtplib</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动化测试/">自动化测试</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net-core/">.net core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li></ul>
 
 	  
 <span>
-Updated:<time datetime="2018-01-23T09:14:00.000Z" itemprop="dateModified">2018-01-23</time>
+Updated:<time datetime="2018-05-10T09:21:51.478Z" itemprop="dateModified">2018-05-10</time>
 </span>
 
 
@@ -143,19 +165,10 @@ Updated:<time datetime="2018-01-23T09:14:00.000Z" itemprop="dateModified">2018-0
     
 <nav id="article-nav">
   
-    <a href="/2018/01/24/VPS重建记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          VPS重建记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/01/20/python数据分离/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/05/08/使用webpagetest测试不同国家登录响应/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">python数据分离</div>
+      <div class="article-nav-title">使用webpagetest测试不同国家登录响应</div>
     </a>
   
 </nav>
@@ -175,7 +188,7 @@ Updated:<time datetime="2018-01-23T09:14:00.000Z" itemprop="dateModified">2018-0
   <div id="toc" class="toc-aside">
   <h2 class="toc-title">Contents</h2>
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dotnet产品提要"><span class="toc-number">1.1.</span> <span class="toc-text">dotnet产品提要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装-NET-SDK"><span class="toc-number">1.2.</span> <span class="toc-text">安装.NET SDK</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署应用"><span class="toc-number">2.</span> <span class="toc-text">部署应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx代理"><span class="toc-number">2.1.</span> <span class="toc-text">nginx代理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装nginx"><span class="toc-number">2.1.1.</span> <span class="toc-text">安装nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#启动nginx"><span class="toc-number">2.1.2.</span> <span class="toc-text">启动nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设置nginx开机启动"><span class="toc-number">2.1.3.</span> <span class="toc-text">设置nginx开机启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改配置"><span class="toc-number">2.1.4.</span> <span class="toc-text">修改配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题记录"><span class="toc-number">3.</span> <span class="toc-text">问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决linux-netcore-https请求使用自签名证书忽略安全检查方法"><span class="toc-number">3.1.</span> <span class="toc-text">解决linux netcore https请求使用自签名证书忽略安全检查方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
     
   </div>
 
