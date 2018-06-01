@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python3.6安装basemap]]></title>
+    <url>%2F2018%2F06%2F01%2Fpython3-6%E5%AE%89%E8%A3%85basemap%2F</url>
+    <content type="text"><![CDATA[python3.6安装basemap 很久没碰matplotlib了，想看看有没有中国地图加人口，这样绘制一张图，找白天，貌似basemap里面有，basemap需要：from mpl_toolkits.basemap import Basemap，然后就尝试安装mpl_toolkits，不出所料，失败了。。。 折腾半天，附上windows下python3.6安装basemap步骤： 下载首先，一个神奇的网站，经常逛： python包下载 下载对应python版本的文件，cp36表示3.6版本： 12basemap‑1.1.0‑cp36‑cp36m‑win_amd64.whl pyproj‑1.9.5.1‑cp36‑cp36m‑win_amd64.whl 安装windows进入cmd模式，进入保存上述俩文件的路径，使用pip安装：12pip install pyproj‑1.9.5.1‑cp36‑cp36m‑win_amd64.whlpip install basemap‑1.1.0‑cp36‑cp36m‑win_amd64.whl 验证打开简单的世界地图：12345678import matplotlib.pyplot as pltfrom mpl_toolkits.basemap import Basemapplt.figure(figsize=(16, 8))m = Basemap()m.drawcoastlines()plt.show()]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【转】loadrunner请求三种格式API]]></title>
     <url>%2F2018%2F05%2F22%2F%E3%80%90%E8%BD%AC%E3%80%91loadrunner%E8%AF%B7%E6%B1%82%E4%B8%89%E7%A7%8D%E6%A0%BC%E5%BC%8FAPI%2F</url>
     <content type="text"><![CDATA[loadrunner请求API，http POST三种请求格式的脚本 本篇文章主要针对POST请求的三种数据请求格式，组织不同的脚本: （1）、application/x-www-form-urlencoded 键值对 （2）、multipart/form-data 表单 （3）、application/json Json串 PS：loadrunner body参数中的引号，需要自己加\转义。 application/x-www-form-urlencoded 键值对12345678910111213141516171819202122232425262728293031323334353637383940414243444546Action() &#123; lr_start_transaction(&quot;checkPerson&quot;); /* 注册获取返回参数，该方法可以配合打印返回数据，检测数据内容 */ web_reg_save_param(&quot;Para&quot;, &quot;LB=&quot;, &quot;RB=&quot;, LAST); /* 注册断言： Text=断言内容 */ /* 该方法会判断后面的web请求方法的返回值 */ web_reg_find(&quot;Text=成功&quot;, LAST); /* 汉字进行UTF-8编码 */ lr_convert_string_encoding(&quot;需要进行UTF-8加密的中文字符串&quot;,LR_ENC_SYSTEM_LOCALE,LR_ENC_UTF8,&quot;result&quot;); /* 向后面的web请求函数增加请求头 */ /* 如果web请求方法中已经设置了相同的头，则优先使用web请求方法中的头，例如web请求方法中的EncType参数，对应请求投中的Content-Type。由于下面的方法已经设置了EncType参数，所以这里的设置并没有什么X用 */ /* 表单直接使用方法自带参数，键值对和json建议使用该方法 */ web_add_header(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded; charset=utf-8&quot;); /* 主要针对form表单和键值对两种格式的web请求 */ web_submit_data(&quot;checkPerson&quot;, &quot;Action=http://130.1.11.105:9080/ibis/faceService/checkPerson&quot;, &quot;Method=POST&quot;, /* 该方法支持常见的两种请求数据格式 */ /* （1）&quot;EncType=multipart/form-data&quot;。form表单提交数据 */ /* （1）&quot;EncType=application/x-www-form-urlencoded&quot;。默认使用键值对提交数据 */ //&quot;EncType=&quot;, &quot;TargetFrame=&quot;, &quot;Referer=&quot;, ITEMDATA, &quot;Name=Name1&quot;, &quot;Value=Value1&quot;, ENDITEM, &quot;Name=Name2&quot;, &quot;Value=Value2&quot;, ENDITEM, LAST); /* 打印相应结果 */ /* lr_eval_string(&quot;&#123;result&#125;&quot;) 使用loadrunner引用外部函数，只有这样才能取出上面web_reg_save_param方法的返回值 */ lr_log_message(lr_eval_string(&quot;&#123;result&#125;&quot;)); lr_end_transaction(&quot;checkPerson&quot;, LR_AUTO); return 0; &#125; multipart/form-data 表单12345678910111213141516171819202122232425262728293031323334353637383940414243444546Action() &#123; lr_start_transaction(&quot;checkPerson&quot;); /* 注册获取返回参数，该方法可以配合打印返回数据，检测数据内容 */ web_reg_save_param(&quot;Para&quot;, &quot;LB=&quot;, &quot;RB=&quot;, LAST); /* 注册断言： Text=断言内容 */ /* 该方法会判断后面的web请求方法的返回值 */ web_reg_find(&quot;Text=成功&quot;, LAST); /* 汉字进行UTF-8编码 */ lr_convert_string_encoding(&quot;需要进行UTF-8加密的中文字符串&quot;,LR_ENC_SYSTEM_LOCALE,LR_ENC_UTF8,&quot;result&quot;); /* 向后面的web请求函数增加请求头 */ /* 如果web请求方法中已经设置了相同的头，则优先使用web请求方法中的头，例如web请求方法中的EncType参数，对应请求投中的Content-Type。由于下面的方法已经设置了EncType参数，所以这里的设置并没有什么X用 */ /* 表单直接使用方法自带参数，键值对和json建议使用该方法 */ //web_add_header(&quot;Content-Type&quot;, // &quot;multipart/form-data; boundary = --------BORN3QKNRTS4; charset=UTF-8&quot;); /* 主要针对form表单和键值对两种格式的web请求 */ web_submit_data(&quot;checkPerson&quot;, &quot;Action=http://130.1.11.105:9080/ibis/faceService/checkPerson&quot;, &quot;Method=POST&quot;, /* 该方法支持常见的两种请求数据格式 */ /* （1）&quot;EncType=multipart/form-data&quot;。form表单提交数据 */ /* （1）&quot;EncType=&quot;。默认使用键值对提交数据 */ &quot;EncType=multipart/form-data&quot;, &quot;TargetFrame=&quot;, &quot;Referer=&quot;, ITEMDATA, &quot;Name=Name1&quot;, &quot;Value=Value1&quot;, ENDITEM, &quot;Name=Name2&quot;, &quot;Value=Value2&quot;, ENDITEM, LAST); /* 打印相应结果 */ /* lr_eval_string(&quot;&#123;result&#125;&quot;) 使用loadrunner引用外部函数，只有这样才能取出上面web_reg_save_param方法的返回值 */ lr_log_message(lr_eval_string(&quot;&#123;result&#125;&quot;)); lr_end_transaction(&quot;checkPerson&quot;, LR_AUTO); return 0; &#125; application/json Json串12345678910111213141516171819202122232425262728293031323334353637383940414243444546Action() &#123; lr_start_transaction(&quot;checkPerson&quot;); /* 注册获取返回参数，该方法可以配合打印返回数据，检测数据内容 */ web_reg_save_param(&quot;Para&quot;, &quot;LB=&quot;, &quot;RB=&quot;, LAST); /* 注册断言： Text=断言内容 */ /* 该方法会判断后面的web请求方法的返回值 */ // web_reg_find(&quot;Text=成功&quot;, // LAST); /* 汉字进行UTF-8编码 */ lr_convert_string_encoding(&quot;需要进行UTF-8加密的中文字符串&quot;,LR_ENC_SYSTEM_LOCALE,LR_ENC_UTF8,&quot;result&quot;); /* 向后面的web请求函数增加请求头 */ /* 如果web请求方法中已经设置了相同的头，则优先使用web请求方法中的头，例如web请求方法中的EncType参数，对应请求投中的Content-Type。由于下面的方法已经设置了EncType参数，所以这里的设置并没有什么X用 */ /* 表单直接使用方法自带参数，键值对和json建议使用该方法 */ web_add_header(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;); /* 主要针对form表单和键值对两种格式的web请求 */ web_custom_request(&quot;web_custom_request&quot;, &quot;URL=http://www.baidu.com&quot;, &quot;Method=POST&quot;, &quot;TargetFrame=&quot;, &quot;Resource=0&quot;, &quot;Referer=&quot;, &quot;Mode=HTTP&quot;, /* json和键值对数据格式，建议使用web_add_header方法添加Content-Type头 */ //&quot;EncType=application/json&quot;, &quot;Body=&#123;\&quot;Name1\&quot;:\&quot;Value1\&quot;,\&quot;Name2\&quot;:\&quot;Value2\&quot;&#125;&quot;, LAST); /* 打印相应结果 */ /* lr_eval_string(&quot;&#123;result&#125;&quot;) 使用loadrunner引用外部函数，只有这样才能取出上面web_reg_save_param方法的返回值 */ lr_log_message(lr_eval_string(&quot;&#123;result&#125;&quot;)); lr_end_transaction(&quot;checkPerson&quot;, LR_AUTO); return 0; &#125;]]></content>
@@ -260,8 +271,8 @@
       <tags>
         <tag>selenium</tag>
         <tag>自动化测试</tag>
-        <tag>nose</tag>
         <tag>python3</tag>
+        <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -298,8 +309,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>nose</tag>
         <tag>python3</tag>
+        <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -312,8 +323,8 @@
       </categories>
       <tags>
         <tag>自动化测试</tag>
-        <tag>单元测试</tag>
         <tag>python3</tag>
+        <tag>单元测试</tag>
       </tags>
   </entry>
   <entry>
@@ -338,8 +349,8 @@
       <tags>
         <tag>自动化测试</tag>
         <tag>appium</tag>
-        <tag>nose</tag>
         <tag>python3</tag>
+        <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
