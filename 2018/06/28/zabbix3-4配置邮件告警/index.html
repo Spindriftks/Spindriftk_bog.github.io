@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>zabbix3.4配置邮件告警 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Centos7,zabbix3.4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zabbix3.4配置邮件告警">
+<meta property="og:url" content="http://tokyle.com/2018/06/28/zabbix3-4配置邮件告警/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-28T03:33:02.830Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zabbix3.4配置邮件告警">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-zabbix3-4配置邮件告警" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/06/28/zabbix3-4配置邮件告警/" class="article-date">
+  <time datetime="2018-06-28T03:31:45.000Z" itemprop="datePublished">2018-06-28</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Devops/">Devops</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      zabbix3.4配置邮件告警
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#触发器"><span class="toc-number">1.</span> <span class="toc-text">触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加监控项"><span class="toc-number">1.1.</span> <span class="toc-text">添加监控项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加触发器"><span class="toc-number">1.2.</span> <span class="toc-text">添加触发器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加图形"><span class="toc-number">1.3.</span> <span class="toc-text">添加图形</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件配置"><span class="toc-number">2.</span> <span class="toc-text">邮件配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sendmail"><span class="toc-number">2.1.</span> <span class="toc-text">sendmail</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mailx"><span class="toc-number">2.2.</span> <span class="toc-text">mailx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置zabbix服务外部邮箱"><span class="toc-number">2.3.</span> <span class="toc-text">配置zabbix服务外部邮箱</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件发送脚本"><span class="toc-number">2.4.</span> <span class="toc-text">文件发送脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#告警设置"><span class="toc-number">3.</span> <span class="toc-text">告警设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#报警媒介类型"><span class="toc-number">3.1.</span> <span class="toc-text">报警媒介类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户添加媒介"><span class="toc-number">3.2.</span> <span class="toc-text">用户添加媒介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建动作"><span class="toc-number">3.3.</span> <span class="toc-text">创建动作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+        <p>zabbix3.4配置邮件告警<br>使用zabbix配置邮件告警，当系统资源到达触发器设定阈值，邮件报警</p>
+<a id="more"></a>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><h4 id="添加监控项"><a href="#添加监控项" class="headerlink" title="添加监控项"></a>添加监控项</h4><p>测试用模板是zabbix自带的<code>Template OS Linux</code>模板，模板中原先就有监控CPU的监控项，这边测试就用<code>CPU idle time</code>（获取服务器空闲CPU百分比），如果当前安装的zabbix没有该监控项，就新建一个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">名称： CPU $2 time</span><br><span class="line">类型：Zabbix 客户端</span><br><span class="line">键值：system.cpu.util[,idle]</span><br><span class="line">信息类型：浮点数</span><br><span class="line">单位：%</span><br><span class="line">更新间隔：1m</span><br><span class="line">自定义时间间隔：灵活</span><br></pre></td></tr></table></figure></p>
+<p>保存即可</p>
+<h4 id="添加触发器"><a href="#添加触发器" class="headerlink" title="添加触发器"></a>添加触发器</h4><p>添加完监控项之后，就要为该监控项添加触发器，当达到设定的阈值时，报警。<br>配置-模板-找到Template OS Linux，点击触发器，创建新触发器。测试想要监控服务器的空闲CPU，当空闲CPU小于50%，时就会告警（为了效果明显，设大点。。）触发器信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">名称：CPU usr% gt 50%</span><br><span class="line">严重性：严重</span><br><span class="line">表达式：&#123;Template OS Linux:system.cpu.util[,idle].avg(1m)&#125;&lt;50（表达式可以自己写，也可以用构造器，格式挺简单）</span><br></pre></td></tr></table></figure></p>
+<p>其他默认即可</p>
+<h4 id="添加图形"><a href="#添加图形" class="headerlink" title="添加图形"></a>添加图形</h4><p>为了方便观察，添加一个cpu空闲率的图形：<br>配置-模板-选择Template OS Linux-图形，创建图形；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">名称：CPU空闲百分比</span><br><span class="line">纵轴Y最小值MIN：可计算的</span><br><span class="line">纵轴最大值：可计算的</span><br><span class="line">监控项：Template OS Linux：CPU idle time</span><br></pre></td></tr></table></figure></p>
+<p>保存，完成。<br>可以试验下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;scale=5000; 4*a(1)&quot; | bc -l -q</span><br></pre></td></tr></table></figure></p>
+<p>计算圆周率后5000位，手工在服务器top可以看到cpu使用率到80%以上（小破虚拟机，纯试验用，1C），在<code>监测中-仪表板-问题</code>可以看见该问题告警。</p>
+<h3 id="邮件配置"><a href="#邮件配置" class="headerlink" title="邮件配置"></a>邮件配置</h3><h4 id="sendmail"><a href="#sendmail" class="headerlink" title="sendmail"></a>sendmail</h4><p>邮件发送需要安装几个小工具（可能本地装系统就已经装完了）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install sendmail</span><br><span class="line">systemctl start sendmail.service</span><br></pre></td></tr></table></figure></p>
+<h4 id="mailx"><a href="#mailx" class="headerlink" title="mailx"></a>mailx</h4><p>安装邮件发送工具<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mailx</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置zabbix服务外部邮箱"><a href="#配置zabbix服务外部邮箱" class="headerlink" title="配置zabbix服务外部邮箱"></a>配置zabbix服务外部邮箱</h4><p>编辑文件<code>/etc/mail.rc</code>（没有就新建），添加以下内容(以163邮箱为例)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set from=xxx@163.com               #邮箱账号</span><br><span class="line">set smtp=smtp.163.com              #smtp服务器</span><br><span class="line">set smtp-auth-user=xxx@163.com     #邮箱帐号</span><br><span class="line">set smtp-auth-password=xxx      #邮箱密码(163邮箱密码是你客户端登录的密码，不是mail.163.com登录的密码)</span><br><span class="line">set smtp-auth=login</span><br></pre></td></tr></table></figure></p>
+<p>配置完成，测试一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;zabbix test...&quot; |mail -s &quot;zabbixssss&quot; xxx@163.com</span><br></pre></td></tr></table></figure></p>
+<p>进入邮箱，可以看见收到一封测试邮件~</p>
+<h4 id="文件发送脚本"><a href="#文件发送脚本" class="headerlink" title="文件发送脚本"></a>文件发送脚本</h4><p>zabbix提供了几种方式来发送告警信息，这边选择用脚本，在<code>zabbix_server.conf</code>文件中有定义脚本保存路径，例如我的测试服务器上的<code>/etc/zabbix_server.conf</code>中大约在第490行有定义（你也可以注释掉，自己加）:<code>AlertScriptsPath=/usr/lib/zabbix/alertscripts</code></p>
+<p>进入<code>/usr/lib/zabbix/alertscripts</code>文件夹，创建邮件发送脚本<code>sendmail.sh</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">messages=`echo $3 | tr &apos;\r\n&apos; &apos;\n&apos;`</span><br><span class="line">subject=`echo $2 | tr &apos;\r\n&apos; &apos;\n&apos;`</span><br><span class="line">echo &quot;$&#123;messages&#125;&quot; | mail -s &quot;$&#123;subject&#125;&quot; $1 &gt;&gt;/tmp/sendmail.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是<code>/tmp/sendmail.log</code>这个日志文件，需要有写和执行的权限，如果不放心，直接chmod 777 /tmp/sendmail.log即可。</p>
+<p>可以用脚本测试一下邮件发送：<code>sh sendmail.sh xxxx@163.com &quot;zabbix  cesscdssss&quot; &quot;这是内容。。。&quot;</code></p>
+<h3 id="告警设置"><a href="#告警设置" class="headerlink" title="告警设置"></a>告警设置</h3><h4 id="报警媒介类型"><a href="#报警媒介类型" class="headerlink" title="报警媒介类型"></a>报警媒介类型</h4><p>进入zabbix web，管理-报警媒介类型，点击创建媒体类型，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">名称： sendmail</span><br><span class="line">类型：脚本</span><br><span class="line">脚本名称：sendmail.sh</span><br><span class="line">脚本参数：  </span><br><span class="line">&#123;ALERT.SENDTO&#125;</span><br><span class="line">&#123;ALERT.SUBJECT&#125;</span><br><span class="line">&#123;ALERT.MESSAGE&#125;</span><br><span class="line">勾选已启用</span><br></pre></td></tr></table></figure></p>
+<p>点击新增。</p>
+<h4 id="用户添加媒介"><a href="#用户添加媒介" class="headerlink" title="用户添加媒介"></a>用户添加媒介</h4><p>管理-用户，可以使用原来的管理员账号，也可以创建一个用户：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">别名：user</span><br><span class="line">群组：zabbix administrators</span><br></pre></td></tr></table></figure></p>
+<p>报警媒介，点击添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">类型：sendmail</span><br><span class="line">收件人：xxxx@163.com</span><br><span class="line">当启用时：1-7,00:00-24:00（24小时全年无休~）</span><br><span class="line">剩下全勾上结束</span><br></pre></td></tr></table></figure></p>
+<p>点击添加，保存用户。</p>
+<h4 id="创建动作"><a href="#创建动作" class="headerlink" title="创建动作"></a>创建动作</h4><p>配置-动作，创建动作：<br>动作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">名称：自己起，monitor cpu</span><br></pre></td></tr></table></figure></p>
+<p>操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">默认操作步骤持续时间：1h</span><br><span class="line">默认标题：故障&#123;TRIGGER.STATUS&#125;,服务器:&#123;HOSTNAME1&#125;发生: &#123;TRIGGER.NAME&#125;故障!</span><br><span class="line">消息内容：</span><br><span class="line">告警主机:&#123;HOSTNAME1&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;</span><br><span class="line">告警等级:&#123;TRIGGER.SEVERITY&#125;</span><br><span class="line">告警信息: &#123;TRIGGER.NAME&#125;</span><br><span class="line">告警项目:&#123;TRIGGER.KEY1&#125;</span><br><span class="line">问题详情:&#123;ITEM.NAME&#125;:&#123;ITEM.VALUE&#125;</span><br><span class="line">当前状态:&#123;TRIGGER.STATUS&#125;:&#123;ITEM.VALUE1&#125;</span><br><span class="line">事件ID:&#123;EVENT.ID&#125;</span><br><span class="line">操作，新增发送消息给用户，选择之前创建的user，点击新增</span><br></pre></td></tr></table></figure></p>
+<p>恢复操作（系统恢复之后的邮件提示）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">默认标题：恢复&#123;TRIGGER.STATUS&#125;, 服务器:&#123;HOSTNAME1&#125;: &#123;TRIGGER.NAME&#125;已恢复!</span><br><span class="line">消息内容：</span><br><span class="line">告警主机:&#123;HOSTNAME1&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;</span><br><span class="line">告警等级:&#123;TRIGGER.SEVERITY&#125;</span><br><span class="line">告警信息: &#123;TRIGGER.NAME&#125;</span><br><span class="line">告警项目:&#123;TRIGGER.KEY1&#125;</span><br><span class="line">问题详情:&#123;ITEM.NAME&#125;:&#123;ITEM.VALUE&#125;</span><br><span class="line">当前状态:&#123;TRIGGER.STATUS&#125;:&#123;ITEM.VALUE1&#125;</span><br><span class="line">事件ID:&#123;EVENT.ID&#125;</span><br><span class="line">操作，添加发送消息给用户，选择创建的user，点击新增</span><br></pre></td></tr></table></figure></p>
+<p>这样就完工了！！！</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在服务器，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;scale=10000; 4*a(1)&quot; | bc -l -q</span><br></pre></td></tr></table></figure></p>
+<p>配置的邮箱就会收到邮件告警：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">故障PROBLEM,服务器:Zabbix server发生: CPU user% gt 50故障!</span><br><span class="line"></span><br><span class="line">告警主机:Zabbix server </span><br><span class="line">告警时间:2018.06.28 10:23:19</span><br><span class="line">告警等级:High</span><br><span class="line">告警信息: CPU user% gt 50</span><br><span class="line">告警项目:system.cpu.util[,idle]</span><br><span class="line">问题详情:CPU idle time:3.64 %</span><br><span class="line">当前状态:PROBLEM:3.64 %</span><br><span class="line">事件ID:110</span><br></pre></td></tr></table></figure></p>
+<p>在<code>报表-动作日志</code>，可以看见报警日志；<br>服务器恢复之后，会收到恢复的邮件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">恢复OK, 服务器:Zabbix server: CPU user% gt 50已恢复!</span><br><span class="line"></span><br><span class="line">告警主机:Zabbix server</span><br><span class="line">告警时间:2018.06.28 10:23:19</span><br><span class="line">告警等级:High</span><br><span class="line">告警信息: CPU user% gt 50</span><br><span class="line">告警项目:system.cpu.util[,idle]</span><br><span class="line">问题详情:CPU idle time:90.08 %</span><br><span class="line">当前状态:OK:90.08 %</span><br><span class="line">事件ID:110</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><blockquote>
+<p><a href="https://blog.csdn.net/weixin_37998647/article/details/78931163" target="_blank" rel="noopener">zabbix配置监控项，触发器</a><br><a href="http://blog.51cto.com/12098963/2092762" target="_blank" rel="noopener">zabbix3.2.6部署邮件报警</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zabbix3-4/">zabbix3.4</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-06-28T03:33:02.830Z" itemprop="dateModified">2018-06-28</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/27/zabbix3-4监控linux内存/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">zabbix3.4监控linux内存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#触发器"><span class="toc-number">1.</span> <span class="toc-text">触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加监控项"><span class="toc-number">1.1.</span> <span class="toc-text">添加监控项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加触发器"><span class="toc-number">1.2.</span> <span class="toc-text">添加触发器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加图形"><span class="toc-number">1.3.</span> <span class="toc-text">添加图形</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件配置"><span class="toc-number">2.</span> <span class="toc-text">邮件配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sendmail"><span class="toc-number">2.1.</span> <span class="toc-text">sendmail</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mailx"><span class="toc-number">2.2.</span> <span class="toc-text">mailx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置zabbix服务外部邮箱"><span class="toc-number">2.3.</span> <span class="toc-text">配置zabbix服务外部邮箱</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件发送脚本"><span class="toc-number">2.4.</span> <span class="toc-text">文件发送脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#告警设置"><span class="toc-number">3.</span> <span class="toc-text">告警设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#报警媒介类型"><span class="toc-number">3.1.</span> <span class="toc-text">报警媒介类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户添加媒介"><span class="toc-number">3.2.</span> <span class="toc-text">用户添加媒介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建动作"><span class="toc-number">3.3.</span> <span class="toc-text">创建动作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Centos7/" style="font-size: 16.89px; color: #48bb63">Centos7</a> <a href="/tags/Django/" style="font-size: 13.78px; color: #72c1c5">Django</a> <a href="/tags/Hexo/" style="font-size: 13.78px; color: #72c1c5">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13px; color: #7dc3de">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.33px; color: #5dbe94">appium</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.33px; color: #5dbe94">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/linux/" style="font-size: 14.56px; color: #68c0ad">linux</a> <a href="/tags/lives/" style="font-size: 14.56px; color: #68c0ad">lives</a> <a href="/tags/loadrunner/" style="font-size: 14.56px; color: #68c0ad">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 14.56px; color: #68c0ad">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 16.89px; color: #48bb63">mysql</a> <a href="/tags/nose/" style="font-size: 16.11px; color: #52bc7b">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.22px; color: #28b619">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.78px; color: #72c1c5">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.78px; color: #72c1c5">windows</a> <a href="/tags/yum/" style="font-size: 13.78px; color: #72c1c5">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 15.33px; color: #5dbe94">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 15.33px; color: #5dbe94">单元测试</a> <a href="/tags/性能/" style="font-size: 14.56px; color: #68c0ad">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.44px; color: #32b731">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/28/zabbix3-4配置邮件告警/">zabbix3.4配置邮件告警</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/27/zabbix3-4监控linux内存/">zabbix3.4监控linux内存</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/27/zabbix3-4监控mysql5-7/">zabbix3.4监控mysql5.7</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/zabbix配置/">zabbix配置</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/计算机基础知识系列（一）/">计算机基础知识系列（一）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
