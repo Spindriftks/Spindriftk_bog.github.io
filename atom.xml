@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-06-28T03:33:02.830Z</updated>
+  <updated>2018-07-05T04:31:27.266Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vultr安装锐速</title>
+    <link href="http://tokyle.com/2018/07/05/Vultr%E5%AE%89%E8%A3%85%E9%94%90%E9%80%9F/"/>
+    <id>http://tokyle.com/2018/07/05/Vultr安装锐速/</id>
+    <published>2018-07-05T04:30:03.000Z</published>
+    <updated>2018-07-05T04:31:27.266Z</updated>
+    
+    <content type="html"><![CDATA[<p>Vultr专用破解版锐速安装</p><a id="more"></a><p>因为Vultr机房都位于国外，当上网高峰期来临时，连接速度会比较慢，所以就需要安装锐速来加速连接。</p><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>1、安装锐速需降级系统内核，而安装 Google BBR 则需升级系统内核，故两者不能同时安装。</p><p>2、安装锐速需降级系统内核，有可能造成系统不稳定，故不建议将其应用在重要的生产环境中。</p><p>3、本教程只支持 CentOS6 x64 及 CentOS7 x64 系统，不支持任何 Debian &amp; Ubuntu 系统！</p><h3 id="系统判断"><a href="#系统判断" class="headerlink" title="系统判断"></a>系统判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure><p>1、结果以 2 开头，例如 2.6.32-696.18.7.el6.x86_64。</p><p>这种输出结果说明我们的服务器为 CentOS6 x64 系统，大家直接查看第三步进行锐速安装即可。</p><p>2、结果以 3 开头，例如 3.10.0-693.11.6.el7.x86_64。</p><p>这种输出结果说明我们的服务器为 CentOS7 x64 系统，大家直接查看第四步进行锐速安装即可。</p><p>3、结果以 4 开头，例如 4.12.10-1.el7.elrepo.x86_64。</p><p>这种输出结果说明我们的服务器已经安装 Google BBR 拥塞控制算法，此时已经无法继续安装锐速。</p><h3 id="Centos-X64安装锐速"><a href="#Centos-X64安装锐速" class="headerlink" title="Centos X64安装锐速"></a>Centos X64安装锐速</h3><p>执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O rskernel.sh https://raw.githubusercontent.com/uxh/shadowsocks_bash/master/rskernel.sh &amp;&amp; bash rskernel.sh</span><br></pre></td></tr></table></figure></p><p>直接回车，安装完成系统会自动重启<br>系统重启之后，重新连接服务器，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install net-tools -y &amp;&amp; wget --no-check-certificate -O appex.sh https://raw.githubusercontent.com/0oVicero0/serverSpeeder_Install/master/appex.sh &amp;&amp; bash appex.sh install</span><br></pre></td></tr></table></figure></p><p>遇到选择直接回车，完成安装，并且开机启动</p><p><a href="https://www.vultrcn.com/7.html" target="_blank" rel="noopener">参考连接</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Vultr专用破解版锐速安装&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
+    
+    
+      <category term="Vultr" scheme="http://tokyle.com/tags/Vultr/"/>
+    
+  </entry>
   
   <entry>
     <title>zabbix3.4配置邮件告警</title>
@@ -465,32 +487,6 @@
       <category term="mysql" scheme="http://tokyle.com/tags/mysql/"/>
     
       <category term="linux" scheme="http://tokyle.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>yum安装软件失败</title>
-    <link href="http://tokyle.com/2018/04/04/yum%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%A4%B1%E8%B4%A5/"/>
-    <id>http://tokyle.com/2018/04/04/yum安装软件失败/</id>
-    <published>2018-04-04T02:56:06.000Z</published>
-    <updated>2018-04-04T03:02:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>centos运行yum报错解决办法</p><a id="more"></a><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>使用yum安装软件时，报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Another app is currently holding the yum lock; waiting for it to exit...</span><br><span class="line">  The other application is: PackageKit</span><br><span class="line">    Memory : 130 M RSS (1.0 GB VSZ)</span><br><span class="line">    Started: Wed Apr  4 10:44:50 2018 - 04:01 ago</span><br><span class="line">    State  : Sleeping, pid: 11199</span><br></pre></td></tr></table></figure></p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>该问题可能是由于系统目前处于自动升级状态，所以锁定了yum，只要强制关闭yum进程即可重新运行yum<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/run/yum.pid</span><br></pre></td></tr></table></figure></p><h3 id="优质yum源"><a href="#优质yum源" class="headerlink" title="优质yum源"></a>优质yum源</h3><p>Remi repository 是包含最新版本 PHP 和 MySQL 包的 Linux 源，由 Remi 提供维护。有个这个源之后，使用 YUM 安装或更新 PHP、MySQL、phpMyAdmin 等服务器相关程序的时候就非常方便了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</span><br><span class="line">wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm</span><br><span class="line">rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm</span><br><span class="line"># for RHEL only</span><br><span class="line">subscription-manager repos --enable=rhel-7-server-optional-rpms</span><br></pre></td></tr></table></figure><blockquote><p><a href="http://www.ttlsa.com/yum/linux-remi-repository/" target="_blank" rel="noopener">参考文章</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;centos运行yum报错解决办法&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
-    
-    
-      <category term="linux" scheme="http://tokyle.com/tags/linux/"/>
-    
-      <category term="centos7" scheme="http://tokyle.com/tags/centos7/"/>
-    
-      <category term="yum" scheme="http://tokyle.com/tags/yum/"/>
     
   </entry>
   
