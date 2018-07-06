@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter压测socket close异常]]></title>
+    <url>%2F2018%2F07%2F06%2FJmeter%E5%8E%8B%E6%B5%8Bsocket-close%E5%BC%82%E5%B8%B8%2F</url>
+    <content type="text"><![CDATA[jmeter压测执行过程中报错：java.net.SocketException: Socket operation on nonsocket: connect 原因使用jmeter进行接口压测，http请求，默认是勾选了use keepAlive，但是在Jmeter.properties配置文件中的时间设置默认是注释的状态，也就是说，一旦发生连接空闲，则立刻断开，导致压测过程中出现事务失败。 解决办法在网上直接搜这个报错，有几个解决办法，说实话，有点懒，没看原理，就都照样该了下，重启jmeter之后就报错了。 Jmeter.properties取消注释：1hc.parameters.file=hc.parameters 取消注释并修改：1httpclient4.retrycount=1 取消注释并修改：1httpclient4.idletimeout=300 单位毫秒 hc.parameters取消注释并修改：1http.connection.stalecheck$Boolean=true 网上普遍的说法是httpclient4.idletimeout=300，其他几个是科学上网，在外网找到的。 参考资料 Jmeter WikiJmeter-Socket closed]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>Jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Vultr安装锐速]]></title>
     <url>%2F2018%2F07%2F05%2FVultr%E5%AE%89%E8%A3%85%E9%94%90%E9%80%9F%2F</url>
     <content type="text"><![CDATA[Vultr专用破解版锐速安装 因为Vultr机房都位于国外，当上网高峰期来临时，连接速度会比较慢，所以就需要安装锐速来加速连接。 注意事项1、安装锐速需降级系统内核，而安装 Google BBR 则需升级系统内核，故两者不能同时安装。 2、安装锐速需降级系统内核，有可能造成系统不稳定，故不建议将其应用在重要的生产环境中。 3、本教程只支持 CentOS6 x64 及 CentOS7 x64 系统，不支持任何 Debian &amp; Ubuntu 系统！ 系统判断1uname -r 1、结果以 2 开头，例如 2.6.32-696.18.7.el6.x86_64。 这种输出结果说明我们的服务器为 CentOS6 x64 系统，大家直接查看第三步进行锐速安装即可。 2、结果以 3 开头，例如 3.10.0-693.11.6.el7.x86_64。 这种输出结果说明我们的服务器为 CentOS7 x64 系统，大家直接查看第四步进行锐速安装即可。 3、结果以 4 开头，例如 4.12.10-1.el7.elrepo.x86_64。 这种输出结果说明我们的服务器已经安装 Google BBR 拥塞控制算法，此时已经无法继续安装锐速。 Centos X64安装锐速执行：1wget --no-check-certificate -O rskernel.sh https://raw.githubusercontent.com/uxh/shadowsocks_bash/master/rskernel.sh &amp;&amp; bash rskernel.sh 直接回车，安装完成系统会自动重启系统重启之后，重新连接服务器，执行：1yum install net-tools -y &amp;&amp; wget --no-check-certificate -O appex.sh https://raw.githubusercontent.com/0oVicero0/serverSpeeder_Install/master/appex.sh &amp;&amp; bash appex.sh install 遇到选择直接回车，完成安装，并且开机启动 参考连接]]></content>
