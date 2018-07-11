@@ -5,19 +5,19 @@
   
 
   
-  <title>Vultr安装锐速 | 它夏了夏天</title>
+  <title>loadrunner判断接口返回 | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta name="keywords" content="Vultr">
+<meta name="keywords" content="loadrunner">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vultr安装锐速">
-<meta property="og:url" content="http://tokyle.com/2018/07/05/Vultr安装锐速/index.html">
+<meta property="og:title" content="loadrunner判断接口返回">
+<meta property="og:url" content="http://tokyle.com/2018/07/11/loadrunner判断接口返回/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-10T09:49:56.513Z">
+<meta property="og:updated_time" content="2018-07-11T07:16:51.363Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vultr安装锐速">
+<meta name="twitter:title" content="loadrunner判断接口返回">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -77,17 +77,17 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Vultr安装锐速" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-loadrunner判断接口返回" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
-<a href="/2018/07/05/Vultr安装锐速/" class="article-date">
-  <time datetime="2018-07-05T04:30:03.000Z" itemprop="datePublished">2018-07-05</time>
+<a href="/2018/07/11/loadrunner判断接口返回/" class="article-date">
+  <time datetime="2018-07-11T07:15:07.000Z" itemprop="datePublished">2018-07-11</time>
 </a>
 
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/skill/">skill</a>
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
   </div>
 
   </div>
@@ -98,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Vultr安装锐速
+      loadrunner判断接口返回
     </h1>
   
 
@@ -110,37 +110,55 @@
 		<div id="toc" class="toc-article">
 			<h2 class="toc-title"><span>Contents</span></h2>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装shadowsocks"><span class="toc-number">1.</span> <span class="toc-text">安装shadowsocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置TCP-Fast-Open"><span class="toc-number">2.</span> <span class="toc-text">配置TCP Fast Open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多端口配置"><span class="toc-number">3.</span> <span class="toc-text">多端口配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统判断"><span class="toc-number">5.</span> <span class="toc-text">系统判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos-X64安装锐速"><span class="toc-number">6.</span> <span class="toc-text">Centos X64安装锐速</span></a></li></ol>
+			
 		
 		</div>
 		
-        <p>Vultr专用破解版锐速安装</p>
-<a id="more"></a>
-<p>因为Vultr机房都位于国外，当上网高峰期来临时，连接速度会比较慢，所以就需要安装锐速来加速连接。</p>
-<h3 id="安装shadowsocks"><a href="#安装shadowsocks" class="headerlink" title="安装shadowsocks"></a>安装shadowsocks</h3><p>因为SSR搭建完成之后，在手机和mac上都找不到对应的客户端用，没办法，降级到比较老的<code>shadowsocks</code><br>安装方式类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</span><br><span class="line">chmod +x shadowsocks.sh</span><br><span class="line">./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</span><br></pre></td></tr></table></figure></p>
-<p>这次只要配置个密码和端口，再选个加密方式即可~</p>
-<h3 id="配置TCP-Fast-Open"><a href="#配置TCP-Fast-Open" class="headerlink" title="配置TCP Fast Open"></a>配置TCP Fast Open</h3><p>搭建完成shadowsocks之后，为了优化连接，可以增加一点配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.local</span><br></pre></td></tr></table></figure></p>
-<p>最后一行增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
-<p>最后一行增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_fastopen = 3</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
-<p>修改<code>&quot;fast_open&quot;:true</code></p>
-<h3 id="多端口配置"><a href="#多端口配置" class="headerlink" title="多端口配置"></a>多端口配置</h3><p>修改<code>/etc/shadowsocks.json</code>文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;port_password&quot;:&#123;</span><br><span class="line">        &quot;8088&quot;:&quot;xxx&quot;,</span><br><span class="line">        &quot;8089&quot;:&quot;xxx&quot;,</span><br><span class="line">        &quot;32123&quot;:&quot;xxx&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">    &quot;fast_open&quot;:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>重启：<code>/etc/init.d/shadowsocks restart</code></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>1、安装锐速需降级系统内核，而安装 Google BBR 则需升级系统内核，故两者不能同时安装。</p>
-<p>2、安装锐速需降级系统内核，有可能造成系统不稳定，故不建议将其应用在重要的生产环境中。</p>
-<p>3、本教程只支持 CentOS6 x64 及 CentOS7 x64 系统，不支持任何 Debian &amp; Ubuntu 系统！</p>
-<h3 id="系统判断"><a href="#系统判断" class="headerlink" title="系统判断"></a>系统判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<p>1、结果以 2 开头，例如 2.6.32-696.18.7.el6.x86_64。</p>
-<p>这种输出结果说明我们的服务器为 CentOS6 x64 系统，大家直接查看第三步进行锐速安装即可。</p>
-<p>2、结果以 3 开头，例如 3.10.0-693.11.6.el7.x86_64。</p>
-<p>这种输出结果说明我们的服务器为 CentOS7 x64 系统，大家直接查看第四步进行锐速安装即可。</p>
-<p>3、结果以 4 开头，例如 4.12.10-1.el7.elrepo.x86_64。</p>
-<p>这种输出结果说明我们的服务器已经安装 Google BBR 拥塞控制算法，此时已经无法继续安装锐速。</p>
-<h3 id="Centos-X64安装锐速"><a href="#Centos-X64安装锐速" class="headerlink" title="Centos X64安装锐速"></a>Centos X64安装锐速</h3><p>执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O rskernel.sh https://raw.githubusercontent.com/uxh/shadowsocks_bash/master/rskernel.sh &amp;&amp; bash rskernel.sh</span><br></pre></td></tr></table></figure></p>
-<p>直接回车，安装完成系统会自动重启<br>系统重启之后，重新连接服务器，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install net-tools -y &amp;&amp; wget --no-check-certificate -O appex.sh https://raw.githubusercontent.com/0oVicero0/serverSpeeder_Install/master/appex.sh &amp;&amp; bash appex.sh install</span><br></pre></td></tr></table></figure></p>
-<p>遇到选择直接回车，完成安装，并且开机启动</p>
-<p><a href="https://www.vultrcn.com/7.html" target="_blank" rel="noopener">参考连接</a></p>
+        <p>loadrunner判断前一个接口返回，执行第二个接口</p>
+<p>Action()<br>{</p>
+<pre><code>/*关联获取接口返回结果，true或者false*/
+web_reg_save_param(&quot;Text&quot;,&quot;LB=\&quot;result\&quot;:&quot;,&quot;RB=,&quot;,LAST);
+/*开始事务*/
+lr_start_transaction(&quot;01_api_1&quot;);
+web_custom_request(&quot;api_1&quot;, 
+            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
+            &quot;Method=GET&quot;, 
+            &quot;TargetFrame=&quot;, 
+            &quot;Resource=0&quot;, 
+            &quot;Snapshot=t2.inf&quot;,
+            &quot;RecContentType=text/html&quot;,  
+            LAST);     
+
+lr_end_transaction(&quot;01_api_1&quot;,LR_AUTO);
+
+/*测试一下输出，用error只是因为会标红。。*/
+lr_error_message(lr_eval_string(&quot;{Text}&quot;));
+
+/*判断第一个接口返回是否为true*/
+if (strcmp(lr_eval_string(&quot;{Text}&quot;),&quot;true&quot;) == 0){
+    lr_start_transaction(&quot;01_api_2&quot;);
+
+        web_reg_find(&quot;Text=false&quot;,
+            LAST);
+
+        web_custom_request(&quot;api_2&quot;, 
+            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
+            &quot;Method=GET&quot;, 
+            &quot;TargetFrame=&quot;, 
+            &quot;Resource=0&quot;, 
+            &quot;Snapshot=t2.inf&quot;,
+            &quot;RecContentType=text/html&quot;,  
+            LAST);
+
+        lr_end_transaction(&quot;01_api_2&quot;,LR_AUTO);
+        lr_output_message(&quot;第二接口完&quot;);
+}else{
+
+        lr_error_message(&quot;请求失败&quot;);
+        return 0;
+};
+return 0;
+</code></pre><p>}</p>
 
       
     </div>
@@ -151,11 +169,11 @@
 	  <!-- 百度分享 End -->
 	  
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vultr/">Vultr</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/loadrunner/">loadrunner</a></li></ul>
 
 	  
 <span>
-Updated:<time datetime="2018-07-10T09:49:56.513Z" itemprop="dateModified">2018-07-10</time>
+Updated:<time datetime="2018-07-11T07:16:51.363Z" itemprop="dateModified">2018-07-11</time>
 </span>
 
 
@@ -165,19 +183,10 @@ Updated:<time datetime="2018-07-10T09:49:56.513Z" itemprop="dateModified">2018-0
     
 <nav id="article-nav">
   
-    <a href="/2018/07/06/Jmeter压测socket-close异常/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Jmeter压测socket close异常
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/06/28/zabbix3-4配置邮件告警/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/07/06/Jmeter压测socket-close异常/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">zabbix3.4配置邮件告警</div>
+      <div class="article-nav-title">Jmeter压测socket close异常</div>
     </a>
   
 </nav>
@@ -197,7 +206,7 @@ Updated:<time datetime="2018-07-10T09:49:56.513Z" itemprop="dateModified">2018-0
   <div id="toc" class="toc-aside">
   <h2 class="toc-title">Contents</h2>
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装shadowsocks"><span class="toc-number">1.</span> <span class="toc-text">安装shadowsocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置TCP-Fast-Open"><span class="toc-number">2.</span> <span class="toc-text">配置TCP Fast Open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多端口配置"><span class="toc-number">3.</span> <span class="toc-text">多端口配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统判断"><span class="toc-number">5.</span> <span class="toc-text">系统判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos-X64安装锐速"><span class="toc-number">6.</span> <span class="toc-text">Centos X64安装锐速</span></a></li></ol>
+        
     
   </div>
 
