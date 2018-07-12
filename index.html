@@ -106,65 +106,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-		
-		<div id="toc" class="toc-article">
-			<h2 class="toc-title"><span>Contents</span></h2>
-		
-			
-		
-		</div>
-		
         <p>loadrunner判断前一个接口返回，执行第二个接口</p>
-<p>Action()<br>{</p>
-<pre><code>/*关联获取接口返回结果，true或者false*/
-web_reg_save_param(&quot;Text&quot;,&quot;LB=\&quot;result\&quot;:&quot;,&quot;RB=,&quot;,LAST);
-/*开始事务*/
-lr_start_transaction(&quot;01_api_1&quot;);
-web_custom_request(&quot;api_1&quot;, 
-            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
-            &quot;Method=GET&quot;, 
-            &quot;TargetFrame=&quot;, 
-            &quot;Resource=0&quot;, 
-            &quot;Snapshot=t2.inf&quot;,
-            &quot;RecContentType=text/html&quot;,  
-            LAST);     
-
-lr_end_transaction(&quot;01_api_1&quot;,LR_AUTO);
-
-/*测试一下输出，用error只是因为会标红。。*/
-lr_error_message(lr_eval_string(&quot;{Text}&quot;));
-
-/*判断第一个接口返回是否为true*/
-if (strcmp(lr_eval_string(&quot;{Text}&quot;),&quot;true&quot;) == 0){
-    lr_start_transaction(&quot;01_api_2&quot;);
-
-        web_reg_find(&quot;Text=false&quot;,
-            LAST);
-
-        web_custom_request(&quot;api_2&quot;, 
-            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
-            &quot;Method=GET&quot;, 
-            &quot;TargetFrame=&quot;, 
-            &quot;Resource=0&quot;, 
-            &quot;Snapshot=t2.inf&quot;,
-            &quot;RecContentType=text/html&quot;,  
-            LAST);
-
-        lr_end_transaction(&quot;01_api_2&quot;,LR_AUTO);
-        lr_output_message(&quot;第二接口完&quot;);
-}else{
-
-        lr_error_message(&quot;请求失败&quot;);
-        return 0;
-};
-return 0;
-</code></pre><p>}</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2018/07/11/loadrunner判断接口返回/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/07/11/loadrunner判断接口返回/" data-id="cjjgskej1001ql0xuxudml5bq" data_title="loadrunner判断接口返回" data_summary="loadrunner判断前一个接口返回，执行第二个接口..." class="article-share-link">Share</a>
+	  <a data-url="http://tokyle.com/2018/07/11/loadrunner判断接口返回/" data-id="cjjhw2dd0001jtbxuerkmigeu" data_title="loadrunner判断接口返回" data_summary="loadrunner判断前一个接口返回，执行第二个接口..." class="article-share-link">Share</a>
       
         <a href="http://tokyle.com/2018/07/11/loadrunner判断接口返回/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -175,7 +127,7 @@ return 0;
 
 	  
 <span>
-Updated:<time datetime="2018-07-11T07:16:51.363Z" itemprop="dateModified">2018-07-11</time>
+Updated:<time datetime="2018-07-12T01:42:34.338Z" itemprop="dateModified">2018-07-12</time>
 </span>
 
 
@@ -225,7 +177,7 @@ Updated:<time datetime="2018-07-11T07:16:51.363Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/07/06/Jmeter压测socket-close异常/" data-id="cjjgskeho000fl0xu2o9fjrso" data_title="Jmeter压测socket close异常" data_summary="jmeter压测执行过程中报错：java.net.So..." class="article-share-link">Share</a>
+	  <a data-url="http://tokyle.com/2018/07/06/Jmeter压测socket-close异常/" data-id="cjjhw2dc1000ftbxu2y2jrlei" data_title="Jmeter压测socket close异常" data_summary="jmeter压测执行过程中报错：java.net.So..." class="article-share-link">Share</a>
       
         <a href="http://tokyle.com/2018/07/06/Jmeter压测socket-close异常/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -286,7 +238,7 @@ Updated:<time datetime="2018-07-06T06:27:48.118Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/07/05/Vultr安装锐速/" data-id="cjjgskei7000rl0xuvfzjtx09" data_title="Vultr安装锐速" data_summary="Vultr专用破解版锐速安装
+	  <a data-url="http://tokyle.com/2018/07/05/Vultr安装锐速/" data-id="cjjhw2dcg000otbxujw3vjxkn" data_title="Vultr安装锐速" data_summary="Vultr专用破解版锐速安装
 
 因为Vultr机房都位..." class="article-share-link">Share</a>
       
@@ -349,7 +301,7 @@ Updated:<time datetime="2018-07-10T09:49:56.513Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/06/28/zabbix3-4配置邮件告警/" data-id="cjjgskel5004dl0xuriwv7nz3" data_title="zabbix3.4配置邮件告警" data_summary="zabbix3.4配置邮件告警使用zabbix配置邮件..." class="article-share-link">Share</a>
+	  <a data-url="http://tokyle.com/2018/06/28/zabbix3-4配置邮件告警/" data-id="cjjhw2df6004ctbxudq0cumyx" data_title="zabbix3.4配置邮件告警" data_summary="zabbix3.4配置邮件告警使用zabbix配置邮件..." class="article-share-link">Share</a>
       
         <a href="http://tokyle.com/2018/06/28/zabbix3-4配置邮件告警/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -410,7 +362,7 @@ Updated:<time datetime="2018-06-28T03:33:02.830Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/06/27/zabbix3-4监控linux内存/" data-id="cjjgskel00046l0xuu57m3heh" data_title="zabbix3.4监控linux内存" data_summary="zabbix3.4监控linux内存情况
+	  <a data-url="http://tokyle.com/2018/06/27/zabbix3-4监控linux内存/" data-id="cjjhw2dez0045tbxugv1zvgob" data_title="zabbix3.4监控linux内存" data_summary="zabbix3.4监控linux内存情况
 
 linux..." class="article-share-link">Share</a>
       
@@ -473,7 +425,7 @@ Updated:<time datetime="2018-06-27T08:33:21.464Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/06/27/zabbix3-4监控mysql5-7/" data-id="cjjgskel3004al0xunaoe007g" data_title="zabbix3.4监控mysql5.7" data_summary="zabbix3.4监控mysql5.7
+	  <a data-url="http://tokyle.com/2018/06/27/zabbix3-4监控mysql5-7/" data-id="cjjhw2df9004gtbxuje6lo4pg" data_title="zabbix3.4监控mysql5.7" data_summary="zabbix3.4监控mysql5.7
 
 zabbix..." class="article-share-link">Share</a>
       
@@ -536,7 +488,7 @@ Updated:<time datetime="2018-06-27T05:56:21.029Z" itemprop="dateModified">2018-0
     </div>
     <footer class="article-footer">
 	  
-	  <a data-url="http://tokyle.com/2018/06/26/zabbix配置/" data-id="cjjgskel9004hl0xu60f9gw3i" data_title="zabbix配置" data_summary="zabbix的一些常用配置
+	  <a data-url="http://tokyle.com/2018/06/26/zabbix配置/" data-id="cjjhw2df30049tbxunr8ac3w1" data_title="zabbix配置" data_summary="zabbix的一些常用配置
 
 zabbix-agent..." class="article-share-link">Share</a>
       

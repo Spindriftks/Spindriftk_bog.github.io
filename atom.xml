@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-07-11T07:16:51.363Z</updated>
+  <updated>2018-07-12T01:42:34.338Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -21,19 +21,13 @@
     <link href="http://tokyle.com/2018/07/11/loadrunner%E5%88%A4%E6%96%AD%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E/"/>
     <id>http://tokyle.com/2018/07/11/loadrunner判断接口返回/</id>
     <published>2018-07-11T07:15:07.000Z</published>
-    <updated>2018-07-11T07:16:51.363Z</updated>
+    <updated>2018-07-12T01:42:34.338Z</updated>
     
-    <content type="html"><![CDATA[<p>loadrunner判断前一个接口返回，执行第二个接口</p><p>Action()<br>{</p><pre><code>/*关联获取接口返回结果，true或者false*/web_reg_save_param(&quot;Text&quot;,&quot;LB=\&quot;result\&quot;:&quot;,&quot;RB=,&quot;,LAST);/*开始事务*/lr_start_transaction(&quot;01_api_1&quot;);web_custom_request(&quot;api_1&quot;,             &quot;URL=https://webapp-n2.test.com/api/test&quot;,              &quot;Method=GET&quot;,             &quot;TargetFrame=&quot;,             &quot;Resource=0&quot;,             &quot;Snapshot=t2.inf&quot;,            &quot;RecContentType=text/html&quot;,              LAST);     lr_end_transaction(&quot;01_api_1&quot;,LR_AUTO);/*测试一下输出，用error只是因为会标红。。*/lr_error_message(lr_eval_string(&quot;{Text}&quot;));/*判断第一个接口返回是否为true*/if (strcmp(lr_eval_string(&quot;{Text}&quot;),&quot;true&quot;) == 0){    lr_start_transaction(&quot;01_api_2&quot;);        web_reg_find(&quot;Text=false&quot;,            LAST);        web_custom_request(&quot;api_2&quot;,             &quot;URL=https://webapp-n2.test.com/api/test&quot;,              &quot;Method=GET&quot;,             &quot;TargetFrame=&quot;,             &quot;Resource=0&quot;,             &quot;Snapshot=t2.inf&quot;,            &quot;RecContentType=text/html&quot;,              LAST);        lr_end_transaction(&quot;01_api_2&quot;,LR_AUTO);        lr_output_message(&quot;第二接口完&quot;);}else{        lr_error_message(&quot;请求失败&quot;);        return 0;};return 0;</code></pre><p>}</p>]]></content>
+    <content type="html"><![CDATA[<p>loadrunner判断前一个接口返回，执行第二个接口</p><a id="more"></a><p>Action()<br>{</p><pre><code>/*关联获取接口返回结果，true或者false*/web_reg_save_param(&quot;Text&quot;,&quot;LB=\&quot;result\&quot;:&quot;,&quot;RB=,&quot;,LAST);/*开始事务*/lr_start_transaction(&quot;01_api_1&quot;);web_custom_request(&quot;api_1&quot;,             &quot;URL=https://webapp-n2.test.com/api/test&quot;,              &quot;Method=GET&quot;,             &quot;TargetFrame=&quot;,             &quot;Resource=0&quot;,             &quot;Snapshot=t2.inf&quot;,            &quot;RecContentType=text/html&quot;,              LAST);     lr_end_transaction(&quot;01_api_1&quot;,LR_AUTO);/*测试一下输出，用error只是因为会标红。。*/lr_error_message(lr_eval_string(&quot;{Text}&quot;));/*判断第一个接口返回是否为true*/if (strcmp(lr_eval_string(&quot;{Text}&quot;),&quot;true&quot;) == 0){    lr_start_transaction(&quot;01_api_2&quot;);        web_reg_find(&quot;Text=false&quot;,            LAST);        web_custom_request(&quot;api_2&quot;,             &quot;URL=https://webapp-n2.test.com/api/test&quot;,              &quot;Method=GET&quot;,             &quot;TargetFrame=&quot;,             &quot;Resource=0&quot;,             &quot;Snapshot=t2.inf&quot;,            &quot;RecContentType=text/html&quot;,              LAST);        lr_end_transaction(&quot;01_api_2&quot;,LR_AUTO);        lr_output_message(&quot;第二接口完&quot;);}else{        lr_error_message(&quot;请求失败&quot;);        return 0;};return 0;</code></pre><p>}</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;loadrunner判断前一个接口返回，执行第二个接口&lt;/p&gt;
-&lt;p&gt;Action()&lt;br&gt;{&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;/*关联获取接口返回结果，true或者false*/
-web_reg_save_param(&amp;quot;Text&amp;quot;,&amp;quot;LB=\
-      
+      &lt;p&gt;loadrunner判断前一个接口返回，执行第二个接口&lt;/p&gt;
     
     </summary>
     
