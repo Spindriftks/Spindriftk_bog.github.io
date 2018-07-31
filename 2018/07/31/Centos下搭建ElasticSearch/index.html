@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Centos下搭建ElasticSearch | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Centos7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos下搭建ElasticSearch">
+<meta property="og:url" content="http://tokyle.com/2018/07/31/Centos下搭建ElasticSearch/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-31T09:55:51.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos下搭建ElasticSearch">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Centos下搭建ElasticSearch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/07/31/Centos下搭建ElasticSearch/" class="article-date">
+  <time datetime="2018-07-31T09:49:50.000Z" itemprop="datePublished">2018-07-31</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Devops/">Devops</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos下搭建ElasticSearch
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK"><span class="toc-number">1.</span> <span class="toc-text">JDK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ElasticSearch"><span class="toc-number">2.</span> <span class="toc-text">ElasticSearch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载"><span class="toc-number">2.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建es用户"><span class="toc-number">3.1.</span> <span class="toc-text">创建es用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更改静态IP"><span class="toc-number">3.2.</span> <span class="toc-text">更改静态IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max-file-descriptors-4096-for-elasticsearch-process-is-too-low-increase-to-at-least-65536"><span class="toc-number">3.3.</span> <span class="toc-text">max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144"><span class="toc-number">3.4.</span> <span class="toc-text">max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>Centos 7下搭建ElasticSearch</p>
+<a id="more"></a>
+<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p>首先，ES是java开发的，所以，通性，懂得，装JDK，好在linux下一条命令行就可以解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 安装1.8.0的所有文件</span><br><span class="line">yum install java-1.8.0-openjdk* -y</span><br></pre></td></tr></table></figure></p>
+<p>校验：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br><span class="line">javac</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openjdk version &quot;1.8.0_181&quot;</span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_181-b13)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.181-b13, mixed mode)</span><br></pre></td></tr></table></figure>
+<p>很正常，完成。</p>
+<h3 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h3><h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>下载很简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.zip</span><br></pre></td></tr></table></figure></p>
+<p>然后解压缩就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip elasticsearch-6.3.2.zip</span><br></pre></td></tr></table></figure></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd elasticsearch-6.3.2/bin</span><br><span class="line">./elasticsearch</span><br></pre></td></tr></table></figure>
+<p>嗯，然后问题就开始了~</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>用<code>root</code>用户登录的系统，启es，会报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[2018-01-28T22:00:31,358][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [] uncaught exception in thread [main]</span><br><span class="line">org.elasticsearch.bootstrap.StartupException: java.lang.RuntimeException: can not run elasticsearch as root</span><br><span class="line">	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:125) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:112) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:86) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:124) ~[elasticsearch-cli-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.cli.Command.main(Command.java:90) ~[elasticsearch-cli-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:92) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:85) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">Caused by: java.lang.RuntimeException: can not run elasticsearch as root</span><br><span class="line">	at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:104) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:171) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:322) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:121) ~[elasticsearch-6.1.2.jar:6.1.2]</span><br><span class="line">	... 6 more</span><br></pre></td></tr></table></figure></p>
+<p>很明显，人家不让你用root启服务</p>
+<h4 id="创建es用户"><a href="#创建es用户" class="headerlink" title="创建es用户"></a>创建es用户</h4><p>不让用root就创建一个es的用户：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 创建es组</span><br><span class="line">groupadd elasticsearch</span><br><span class="line"># 在es组下创建es用户，并设置密码为elasticsearch</span><br><span class="line">useradd elasticsearch -g elasticsearch -p elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>然后将前面下载的<code>elasticsearch-6.3.2.zip</code>包拷贝到es家目录下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp elasticsearch-6.3.2.zip /home/elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>解压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip elasticsearch-6.3.2.zip</span><br></pre></td></tr></table></figure></p>
+<p>更改文件夹属主和属组：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R elasticsearch:elasticsearch elasticsearch-6.1.2/</span><br></pre></td></tr></table></figure></p>
+<p>然后切换到es用户，启服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - elasticsearch</span><br><span class="line">./bin/elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以看见服务基本是正常起来了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[2018-07-31T22:11:06,918][INFO ][o.e.n.Node               ] [] initializing ...</span><br><span class="line">[2018-07-31T22:11:07,161][INFO ][o.e.e.NodeEnvironment    ] [qR5cyzh] using [1] data paths, mounts [[/ (rootfs)]], net usable_space [12.5gb], net total_space [17.6gb], types [rootfs]</span><br><span class="line">[2018-07-31T22:11:07,162][INFO ][o.e.e.NodeEnvironment    ] [qR5cyzh] heap size [1015.6mb], compressed ordinary object pointers [true]</span><br><span class="line">[2018-07-31T22:11:07,163][INFO ][o.e.n.Node               ] node name [qR5cyzh] derived from node ID [qR5cyzhRQUix7PbCNFViTw]; set [node.name] to override</span><br><span class="line">[2018-07-31T22:11:07,163][INFO ][o.e.n.Node               ] version[6.1.2], pid[7200], build[5b1fea5/2018-01-10T02:35:59.208Z], OS[Linux/3.10.0-514.el7.x86_64/amd64], JVM[Oracle Corporation/Java HotSpot(TM) 64-Bit Server VM/1.8.0_141/25.141-b15]</span><br><span class="line">[2018-07-31T22:11:07,163][INFO ][o.e.n.Node               ] JVM arguments [-Xms1g, -Xmx1g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -XX:-OmitStackTraceInFastThrow, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/home/elasticsearch/elasticsearch-6.1.2, -Des.path.conf=/home/elasticsearch/elasticsearch-6.1.2/config]</span><br><span class="line">[2018-07-31T22:11:09,295][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [aggs-matrix-stats]</span><br><span class="line">[2018-07-31T22:11:09,295][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [analysis-common]</span><br><span class="line">[2018-07-31T22:11:09,295][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [ingest-common]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [lang-expression]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [lang-mustache]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [lang-painless]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [mapper-extras]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [parent-join]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [percolator]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [reindex]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [repository-url]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [transport-netty4]</span><br><span class="line">[2018-07-31T22:11:09,296][INFO ][o.e.p.PluginsService     ] [qR5cyzh] loaded module [tribe]</span><br><span class="line">[2018-07-31T22:11:09,297][INFO ][o.e.p.PluginsService     ] [qR5cyzh] no plugins loaded</span><br><span class="line">[2018-07-31T22:11:13,791][INFO ][o.e.d.DiscoveryModule    ] [qR5cyzh] using discovery type [zen]</span><br><span class="line">[2018-07-31T22:11:14,926][INFO ][o.e.n.Node               ] initialized</span><br><span class="line">[2018-07-31T22:11:14,927][INFO ][o.e.n.Node               ] [qR5cyzh] starting ...</span><br><span class="line">[2018-07-31T22:11:15,582][INFO ][o.e.t.TransportService   ] [qR5cyzh] publish_address &#123;127.0.0.1:9300&#125;, bound_addresses &#123;[::1]:9300&#125;, &#123;127.0.0.1:9300&#125;</span><br><span class="line">[2018-07-31T22:11:15,598][WARN ][o.e.b.BootstrapChecks    ] [qR5cyzh] max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2018-07-31T22:11:15,598][WARN ][o.e.b.BootstrapChecks    ] [qR5cyzh] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br><span class="line">[2018-07-31T22:11:18,915][INFO ][o.e.c.s.MasterService    ] [qR5cyzh] zen-disco-elected-as-master ([0] nodes joined), reason: new_master &#123;qR5cyzh&#125;&#123;qR5cyzhRQUix7PbCNFViTw&#125;&#123;wRzc-CVaRmmdLNnPfT_LTA&#125;&#123;127.0.0.1&#125;&#123;127.0.0.1:9300&#125;</span><br><span class="line">[2018-07-31T22:11:18,920][INFO ][o.e.c.s.ClusterApplierService] [qR5cyzh] new_master &#123;qR5cyzh&#125;&#123;qR5cyzhRQUix7PbCNFViTw&#125;&#123;wRzc-CVaRmmdLNnPfT_LTA&#125;&#123;127.0.0.1&#125;&#123;127.0.0.1:9300&#125;, reason: apply cluster state (from master [master &#123;qR5cyzh&#125;&#123;qR5cyzhRQUix7PbCNFViTw&#125;&#123;wRzc-CVaRmmdLNnPfT_LTA&#125;&#123;127.0.0.1&#125;&#123;127.0.0.1:9300&#125; committed version [1] source [zen-disco-elected-as-master ([0] nodes joined)]])</span><br><span class="line">[2018-07-31T22:11:19,028][INFO ][o.e.g.GatewayService     ] [qR5cyzh] recovered [0] indices into cluster_state</span><br><span class="line">[2018-07-31T22:11:19,097][INFO ][o.e.h.n.Netty4HttpServerTransport] [qR5cyzh] publish_address &#123;127.0.0.1:9200&#125;, bound_addresses &#123;[::1]:9200&#125;, &#123;127.0.0.1:9200&#125;</span><br><span class="line">[2018-07-31T22:11:19,097][INFO ][o.e.n.Node               ] [qR5cyzh] started</span><br></pre></td></tr></table></figure></p>
+<p>验证：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &quot;127.0.0.1:9200&quot;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;snZNWBu&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;9k1xyJl4S6uoosA_Ua0XEQ&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;6.3.2&quot;,</span><br><span class="line">    &quot;build_flavor&quot; : &quot;default&quot;,</span><br><span class="line">    &quot;build_type&quot; : &quot;zip&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;053779d&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2018-07-20T05:20:23.451332Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;7.3.1&quot;,</span><br><span class="line">    &quot;minimum_wire_compatibility_version&quot; : &quot;5.6.0&quot;,</span><br><span class="line">    &quot;minimum_index_compatibility_version&quot; : &quot;5.0.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="更改静态IP"><a href="#更改静态IP" class="headerlink" title="更改静态IP"></a>更改静态IP</h4><p>本地是可以用，但是试了下，由于centos是在虚拟机里面，在外面机器，访问虚拟机ip就打不开es了，没办法，将es设置成静态IP<br>修改配置文件<code>/confif/elasticsearch.yml</code>，修改IP为静态IP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># Set the bind address to a specific IP (IPv4 or IPv6):</span><br><span class="line">#</span><br><span class="line">network.host: 192.168.0.91</span><br><span class="line">#</span><br><span class="line"># Set a custom port for HTTP:</span><br><span class="line">#</span><br><span class="line">http.port: 9200</span><br><span class="line">#</span><br><span class="line"># For more information, consult the network module documentation.</span><br></pre></td></tr></table></figure></p>
+<p>然后重启es，发现，嗯，还是起不来，又报了俩错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [2] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br></pre></td></tr></table></figure></p>
+<h4 id="max-file-descriptors-4096-for-elasticsearch-process-is-too-low-increase-to-at-least-65536"><a href="#max-file-descriptors-4096-for-elasticsearch-process-is-too-low-increase-to-at-least-65536" class="headerlink" title="max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]"></a>max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</h4><p>切到root下，修改对应配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/security/</span><br><span class="line"># 日常备份</span><br><span class="line">cp limits.conf limits.conf.bak</span><br><span class="line"># 修改配置</span><br><span class="line">vim limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>增加内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># elasticsearch config start</span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br><span class="line"># elasticsearch config end</span><br></pre></td></tr></table></figure></p>
+<h4 id="max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144"><a href="#max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144" class="headerlink" title="max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]"></a>max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</h4><p>也是切root改配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc</span><br><span class="line">cp sysctl.conf sysctl.conf.bak</span><br><span class="line">vim sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<p>增加内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># elasticsearch config start</span><br><span class="line">vm.max_map_count=262144</span><br><span class="line"># elasticsearch config end</span><br></pre></td></tr></table></figure></p>
+<p><strong>重启系统</strong></p>
+<p>然后切到es用户，重启服务，完成~<br>可以到本地浏览器试试访问”<a href="http://IP:9200" target="_blank" rel="noopener">http://IP:9200</a>“</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-07-31T09:55:51.919Z" itemprop="dateModified">2018-07-31</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/19/海贼王TV版目录/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">海贼王TV版目录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK"><span class="toc-number">1.</span> <span class="toc-text">JDK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ElasticSearch"><span class="toc-number">2.</span> <span class="toc-text">ElasticSearch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载"><span class="toc-number">2.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建es用户"><span class="toc-number">3.1.</span> <span class="toc-text">创建es用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更改静态IP"><span class="toc-number">3.2.</span> <span class="toc-text">更改静态IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max-file-descriptors-4096-for-elasticsearch-process-is-too-low-increase-to-at-least-65536"><span class="toc-number">3.3.</span> <span class="toc-text">max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-least-262144"><span class="toc-number">3.4.</span> <span class="toc-text">max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Centos7/" style="font-size: 17.2px; color: #43ba59">Centos7</a> <a href="/tags/Django/" style="font-size: 13.7px; color: #73c2c8">Django</a> <a href="/tags/Hexo/" style="font-size: 13.7px; color: #73c2c8">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 13.7px; color: #73c2c8">Jmeter</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.1px; color: #60bf9b">appium</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.1px; color: #60bf9b">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/linux/" style="font-size: 14.4px; color: #6ac0b2">linux</a> <a href="/tags/lives/" style="font-size: 14.4px; color: #6ac0b2">lives</a> <a href="/tags/loadrunner/" style="font-size: 15.1px; color: #60bf9b">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/matplotlib/" style="font-size: 14.4px; color: #6ac0b2">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 16.5px; color: #4dbc6f">mysql</a> <a href="/tags/nose/" style="font-size: 15.8px; color: #57bd85">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.3px; color: #27b616">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.9px; color: #3ab943">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.7px; color: #73c2c8">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.7px; color: #73c2c8">windows</a> <a href="/tags/yum/" style="font-size: 13.7px; color: #73c2c8">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 15.1px; color: #60bf9b">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 15.1px; color: #60bf9b">单元测试</a> <a href="/tags/性能/" style="font-size: 14.4px; color: #6ac0b2">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.6px; color: #30b72c">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/07/31/Centos下搭建ElasticSearch/">Centos下搭建ElasticSearch</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/19/海贼王TV版目录/">海贼王TV版目录</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/11/loadrunner判断接口返回/">loadrunner判断接口返回</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/06/Jmeter压测socket-close异常/">Jmeter压测socket close异常</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/05/Vultr安装锐速/">Vultr安装锐速</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
