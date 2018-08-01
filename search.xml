@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[elasticsearch 6变更记录]]></title>
+    <url>%2F2018%2F08%2F01%2Felasticsearch-6%E5%8F%98%E6%9B%B4%E8%AE%B0%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[elasticsearch 6变更内容记录 原来没怎么接触过es，找了个教程，本来是按着教程上敲的练练手的，然后就我靠了，又回到当初碰Django时候的懵逼状态，新版本改好多。。 No handler for type [string] declared on field本来练手练得好好的：123456789101112131415161718PUT http://192.168.0.91:9200/index_test&#123; &quot;settings&quot;: &#123; &quot;number_of_shards&quot;: 3, &quot;number_of_replicas&quot;: 2 &#125;, &quot;mappings&quot;: &#123; &quot;Testlog&quot;: &#123; &quot;properties&quot;: &#123; &quot;logType&quot;: &#123; &quot;type&quot;: &quot;string&quot;, &quot;index&quot;: &quot;not_analyzed&quot; &#125; &#125; &#125; &#125;&#125; 然后就是悲剧：1234567&quot;error&quot;: &#123; &quot;root_cause&quot;: [ &#123; &quot;type&quot;: &quot;mapper_parsing_exception&quot;, &quot;reason&quot;: &quot;No handler for type [string] declared on field [logType]&quot; &#125; ], 研究半天，JSON没啥错啊，教程里就是这么干的啊，回忆起Django的版本悲剧，搜了下版本变更，唉~ElasticSearch 5.x开始就取消了string类型，取代的事text和keyward，text用于全文搜索的, 而keyword用于关键词搜索 找了段网上的解释：这个变动的根本原因是string类型会给我们带来很多困惑: 因为ElasticSearch对字符串拥有两种完全不同的搜索方式. 你可以按照整个文本进行匹配, 即关键词搜索(keyword search), 也可以按单个字符匹配, 即全文搜索(full-text search). 对ElasticSearch稍有了解的人都知道, 前者的字符串被称为not-analyzed字符, 而后者被称作analyzed字符串. 事实上, 同一种类型用于应对两种不同的使用场景是会让人崩溃的, 因为有些选项只对其一的场景设置有效.例如position_increment_gap对not-analyzed字符就不会起作用, 而像ignore_above对于analyzed字符串就很难区分它到底是对整个字符串的值有效还是对单独的每个分词有效(在这种场景, ignore_above确实只对整个字符串值有效, 而对单个分词的限制可以使用limit设置)，同样，index现在也只需要boolean的两种状态，所以可以修改为：12345678910111213141516&#123; &quot;settings&quot;: &#123; &quot;number_of_shards&quot;: 3, &quot;number_of_replicas&quot;: 2 &#125;, &quot;mappings&quot;: &#123; &quot;gaialog&quot;: &#123; &quot;properties&quot;: &#123; &quot;logType&quot;: &#123; &quot;type&quot;: &quot;text&quot;, &quot;index&quot;: &quot;false&quot; &#125; &#125; &#125; &#125;&#125; as the final mapping would have more than 1 type原因是6.x开始，取消了mapping type…具体原因可以看官方的解释：removal of mapping type需要的一些解释是：首先，很多人会把es和关系型数据库进行类比；1234index ——&gt; 数据库（database）type ——&gt; 表（table）document ——&gt; 数据记录（data）filed ——&gt; 列（column） 其实这样理解是有问题的，在关系型数据库中，每个表的列都是相互独立的，即使是同样列名的列，也毫无关系；但是在像es这样的映射型数据库中，即使是在不同的type下的field，只要field名字一样，它们所指向的Lucene字段都是同一个，所以是有影响的。在ES中，之前有type的情况下，在不同的type下可以建同样名字的field，比如test，type1下的field是string类型，type2下的field是boolean类型，由于同一个名字的field对应的Lucene字段一样，所以在进行field删除时，系统就会出错，不知道具体应该删的是哪个field。官方为了避免这样的情况，就直接开始了不要type~~~]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos 7安装elasticsearch head]]></title>
     <url>%2F2018%2F08%2F01%2FCentos-7%E5%AE%89%E8%A3%85elasticsearch-head%2F</url>
     <content type="text"><![CDATA[ElasticSearch安装可视化插件ElasticSearch head 依赖node.js首先是安装node.js 方案一可以用yum装：1yum install -y nodejs 再装npm：1npm install -g cnpm --registry=https://registry.npm.taobao.org 方案二或者是源码安装首先安装gcc用于编译：1yum -y install gcc gcc-c++ kernel-devel 开始安装node.js12wget https://nodejs.org/dist/v4.5.0/node-v4.5.0.tar.gztar -xf node-v4.5.0.tar.gz 解压缩之后，进入目录，编译：1234cd node-v4.5.0./configuremakemake install 完成！验证：12node -vnpm 安装完成的是4.5的版本，升级：12npm install -g nn stable 安装grunt1npm install -g grunt 可以查看版本1grunt -version 安装ES head下载git下载源码，可以直接到github下，也可以命令行weg或者git clone下载源码地址|：https://github.com/mobz/elasticsearch-head/建议要是在本地下载的zip包，传服务器时候，切换到es用户操作，使得head文件属主是es用户。然后解压：12unzip elasticsearch-head-master.zipcd elasticsearch-head-master 安装1npm install 配置首先要停掉ES服务 配置http对外服务修改elasticsearch.yml1vim config/elasticsearch.yml 添加：12http.cors.enabled: truehttp.cors.allow-origin: &quot;*&quot; 修改host进入elasticsearch-head文件夹，修改Gruntfile.js1vim Gruntfile.js 找到connect：server，添加hostname为你的静态IP，完成~12345678910connect: &#123; server: &#123; options: &#123; hostname: &apos;192.168.0.91&apos;, port: 9100, base: &apos;.&apos;, keepalive: true &#125; &#125; &#125; 启动先启动ES，再起ES headES head有两种启动方式：` grunt server 或者进入es head目录 npm run start浏览器访问:http://IP:9100即可打开页面]]></content>
@@ -242,8 +253,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>Centos7</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
