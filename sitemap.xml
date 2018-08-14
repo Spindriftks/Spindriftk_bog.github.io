@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tokyle.com/2018/05/10/centos%E9%83%A8%E7%BD%B2-net-core/</loc>
+    
+    <lastmod>2018-08-14T01:30:24.999Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tokyle.com/2018/08/09/ELK%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/</loc>
     
     <lastmod>2018-08-09T08:29:07.888Z</lastmod>
@@ -131,13 +138,6 @@
     <loc>http://tokyle.com/2018/05/11/centos7%E6%90%AD%E5%BB%BAzabbix/</loc>
     
     <lastmod>2018-05-11T09:32:22.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tokyle.com/2018/05/10/centos%E9%83%A8%E7%BD%B2-net-core/</loc>
-    
-    <lastmod>2018-05-10T09:21:51.000Z</lastmod>
     
   </url>
   
