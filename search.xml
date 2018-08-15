@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[一些常用网站]]></title>
+    <url>%2F2018%2F08%2F15%2F%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%BD%91%E7%AB%99%2F</url>
+    <content type="text"><![CDATA[记一些常用的网站 zabbix 模板大全 zabbix各模板 APM鼻祖论文 APM平台的鼻祖 正则表达式 在线正则表达式工具 网页测试工具 WebPagetest Pingdom 论坛 stackoverflow testerhome 51CTO 掘金 思否（segmentfault） 电子书网站 稀酷客Project Gutenberg 数据科学项目练习 Kaggle python 3 cookbook Python3 cookbook Hacker News Hacker News 免费图片 Pixabay 运维 运维生存时间 运维网 Rancher Rancher 娱乐部分 ACG动漫种子 52破解 蜂鸟摄影 TO BE CONTINUED …]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>lives</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos7开启nginx status]]></title>
     <url>%2F2018%2F08%2F15%2FCentos7%E5%BC%80%E5%90%AFnginx-status%2F</url>
     <content type="text"><![CDATA[Centos 7开启nginx status 这段时间需要研究APM相关，整理到中间件部分，想到用zabbix来监控Nginx，一般情况下，中间件都有自己的计数器，我们只需要获取计数器的数值即可完成监控。 安装nginx还是啰嗦一下，安装nginx，一条命令即可：1yum install nginx 配置文件路径：默认配置：/etc/nginx/nginx.conf可自建配置:/etc/nginx/conf.d/yourAPP.conf(需要修改nginx.conf最后的配置文件路径) 开启nginx status开启很简单，在配置中增加：1234567location /ngx_status &#123; stub_status on; access_log off; allow 127.0.0.1; deny all; &#125; 即可；由于之前有帮开发搭建了.net core的环境，就直接在之前搭建的配置文件（LiabTest.conf）里面改了：原文件：1234567891011server &#123; listen 80; location / &#123; proxy_pass http://localhost:5000; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection keep-alive; proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; &#125;&#125; 增加status之后：123456789101112131415161718server &#123; listen 80; location / &#123; proxy_pass http://localhost:5000; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection keep-alive; proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; &#125; location /ngx_status &#123; stub_status on; access_log off; allow 127.0.0.1; deny all; &#125;&#125; 查看效果重启nginx：1systemctl restart nginx 查看status:1curl http://127.0.0.1/ngx_status 看到信息：12345[root@gtp1 conf.d]# curl http://127.0.0.1/ngx_statusActive connections: 1199 server accepts handled requests 158761 158761 158757 Reading: 0 Writing: 1195 Waiting: 4 nginx status详解12345active connections – 活跃的连接数量server accepts handled requests — 总共处理了158761个连接 , 成功创建158761次握手, 总共处理了158757个请求reading — 读取客户端的连接数.writing — 响应数据到客户端的数量waiting — 开启 keep-alive 的情况下,这个值等于 active – (reading+writing), 意思就是 Nginx 已经处理完正在等候下一次请求指令的驻留连接.]]></content>
