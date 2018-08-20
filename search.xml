@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos7搭建influxdb+chronograf]]></title>
+    <url>%2F2018%2F08%2F20%2FCentos7%E6%90%AD%E5%BB%BAinfluxdb-chronograf%2F</url>
+    <content type="text"><![CDATA[Centos7搭建influxdb+Chronograf elasticsearch实验过后，今天尝试了另一种时序数据库influxdb 安装Influxdbcentos7 64位：12wget https://dl.influxdata.com/influxdb/releases/influxdb-1.6.1.x86_64.rpmsudo yum localinstall influxdb-1.6.1.x86_64.rpm (附卸载方式，曾经想卸载东西，找半天：ipm包：rpm -qa xxxx(查询安装包)rpm -e xxxx（卸载） yum install 安装的包：yum remove xxx) 配置安装完成后，相应配置文件位于：/usr/bin12345influxd influxdb服务器influx influxdb命令行客户端influx_inspect 查看工具influx_stress 压力测试工具influx_tsm 数据库转换工具（将数据库从b1或bz1格式转换为tsm1格式） 数据文件夹：/var/lib/influxdb123data 存放最终存储的数据，文件以.tsm结尾meta 存放数据库元数据wal 存放预写日志文件 以及，配置文件：1/etc/influxdb/influxdb.conf 启动1234加自启动：systemctl enable influxdb启服务：systemctl start influxdb 非服务方式启动：1234[root@localhost influxdb]# influxConnected to http://localhost:8086 version 1.6.1InfluxDB shell version: 1.6.1&gt; 安装Chronograf好像是1.4版本（具体不记得了），influxdb就去掉了自带的web页面（influxdb.conf中没有admin栏），想要从web页面查看数据，可以安装官方配套的展示工具Chronograf，用着感觉和grafana很像。 Cnetos 7下安装：12wget https://dl.influxdata.com/chronograf/releases/chronograf-1.6.1.x86_64.rpmsudo yum localinstall chronograf-1.6.1.x86_64.rpm 启动：systemctl start chronograf默认开启8888端口，浏览器访问http://IP:8888即可（若是在虚拟机安装，打不开，可以尝试用nginx转服务） 简单语法influxdb与传统数据库的比较 influxdb MySQL database 数据库 measurement 数据库中的表 points 表里面的一行数据 influxdb数据的构成：Point由时间戳（time）、数据（field）、标签（tags）组成。 Point属性 传统数据库中的概念 time 每个数据记录时间，是数据库中的主索引(会自动生成) fields 各种记录值（没有索引的属性）也就是记录的值：温度， 湿度 tags 各种有索引的属性：地区，海拔 简单操作influx进入命令行模式：1234567891011121314151617181920#创建数据库create database &quot;db_name&quot;#显示所有的数据库show databases#删除数据库drop database &quot;db_name&quot;#使用数据库use db_name#显示该数据库中所有的表show measurements#创建表，直接在插入数据的时候指定表名insert test,host=127.0.0.1,monitor_name=test count=1#删除表drop measurement &quot;measurement_name&quot; 123INSERT cpu,host=serverA,region=us_west value=0.64 //在cpu表中插入相关的数据SELECT * FROM cpu ORDER BY time DESC LIMIT 3 //查询最近的三条数据delete from cpu where time=1480235366557373922 //删除某条数据 用户操作：12345678910111213用户管理可以通过Chronograf页面做操作，也可以命令行。#显示用户 show users#创建用户create user &quot;username&quot; with password &apos;password&apos;#创建管理员权限用户create user &quot;username&quot; with password &apos;password&apos; with all privileges#删除用户drop user &quot;username&quot; 导入测试数据CREATE DATABASE NOAA_water_database下载官方数据集：1curl https://s3.amazonaws.com/noaa.water-database/NOAA_data.txt -o NOAA_data.txt 写数据1influx -import -path=./NOAA_data.txt -precision=s -database=NOAA_water_database 配置文件参考 influxdb.conf]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>Centos7</tag>
+        <tag>influxdb</tag>
+        <tag>Chronograf</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[一些常用网站]]></title>
     <url>%2F2018%2F08%2F15%2F%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%BD%91%E7%AB%99%2F</url>
     <content type="text"><![CDATA[记一些常用的网站 zabbix 模板大全 zabbix各模板 APM鼻祖论文 APM平台的鼻祖 正则表达式 在线正则表达式工具 网页测试工具 WebPagetest Pingdom 论坛 stackoverflow testerhome 51CTO 掘金 思否（segmentfault） 电子书网站 稀酷客Project Gutenberg 数据科学项目练习 Kaggle python 3 cookbook Python3 cookbook Hacker News Hacker News 免费图片 Pixabay 运维 运维生存时间 运维网 Rancher Rancher 娱乐部分 ACG动漫种子 52破解 蜂鸟摄影 TO BE CONTINUED …]]></content>
