@@ -8,14 +8,14 @@
   <title>Centos7搭建SonarQube | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta name="keywords" content="Centos7,SonarQube">
+<meta name="keywords" content="SonarQube,Centos7">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Centos7搭建SonarQube">
 <meta property="og:url" content="http://tokyle.com/2018/08/23/Centos7搭建SonarQube/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-23T06:46:03.889Z">
+<meta property="og:updated_time" content="2018-08-23T07:46:27.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7搭建SonarQube">
 <meta name="twitter:description" content="素履以往">
@@ -136,7 +136,7 @@
 <h5 id="修改elasticsearch配置"><a href="#修改elasticsearch配置" class="headerlink" title="修改elasticsearch配置"></a>修改elasticsearch配置</h5><p><code>cd /usr/local/sonarqube-6.7.5/elasticsearch/config</code>，修改配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line">network.host: 192.168.0.91</span><br><span class="line">#</span><br><span class="line"># Set a custom port for HTTP:</span><br><span class="line">#</span><br><span class="line">http.port: 9200</span><br></pre></td></tr></table></figure></p>
 <h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><p><code>cd  /usr/local/sonarqube-6.7.5/bin/linux-x86-64</code><br><code>./sonar.sh start</code><br>启动完成~</p>
 <h3 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h3><p>在没有用到jenkins以及git情况下，只有手动将代码上传到服务器进行打分，后期再弄CI，这边介绍的也就是最简单的上传代码的形式。<br>首先，有一个项目需要sonar进行分析，将代码上传到sonar服务器自定义存放代码的位置，例如<code>/root/sourceCode</code>，上传的项目为<code>QATest</code>，然后在项目根目录创建sonar-runner的配置文件<code>sonar-project.properties</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim sonar-project.properties</span><br></pre></td></tr></table></figure></p>
-<p>内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#Required metadata</span><br><span class="line">sonar.projectKey=QATest</span><br><span class="line">sonar.projectName=QATest</span><br><span class="line">sonar.projectVersion=1.0</span><br><span class="line">#Paths to source directories.</span><br><span class="line">#Paths are relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line">#Do not put the &quot;sonar-project.properties&quot; file in the same directory with the source code.</span><br><span class="line">#(i.e. never set the &quot;sonar.sources&quot; property to &quot;.&quot;)</span><br><span class="line">sonar.sources=/home/sourceCode/QATest</span><br><span class="line">#The value of the property must be the key of the language.</span><br><span class="line">sonar.language=java</span><br><span class="line">#Encoding of the source code</span><br><span class="line">sonar.sourceEncoding=UTF-8</span><br><span class="line">#Additional parameters</span><br><span class="line">sonar.my.property=value</span><br></pre></td></tr></table></figure></p>
+<p>内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># must be unique in a given SonarQube instance</span><br><span class="line">sonar.projectKey=my:project</span><br><span class="line"># this is the name displayed in the SonarQube UI</span><br><span class="line">sonar.projectName=My project</span><br><span class="line">sonar.projectVersion=1.0</span><br><span class="line"> </span><br><span class="line"># Path is relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.</span><br><span class="line"># Since SonarQube 4.2, this property is optional if sonar.modules is set. </span><br><span class="line"># If not set, SonarQube starts looking for source code from the directory containing </span><br><span class="line"># the sonar-project.properties file.</span><br><span class="line">sonar.sources=.</span><br><span class="line"> </span><br><span class="line"># Encoding of the source code. Default is default system encoding</span><br><span class="line">#sonar.sourceEncoding=UTF-8</span><br></pre></td></tr></table></figure></p>
 <p>保存退出。</p>
 <p>启动sonar-runner：<code>sonar-runner -e -X</code>(打印详细日志)</p>
 <p>进入SonarQube查看分析结果：<br><code>http://192.168.0.91:9000/projects</code>（账密：admin/admin）</p>
@@ -154,7 +154,7 @@
 
 	  
 <span>
-Updated:<time datetime="2018-08-23T06:46:03.889Z" itemprop="dateModified">2018-08-23</time>
+Updated:<time datetime="2018-08-23T07:46:27.636Z" itemprop="dateModified">2018-08-23</time>
 </span>
 
 
