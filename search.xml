@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos7搭建SonarQube]]></title>
+    <url>%2F2018%2F08%2F23%2FCentos7%E6%90%AD%E5%BB%BASonarQube%2F</url>
+    <content type="text"><![CDATA[Centos7搭建代码质量管理平台SonarQube SonarQube是当前比较热门的代码质量管理平台，平台开源，支持多种语言。 搭建之前首先，要确保当前安装服务器已经安装了jdk（最好1.8+），以及MySQL数据库安装jdk：1yum install java-1.8.0-openjdk* -y 安装MySQL1234567891011下载源包：wget http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm安装mysql源:yum localinstall mysql57-community-release-el7-8.noarch.rpm检查是否安装成功：yum repolist enabled | grep &quot;mysql.*-community.*&quot;安装yum install mysql-community-server 下载安装包 sonarqube下载地址sonar-runner下载地址sonar-scanner下载扫描器地址 搭建SonarQube首先：SonarQube是服务器端，它主要有两个功能：1.分析源代码；2.因为它内嵌了Apache模块，所以提供Web端的界面访问。SonarQube Runner是一个利用SonarQube服务端分析代码的命令行工具，可以把它简单理解为客户端。所以，为了安装和调试方便，建议SonarQube和SonarQube Runner都下载。 创建sonar数据库mysql -uroot -p进入控制台，创建sonar用户及数据库：123456789CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;CREATE USER &apos;sonar&apos; IDENTIFIED BY &apos;Sonar_1234&apos;;GRANT ALL PRIVILEGES ON `sonar`.* TO &apos;sonar&apos;@&apos;%&apos; IDENTIFIED BY &apos;Sonar_1234&apos;;GRANT ALL PRIVILEGES ON `sonar`.* TO &apos;sonar&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;Sonar_1234&apos;;FLUSH PRIVILEGES; 安装SonarQube进入安装目录，这边用的是/usr/local，rz（yum install lrzsz）将下载的sonarqube-6.7.5.zip,sonar-runner-dist-2.4.zip,sonar-scanner-cli-3.0.3.778-linux.zip上传到服务器，解压sonarqube-6.7.5.zip1unzip sonarqube-6.7.5.zip 顺便其他两个也解压了：123unzip sonar-runner-dist-2.4.zipunzip sonar-scanner-cli-3.0.3.778-linux.zip 配置环境变量vim /etc/profile，到文件底部，添加环境变量：123export SONAR_HOME=/usr/local/sonarqube-6.7.5export SONAR_RUNNER_HOME=/usr/local/sonar-runner-2.4PATH=$PATH:$SONAR_HOME/bin:$SONAR_RUNNER_HOME/bin 生效配置：source /etc/profile 验证：1sonar-runner -v 1234[root@localhost workflow]# sonar-runner -vSonarQube Runner 2.4Java 1.8.0_181 Oracle Corporation (64-bit)Linux 3.10.0-862.9.1.el7.x86_64 amd64 修改配置文件配置SonarQube进入配置文件mulu：cd /usr/local/sonarqube-6.7.5/conf修改配置文件：vim sonar.properties，修改内容如下：123456789sonar.jdbc.username=sonar （第16行）sonar.jdbc.password=Sonar_1234 （第17行）sonar.jdbc.url=jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;useSSL=false （第26行）sonar.web.host=192.168.0.91 （第105行）sonar.web.port=9000 （第111行） 配置 sonar-runner进入目录cd /usr/local/sonar-runner-2.4/conf，修改配置文件：vim sonar-runner.properties修改内容：12345678910111213141516171819202122232425262728#Configure here general information about the environment, such as SonarQube DB details for example 2 #No information about specific project should appear here 3 4 #----- Default SonarQube server 5 sonar.host.url=http://192.168.0.91:9000 6 7 #----- PostgreSQL 8 #sonar.jdbc.url=jdbc:postgresql://localhost/sonar 9 10 #----- MySQL11 sonar.jdbc.url=jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;amp;characterEncoding=utf812 13 #----- Oracle14 #sonar.jdbc.url=jdbc:oracle:thin:@localhost/XE15 16 #----- Microsoft SQLServer17 #sonar.jdbc.url=jdbc:jtds:sqlserver://localhost/sonar;SelectMethod=Cursor18 19 #----- Global database settings20 sonar.jdbc.username=sonar21 sonar.jdbc.password=Sonar_123422 23 #----- Default source code encoding24 #sonar.sourceEncoding=UTF-825 26 #----- Security (when &apos;sonar.forceAuthentication&apos; is set to &apos;true&apos;)27 sonar.login=admin28 sonar.password=admin 启动sonarqubesonarqube需要普通用户才能启动，不能使用root用户，这个比较好办，新建用户和组，更改属组就可以：12useradd -g elasticsearch elasticsearch （前一个elasticsearch是组，后一个是用户）chown -R elasticsearch：elasticsearch sonarqube-6.7.5 修改elasticsearch配置cd /usr/local/sonarqube-6.7.5/elasticsearch/config，修改配置为：123456#network.host: 192.168.0.91## Set a custom port for HTTP:#http.port: 9200 启动cd /usr/local/sonarqube-6.7.5/bin/linux-x86-64./sonar.sh start启动完成~ 项目部署在没有用到jenkins以及git情况下，只有手动将代码上传到服务器进行打分，后期再弄CI，这边介绍的也就是最简单的上传代码的形式。首先，有一个项目需要sonar进行分析，将代码上传到sonar服务器自定义存放代码的位置，例如/root/sourceCode，上传的项目为QATest，然后在项目根目录创建sonar-runner的配置文件sonar-project.properties1vim sonar-project.properties 内容：123456789101112131415#Required metadatasonar.projectKey=QATestsonar.projectName=QATestsonar.projectVersion=1.0#Paths to source directories.#Paths are relative to the sonar-project.properties file. Replace &quot;\&quot; by &quot;/&quot; on Windows.#Do not put the &quot;sonar-project.properties&quot; file in the same directory with the source code.#(i.e. never set the &quot;sonar.sources&quot; property to &quot;.&quot;)sonar.sources=/home/sourceCode/QATest#The value of the property must be the key of the language.sonar.language=java#Encoding of the source codesonar.sourceEncoding=UTF-8#Additional parameterssonar.my.property=value 保存退出。 启动sonar-runner：sonar-runner -e -X(打印详细日志) 进入SonarQube查看分析结果：http://192.168.0.91:9000/projects（账密：admin/admin）]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>Centos7</tag>
+        <tag>SonarQube</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos7搭建influxdb+chronograf]]></title>
     <url>%2F2018%2F08%2F20%2FCentos7%E6%90%AD%E5%BB%BAinfluxdb-chronograf%2F</url>
     <content type="text"><![CDATA[Centos7搭建influxdb+Chronograf elasticsearch实验过后，今天尝试了另一种时序数据库influxdb 安装Influxdbcentos7 64位：12wget https://dl.influxdata.com/influxdb/releases/influxdb-1.6.1.x86_64.rpmsudo yum localinstall influxdb-1.6.1.x86_64.rpm (附卸载方式，曾经想卸载东西，找半天：ipm包：rpm -qa xxxx(查询安装包)rpm -e xxxx（卸载） yum install 安装的包：yum remove xxx) 配置安装完成后，相应配置文件位于：/usr/bin12345influxd influxdb服务器influx influxdb命令行客户端influx_inspect 查看工具influx_stress 压力测试工具influx_tsm 数据库转换工具（将数据库从b1或bz1格式转换为tsm1格式） 数据文件夹：/var/lib/influxdb123data 存放最终存储的数据，文件以.tsm结尾meta 存放数据库元数据wal 存放预写日志文件 以及，配置文件：1/etc/influxdb/influxdb.conf 启动1234加自启动：systemctl enable influxdb启服务：systemctl start influxdb 非服务方式启动：1234[root@localhost influxdb]# influxConnected to http://localhost:8086 version 1.6.1InfluxDB shell version: 1.6.1&gt; 安装Chronograf好像是1.4版本（具体不记得了），influxdb就去掉了自带的web页面（influxdb.conf中没有admin栏），想要从web页面查看数据，可以安装官方配套的展示工具Chronograf，用着感觉和grafana很像。 Cnetos 7下安装：12wget https://dl.influxdata.com/chronograf/releases/chronograf-1.6.1.x86_64.rpmsudo yum localinstall chronograf-1.6.1.x86_64.rpm 启动：systemctl start chronograf默认开启8888端口，浏览器访问http://IP:8888即可（若是在虚拟机安装，打不开，可以尝试用nginx转服务） 简单语法influxdb与传统数据库的比较 influxdb MySQL database 数据库 measurement 数据库中的表 points 表里面的一行数据 influxdb数据的构成：Point由时间戳（time）、数据（field）、标签（tags）组成。 Point属性 传统数据库中的概念 time 每个数据记录时间，是数据库中的主索引(会自动生成) fields 各种记录值（没有索引的属性）也就是记录的值：温度， 湿度 tags 各种有索引的属性：地区，海拔 简单操作influx进入命令行模式：1234567891011121314151617181920#创建数据库create database &quot;db_name&quot;#显示所有的数据库show databases#删除数据库drop database &quot;db_name&quot;#使用数据库use db_name#显示该数据库中所有的表show measurements#创建表，直接在插入数据的时候指定表名insert test,host=127.0.0.1,monitor_name=test count=1#删除表drop measurement &quot;measurement_name&quot; 123INSERT cpu,host=serverA,region=us_west value=0.64 //在cpu表中插入相关的数据SELECT * FROM cpu ORDER BY time DESC LIMIT 3 //查询最近的三条数据delete from cpu where time=1480235366557373922 //删除某条数据 用户操作：12345678910111213用户管理可以通过Chronograf页面做操作，也可以命令行。#显示用户 show users#创建用户create user &quot;username&quot; with password &apos;password&apos;#创建管理员权限用户create user &quot;username&quot; with password &apos;password&apos; with all privileges#删除用户drop user &quot;username&quot; 导入测试数据CREATE DATABASE NOAA_water_database下载官方数据集：1curl https://s3.amazonaws.com/noaa.water-database/NOAA_data.txt -o NOAA_data.txt 写数据1influx -import -path=./NOAA_data.txt -precision=s -database=NOAA_water_database 配置文件参考 influxdb.conf]]></content>
@@ -32,8 +44,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -68,9 +80,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -302,8 +314,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>Centos7</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
