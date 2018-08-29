@@ -34,9 +34,9 @@
       <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
     
     
-      <category term="SonarQube" scheme="http://tokyle.com/tags/SonarQube/"/>
-    
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
+    
+      <category term="SonarQube" scheme="http://tokyle.com/tags/SonarQube/"/>
     
   </entry>
   
@@ -107,9 +107,9 @@
       <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
     
     
-      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
-    
       <category term="Nginx" scheme="http://tokyle.com/tags/Nginx/"/>
+    
+      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
   </entry>
   
