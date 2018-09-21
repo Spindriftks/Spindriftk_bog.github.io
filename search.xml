@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Linux查看端口使用情况]]></title>
+    <url>%2F2018%2F09%2F20%2FLinux%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5%2F</url>
+    <content type="text"><![CDATA[Linux 查看监听端口 netstatnetstat命令常用参数说明（有事没事man netstat查看完整参数）123456789-n：直接使用ip地址，而不通过域名服务器 -l：仅显示监控中的服务器的Socket -p：显示进程PID和进程名称 -t：显示TCP端口 -u：显示UDP端口 常用命令配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动1netstat -npl | grep 5001 查看5001端口使用情况 1netstat -nplt 查看所所有TCP协议端口使用情况]]></content>
+      <categories>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>netstat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Jmeter分布式环境搭建]]></title>
     <url>%2F2018%2F09%2F17%2FJmeter%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%2F</url>
     <content type="text"><![CDATA[Jmeter分布式环境搭建 本地机器配置限制，并发线程数达不到性能要求时候，就要考虑搭建jmeter分布式环境来进行压测 原理1、Jmeter分布式测试时，选择其中一台作为调度机(master)，其它机器做为执行机(slave)。 2、执行时，master会把脚本发送到每台slave上，slave 拿到脚本后就开始执行，slave执行时不需要启动GUI，我理解它应该是通过命令行模式执行的。 3、执行完成后，slave会把结果回传给master，master会收集所有slave的信息并汇总。 示例有三台机器，ip分别为：192.168.3.1,192.168.3.2,192.168.3.3；其中192.168.3.3作为调度机，启动GUI界面 执行机（slave）配置前提条件是执行机所在服务器已经搭建好jmeter执行环境，并且有安装jmeter（建议执行机和调度机jmeter版本完全一致，省的麻烦）进行执行机中（192.168.3.1,192.168.3.2）jmeter安装目录1，编辑jmeter.properties，找到server_port=1099，以及server.rmi.localport=1099修改端口；该端口就是启动jmeter-server.bat之后，控制台显示的端口，也是调度机调度的端口 2，启动jmeter-server.bat，控制台打印信息类似：12Created remote object: UnicastServerRef2 [liveRef: [endpoint:[192.168.3.1:1099]local),objID:[1bfcefd1:165e6dc02e3:-7fff, 2154557740781192439]]] 调度机（master）配置1，找到bin目录下的jmeter.properties，修改配置：1remote_hosts=192.168.3.1:1099,192.168.3.2:1099 保存退出2，启动GUI（jmeter.bat），打开测试脚本，点击菜单栏的运行，选择远程启动全部（或者指定某台执行机） 备注1，如果进行了参数化，需要在执行机上和调度机一模一样的路径放置参数化文件 2，启动执行机时候如果有报错：rmi-keystore.jks（系统找不到指定文件）解决办法：编辑jmeter.properties，修改参数：server.rmi.ssl.disable=true即可]]></content>

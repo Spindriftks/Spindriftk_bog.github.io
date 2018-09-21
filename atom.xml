@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-09-17T09:58:31.439Z</updated>
+  <updated>2018-09-21T02:29:18.958Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux查看端口使用情况</title>
+    <link href="http://tokyle.com/2018/09/20/Linux%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5/"/>
+    <id>http://tokyle.com/2018/09/20/Linux查看端口使用情况/</id>
+    <published>2018-09-21T02:27:47.000Z</published>
+    <updated>2018-09-21T02:29:18.958Z</updated>
+    
+    <content type="html"><![CDATA[<p>Linux 查看监听端口</p><a id="more"></a><h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令常用参数说明（有事没事<code>man netstat</code>查看完整参数）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-n：直接使用ip地址，而不通过域名服务器</span><br><span class="line">   </span><br><span class="line">   -l：仅显示监控中的服务器的Socket</span><br><span class="line">   </span><br><span class="line">   -p：显示进程PID和进程名称</span><br><span class="line">   </span><br><span class="line">   -t：显示TCP端口</span><br><span class="line">   </span><br><span class="line">   -u：显示UDP端口</span><br></pre></td></tr></table></figure></p><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -npl | grep 5001</span><br></pre></td></tr></table></figure></p><p>查看<code>5001</code>端口使用情况</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nplt</span><br></pre></td></tr></table></figure><p>查看所所有TCP协议端口使用情况</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Linux 查看监听端口&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
+    
+    
+      <category term="linux" scheme="http://tokyle.com/tags/linux/"/>
+    
+      <category term="netstat" scheme="http://tokyle.com/tags/netstat/"/>
+    
+  </entry>
   
   <entry>
     <title>Jmeter分布式环境搭建</title>
@@ -454,30 +478,6 @@
     
     
       <category term="mysql" scheme="http://tokyle.com/tags/mysql/"/>
-    
-      <category term="zabbix3.4" scheme="http://tokyle.com/tags/zabbix3-4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>zabbix配置</title>
-    <link href="http://tokyle.com/2018/06/26/zabbix%E9%85%8D%E7%BD%AE/"/>
-    <id>http://tokyle.com/2018/06/26/zabbix配置/</id>
-    <published>2018-06-26T13:20:50.000Z</published>
-    <updated>2018-06-26T09:22:29.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>zabbix的一些常用配置</p><a id="more"></a><h3 id="zabbix-agent"><a href="#zabbix-agent" class="headerlink" title="zabbix-agent"></a>zabbix-agent</h3><p>首先，安装完zabbix-web之后，想要监控系统，还需要在系统安装一个<code>agent</code>端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install zabbix-agent</span><br></pre></td></tr></table></figure></p><p>命令行安装即可，安装完成之后，可以在本地服务器下找到配置文件，我的是在:<code>/etx/zabbix</code>在：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zabbix_agentd.conf</span><br><span class="line">zabbix_agentd.d</span><br></pre></td></tr></table></figure></p><p>其中<code>zabbix_agentd.d</code>是文件夹，里面是具体的监控配置文件<code>userparameter_mysql.conf</code>，这个文件里面就是一系列zabbix可用的监控指标的配置，这个后面再专门写写zabbix的配置。</p><h3 id="zabbix-get"><a href="#zabbix-get" class="headerlink" title="zabbix_get"></a>zabbix_get</h3><p>zabbix有个工具：zabbix_get，可以用来获取监控指标，用法示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zabbix_get -s IP -k mysql.status[Com_insert]</span><br></pre></td></tr></table></figure></p><p>上面这条命令在配置文件配置完成的情况下，可以用来获取服务器上MySQL执行的insert数量。</p><h3 id="图像乱码问题"><a href="#图像乱码问题" class="headerlink" title="图像乱码问题"></a>图像乱码问题</h3><p>在第一次使用zabbix，图形显示，中文是一个个的方框，也就是乱码，这是因为zabbix的汉化不是很完全，可以手工替换字体来解决乱码问题。<br>首先在本地windows机器下拿到中文字体，例如楷体:<code>simkai.ttf</code>(文件路径：<code>C:\Windows\Fonts</code>)<br>然后把windows上下载完成的字体上传到zabbix服务器中，路径：<code>/usr/share/zabbix/fonts</code><br>该目录下本来有一个系统字体，并且软链接到zabbix-web，也就是页面显示的字体，现在要做的就是用自己上传的楷体替换到系统原来的字体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fonts]# ll</span><br><span class="line">total 11512</span><br><span class="line">lrwxrwxrwx. 1 root root       33 Jun 26 15:46 graphfont.ttf -&gt; /etc/alternatives/zabbix-web-font</span><br></pre></td></tr></table></figure></p><p>首先是将系统原字体备份<code>mv graphfont.ttf graphfont.ttf.back</code><br>然后修改配置文件<code>/usr/share/zabbix/include/defines.inc.php</code><br>将文件中的<code>FONT_NAME</code>从原来的graphfont修改为<code>simkai</code>，一共有两处，修改完成之后页面上就可以看见乱码解决了~</p><p>（关于zabbix的东西，后面肯定是要写一个监控配置的，待续~~~）</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;zabbix的一些常用配置&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
-    
-    
-      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
       <category term="zabbix3.4" scheme="http://tokyle.com/tags/zabbix3-4/"/>
     
