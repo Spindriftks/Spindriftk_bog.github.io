@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-09-21T02:29:18.958Z</updated>
+  <updated>2018-09-21T02:32:01.313Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://tokyle.com/2018/09/20/Linux%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5/"/>
     <id>http://tokyle.com/2018/09/20/Linux查看端口使用情况/</id>
     <published>2018-09-21T02:27:47.000Z</published>
-    <updated>2018-09-21T02:29:18.958Z</updated>
+    <updated>2018-09-21T02:32:01.313Z</updated>
     
-    <content type="html"><![CDATA[<p>Linux 查看监听端口</p><a id="more"></a><h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令常用参数说明（有事没事<code>man netstat</code>查看完整参数）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-n：直接使用ip地址，而不通过域名服务器</span><br><span class="line">   </span><br><span class="line">   -l：仅显示监控中的服务器的Socket</span><br><span class="line">   </span><br><span class="line">   -p：显示进程PID和进程名称</span><br><span class="line">   </span><br><span class="line">   -t：显示TCP端口</span><br><span class="line">   </span><br><span class="line">   -u：显示UDP端口</span><br></pre></td></tr></table></figure></p><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -npl | grep 5001</span><br></pre></td></tr></table></figure></p><p>查看<code>5001</code>端口使用情况</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nplt</span><br></pre></td></tr></table></figure><p>查看所所有TCP协议端口使用情况</p>]]></content>
+    <content type="html"><![CDATA[<p>Linux 查看监听端口</p><a id="more"></a><h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令常用参数说明（有事没事<code>man netstat</code>查看完整参数）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-n：直接使用ip地址，而不通过域名服务器</span><br><span class="line"></span><br><span class="line">-l：仅显示监控中的服务器的Socket</span><br><span class="line"></span><br><span class="line">-p：显示进程PID和进程名称</span><br><span class="line"></span><br><span class="line">-t：显示TCP端口</span><br><span class="line"></span><br><span class="line">-u：显示UDP端口</span><br></pre></td></tr></table></figure></p><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -npl | grep 5001</span><br></pre></td></tr></table></figure></p><p>查看<code>5001</code>端口使用情况</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nplt</span><br></pre></td></tr></table></figure><p>查看所所有TCP协议端口使用情况</p>]]></content>
     
     <summary type="html">
     

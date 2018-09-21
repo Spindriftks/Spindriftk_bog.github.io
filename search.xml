@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Linux查看端口使用情况]]></title>
     <url>%2F2018%2F09%2F20%2FLinux%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5%2F</url>
-    <content type="text"><![CDATA[Linux 查看监听端口 netstatnetstat命令常用参数说明（有事没事man netstat查看完整参数）123456789-n：直接使用ip地址，而不通过域名服务器 -l：仅显示监控中的服务器的Socket -p：显示进程PID和进程名称 -t：显示TCP端口 -u：显示UDP端口 常用命令配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动1netstat -npl | grep 5001 查看5001端口使用情况 1netstat -nplt 查看所所有TCP协议端口使用情况]]></content>
+    <content type="text"><![CDATA[Linux 查看监听端口 netstatnetstat命令常用参数说明（有事没事man netstat查看完整参数）123456789-n：直接使用ip地址，而不通过域名服务器-l：仅显示监控中的服务器的Socket-p：显示进程PID和进程名称-t：显示TCP端口-u：显示UDP端口 常用命令配合grep可以很方便查看当前服务器上监听的端口，方便查询服务是否正常启动1netstat -npl | grep 5001 查看5001端口使用情况 1netstat -nplt 查看所所有TCP协议端口使用情况]]></content>
       <categories>
         <category>skill</category>
       </categories>
