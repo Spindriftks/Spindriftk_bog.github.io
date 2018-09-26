@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Centos7搭建单机Redis | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Centos7,Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7搭建单机Redis">
+<meta property="og:url" content="http://tokyle.com/2018/09/26/Centos7搭建单机Redis/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-26T09:15:26.490Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos7搭建单机Redis">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Centos7搭建单机Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/09/26/Centos7搭建单机Redis/" class="article-date">
+  <time datetime="2018-09-26T09:14:06.000Z" itemprop="datePublished">2018-09-26</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Devops/">Devops</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos7搭建单机Redis
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具准备"><span class="toc-number">1.</span> <span class="toc-text">工具准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装包下载"><span class="toc-number">1.1.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译安装"><span class="toc-number">1.2.</span> <span class="toc-text">编译安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务化"><span class="toc-number">2.</span> <span class="toc-text">服务化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chkconfig"><span class="toc-number">2.1.</span> <span class="toc-text">chkconfig</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis服务化"><span class="toc-number">2.2.</span> <span class="toc-text">redis服务化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置"><span class="toc-number">2.3.</span> <span class="toc-text">修改配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加服务"><span class="toc-number">2.4.</span> <span class="toc-text">添加服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">2.5.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文件"><span class="toc-number">3.</span> <span class="toc-text">参考文件</span></a></li></ol>
+		
+		</div>
+		
+        <p>Centos7搭建单机版Redis</p>
+<a id="more"></a>
+<p>工作需要，需要一个redis服务器来做缓存数据库，作为一个当下风靡的工具，至少还是应该知道怎么搭建<br>本次介绍内容为单机版搭建过程，集群部分，还没实践过，，</p>
+<h3 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h3><p>首先Centos7服务器，然后装个<code>wget</code>，开始</p>
+<h4 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h4><p><code>https://redis.io/download</code>官网下有很多版本，正常下载稳定版即可，当然，Beta版可能也有很多优化可以装了试试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-4.0.11.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h4 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-4.0.11.tar.gz</span><br><span class="line"></span><br><span class="line">cd redis-4.0.11</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>安装完之后，根据内部既定的shell脚本，会在<code>/usr/bin</code>目录下自动创建好redis的可执行文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-rwxr-xr-x. 1 root root 2450840 Sep 26 16:04 redis-benchmark</span><br><span class="line">-rwxr-xr-x. 1 root root 5742360 Sep 26 16:04 redis-check-aof</span><br><span class="line">-rwxr-xr-x. 1 root root 5742360 Sep 26 16:04 redis-check-rdb</span><br><span class="line">-rwxr-xr-x. 1 root root 2605120 Sep 26 16:04 redis-cli</span><br><span class="line">lrwxrwxrwx. 1 root root      12 Sep 26 16:04 redis-sentinel -&gt; redis-server</span><br><span class="line">-rwxr-xr-x. 1 root root 5742360 Sep 26 16:04 redis-server</span><br></pre></td></tr></table></figure></p>
+<p>redis的启动和很简单，在<code>/usr/bin</code>目录下执行<code>redis-server</code>即可启动；<code>redis-cli SHUTDOWN</code>即可停止</p>
+<h3 id="服务化"><a href="#服务化" class="headerlink" title="服务化"></a>服务化</h3><p>通常在Linux下启动都原因是使用服务的方式启动，比如启动nginx和MySQL：<code>systemctl start nginx</code>和<code>systemctl start mysql</code>那也可以把redis配置到服务中，使用类似的方式来启动redis</p>
+<h4 id="chkconfig"><a href="#chkconfig" class="headerlink" title="chkconfig"></a>chkconfig</h4><p>linux的服务通过<code>chkconfig</code>来管理，可以先执行下<code>chkconfig</code>来查看当前系统已有的服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@izuf65tvx7it01x88bzbp5z ~]# chkconfig</span><br><span class="line"></span><br><span class="line">Note: This output shows SysV services only and does not include native</span><br><span class="line">      systemd services. SysV configuration data might be overridden by native</span><br><span class="line">      systemd configuration.</span><br><span class="line"></span><br><span class="line">      If you want to list systemd services use &apos;systemctl list-unit-files&apos;.</span><br><span class="line">      To see services enabled on particular target use</span><br><span class="line">      &apos;systemctl list-dependencies [target]&apos;.</span><br><span class="line"></span><br><span class="line">aegis          	0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br><span class="line">agentwatch     	0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br><span class="line">cloudmonitor   	0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br><span class="line">netconsole     	0:off	1:off	2:off	3:off	4:off	5:off	6:off</span><br><span class="line">network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br></pre></td></tr></table></figure></p>
+<h4 id="redis服务化"><a href="#redis服务化" class="headerlink" title="redis服务化"></a>redis服务化</h4><p>想要将redis服务化，就需要将redis 的启动脚本加到系统服务中去，而系统服务的脚本存储路径是<code>/etc/init.d</code>，也就是，只需要将redis的启动脚本加到<code>/etc/init.d</code>文件夹下，再添加到<code>chkconfig</code>即可。</p>
+<p>在之前下载的redis源码下有个初始化脚本文件<code>redis_init_script</code>（路径：路径/redis-4.0.11/utils），将这个文件拷贝到<code>/etc/init.d</code>下并且命名为<code>redis_自定义的端口</code>（例如redis_6379）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /路径/redis-4.0.11/utils/redis_init_script /etc/init.d/redis_6379</span><br></pre></td></tr></table></figure></p>
+<p>然后进入<code>/etc/init.d</code>目录，修改初始化脚本<code>vim redis_6379</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">增加（头部，第3行后增加即可）</span><br><span class="line"></span><br><span class="line"># chkconfig: 2345 90 10 </span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line"></span><br><span class="line">修改</span><br><span class="line"></span><br><span class="line">REDISPORT=6379   （大约第六行）</span><br></pre></td></tr></table></figure></p>
+<p>效果差不多是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line">#</span><br><span class="line"># Simple Redis init.d script conceived to work on Linux systems</span><br><span class="line"># chkconfig: 2345 90 10 </span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line"># as it does use of the /proc filesystem.</span><br><span class="line"></span><br><span class="line">REDISPORT=6379</span><br></pre></td></tr></table></figure></p>
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><p>首先创建放置配置文件的文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/redis</span><br><span class="line"></span><br><span class="line">cd /var</span><br><span class="line">mkdir -p ./redis/6379(端口号)</span><br></pre></td></tr></table></figure></p>
+<p>将源文件下配置文件模板<code>路径/redis-4.0.11/redis.conf</code>复制到<code>/etc/redis</code>目录下，并且以端口号重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp 路径/redis-4.0.11/redis.conf /etc/redis/6379.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">port 6636  （第92行）</span><br><span class="line">daemonize yes  （第136行）</span><br><span class="line">pidfile /var/run/redis_6636.pid  （第158行）</span><br><span class="line">dir /var/redis/6379   (第263行)</span><br></pre></td></tr></table></figure></p>
+<p>保存退出。</p>
+<h4 id="添加服务"><a href="#添加服务" class="headerlink" title="添加服务"></a>添加服务</h4><p>一条命令即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig redis_6379 on</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以使用<code>service redis_6379 start</code>来启动redis了，同样<code>service redis_6379 stop</code></p>
+<p>效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis]# service redis_6636 start</span><br><span class="line">Starting Redis server...</span><br><span class="line">120037:C 26 Sep 16:18:04.701 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">120037:C 26 Sep 16:18:04.701 # Redis version=4.0.2, bits=64, commit=00000000, modified=0, pid=120037, just started</span><br><span class="line">120037:C 26 Sep 16:18:04.701 # Configuration loaded</span><br></pre></td></tr></table></figure></p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>其实，用服务启动redis，就是使用将启动脚本加到chkconfig，启动<code>/etc/init.d</code>下的<code>redis_6379</code>脚本，根据脚本中的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EXEC=/usr/local/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/bin/redis-cli</span><br><span class="line"></span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF=&quot;/etc/redis/$&#123;REDISPORT&#125;.conf&quot;</span><br></pre></td></tr></table></figure></p>
+<p>真正的server启动目录：/usr/local/bin/redis-server<br>配置文件路径：/etc/redis/${REDISPORT}.conf<br>再根据<code>/etc/redis/6379.conf</code>内的配置，启动相应的端口，保存到相应的目录等</p>
+<h3 id="参考文件"><a href="#参考文件" class="headerlink" title="参考文件"></a>参考文件</h3><blockquote>
+<p><a href="https://www.jellythink.com/archives/379" target="_blank" rel="noopener">Redis集群搭建</a><br><a href="https://www.cnblogs.com/renzhicai/p/7773080.html" target="_blank" rel="noopener">Centos下redis搭建</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-09-26T09:15:26.490Z" itemprop="dateModified">2018-09-26</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/20/Linux查看端口使用情况/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux查看端口使用情况</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具准备"><span class="toc-number">1.</span> <span class="toc-text">工具准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装包下载"><span class="toc-number">1.1.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译安装"><span class="toc-number">1.2.</span> <span class="toc-text">编译安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务化"><span class="toc-number">2.</span> <span class="toc-text">服务化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chkconfig"><span class="toc-number">2.1.</span> <span class="toc-text">chkconfig</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis服务化"><span class="toc-number">2.2.</span> <span class="toc-text">redis服务化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置"><span class="toc-number">2.3.</span> <span class="toc-text">修改配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加服务"><span class="toc-number">2.4.</span> <span class="toc-text">添加服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">2.5.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文件"><span class="toc-number">3.</span> <span class="toc-text">参考文件</span></a></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/Centos7/" style="font-size: 18.44px; color: #32b731">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.78px; color: #72c1c5">Django</a> <a href="/tags/Hexo/" style="font-size: 13.78px; color: #72c1c5">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 15.33px; color: #5dbe94">Jmeter</a> <a href="/tags/Linux/" style="font-size: 13px; color: #7dc3de">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nginx/" style="font-size: 13px; color: #7dc3de">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.33px; color: #5dbe94">appium</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.33px; color: #5dbe94">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.56px; color: #68c0ad">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/influxdb/" style="font-size: 13px; color: #7dc3de">influxdb</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 15.33px; color: #5dbe94">linux</a> <a href="/tags/lives/" style="font-size: 15.33px; color: #5dbe94">lives</a> <a href="/tags/loadrunner/" style="font-size: 15.33px; color: #5dbe94">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.56px; color: #68c0ad">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 16.89px; color: #48bb63">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 16.11px; color: #52bc7b">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.22px; color: #28b619">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.78px; color: #72c1c5">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.78px; color: #72c1c5">windows</a> <a href="/tags/yum/" style="font-size: 13.78px; color: #72c1c5">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 15.33px; color: #5dbe94">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 15.33px; color: #5dbe94">单元测试</a> <a href="/tags/性能/" style="font-size: 14.56px; color: #68c0ad">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.44px; color: #32b731">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/26/Centos7搭建单机Redis/">Centos7搭建单机Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/20/Linux查看端口使用情况/">Linux查看端口使用情况</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/17/Jmeter分布式环境搭建/">Jmeter分布式环境搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/13/Mysql开启全SQL执行记录/">Mysql开启全SQL执行记录</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/12/Jmeter-Ant-Jenkins接口自动化搭建/">Jmeter+Ant+Jenkins接口自动化搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+    <li><a href="http://www.ruanyifeng.com/home.html" target="_BLANK">阮一峰大神blog</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
