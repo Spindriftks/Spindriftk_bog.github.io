@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-10-12T07:27:58.878Z</updated>
+  <updated>2018-10-12T07:55:42.223Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos7搭建Grafana</title>
+    <link href="http://tokyle.com/2018/10/12/Centos7%E6%90%AD%E5%BB%BAGrafana/"/>
+    <id>http://tokyle.com/2018/10/12/Centos7搭建Grafana/</id>
+    <published>2018-10-12T07:51:54.000Z</published>
+    <updated>2018-10-12T07:55:42.223Z</updated>
+    
+    <content type="html"><![CDATA[<p>Centos7安装Grafana</p><a id="more"></a><p>差点忘了 ，还是记录下吧</p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>官网上其实有：</p><blockquote><p><a href="https://grafana.com/grafana/download?platform=linux" target="_blank" rel="noopener">官方安装教程</a></p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.3.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum localinstall grafana-5.3.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure><p>然后这样就安装完成了</p><h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>看一下当前默认安装了什么插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grafana-cli plugins list-remote</span><br></pre></td></tr></table></figure></p><p>没有zabbix，装一个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grafana-cli plugins install alexanderzobnin-zabbix-app</span><br></pre></td></tr></table></figure></p><p>当然，如果出现“不可抗力”，下载安装不了，直接下zip包，然后解压到<code>/var/lib/grafana/plugins</code>目录下即可（grafana插件的默认安装路径）</p><p>zip包在官网上对应插件<code>Installation</code>页，有一个<code>download the .zip file</code>点击下载即可</p><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>然后就可以启动服务了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">systemctl start grafana-server</span><br><span class="line"></span><br><span class="line">systemctl status grafana-server</span><br></pre></td></tr></table></figure></p><p>再然后，怎么用Grafana，说实话，我也只会简单的，还是看官网的教程吧。。</p><blockquote><p><a href="http://docs.grafana.org/features/datasources/elasticsearch/#using-elasticsearch-in-grafana" target="_blank" rel="noopener">Grafana使用</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Centos7安装Grafana&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
+    
+    
+      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
+    
+      <category term="grafana" scheme="http://tokyle.com/tags/grafana/"/>
+    
+  </entry>
   
   <entry>
     <title>【转】linux系统内存基础知识</title>
@@ -457,28 +481,6 @@
     
     
       <category term="loadrunner" scheme="http://tokyle.com/tags/loadrunner/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jmeter压测socket close异常</title>
-    <link href="http://tokyle.com/2018/07/06/Jmeter%E5%8E%8B%E6%B5%8Bsocket-close%E5%BC%82%E5%B8%B8/"/>
-    <id>http://tokyle.com/2018/07/06/Jmeter压测socket-close异常/</id>
-    <published>2018-07-06T10:26:11.000Z</published>
-    <updated>2018-07-06T06:27:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>jmeter压测执行过程中报错：java.net.SocketException: Socket operation on nonsocket: connect</p><a id="more"></a><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>使用jmeter进行接口压测，<code>http请求</code>，默认是勾选了<code>use keepAlive</code>，但是在<code>Jmeter.properties</code>配置文件中的时间设置默认是注释的状态，也就是说，一旦发生连接空闲，则立刻断开，导致压测过程中出现事务失败。</p><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>在网上直接搜这个报错，有几个解决办法，说实话，有点懒，没看原理，就都照样该了下，重启jmeter之后就报错了。</p><h4 id="Jmeter-properties"><a href="#Jmeter-properties" class="headerlink" title="Jmeter.properties"></a>Jmeter.properties</h4><p>取消注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hc.parameters.file=hc.parameters</span><br></pre></td></tr></table></figure></p><p>取消注释并修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpclient4.retrycount=1</span><br></pre></td></tr></table></figure></p><p>取消注释并修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpclient4.idletimeout=300</span><br></pre></td></tr></table></figure></p><p>单位毫秒</p><h4 id="hc-parameters"><a href="#hc-parameters" class="headerlink" title="hc.parameters"></a>hc.parameters</h4><p>取消注释并修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.connection.stalecheck$Boolean=true</span><br></pre></td></tr></table></figure></p><p>网上普遍的说法是<code>httpclient4.idletimeout=300</code>，其他几个是科学上网，在外网找到的。</p><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><blockquote><p><a href="https://wiki.apache.org/jmeter/JMeterSocketClosed" target="_blank" rel="noopener">Jmeter Wiki</a><br><a href="https://blog.csdn.net/miss_hua/article/details/50549606" target="_blank" rel="noopener">Jmeter-Socket closed</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;jmeter压测执行过程中报错：java.net.SocketException: Socket operation on nonsocket: connect&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
     
   </entry>
   
