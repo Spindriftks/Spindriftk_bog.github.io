@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux定位最耗CPU的线程 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="linux,CPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux定位最耗CPU的线程">
+<meta property="og:url" content="http://tokyle.com/2018/10/17/Linux定位最耗CPU的线程/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-18T02:36:36.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux定位最耗CPU的线程">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Linux定位最耗CPU的线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/10/17/Linux定位最耗CPU的线程/" class="article-date">
+  <time datetime="2018-10-18T02:35:01.000Z" itemprop="datePublished">2018-10-17</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux定位最耗CPU的线程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux定位CPU瓶颈几种方式"><span class="toc-number">1.</span> <span class="toc-text">Linux定位CPU瓶颈几种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#系统查看"><span class="toc-number">1.1.</span> <span class="toc-text">系统查看</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#查看物理CPU个数："><span class="toc-number">1.1.1.</span> <span class="toc-text">查看物理CPU个数：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看每个物理CPU中的core个数"><span class="toc-number">1.1.2.</span> <span class="toc-text">查看每个物理CPU中的core个数:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#逻辑CPU个数"><span class="toc-number">1.1.3.</span> <span class="toc-text">逻辑CPU个数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uptime"><span class="toc-number">1.2.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vmstat"><span class="toc-number">1.3.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sar"><span class="toc-number">1.4.</span> <span class="toc-text">sar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#top"><span class="toc-number">1.5.</span> <span class="toc-text">top</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定位具体线程"><span class="toc-number">2.</span> <span class="toc-text">定位具体线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#top-c"><span class="toc-number">2.1.</span> <span class="toc-text">top -c</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#top-Hp-PID"><span class="toc-number">2.2.</span> <span class="toc-text">top -Hp PID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printf-“-x”"><span class="toc-number">2.3.</span> <span class="toc-text">printf “%x”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jstack-进程PID-grep-16进制线程PID-C5-–color"><span class="toc-number">2.4.</span> <span class="toc-text">jstack 进程PID | grep 16进制线程PID -C5 –color</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>定位Linux耗CPU较高的线程</p>
+<a id="more"></a>
+<p>压测过程，经常遇见服务器CPU非常高，只是单纯的top，也只能看到是哪个进程比较耗CPU，不能进一步定位具体的线程。</p>
+<h3 id="Linux定位CPU瓶颈几种方式"><a href="#Linux定位CPU瓶颈几种方式" class="headerlink" title="Linux定位CPU瓶颈几种方式"></a>Linux定位CPU瓶颈几种方式</h3><h4 id="系统查看"><a href="#系统查看" class="headerlink" title="系统查看"></a>系统查看</h4><h5 id="查看物理CPU个数："><a href="#查看物理CPU个数：" class="headerlink" title="查看物理CPU个数："></a>查看物理CPU个数：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo |grep &quot;physical id&quot;|sort|uniq|wc -l</span><br></pre></td></tr></table></figure>
+<h5 id="查看每个物理CPU中的core个数"><a href="#查看每个物理CPU中的core个数" class="headerlink" title="查看每个物理CPU中的core个数:"></a>查看每个物理CPU中的core个数:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo |grep &quot;cpu cores&quot;|wc -l</span><br></pre></td></tr></table></figure>
+<h5 id="逻辑CPU个数"><a href="#逻辑CPU个数" class="headerlink" title="逻辑CPU个数"></a>逻辑CPU个数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo |grep &quot;procetestr&quot;|wc -l</span><br></pre></td></tr></table></figure>
+<p>物理cpu个数*核数=逻辑cpu个数（不支持超线程技术的情况下）</p>
+<h4 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a>uptime</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@izuf6a1s9ws9726xatwn47z tools]# uptime</span><br><span class="line">10:15:33 up 54 days, 18:01,  1 user,  load average: 1.02, 0.56, 0.30</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>load average三值大小一般不能大于系统CPU的个数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">系统有8个CPU,如load average三值长期大于8，说明CPU很繁忙，负载很高，可能会影响系统性能。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但偶尔大于8，一般不会影响系统性能。</p>
+</li>
+<li>如load average输出值小于CPU个数，则表示CPU有空闲时间片，比如本例中的输出，CPU是非常空闲的</li>
+</ul>
+<h4 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@izuf6b0a7e5agj4lm7aj3mz ~]# vmstat 2 3</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 3  0      0 12267888 166640 1863724    0    0     1    41   72   88  3  1 96  0  0</span><br><span class="line"> 2  0      0 12267872 166640 1863724    0    0     0     0 66000 163918 15 17 68  0  0</span><br><span class="line"> 2  0      0 12267872 166640 1863724    0    0     0   158 18689 43630 40  5 55  0  0</span><br></pre></td></tr></table></figure>
+<p>r–运行和等待cpu时间片的进程数，这个值如果长期大于系统CPU的个数，说明CPU不足，需要增加CPU<br>b–在等待资源的进程数，比如正在等待I/O、或者内存交换等。<br>CPU<br>us<br>用户进程消耗的CPU时间百分比<br>us的值比较高时，说明用户进程消耗的cpu时间多，但是如果长期大于50%，就需要考虑优化程序或算法。</p>
+<p>sy<br>内核进程消耗的CPU时间百分比，Sy的值较高时，说明内核消耗的CPU资源很多<br>根据经验，us+sy的参考值为80%，如果大于80%可能存在CPU资源不足。</p>
+<h4 id="sar"><a href="#sar" class="headerlink" title="sar"></a>sar</h4><p>sar对系统每个方面进行单独统计，但会增加系统开销，不过开销可以评估，对系统的统计结果不会有很大影响<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@izuf6b0a7e5agj4lm7aj3mz ~]# sar -u 3 5</span><br><span class="line">Linux 3.10.0-693.2.2.el7.x86_64 (izuf6b0a7e5agj4lm7aj3mz) 	08/29/2018 	_x86_64_	(4 CPU)</span><br><span class="line"></span><br><span class="line">03:05:20 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle</span><br><span class="line">03:05:23 PM     all      0.08      0.00      0.08      0.08      0.00     99.75</span><br><span class="line">03:05:26 PM     all      0.08      0.00      0.00      0.00      0.00     99.92</span><br><span class="line">03:05:29 PM     all      0.08      0.00      0.08      0.00      0.00     99.83</span><br><span class="line">03:05:32 PM     all      0.33      0.00      0.08      0.00      0.00     99.58</span><br><span class="line">03:05:35 PM     all      0.08      0.00      0.08      0.00      0.00     99.83</span><br><span class="line">Average:        all      0.13      0.00      0.07      0.02      0.00     99.78</span><br></pre></td></tr></table></figure></p>
+<p>解释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%user列显示了用户进程消耗的CPU 时间百分比。</span><br><span class="line">%nice列显示了运行正常进程所消耗的CPU 时间百分比。</span><br><span class="line">%system列显示了系统进程消耗的CPU时间百分比。</span><br><span class="line">%iowait列显示了IO等待所占用的CPU时间百分比</span><br><span class="line">%steal列显示了在内存相对紧张的环境下pagein强制对不同的页面进行的steal操作 。</span><br><span class="line">%idle列显示了CPU处在空闲状态的时间百分比。</span><br></pre></td></tr></table></figure></p>
+<h4 id="top"><a href="#top" class="headerlink" title="top"></a>top</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">top - 10:20:34 up 54 days, 18:06,  1 user,  load average: 0.14, 0.30, 0.26</span><br><span class="line">Tasks: 101 total,   1 running, 100 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  1.3 us,  0.5 sy,  0.0 ni, 98.2 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem : 16267724 total,  3338792 free,  6439248 used,  6489684 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.  9492508 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</span><br></pre></td></tr></table></figure>
+<p>第一行为当前时间，系统运行时间，当前登录用户数，系统1/5/15分钟平均负载</p>
+<p>第二、三行为进程和CPU的信息。当有多个CPU时，这些内容可能会超过两行。内容如下：<br>Tasks:</p>
+<p>total   进程总数<br>running   正在运行的进程数<br>sleeping   睡眠的进程数<br>stopped   停止的进程数<br>zombie   僵尸进程数 </p>
+<p>Cpu(s): </p>
+<p>us   用户空间占用CPU百分比<br>sy   内核空间占用CPU百分比<br>ni   用户进程空间内改变过优先级的进程占用CPU百分比<br>id   空闲CPU百分比<br>wa   等待输入输出的CPU时间百分比<br>hi   硬中断（Hardware IRQ）占用CPU的百分比<br>si   软中断（Software Interrupts）占用CPU的百分比</p>
+<p>st   (Steal time) 是当 hypervisor 服务另一个虚拟处理器的时候，虚拟 CPU 等待实际 CPU 的时间的百分比。</p>
+<p>最后两行为内存信息。内容如下：<br>Mem: </p>
+<p>total   物理内存总量<br>used   使用的物理内存总量<br>free   空闲内存总量<br>buffers   用作内核缓存的内存量 </p>
+<p>Swap: </p>
+<p>total   交换区总量<br>used   使用的交换区总量<br>free   空闲交换区总量<br>cached   缓冲的交换区总量。<br>内存中的内容被换出到交换区，而后又被换入到内存，但使用过的交换区尚未被覆盖，<br>该数值即为这些内容已存在于内存中的交换区的大小。<br>相应的内存再次被换出时可不必再对交换区写入。 </p>
+<p>进程信息区<br>统计信息区域的下方显示了各个进程的详细信息。首先来认识一下各列的含义。<br>序号 列名 含义<br>PID 进程id<br>PPID 父进程id<br>RUSER Real user name<br>d UID 进程所有者的用户id<br>e USER 进程所有者的用户名<br>f GROUP 进程所有者的组名<br>g TTY 启动进程的终端名。不是从终端启动的进程则显示为 ?<br>h PR 优先级<br>i NI nice值。负值表示高优先级，正值表示低优先级<br>j P 最后使用的CPU，仅在多CPU环境下有意义<br>k %CPU 上次更新到现在的CPU时间占用百分比<br>l TIME 进程使用的CPU时间总计，单位秒<br>m TIME+ 进程使用的CPU时间总计，单位1/100秒<br>n %MEM 进程使用的物理内存百分比<br>o VIRT 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES<br>p SWAP 进程使用的虚拟内存中，被换出的大小，单位kb。<br>q RES 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA<br>r CODE 可执行代码占用的物理内存大小，单位kb<br>s DATA 可执行代码以外的部分(数据段+栈)占用的物理内存大小，单位kb<br>t SHR 共享内存大小，单位kb<br>u nFLT 页面错误次数<br>v nDRT 最后一次写入到现在，被修改过的页面数。<br>w S 进程状态。<br>D=不可中断的睡眠状态<br>R=运行<br>S=睡眠<br>T=跟踪/停止<br>Z=僵尸进程<br>x COMMAND 命令名/命令行<br>y WCHAN 若该进程在睡眠，则显示睡眠中的系统函数名<br>z Flags 任务标志，参考 sched.h<br>默认情况下仅显示比较重要的 PID、USER、PR、NI、VIRT、RES、SHR、S、%CPU、%MEM、TIME+、COMMAND 列。可以通过下面的快捷键来更改显示内容。<br>更改显示内容<br>通过 f 键可以选择显示的内容。按 f 键之后会显示列的列表，按 a-z 即可显示或隐藏对应的列，最后按回车键确定。<br>按 o 键可以改变列的显示顺序。按小写的 a-z 可以将相应的列向右移动，而大写的 A-Z 可以将相应的列向左移动。最后按回车键确定。<br>按大写的 F 或 O 键，然后按 a-z 可以将进程按照相应的列进行排序。而大写的 R 键可以将当前的排序倒转。</p>
+<h3 id="定位具体线程"><a href="#定位具体线程" class="headerlink" title="定位具体线程"></a>定位具体线程</h3><h4 id="top-c"><a href="#top-c" class="headerlink" title="top -c"></a>top -c</h4><p>通过<code>top -c</code>获得当前系统资源总览，键盘输入<code>P</code>(大写)，根据对CPU消耗倒序排列，获得最耗CPU的进程PID<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Tasks: 122 total,   1 running, 121 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s): 90.3 us,  1.6 sy,  0.0 ni,  6.6 id,  0.0 wa,  0.0 hi,  1.5 si,  0.0 st</span><br><span class="line">KiB Mem : 16267200 total,  7578856 free,  6915592 used,  1772752 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.  9038816 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                                                                              </span><br><span class="line"> 4209 testadmin  20   0 15.470g 5.913g  23928 S 745.5 38.1 209:33.97 /home/testadmin/jdk1.8.0_191/bin/java -D[Server:server-one] -D[pcid:499421770] -Xms7168m -Xmx13312m -server -XX:Metas+</span><br><span class="line">    9 root      20   0       0      0      0 S   0.3  0.0   0:08.16 [rcu_sched]                                                                                                          </span><br><span class="line">   18 root      20   0       0      0      0 S   0.3  0.0   0:00.06 [ksoftirqd/2]                                                                                                        </span><br><span class="line"> 1264 root      20   0 2517268  69256  10948 S   0.3  0.4   4:53.38 /usr/local/cloudmonitor/jre/bin/java -Djava.compiler=none -XX:-UseGCOverheadLimit -XX:NewRatio=1 -XX:SurvivorRatio=8+</span><br><span class="line">    1 root      20   0   43660   4076   2492 S   0.0  0.0   0:01.79 /usr/lib/systemd/systemd --switched-root --system --deserialize 21</span><br></pre></td></tr></table></figure></p>
+<p>以上例子，最耗CPU的进程PID为<code>4209</code></p>
+<h4 id="top-Hp-PID"><a href="#top-Hp-PID" class="headerlink" title="top -Hp PID"></a>top -Hp PID</h4><p><code>top -Hp PID</code>获得该PID的线程列表，通过大写P，倒序排列，获取最耗CPU的线程PID：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%Cpu(s): 91.3 us,  1.9 sy,  0.0 ni,  5.5 id,  0.0 wa,  0.0 hi,  1.4 si,  0.0 st</span><br><span class="line">KiB Mem : 16267200 total,  7266940 free,  7226952 used,  1773308 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.  8727236 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND                                                                                                               </span><br><span class="line">10185 testadmin  20   0 15.470g 6.208g  23928 S  8.2 40.0   0:12.15 java                                                                                                                  </span><br><span class="line">10148 testadmin  20   0 15.470g 6.208g  23928 S  6.8 40.0   0:12.21 java                                                                                                                  </span><br><span class="line">10149 testadmin  20   0 15.470g 6.208g  23928 R  6.8 40.0   0:12.18 java</span><br></pre></td></tr></table></figure></p>
+<p>例如上述例子，获得最耗CPU的线程PID为<code>10185</code></p>
+<h4 id="printf-“-x”"><a href="#printf-“-x”" class="headerlink" title="printf “%x”"></a>printf “%x”</h4><p>通过<code>printf “%x” 线程PID</code>，将PID转换为16进制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[testadmin@izuf6bp7m03kbyap05zr6gz themes]$ printf “%x” 10185</span><br><span class="line">“27c9”</span><br></pre></td></tr></table></figure></p>
+<p>获得16进制的PID<code>27c9</code></p>
+<h4 id="jstack-进程PID-grep-16进制线程PID-C5-–color"><a href="#jstack-进程PID-grep-16进制线程PID-C5-–color" class="headerlink" title="jstack 进程PID | grep 16进制线程PID -C5 –color"></a>jstack 进程PID | grep 16进制线程PID -C5 –color</h4><p>通过<code>jstack 进程PID | grep 16进制线程PID -C5 --color</code>，获得耗CPU的线程详情：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[testadmin@izuf6bp7m03kbyap05zr6gz themes]$ jstack 4209 | grep 27c9 -C5 --color</span><br><span class="line">	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:1985)</span><br><span class="line">	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1487)</span><br><span class="line">	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1364)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br><span class="line"></span><br><span class="line">&quot;default task-417&quot; #605 prio=5 os_prio=0 tid=0x00000000053cf800 nid=0x27c9 waiting on condition [0x00007f19f68f6000]</span><br><span class="line">   java.lang.Thread.State: TIMED_WAITING (parking)</span><br><span class="line">	at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">	- parking to wait for  &lt;0x000000048002c208&gt; (a java.util.concurrent.Semaphore$FairSync)</span><br><span class="line">	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)</span><br><span class="line">	at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireSharedNanos(AbstractQueuedSynchronizer.java:1037)</span><br></pre></td></tr></table></figure></p>
+<p>上述例子，可以获取最耗CPU的线程名称:<code>default task-417</code>，以及该线程执行的代码堆栈：<code>0x27c9</code></p>
+<p>以上，完！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/">CPU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-10-18T02:36:36.462Z" itemprop="dateModified">2018-10-17</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/17/胡言乱语/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">胡言乱语</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux定位CPU瓶颈几种方式"><span class="toc-number">1.</span> <span class="toc-text">Linux定位CPU瓶颈几种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#系统查看"><span class="toc-number">1.1.</span> <span class="toc-text">系统查看</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#查看物理CPU个数："><span class="toc-number">1.1.1.</span> <span class="toc-text">查看物理CPU个数：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看每个物理CPU中的core个数"><span class="toc-number">1.1.2.</span> <span class="toc-text">查看每个物理CPU中的core个数:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#逻辑CPU个数"><span class="toc-number">1.1.3.</span> <span class="toc-text">逻辑CPU个数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uptime"><span class="toc-number">1.2.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vmstat"><span class="toc-number">1.3.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sar"><span class="toc-number">1.4.</span> <span class="toc-text">sar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#top"><span class="toc-number">1.5.</span> <span class="toc-text">top</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定位具体线程"><span class="toc-number">2.</span> <span class="toc-text">定位具体线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#top-c"><span class="toc-number">2.1.</span> <span class="toc-text">top -c</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#top-Hp-PID"><span class="toc-number">2.2.</span> <span class="toc-text">top -Hp PID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printf-“-x”"><span class="toc-number">2.3.</span> <span class="toc-text">printf “%x”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jstack-进程PID-grep-16进制线程PID-C5-–color"><span class="toc-number">2.4.</span> <span class="toc-text">jstack 进程PID | grep 16进制线程PID -C5 –color</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">22</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/CPU/" style="font-size: 13px; color: #7dc3de">CPU</a> <a href="/tags/Centos7/" style="font-size: 18.73px; color: #2eb728">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.64px; color: #74c2ca">Django</a> <a href="/tags/Hexo/" style="font-size: 13.64px; color: #74c2ca">Hexo</a> <a href="/tags/Jmeter/" style="font-size: 15.55px; color: #5abe8d">Jmeter</a> <a href="/tags/Linux/" style="font-size: 13.64px; color: #74c2ca">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nginx/" style="font-size: 13px; color: #7dc3de">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 14.91px; color: #63bfa1">appium</a> <a href="/tags/buff-cache/" style="font-size: 13px; color: #7dc3de">buff/cache</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 14.91px; color: #63bfa1">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.27px; color: #6cc0b6">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/grafana/" style="font-size: 13.64px; color: #74c2ca">grafana</a> <a href="/tags/influxdb/" style="font-size: 13px; color: #7dc3de">influxdb</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 15.55px; color: #5abe8d">linux</a> <a href="/tags/lives/" style="font-size: 16.18px; color: #51bc79">lives</a> <a href="/tags/loadrunner/" style="font-size: 14.91px; color: #63bfa1">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.27px; color: #6cc0b6">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 16.82px; color: #49bb65">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 16.18px; color: #51bc79">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.36px; color: #26b514">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.45px; color: #40b951">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.64px; color: #74c2ca">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.64px; color: #74c2ca">windows</a> <a href="/tags/yum/" style="font-size: 13.64px; color: #74c2ca">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 14.91px; color: #63bfa1">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 14.91px; color: #63bfa1">单元测试</a> <a href="/tags/性能/" style="font-size: 14.27px; color: #6cc0b6">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.09px; color: #37b83d">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/17/Linux定位最耗CPU的线程/">Linux定位最耗CPU的线程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/胡言乱语/">胡言乱语</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Grafana一点简单使用/">Grafana一点简单使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Centos7搭建Grafana/">Centos7搭建Grafana</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/11/【转】linux系统内存基础知识/">【转】linux系统内存基础知识</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
