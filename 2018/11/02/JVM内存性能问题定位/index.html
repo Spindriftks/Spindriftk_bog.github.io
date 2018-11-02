@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JVM内存性能问题定位 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存性能问题定位">
+<meta property="og:url" content="http://tokyle.com/2018/11/02/JVM内存性能问题定位/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-02T06:36:33.010Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM内存性能问题定位">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-JVM内存性能问题定位" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/11/02/JVM内存性能问题定位/" class="article-date">
+  <time datetime="2018-11-02T06:35:32.000Z" itemprop="datePublished">2018-11-02</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM内存性能问题定位
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆和栈"><span class="toc-number">1.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM堆内存与GC"><span class="toc-number">2.</span> <span class="toc-text">JVM堆内存与GC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#S0和S1一般多大，靠什么参数来控制，有什么变化？"><span class="toc-number">2.1.</span> <span class="toc-text">S0和S1一般多大，靠什么参数来控制，有什么变化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个对象每次Minor-Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor-GC多少次后，会进入Old区域呢？"><span class="toc-number">2.2.</span> <span class="toc-text">一个对象每次Minor Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor GC多少次后，会进入Old区域呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FULL-GC"><span class="toc-number">2.3.</span> <span class="toc-text">FULL GC</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分析"><span class="toc-number">3.</span> <span class="toc-text">内存分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程阻塞"><span class="toc-number">3.1.</span> <span class="toc-text">线程阻塞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jstat查看gc"><span class="toc-number">3.2.</span> <span class="toc-text">jstat查看gc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jmap分析GC"><span class="toc-number">3.3.</span> <span class="toc-text">jmap分析GC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打印GC日志"><span class="toc-number">3.4.</span> <span class="toc-text">打印GC日志</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number">4.</span> <span class="toc-text">参考文章</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#工具使用教程"><span class="toc-number">4.1.</span> <span class="toc-text">工具使用教程</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>JVM内存性能定位</p>
+<p>有点乱的一篇记录，想到哪敲到哪了。。。<br><a id="more"></a></p>
+<h3 id="堆和栈"><a href="#堆和栈" class="headerlink" title="堆和栈"></a>堆和栈</h3><p>首先，栈（stack）和堆（heap）都是Java用来在RAM中存放数据的地方。根据 JVM 规范，JVM 内存共分为java栈（虚拟机栈VM Stack）、堆（Heap）、方法区（Method Area）、程序计数器（Program Counter Register）、本地方法栈（Native Method Stack）五个部分。</p>
+<p><strong>堆</strong>：用来存储程序中的一些对象，比如你用new关键字创建的对象，它就会被存储在堆内存中，但是这个对象在堆内存中的首地址会存储在栈中</p>
+<p><strong>栈</strong>：在jvm中栈用来存储一些对象的引用、局部变量以及计算过程的中间数据，在方法退出后那么这些变量也会被销毁。它的存储比堆快得多，只比CPU里的寄存器慢</p>
+<p>栈内存在JVM中默认是1M，可以通过参数进行设置：<code>-Xss</code><br>最小堆内存在JVM中默认物理内存的64分之1，最大堆内存在JVM中默认物理内存4分之一，且建议最大堆内存不大于4G，并且设置-Xms=-Xmx避免每次GC后，调整堆的大小，减少系统内存分配开销:<code>-Xms</code>、<code>-Xmx</code>.</p>
+<h3 id="JVM堆内存与GC"><a href="#JVM堆内存与GC" class="headerlink" title="JVM堆内存与GC"></a>JVM堆内存与GC</h3><p>在JVM里的内存空间，从大的层面划分，主要有新生代空间（Young）和老年代空间（Old），其中Young空间，又有1个Egen区，和2个Survivor区</p>
+<ol>
+<li><p>Eden区域是用来存放使用new或者newInstance等方式创建的对象，默认都是存放在Eden区，除非这个对象太大，或者超过了设定的阈值-XX:PretenureSizeThresold,这样的对象会被直接分配到Old区域。</p>
+</li>
+<li><p>2个Survivor（幸存）区，一般称S0，S1，理论上他们是一样大的，解释一下，他们是如何工作的：<br>在不断创建对象的过程中，Eden区会满，这时候会开始做Young G也叫Minor GC，而Young空间的第一次GC就是找出Eden区中，幸存活着的对象，然后将这些对象，放到S0，或S1区中的其中一个， 假设第一次选择了S0，它会逐步将活着的对象拷贝到S0区域，但是如果S0区域满了，剩下活着的对象只能放old区域了，接下来要做的是，将Eden区域 清空，此时时候S1区域也是空的。</p>
+</li>
+</ol>
+<p>当第二次Eden区域满的时候，就将Eden区域中活着的对象+S0区域中活着的对象，迁移到S1中，如果S1放不下，就会将剩下的部门，放到Old区域中，只是这次对象来源区域增加了S0，最后会将Eden区+S0区域，清空。</p>
+<p>第三次和第四次依次类推，始终保证S0和S1有一个是空的，用来存储临时对象，用于交换空间的目的，反反复复多次没有被淘汰的对象，将会放入old区域中，默认是15次。具体的交换过程就和上图中的信息相似。</p>
+<h4 id="S0和S1一般多大，靠什么参数来控制，有什么变化？"><a href="#S0和S1一般多大，靠什么参数来控制，有什么变化？" class="headerlink" title="S0和S1一般多大，靠什么参数来控制，有什么变化？"></a>S0和S1一般多大，靠什么参数来控制，有什么变化？</h4><p>一般来说很小，我们大概知道它与Young差不多相差一倍的比例，设置的的参数主要有两个：<br>-XX:SurvivorRatio=8<br>-XX:InitialSurvivorRatio=8 </p>
+<p>第一个参数是Eden和Survivor区域比重，注意是一个Survivor的的大小，如果将其设置为8，则说明Eden区是一个Survivor区的8倍，换句话说S0或S1空间是整个Young空间的1/10，剩余的80%由Eden区域来使用。 </p>
+<p>第二个参数是Young/S0的比值，当其设置为8时，表示s0或s1占整个Young空间的12.5%。</p>
+<h4 id="一个对象每次Minor-Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor-GC多少次后，会进入Old区域呢？"><a href="#一个对象每次Minor-Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor-GC多少次后，会进入Old区域呢？" class="headerlink" title="一个对象每次Minor Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor GC多少次后，会进入Old区域呢？"></a>一个对象每次Minor Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor GC多少次后，会进入Old区域呢？</h4><p>默认是15次，参数设置-XX:MaxTenuringThreshold=15,计数器会在对象的头部记录它交换的次数 </p>
+<h4 id="FULL-GC"><a href="#FULL-GC" class="headerlink" title="FULL GC"></a>FULL GC</h4><p>发生FULL GC的时候，意味着JVM会安全的暂停所有正在执行的线程（Stop The World），来回收内存空间，在这个时间段内，所有除了回收垃圾的线程外，其他有关JAVA的程序，代码都会静止，反映到系统上，就会出现系统响应大幅度变慢，卡机等状态。 </p>
+<h3 id="内存分析"><a href="#内存分析" class="headerlink" title="内存分析"></a>内存分析</h3><h4 id="线程阻塞"><a href="#线程阻塞" class="headerlink" title="线程阻塞"></a>线程阻塞</h4><p>关于线程阻塞，在之前定位linux最耗CPU时已经有提过：<a href="http://tokyle.com/2018/10/17/Linux%E5%AE%9A%E4%BD%8D%E6%9C%80%E8%80%97CPU%E7%9A%84%E7%BA%BF%E7%A8%8B/#more">Jstack定位线程阻塞</a></p>
+<p>这边提供一个分析工具，当使用<code>jstack pid &gt; 1.log</code>生成堆栈日志之后，使用<code>tda</code>工具进行分析</p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/19Gv_rTBdGrFD4Tm6F9IY5w" target="_blank" rel="noopener">tda度娘盘地址（提取码：fut9）</a></p>
+</blockquote>
+<h4 id="jstat查看gc"><a href="#jstat查看gc" class="headerlink" title="jstat查看gc"></a>jstat查看gc</h4><p><code>jstat -gccause pid 5000</code>，每隔5s刷新一次，查看GC信息，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZuf61um4k0dww403xbmgpZ ~]# jstat -gccause 1270 5000</span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT    LGCC                 GCC                 </span><br><span class="line">  0.00   0.00  28.12  99.96  87.59  80.39    610   21.693    31   61.932   83.625 G1 Evacuation Pause  No GC               </span><br><span class="line">  0.00   0.00  28.12  99.96  87.59  80.39    610   21.693    31   61.932   83.625 G1 Evacuation Pause  No GC</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>FGC</code>代表程序启动至今的FULL GC次数</p>
+<h4 id="jmap分析GC"><a href="#jmap分析GC" class="headerlink" title="jmap分析GC"></a>jmap分析GC</h4><p><code>jmap -heap PID</code>可以直接看到当前堆内存信息，包含各区域使用率</p>
+<p><code>jmap -histo:live PID | head -10</code>打印当前java堆活跃的各个对象的数量、大小</p>
+<p><code>jmap -dump:live,format=b,file=dump.hprof PID</code>生成dump文件（堆栈）<br>生成的dump文件（dump.hprof），可以用<strong>MAT</strong>（<code>MemoryAnalyzer</code>）工具进行堆栈分析</p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1mF70g1IyS8wYIuXaNx7vaQ" target="_blank" rel="noopener">MAT度娘盘地址（提取码：jidc）</a></p>
+</blockquote>
+<h4 id="打印GC日志"><a href="#打印GC日志" class="headerlink" title="打印GC日志"></a>打印GC日志</h4><p>最后，可以通过启动应用时加上GC打印的设置，直接将GC打印到文件中进行分析：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintGCDateStamps -XX:+PrintGCDetails -Xloggc:/root/log/gclogs</span><br></pre></td></tr></table></figure></p>
+<p>分析用工具：<strong>gcviewer-1.36-SNAPSHOT</strong></p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/10JMnrTqw-82TuTw-__677w" target="_blank" rel="noopener">gcviewer度娘盘地址（提取码：cvhs）</a><br>工具启动方式：<code>java -jar gcviewer-1.36-SNAPSHOT.jar</code>(文件目录下执行)</p>
+</blockquote>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/xingkongtianma01/article/details/80689928" target="_blank" rel="noopener">JDK8 JVM性能优化</a></p>
+<h4 id="工具使用教程"><a href="#工具使用教程" class="headerlink" title="工具使用教程"></a>工具使用教程</h4><p><a href="https://blog.csdn.net/u011649536/article/details/50817454" target="_blank" rel="noopener">利用mat定位内存泄漏原因</a><br><a href="https://blog.csdn.net/nokiaisacat/article/details/52123904" target="_blank" rel="noopener">java GC日志查看gcviewer</a><br><a href="https://blog.csdn.net/everlasting_188/article/details/51943095" target="_blank" rel="noopener">TDA进行java线程dump分析</a><br><a href="http://www.cnblogs.com/nexiyi/p/java_thread_jstack.html" target="_blank" rel="noopener">java线程Dump分析工具–jstack</a><br><a href="https://www.cnblogs.com/qlqwjy/p/7929414.html" target="_blank" rel="noopener">Java GC日志查看</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-11-02T06:36:33.010Z" itemprop="dateModified">2018-11-02</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/17/Linux定位最耗CPU的线程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux定位最耗CPU的线程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆和栈"><span class="toc-number">1.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM堆内存与GC"><span class="toc-number">2.</span> <span class="toc-text">JVM堆内存与GC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#S0和S1一般多大，靠什么参数来控制，有什么变化？"><span class="toc-number">2.1.</span> <span class="toc-text">S0和S1一般多大，靠什么参数来控制，有什么变化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个对象每次Minor-Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor-GC多少次后，会进入Old区域呢？"><span class="toc-number">2.2.</span> <span class="toc-text">一个对象每次Minor Gc时，活着的对象都会在s0和s1区域转移，经过经过Minor GC多少次后，会进入Old区域呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FULL-GC"><span class="toc-number">2.3.</span> <span class="toc-text">FULL GC</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分析"><span class="toc-number">3.</span> <span class="toc-text">内存分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程阻塞"><span class="toc-number">3.1.</span> <span class="toc-text">线程阻塞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jstat查看gc"><span class="toc-number">3.2.</span> <span class="toc-text">jstat查看gc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jmap分析GC"><span class="toc-number">3.3.</span> <span class="toc-text">jmap分析GC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打印GC日志"><span class="toc-number">3.4.</span> <span class="toc-text">打印GC日志</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number">4.</span> <span class="toc-text">参考文章</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#工具使用教程"><span class="toc-number">4.1.</span> <span class="toc-text">工具使用教程</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">22</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/CPU/" style="font-size: 13px; color: #7dc3de">CPU</a> <a href="/tags/Centos7/" style="font-size: 18.73px; color: #2eb728">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.64px; color: #74c2ca">Django</a> <a href="/tags/Hexo/" style="font-size: 13.64px; color: #74c2ca">Hexo</a> <a href="/tags/JVM/" style="font-size: 13px; color: #7dc3de">JVM</a> <a href="/tags/Jmeter/" style="font-size: 15.55px; color: #5abe8d">Jmeter</a> <a href="/tags/Linux/" style="font-size: 13.64px; color: #74c2ca">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nginx/" style="font-size: 13px; color: #7dc3de">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 14.91px; color: #63bfa1">appium</a> <a href="/tags/buff-cache/" style="font-size: 13px; color: #7dc3de">buff/cache</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 14.91px; color: #63bfa1">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.27px; color: #6cc0b6">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/grafana/" style="font-size: 13.64px; color: #74c2ca">grafana</a> <a href="/tags/influxdb/" style="font-size: 13px; color: #7dc3de">influxdb</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 15.55px; color: #5abe8d">linux</a> <a href="/tags/lives/" style="font-size: 16.18px; color: #51bc79">lives</a> <a href="/tags/loadrunner/" style="font-size: 14.91px; color: #63bfa1">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.27px; color: #6cc0b6">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 16.82px; color: #49bb65">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 16.18px; color: #51bc79">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.36px; color: #26b514">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.45px; color: #40b951">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.64px; color: #74c2ca">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.64px; color: #74c2ca">windows</a> <a href="/tags/yum/" style="font-size: 13.64px; color: #74c2ca">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 14.91px; color: #63bfa1">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 14.91px; color: #63bfa1">单元测试</a> <a href="/tags/性能/" style="font-size: 14.27px; color: #6cc0b6">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.09px; color: #37b83d">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/02/JVM内存性能问题定位/">JVM内存性能问题定位</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Linux定位最耗CPU的线程/">Linux定位最耗CPU的线程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/胡言乱语/">胡言乱语</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Grafana一点简单使用/">Grafana一点简单使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Centos7搭建Grafana/">Centos7搭建Grafana</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
