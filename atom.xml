@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-11-02T06:36:33.010Z</updated>
+  <updated>2018-11-19T06:04:48.920Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一次精疲力尽的压测</title>
+    <link href="http://tokyle.com/2018/11/19/%E4%B8%80%E6%AC%A1%E7%B2%BE%E7%96%B2%E5%8A%9B%E5%B0%BD%E7%9A%84%E5%8E%8B%E6%B5%8B/"/>
+    <id>http://tokyle.com/2018/11/19/一次精疲力尽的压测/</id>
+    <published>2018-11-19T06:03:11.000Z</published>
+    <updated>2018-11-19T06:04:48.920Z</updated>
+    
+    <content type="html"><![CDATA[<p>记一次精疲力尽的无语压测经历</p><a id="more"></a><p>平台改版，需要新的登录，平台组挑选了red hat开源的keycloak，一个针对现代应用程序和服务的开源身份和访问管理解决方案。</p><p>压测主要是进行了接口的压测。<br>正常流程，脚本编写，执行，监控服务器资源，报告。</p><p>但是，这个神奇的接口，每次都是线程到300时候，有一瞬间QPS到达峰值，然后瞬间下降，之后持续一个很稳定的值一直下去，并且伴随着一堆的<code>socket timeout</code>报错。</p><p>于是乎，正常的，重测，看CPU<br><code>top</code>，<code>vmstat</code>，<code>uptime</code>没啥用，CPU根本没什么反应，三台AP都是50%左右</p><p>看内存<br><code>free -m</code>也没啥用，一堆限制内存</p><p>看磁盘<br><code>iostat -dxk 2</code>没怎么写。。</p><p>看网络：<br>看连接<br><code>netstat -an | grep 端口 | wc -l</code>貌似也正常的很。。</p><p>没办法，继续看内存，定位JVM问题：<br><code>jstat PID &gt; 1.log</code>导出dump文件，看一下，有很多block的，暂时不用优化<br><code>jmap -dump:live,format=b,file=dump.hprof PID</code>生成堆栈的完整文件，没啥用。。。<br><code>jmap -heap PID</code>看当前堆内存使用情况，GC正常，没用。。</p><p>然后开始怀疑是自己压测工具的问题，做了jmeter分布式，每台压力机起100个线程，也没什么用。</p><p>最后快绝望了，抱着试试看的心态，切到内网地址，那个到峰值之后降下来的情况终于没了（之所以开始不用内网地址测试，是因为之后上正式环境，提供出去的是外网地址，所以测试中，肯定是用外网地址来模拟）。找到了是内外网的区别之后，找运维同事看了网络的区别，得出的结果是外网地址限制了流量。。。阿里云ECS服务器，限制了外网流量是100Mb/s，我们的接口，一个请求大概数据包是2k，并发情况下，流量超出了限制，直接被阿里云服务器限制了访问。。。服气！</p><p>所以，压测，不止要关注服务器自己的CPU，内存，磁盘，网络连接，还要看服务器提供商的外部限制。。。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记一次精疲力尽的无语压测经历&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>JVM内存性能问题定位</title>
@@ -458,28 +480,6 @@
       <category term="logstash" scheme="http://tokyle.com/tags/logstash/"/>
     
       <category term="kibana" scheme="http://tokyle.com/tags/kibana/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>elasticsearch 6变更记录</title>
-    <link href="http://tokyle.com/2018/08/01/elasticsearch-6%E5%8F%98%E6%9B%B4%E8%AE%B0%E5%BD%95/"/>
-    <id>http://tokyle.com/2018/08/01/elasticsearch-6变更记录/</id>
-    <published>2018-08-01T12:54:10.000Z</published>
-    <updated>2018-08-01T08:56:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>elasticsearch 6变更内容记录</p><a id="more"></a><p>原来没怎么接触过es，找了个教程，本来是按着教程上敲的练练手的，然后就我靠了，又回到当初碰Django时候的懵逼状态，新版本改好多。。</p><h3 id="No-handler-for-type-string-declared-on-field"><a href="#No-handler-for-type-string-declared-on-field" class="headerlink" title="No handler for type [string] declared on field"></a>No handler for type [string] declared on field</h3><p>本来练手练得好好的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PUT http://192.168.0.91:9200/index_test</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">&quot;settings&quot;: &#123;</span><br><span class="line">&quot;number_of_shards&quot;: 3,</span><br><span class="line">&quot;number_of_replicas&quot;: 2</span><br><span class="line">&#125;,</span><br><span class="line">&quot;mappings&quot;: &#123;</span><br><span class="line">&quot;Testlog&quot;: &#123;</span><br><span class="line">&quot;properties&quot;: &#123;</span><br><span class="line">&quot;logType&quot;: &#123;</span><br><span class="line">&quot;type&quot;: &quot;string&quot;,</span><br><span class="line">&quot;index&quot;: &quot;not_analyzed&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>然后就是悲剧：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;error&quot;: &#123;</span><br><span class="line">       &quot;root_cause&quot;: [</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;type&quot;: &quot;mapper_parsing_exception&quot;,</span><br><span class="line">               &quot;reason&quot;: &quot;No handler for type [string] declared on field [logType]&quot;</span><br><span class="line">           &#125;</span><br><span class="line">       ],</span><br></pre></td></tr></table></figure></p><p>研究半天，JSON没啥错啊，教程里就是这么干的啊，回忆起Django的版本悲剧，搜了下版本变更，唉~<code>ElasticSearch 5.x开始就取消了string类型，取代的事text和keyward，text用于全文搜索的, 而keyword用于关键词搜索</code></p><p>找了段网上的解释：<br>这个变动的根本原因是string类型会给我们带来很多困惑: 因为ElasticSearch对字符串拥有两种完全不同的搜索方式. 你可以按照整个文本进行匹配, 即关键词搜索(keyword search), 也可以按单个字符匹配, 即全文搜索(full-text search). 对ElasticSearch稍有了解的人都知道, 前者的字符串被称为not-analyzed字符, 而后者被称作analyzed字符串.</p><p>事实上, 同一种类型用于应对两种不同的使用场景是会让人崩溃的, 因为有些选项只对其一的场景设置有效.例如position_increment_gap对not-analyzed字符就不会起作用, 而像ignore_above对于analyzed字符串就很难区分它到底是对整个字符串的值有效还是对单独的每个分词有效(在这种场景, ignore_above确实只对整个字符串值有效, 而对单个分词的限制可以使用limit设置)，同样，<code>index</code>现在也只需要boolean的两种状态，所以可以修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;settings&quot;: &#123;</span><br><span class="line">&quot;number_of_shards&quot;: 3,</span><br><span class="line">&quot;number_of_replicas&quot;: 2</span><br><span class="line">&#125;,</span><br><span class="line">&quot;mappings&quot;: &#123;</span><br><span class="line">&quot;gaialog&quot;: &#123;</span><br><span class="line">&quot;properties&quot;: &#123;</span><br><span class="line">&quot;logType&quot;: &#123;</span><br><span class="line">&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">&quot;index&quot;: &quot;false&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="as-the-final-mapping-would-have-more-than-1-type"><a href="#as-the-final-mapping-would-have-more-than-1-type" class="headerlink" title="as the final mapping would have more than 1 type"></a>as the final mapping would have more than 1 type</h3><p>原因是6.x开始，取消了mapping type…<br>具体原因可以看官方的解释：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.0/removal-of-types.html" target="_blank" rel="noopener">removal of mapping type</a><br>需要的一些解释是：<br>首先，很多人会把es和关系型数据库进行类比；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">index ——&gt; 数据库（database）</span><br><span class="line">type ——&gt; 表（table）</span><br><span class="line">document ——&gt; 数据记录（data）</span><br><span class="line">filed ——&gt; 列（column）</span><br></pre></td></tr></table></figure></p><p>其实这样理解是有问题的，在关系型数据库中，每个表的列都是相互独立的，即使是同样列名的列，也毫无关系；但是在像es这样的映射型数据库中，即使是在不同的type下的field，只要field名字一样，它们所指向的Lucene字段都是同一个，所以是有影响的。在ES中，之前有type的情况下，在不同的type下可以建同样名字的field，比如test，type1下的field是<code>string</code>类型，type2下的field是<code>boolean</code>类型，由于同一个名字的field对应的Lucene字段一样，所以在进行field删除时，系统就会出错，不知道具体应该删的是哪个field。<br>官方为了避免这样的情况，就直接开始了不要<code>type</code>~~~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;elasticsearch 6变更内容记录&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
-    
-    
-      <category term="elasticsearch" scheme="http://tokyle.com/tags/elasticsearch/"/>
     
   </entry>
   
