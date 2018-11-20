@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Nginx简单配置 | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Centos7,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx简单配置">
+<meta property="og:url" content="http://tokyle.com/2018/11/20/Nginx简单配置/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-20T07:35:30.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx简单配置">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Nginx简单配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2018/11/20/Nginx简单配置/" class="article-date">
+  <time datetime="2018-11-20T07:33:53.000Z" itemprop="datePublished">2018-11-20</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx简单配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-conf"><span class="toc-number">1.</span> <span class="toc-text">nginx.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#APP-conf"><span class="toc-number">2.</span> <span class="toc-text">APP.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单说明"><span class="toc-number">3.</span> <span class="toc-text">简单说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#负载均衡"><span class="toc-number">3.1.</span> <span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#反向代理"><span class="toc-number">3.2.</span> <span class="toc-text">反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#proxy-pass末尾“-”问题"><span class="toc-number">3.2.1.</span> <span class="toc-text">proxy_pass末尾“/”问题</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+        <p>nginx简单配置及简单说明</p>
+<a id="more"></a>
+<p>nginx安装就不说了，直接上配置文件，改改就可以了：</p>
+<h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">user  nginx;</span><br><span class="line">worker_processes  8;</span><br><span class="line">worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;</span><br><span class="line">worker_rlimit_nofile 2000000;</span><br><span class="line">error_log   /var/log/nginx/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  2000000;</span><br><span class="line">    use epoll;</span><br><span class="line">    multi_accept on;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$http_x_forwarded_for &apos;                       </span><br><span class="line">                      &apos;$upstream_addr &apos;                        </span><br><span class="line">                      &apos;ups_resp_time: $upstream_response_time &apos;                        </span><br><span class="line">                      &apos;request_time: $request_time&apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line">    client_max_body_size 5000m;</span><br><span class="line">    client_body_buffer_size 512k;</span><br><span class="line">    proxy_connect_timeout 3000;</span><br><span class="line">    proxy_send_timeout 3000;</span><br><span class="line">    proxy_read_timeout 3000;</span><br><span class="line">    proxy_buffer_size 512k;</span><br><span class="line">    proxy_buffers 8 512k;</span><br><span class="line">    proxy_busy_buffers_size 512k;</span><br><span class="line">    proxy_temp_file_write_size 512k;</span><br><span class="line">    proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;</span><br><span class="line">    proxy_max_temp_file_size 128m;</span><br><span class="line">    fastcgi_read_timeout 3000;</span><br><span class="line">    fastcgi_buffers 8 5125;</span><br><span class="line">    send_timeout 3000;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    sendfile            on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line">    keepalive_disable none;</span><br><span class="line">    keepalive_timeout   120;</span><br><span class="line">    keepalive_requests  65535;</span><br><span class="line">    types_hash_max_size 2048;</span><br><span class="line">    </span><br><span class="line">    charset             utf-8;</span><br><span class="line">    server_names_hash_bucket_size 128;</span><br><span class="line">    client_header_buffer_size 32k;</span><br><span class="line">    large_client_header_buffers 4 32k;</span><br><span class="line">    reset_timedout_connection on; </span><br><span class="line"></span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length 1k;</span><br><span class="line">    gzip_buffers 4 16k;</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png application/json;</span><br><span class="line">    gzip_vary off;</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.&quot;;  </span><br><span class="line">    </span><br><span class="line">    include       conf.d/*.conf;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="APP-conf"><a href="#APP-conf" class="headerlink" title="APP.conf"></a>APP.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">upstream apitest&#123;</span><br><span class="line">       # ip_hash;</span><br><span class="line">	#    least_conn;</span><br><span class="line">        server 192.168.0.1:8080;</span><br><span class="line">        server 192.168.0.2:8080;</span><br><span class="line">        server 192.168.0.3:8080;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        #location / &#123;</span><br><span class="line">        #    root   html;</span><br><span class="line">        #    index  index.html index.htm;</span><br><span class="line">        #     proxy_pass http://apitest;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">		location ^~ /api/ &#123;</span><br><span class="line">            proxy_http_version 1.1;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">           proxy_set_header  Connection  &quot;&quot;;</span><br><span class="line">            #proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            #proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            proxy_pass http://apitest/api/;</span><br><span class="line">            proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ^~ /auth/ &#123;</span><br><span class="line">            proxy_http_version 1.1;</span><br><span class="line">            proxy_set_header  Connection  &quot;&quot;;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            proxy_pass http://apitest/auth/;</span><br><span class="line">            proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    proxy_pass   http://127.0.0.1;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    root           html;</span><br><span class="line">        #    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        #    fastcgi_index  index.php;</span><br><span class="line">        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span><br><span class="line">        #    include        fastcgi_params;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # deny access to .htaccess files, if Apache&apos;s document root</span><br><span class="line">        # concurs with nginx&apos;s one</span><br><span class="line">        #</span><br><span class="line">        #location ~ /\.ht &#123;</span><br><span class="line">        #    deny  all;</span><br><span class="line">        #&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="简单说明"><a href="#简单说明" class="headerlink" title="简单说明"></a>简单说明</h3><h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>配置负载均衡，只要就是使用了节点<code>upstream</code>，参考格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#配置多台服务器（这里只在一台服务器上的不同端口）</span><br><span class="line"> upstream mysvr &#123;   </span><br><span class="line">　　　　#权重比设置为1  ： 3  意思为  用户请求四次服务器，平均访问8082端口3次，8081端口一次，以此达到服务器均衡的作用（高并发）  </span><br><span class="line">      server 127.0.0.1:8081 weight=1;</span><br><span class="line">      server 127.0.0.1:8082 weight=3; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h4><p>反向代理只要就是用来将请求发送给其他主机的ap服务器，简单来说就是，nginx收到请求后，将请求转发给对应的ap服务器。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /apitest/ &#123;</span><br><span class="line">            proxy_pass http://192.168.0.1:8080;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>当请求收到以<code>apitest/</code>开头的请求，就会转发到<code>http://192.168.0.1:8080</code>；所以如果有个请求是<code>http://192.168.3.2/apitest/getusername</code>，通过nginx就会转到<code>http://192.168.0.1:8080/apitest/getusername</code>达到转发的效果，配合之前的负载均衡，就可以实现请求一个ip的接口，转到<code>upstream</code>中定义的多个ip的接口。</p>
+<h5 id="proxy-pass末尾“-”问题"><a href="#proxy-pass末尾“-”问题" class="headerlink" title="proxy_pass末尾“/”问题"></a>proxy_pass末尾“/”问题</h5><p>在nginx配置proxy_pass代理转发时，如果proxy_pass后面的URL加了<code>/</code>，表示绝对根路径；如果没有<code>/</code>，表示相对路径，把匹配的路径部分也代理走。</p>
+<p>假设都访问<em><a href="http://192.168.2.1:8082/apitest/login.html" target="_blank" rel="noopener">http://192.168.2.1:8082/apitest/login.html</a></em></p>
+<p><em>第一种</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /apitest/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代理到URL: <code>http://127.0.0.1/apitest/login.html</code></p>
+<p><em>第二种</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /apitest/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二种相对于第一种，proxy_pass后面的url少了<code>/</code>，代理到URL:<code>http://127.0.0.1/apitest/login.html</code></p>
+<p><em>第三种</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /apitest/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1/aaa/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第三种相对于第一种，proxy_pass后面的url加了一层<code>aaa/</code>，代理到URL:<code>http://127.0.0.1/aaa/login.html</code></p>
+<p><em>第四种</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /apitest/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1/aaa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第四种相对于第一种，proxy_pass后面的url加了一层<code>aaa</code>，代理到URL:<code>http://127.0.0.1/aaalogin.html</code></p>
+<p>完~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-11-20T07:35:30.540Z" itemprop="dateModified">2018-11-20</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/19/一次精疲力尽的压测/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一次精疲力尽的压测</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-conf"><span class="toc-number">1.</span> <span class="toc-text">nginx.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#APP-conf"><span class="toc-number">2.</span> <span class="toc-text">APP.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单说明"><span class="toc-number">3.</span> <span class="toc-text">简单说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#负载均衡"><span class="toc-number">3.1.</span> <span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#反向代理"><span class="toc-number">3.2.</span> <span class="toc-text">反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#proxy-pass末尾“-”问题"><span class="toc-number">3.2.1.</span> <span class="toc-text">proxy_pass末尾“/”问题</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">22</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/CPU/" style="font-size: 13px; color: #7dc3de">CPU</a> <a href="/tags/Centos7/" style="font-size: 19.3px; color: #27b616">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.7px; color: #73c2c8">Django</a> <a href="/tags/Hexo/" style="font-size: 13.7px; color: #73c2c8">Hexo</a> <a href="/tags/JVM/" style="font-size: 13px; color: #7dc3de">JVM</a> <a href="/tags/Jmeter/" style="font-size: 15.8px; color: #57bd85">Jmeter</a> <a href="/tags/Linux/" style="font-size: 14.4px; color: #6ac0b2">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Nginx/" style="font-size: 13.7px; color: #73c2c8">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/Zabbiz3-4/" style="font-size: 13px; color: #7dc3de">Zabbiz3.4</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 15.1px; color: #60bf9b">appium</a> <a href="/tags/buff-cache/" style="font-size: 13px; color: #7dc3de">buff/cache</a> <a href="/tags/centos7/" style="font-size: 13px; color: #7dc3de">centos7</a> <a href="/tags/cmder/" style="font-size: 13px; color: #7dc3de">cmder</a> <a href="/tags/ddt/" style="font-size: 15.1px; color: #60bf9b">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.4px; color: #6ac0b2">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/grafana/" style="font-size: 13.7px; color: #73c2c8">grafana</a> <a href="/tags/influxdb/" style="font-size: 13px; color: #7dc3de">influxdb</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 15.8px; color: #57bd85">linux</a> <a href="/tags/lives/" style="font-size: 16.5px; color: #4dbc6f">lives</a> <a href="/tags/loadrunner/" style="font-size: 15.1px; color: #60bf9b">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.4px; color: #6ac0b2">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 17.2px; color: #43ba59">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 16.5px; color: #4dbc6f">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 19.3px; color: #27b616">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.9px; color: #3ab943">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.7px; color: #73c2c8">smtplib</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.7px; color: #73c2c8">windows</a> <a href="/tags/yum/" style="font-size: 13.7px; color: #73c2c8">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 15.1px; color: #60bf9b">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 15.1px; color: #60bf9b">单元测试</a> <a href="/tags/性能/" style="font-size: 14.4px; color: #6ac0b2">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.6px; color: #30b72c">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/20/Nginx简单配置/">Nginx简单配置</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/19/一次精疲力尽的压测/">一次精疲力尽的压测</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/02/JVM内存性能问题定位/">JVM内存性能问题定位</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Linux定位最耗CPU的线程/">Linux定位最耗CPU的线程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/胡言乱语/">胡言乱语</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
