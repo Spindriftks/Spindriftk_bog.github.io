@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2018-11-20T07:35:30.540Z</updated>
+  <updated>2018-12-05T05:56:07.484Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux小工具推荐</title>
+    <link href="http://tokyle.com/2018/12/05/Linux%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/"/>
+    <id>http://tokyle.com/2018/12/05/Linux小工具推荐/</id>
+    <published>2018-12-05T05:54:28.000Z</published>
+    <updated>2018-12-05T05:56:07.484Z</updated>
+    
+    <content type="html"><![CDATA[<p>Linux实用小工具推荐</p><p>偶然发现几个挺有意思的小工具，推荐下<br><a id="more"></a></p><h3 id="htop"><a href="#htop" class="headerlink" title="htop"></a>htop</h3><p>首先是top的替代品，个人感觉比top好用，界面更好看，支持键盘方向键左右移动，支持一键增减任务优先级（nice%）</p><p>安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install htop</span><br></pre></td></tr></table></figure></p><p>和top一样用，直接<code>htop</code>即可</p><h3 id="mycli"><a href="#mycli" class="headerlink" title="mycli"></a>mycli</h3><p>一个可以在控制台里面进行SQL联想的客户端工具，界面也更好看，比普通在控制台敲SQL爽多了</p><p>效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql root@localhost:accrual_minth&gt; show databases; </span><br><span class="line">                                            databases         </span><br><span class="line">                                            create database   </span><br><span class="line">                                            procedure status</span><br></pre></td></tr></table></figure></p><p>安装：<br>首先是服务器上要有python，如果是python3更好，装了pip最好；python2.7也行，下面演示python2.7安装<br><strong>安装gcc，更新yum</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y update &amp;&amp; yum -y install gcc</span><br></pre></td></tr></table></figure></p><p><strong>安装pip</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line"></span><br><span class="line">python get-pip.py &amp;&amp; yum -y install python-devel</span><br></pre></td></tr></table></figure></p><p><strong>安装mycli</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mycli</span><br></pre></td></tr></table></figure></p><p>可能会有报错：<br><code>Cannot uninstall &#39;configobj&#39;. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall</code></p><p>那就把安装命令替换成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --ignore-installed mycli</span><br></pre></td></tr></table></figure></p><p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mycli -uroot</span><br></pre></td></tr></table></figure></p><h3 id="thefuck"><a href="#thefuck" class="headerlink" title="thefuck"></a>thefuck</h3><p>这个工具，个人觉得是最有意思，简直就是在抒发敲命令的人的心声。想一下，当你敲一个命令，然后提示你<code>xxx command not found</code>是不是很想骂街，然后，国外的某团队就做了个这玩意，当你敲错命令时候，敲个<code>fuck</code>自动帮你纠正命令</p><p>效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yun install aaa</span><br><span class="line">-bash: yun: command not found</span><br><span class="line">[root@localhost ~]# fuck</span><br><span class="line">​​​​​​​​​​yum install aaa [enter/↑/↓/ctrl+c]</span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * base: mirrors.aliyun.com</span><br><span class="line"> * epel: mirrors.tuna.tsinghua.edu.cn</span><br><span class="line"> * extras: mirrors.aliyun.com</span><br><span class="line"> * updates: mirrors.aliyun.com</span><br></pre></td></tr></table></figure></p><p>上述实例，原来敲的是<code>yun install</code>很明显是手残敲错了，然后敲个<code>fuck</code>，自动纠正成了<code>yum install</code>直接回车就可以执行了</p><p>安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install thefuck</span><br></pre></td></tr></table></figure></p><p>配置：<br><strong>编辑bashrc配置文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">vim .bashrc</span><br><span class="line"></span><br><span class="line">#在文件尾加入一行给thefuck重命名为fuck</span><br><span class="line">eval &quot;$(thefuck --alias fuck)&quot;</span><br></pre></td></tr></table></figure></p><p>隐藏文件，可以<code>ls -al</code>看见</p><p><strong>文件生效</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure></p><p>完成~</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Linux实用小工具推荐&lt;/p&gt;
+&lt;p&gt;偶然发现几个挺有意思的小工具，推荐下&lt;br&gt;
+    
+    </summary>
+    
+      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
+    
+    
+      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
+    
+      <category term="centos7" scheme="http://tokyle.com/tags/centos7/"/>
+    
+  </entry>
   
   <entry>
     <title>Nginx简单配置</title>
@@ -454,30 +479,6 @@
     
     
       <category term="lives" scheme="http://tokyle.com/tags/lives/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Centos7开启nginx status</title>
-    <link href="http://tokyle.com/2018/08/15/Centos7%E5%BC%80%E5%90%AFnginx-status/"/>
-    <id>http://tokyle.com/2018/08/15/Centos7开启nginx-status/</id>
-    <published>2018-08-15T06:15:10.000Z</published>
-    <updated>2018-08-15T02:16:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Centos 7开启nginx status</p><a id="more"></a><p>这段时间需要研究APM相关，整理到中间件部分，想到用zabbix来监控Nginx，一般情况下，中间件都有自己的计数器，我们只需要获取计数器的数值即可完成监控。</p><h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><p>还是啰嗦一下，安装nginx，一条命令即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure></p><p>配置文件路径：<br>默认配置：<code>/etc/nginx/nginx.conf</code><br>可自建配置:<code>/etc/nginx/conf.d/yourAPP.conf</code>(需要修改nginx.conf最后的配置文件路径)</p><h3 id="开启nginx-status"><a href="#开启nginx-status" class="headerlink" title="开启nginx status"></a>开启nginx status</h3><p>开启很简单，在配置中增加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /ngx_status</span><br><span class="line">    &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">        allow 127.0.0.1;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p><p>即可；<br>由于之前有帮开发搭建了.net core的环境，就直接在之前搭建的配置文件（LiabTest.conf）里面改了：<br>原文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:5000;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection keep-alive;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_cache_bypass $http_upgrade;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>增加status之后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:5000;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection keep-alive;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_cache_bypass $http_upgrade;</span><br><span class="line">    &#125;</span><br><span class="line">    location /ngx_status</span><br><span class="line">    &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">        allow 127.0.0.1;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="查看效果"><a href="#查看效果" class="headerlink" title="查看效果"></a>查看效果</h3><p>重启nginx：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart nginx</span><br></pre></td></tr></table></figure></p><p>查看status:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1/ngx_status</span><br></pre></td></tr></table></figure></p><p>看到信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@gtp1 conf.d]# curl http://127.0.0.1/ngx_status</span><br><span class="line">Active connections: 1199 </span><br><span class="line">server accepts handled requests</span><br><span class="line"> 158761 158761 158757 </span><br><span class="line">Reading: 0 Writing: 1195 Waiting: 4</span><br></pre></td></tr></table></figure></p><h3 id="nginx-status详解"><a href="#nginx-status详解" class="headerlink" title="nginx status详解"></a>nginx status详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">active connections – 活跃的连接数量</span><br><span class="line">server accepts handled requests — 总共处理了158761个连接 , 成功创建158761次握手, 总共处理了158757个请求</span><br><span class="line">reading — 读取客户端的连接数.</span><br><span class="line">writing — 响应数据到客户端的数量</span><br><span class="line">waiting — 开启 keep-alive 的情况下,这个值等于 active – (reading+writing), 意思就是 Nginx 已经处理完正在等候下一次请求指令的驻留连接.</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Centos 7开启nginx status&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
-    
-    
-      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
-    
-      <category term="Nginx" scheme="http://tokyle.com/tags/Nginx/"/>
     
   </entry>
   
