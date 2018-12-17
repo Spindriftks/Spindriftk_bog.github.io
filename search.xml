@@ -32,8 +32,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -251,8 +251,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -287,9 +287,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -386,7 +386,7 @@
   <entry>
     <title><![CDATA[zabbix配置]]></title>
     <url>%2F2018%2F06%2F26%2Fzabbix%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[zabbix的一些常用配置 zabbix-agent首先，安装完zabbix-web之后，想要监控系统，还需要在系统安装一个agent端：1yum -y install zabbix-agent 命令行安装即可，安装完成之后，可以在本地服务器下找到配置文件，我的是在:/etx/zabbix在：12zabbix_agentd.confzabbix_agentd.d 其中zabbix_agentd.d是文件夹，里面是具体的监控配置文件userparameter_mysql.conf，这个文件里面就是一系列zabbix可用的监控指标的配置，这个后面再专门写写zabbix的配置。 zabbix_getzabbix有个工具：zabbix_get，可以用来获取监控指标，用法示例：1zabbix_get -s IP -k mysql.status[Com_insert] 上面这条命令在配置文件配置完成的情况下，可以用来获取服务器上MySQL执行的insert数量。 图像乱码问题在第一次使用zabbix，图形显示，中文是一个个的方框，也就是乱码，这是因为zabbix的汉化不是很完全，可以手工替换字体来解决乱码问题。首先在本地windows机器下拿到中文字体，例如楷体:simkai.ttf(文件路径：C:\Windows\Fonts)然后把windows上下载完成的字体上传到zabbix服务器中，路径：/usr/share/zabbix/fonts该目录下本来有一个系统字体，并且软链接到zabbix-web，也就是页面显示的字体，现在要做的就是用自己上传的楷体替换到系统原来的字体123[root@localhost fonts]# lltotal 11512lrwxrwxrwx. 1 root root 33 Jun 26 15:46 graphfont.ttf -&gt; /etc/alternatives/zabbix-web-font 首先是将系统原字体备份mv graphfont.ttf graphfont.ttf.back然后修改配置文件/usr/share/zabbix/include/defines.inc.php将文件中的FONT_NAME从原来的graphfont修改为simkai，一共有两处，修改完成之后页面上就可以看见乱码解决了~ （关于zabbix的东西，后面肯定是要写一个监控配置的，待续~~~）]]></content>
+    <content type="text"><![CDATA[zabbix的一些常用配置 zabbix-agent首先，安装完zabbix-web之后，想要监控系统，还需要在系统安装一个agent端：1yum -y install zabbix-agent 命令行安装即可，安装完成之后，可以在本地服务器下找到配置文件，我的是在:/etx/zabbix在：12zabbix_agentd.confzabbix_agentd.d 其中zabbix_agentd.d是文件夹，里面是具体的监控配置文件userparameter_mysql.conf，这个文件里面就是一系列zabbix可用的监控指标的配置，这个后面再专门写写zabbix的配置。 如果找不到包： 一. 配置yum源rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm二．安装zabbix agentyum -y install zabbix-agent zabbix_getzabbix有个工具：zabbix_get，可以用来获取监控指标，用法示例：1zabbix_get -s IP -k mysql.status[Com_insert] 上面这条命令在配置文件配置完成的情况下，可以用来获取服务器上MySQL执行的insert数量。 图像乱码问题在第一次使用zabbix，图形显示，中文是一个个的方框，也就是乱码，这是因为zabbix的汉化不是很完全，可以手工替换字体来解决乱码问题。首先在本地windows机器下拿到中文字体，例如楷体:simkai.ttf(文件路径：C:\Windows\Fonts)然后把windows上下载完成的字体上传到zabbix服务器中，路径：/usr/share/zabbix/fonts该目录下本来有一个系统字体，并且软链接到zabbix-web，也就是页面显示的字体，现在要做的就是用自己上传的楷体替换到系统原来的字体123[root@localhost fonts]# lltotal 11512lrwxrwxrwx. 1 root root 33 Jun 26 15:46 graphfont.ttf -&gt; /etc/alternatives/zabbix-web-font 首先是将系统原字体备份mv graphfont.ttf graphfont.ttf.back然后修改配置文件/usr/share/zabbix/include/defines.inc.php将文件中的FONT_NAME从原来的graphfont修改为simkai，一共有两处，修改完成之后页面上就可以看见乱码解决了~ （关于zabbix的东西，后面肯定是要写一个监控配置的，待续~~~）]]></content>
       <categories>
         <category>Devops</category>
       </categories>
