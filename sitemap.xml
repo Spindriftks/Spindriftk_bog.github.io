@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tokyle.com/2018/05/11/centos7%E6%90%AD%E5%BB%BAzabbix/</loc>
+    
+    <lastmod>2018-12-18T09:04:46.934Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tokyle.com/2018/06/26/zabbix%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2018-12-17T06:43:26.320Z</lastmod>
@@ -292,13 +299,6 @@
     <loc>http://tokyle.com/2018/05/16/%E3%80%90%E8%BD%AC%E3%80%91windows%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87/</loc>
     
     <lastmod>2018-05-16T06:50:39.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tokyle.com/2018/05/11/centos7%E6%90%AD%E5%BB%BAzabbix/</loc>
-    
-    <lastmod>2018-05-11T09:32:22.000Z</lastmod>
     
   </url>
   

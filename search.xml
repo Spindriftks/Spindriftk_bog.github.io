@@ -32,8 +32,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -251,8 +251,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -287,9 +287,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -474,7 +474,7 @@
       </categories>
       <tags>
         <tag>Centos7</tag>
-        <tag>Zabbiz3.4</tag>
+        <tag>Zabbix3.4</tag>
       </tags>
   </entry>
   <entry>

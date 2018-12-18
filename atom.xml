@@ -84,9 +84,9 @@
       <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
     
-      <category term="Nginx" scheme="http://tokyle.com/tags/Nginx/"/>
-    
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
+    
+      <category term="Nginx" scheme="http://tokyle.com/tags/Nginx/"/>
     
   </entry>
   
