@@ -32,8 +32,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -251,8 +251,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -287,9 +287,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -474,7 +474,7 @@
       </categories>
       <tags>
         <tag>Centos7</tag>
-        <tag>Zabbix3.4</tag>
+        <tag>zabbix3.4</tag>
       </tags>
   </entry>
   <entry>
@@ -528,12 +528,12 @@
   <entry>
     <title><![CDATA[切换163yum源]]></title>
     <url>%2F2018%2F04%2F19%2F%E5%88%87%E6%8D%A2163yum%E6%BA%90%2F</url>
-    <content type="text"><![CDATA[来篇福利文 经常装环境的应该遇过下包基本没动静，基于这“伟大”的互联网环境，下包真的是很心累的一件事，好在国内有志之士还是弄了很多福利的，下面：Centos切换国内163yum源 前言前提条件，linux服务器支持wget，没有则装一个：1yum install -y wget 装好之后，开始切换yum源。 备份首先，搭环境的必要素质，修改配置文件之前，一定要先备份！（踩了n多坑的教训）1mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup 下载163源切换到/etc/yum.repos.d，wget下载163源配置文件1wget http://mirrors.163.com/.help/CentOS6-Base-163.repo 改名修改下载完成的文件的名称1mv /etc/yum.repos.d/CentOS6-Base-163.repo /etc/yum.repos.d/CentOS-Base.rep 生成缓存12yum clean allyum makecache 完工~~~]]></content>
+    <content type="text"><![CDATA[来篇福利文 经常装环境的应该遇过下包基本没动静，基于这“伟大”的互联网环境，下包真的是很心累的一件事，好在国内有志之士还是弄了很多福利的，下面：Centos切换国内163yum源 前言前提条件，linux服务器支持wget，没有则装一个：1yum install -y wget 装好之后，开始切换yum源。 备份首先，搭环境的必要素质，修改配置文件之前，一定要先备份！（踩了n多坑的教训）1mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup 下载163源切换到/etc/yum.repos.d，wget下载163源配置文件1wget http://mirrors.163.com/.help/CentOS7-Base-163.repo 改名修改下载完成的文件的名称1mv /etc/yum.repos.d/CentOS6-Base-163.repo /etc/yum.repos.d/CentOS-Base.rep 生成缓存12yum clean allyum makecache 完工~~~]]></content>
       <categories>
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
