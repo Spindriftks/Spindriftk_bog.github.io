@@ -5,17 +5,19 @@
   
 
   
-  <title>Category: python黑科技 | 它夏了夏天</title>
+  <title>MySQL启用弱口令 | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta property="og:type" content="website">
-<meta property="og:title" content="它夏了夏天">
-<meta property="og:url" content="http://tokyle.com/categories/python黑科技/index.html">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL启用弱口令">
+<meta property="og:url" content="http://tokyle.com/2018/12/25/MySQL启用弱口令/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-25T07:08:05.225Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="它夏了夏天">
+<meta name="twitter:title" content="MySQL启用弱口令">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -75,71 +77,104 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
+        <section id="main"><article id="post-MySQL启用弱口令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/02/02/logging模块使用简介/" class="archive-article-date">
-  <time datetime="2018-02-02T14:17:58.000Z" itemprop="datePublished">Feb 2</time>
+<a href="/2018/12/25/MySQL启用弱口令/" class="article-date">
+  <time datetime="2018-12-25T07:07:03.000Z" itemprop="datePublished">2018-12-25</time>
 </a>
 
 
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/02/logging模块使用简介/">logging模块使用简介</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL启用弱口令
     </h1>
   
 
-    </header>
-  </div>
-</article>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			
+		
+		</div>
+		
+        <p>MySQL启动弱口令</p>
+<p>有的时候，有点懒，测试环境就想数据库密码简单点，不用什么大小写，特殊字符各种组合</p>
+<a id="more"></a>
+<p>root用户登录<br><code>mysql -uroot -p</code></p>
+<p>查看密码策略：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &apos;validate_password%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;validate_password%&quot;;</span><br><span class="line">+--------------------------------------+--------+</span><br><span class="line">| Variable_name                        | Value  |</span><br><span class="line">+--------------------------------------+--------+</span><br><span class="line">| validate_password_check_user_name    | OFF    |</span><br><span class="line">| validate_password_dictionary_file    |        |</span><br><span class="line">| validate_password_length             | 8      |</span><br><span class="line">| validate_password_mixed_case_count   | 1      |</span><br><span class="line">| validate_password_number_count       | 1      |</span><br><span class="line">| validate_password_policy             | MEDIUM |</span><br><span class="line">| validate_password_special_char_count | 1      |</span><br><span class="line">+--------------------------------------+--------+</span><br><span class="line">7 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>主要修改两个即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure></p>
+<p>值含义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 or LOW 	Length</span><br><span class="line">1 or MEDIUM	Length; numeric, lowercase/uppercase, and special characters</span><br><span class="line">2 or STRONG	Length; numeric, lowercase/uppercase, and special characters; dictionary file</span><br></pre></td></tr></table></figure></p>
+<p>另一个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_length=6;</span><br></pre></td></tr></table></figure></p>
+<p>这个值有最小值限制：<code>validate_password_number_count + validate_password_special_char_count + (2 * validate_password_mixed_case_count)</code><br>所以默认的validate_password_length最小值是4</p>
 
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2018-12-25T07:08:05.225Z" itemprop="dateModified">2018-12-25</time>
+</span>
+
+
+    </footer>
+  </div>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/01/31/【转】python元类介绍/" class="archive-article-date">
-  <time datetime="2018-01-31T12:26:59.000Z" itemprop="datePublished">Jan 31</time>
-</a>
-
-
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/31/【转】python元类介绍/">【转】python元类介绍</a>
-    </h1>
   
+    <a href="/2018/12/24/Linux几个变量/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux几个变量</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
 
-  
-  
-    </div></section>
-  
 
-
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        
+    
+  </div>
+
 <aside id="sidebar">
 
   
@@ -284,13 +319,17 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
     </script>
 
 
 
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
 
 
 <script src="/js/jquery.min.js"></script>
@@ -305,6 +344,9 @@
 	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
 	<script src="/js/gotop.js"></script>
 
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
 
 </div>
 
