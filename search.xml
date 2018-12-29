@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[zabbix监控磁盘使用率]]></title>
     <url>%2F2018%2F12%2F29%2Fzabbix%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E7%8E%87%2F</url>
-    <content type="text"><![CDATA[zabbix各种键值 做grafana对接zabbix展示磁盘指定分区当前使用百分比时候，找到了一篇总结了zabbix各种键值的博客，搬运来做记录]]></content>
+    <content type="text"><![CDATA[zabbix各种键值 做grafana对接zabbix展示磁盘指定分区当前使用百分比时候，找到了一篇总结了zabbix各种键值的博客，搬运来做记录 监控磁盘zabbix监控linux不用分区磁盘使用量百分比方式： 配置-模板-Template OS Linux-自动发现规则-Mounted filesystem discovery-监控项原型，添加两个监控项，used以及pused（百分比） used1234567名称：Used disk space on $1类型：zabbix客户端信息类型：数字（无正负）单位：B pused12345678名称：Used disk space on $1 (percentage)类型：zabbix客户端信息类型：浮点型单位：%]]></content>
       <categories>
         <category>skill</category>
       </categories>
