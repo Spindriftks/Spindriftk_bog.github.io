@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[ssss]]></title>
-    <url>%2F2018%2F12%2F29%2Fssss%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[MySQL启用弱口令]]></title>
     <url>%2F2018%2F12%2F25%2FMySQL%E5%90%AF%E7%94%A8%E5%BC%B1%E5%8F%A3%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[MySQL启动弱口令 有的时候，有点懒，测试环境就想数据库密码简单点，不用什么大小写，特殊字符各种组合 root用户登录mysql -uroot -p 查看密码策略：1SHOW VARIABLES LIKE &apos;validate_password%&apos;; 输出：12345678910111213mysql&gt; show variables like &quot;validate_password%&quot;;+--------------------------------------+--------+| Variable_name | Value |+--------------------------------------+--------+| validate_password_check_user_name | OFF || validate_password_dictionary_file | || validate_password_length | 8 || validate_password_mixed_case_count | 1 || validate_password_number_count | 1 || validate_password_policy | MEDIUM || validate_password_special_char_count | 1 |+--------------------------------------+--------+7 rows in set (0.00 sec) 主要修改两个即可：1set global validate_password_policy=0; 值含义：1230 or LOW Length1 or MEDIUM Length; numeric, lowercase/uppercase, and special characters2 or STRONG Length; numeric, lowercase/uppercase, and special characters; dictionary file 另一个：1set global validate_password_length=6; 这个值有最小值限制：validate_password_number_count + validate_password_special_char_count + (2 * validate_password_mixed_case_count)所以默认的validate_password_length最小值是4]]></content>
