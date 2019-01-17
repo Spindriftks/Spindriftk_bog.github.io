@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter压测关联接口]]></title>
+    <url>%2F2019%2F01%2F16%2FJmeter%E5%8E%8B%E6%B5%8B%E5%85%B3%E8%81%94%E6%8E%A5%E5%8F%A3%2F</url>
+    <content type="text"><![CDATA[jmeter关联接口性能测试 需求进行接口性能测试时候，尤其是登录类接口，经常需要先进行登录，然后拿到登录返回的token，比如sessionid，来作为参数传给下一个接口作为入参 实现测试接口：登录：123456789101112131415161718POST http://192.168.0.1:8080/api/Login/LoginForPJPOST data:&#123; &quot;mobileId&quot;:&quot;ad9ec085&quot;, &quot;loginUrl&quot;:&quot;P00019452&quot;, &quot;simId&quot;:&quot;|&quot;, &quot;phoneModel&quot;:&quot;vivo vivo X6SPlus D&quot;, &quot;phoneSysVersion&quot;:&quot;5.1.1&quot;, &quot;appVersion&quot;:&quot;4.2.0&quot;, &quot;language&quot;:&quot;ZH-CN&quot;, &quot;isClearGesturePwd&quot;:0, &quot;companyCode&quot;:&quot;test&quot;, &quot;registrationId&quot;:&quot;120c83f7601a92735ae&quot;, &quot;isAutoLogin&quot;:&quot;0&quot;, &quot;sign&quot;:&quot;a8a922d705c15686232d963e3ce9461aa96df4689420e5abab76535c00532417&quot;, &quot;timeStamp&quot;:&quot;20181029101835&quot;&#125; 接口返回信息：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748&#123; &quot;result&quot;:true, &quot;data&quot;:&#123; &quot;sysPara&quot;:&#123; &quot;CancelAttachmentAmount&quot;:&quot;0&quot;, &quot;CustomerIsVisible&quot;:&quot;N&quot;, &quot;ExceptionAttachmentAmount&quot;:&quot;0&quot;, &quot;IsAllowRevoke&quot;:&quot;N&quot;, &quot;IsNeedApproveComment&quot;:&quot;N&quot;, &quot;IsNeedOTReason&quot;:&quot;N&quot;, &quot;IsNeedRejectComment&quot;:&quot;Y&quot;, &quot;IsShowOTType&quot;:&quot;1&quot;, &quot;LeaveAttachmentAmount&quot;:&quot;2&quot;, &quot;OTAttachmentAmount&quot;:&quot;0&quot;, &quot;OTDayTypeIsVisible&quot;:&quot;N&quot;, &quot;ShiftAttachmentAmount&quot;:&quot;0&quot;, &quot;isNeedOTExplain&quot;:&quot;1&quot; &#125;, &quot;userInfo&quot;:&#123; &quot;BackGroundVersion&quot;:&quot;Y1&quot;, &quot;GesturePwd&quot;:&quot;&quot;, &quot;IsValid&quot;:true, &quot;LoginName&quot;:&quot;P00019452&quot;, &quot;ModuleList&quot;:Array[9], &quot;PersonID&quot;:&quot;www-2f7f-4203-23212-5cc00acbcd0a&quot;, &quot;ServiceTime&quot;:&quot;11:37&quot;, &quot;SessionId&quot;:&quot;19431489-f4df-4143-b254-15b2f74f449a,a13b648f-6d81-4307-8ee1-b04c5b976246&quot;, &quot;TimeClassE&quot;:&quot;&quot;, &quot;TimeClassS&quot;:&quot;&quot;, &quot;UserID&quot;:&quot;112dcs-6d81-ewew-8ee1-b04c5b976246&quot;, &quot;Uuid&quot;:&quot;darcc75332-A4E2-4FB1-AFCF-C6EB07647825&quot; &#125;, &quot;user&quot;:&#123; &quot;BirthDay&quot;:&quot;&quot;, &quot;CompanyEngName&quot;:&quot;&quot;, &quot;CompanyName&quot;:&quot;&quot;, &quot;DeptId&quot;:&quot;0&quot;, &quot;DeptName&quot;:&quot;测试部&quot;, &quot;EmpID&quot;:&quot;P00019452&quot;, &quot;EmpName&quot;:&quot;虚拟主管&quot;, &quot;EnglishName&quot;:&quot;&quot;, &quot;Gender&quot;:&quot;&quot;, &quot;HeadImgUrl&quot;:&quot;&quot;, &quot;LoginName&quot;:&quot;P00019452&quot;, &quot;Position&quot;:&quot;测试总经理&quot; &#125; &#125;&#125; 获取用户信息：1http://192.168.0.1:8080/api/History/GetUserInfo?sessionId=7f959f6d-4b63-4d2d-8f88-025dc80e40f9,a13b648f-6d81-4307-8ee1-b04c5b976246 其中获取用户信息接口，需要传sessionId字段，该字段为登录接口的返回字段 所以需要先登录，再获取sessionid，再传给获取用户信息接口 jmeter实现jmeter也是正常的创建线程组，添加http请求头，添加http请求，添加响应断言，添加查看结果树和聚合报告 不同的是，在一个线程组中会有两个接口，第一个是登录，第二个是获取用户信息，并且在登录接口后需要添加一个组件：JSON Extractor作用就是提取登录返回的sessionid JSON Extractor内容：123Name of created variables: 变量名（后面参数化的变量名称，这边是sessionid）JSON Path expressions: json提取表达式 根据登录接口返回的层级结构，json表达式可以写成：$.data.userInfo.SessionId需要注意的是$后有一个.，表示当前路径 JSON表达式可以实现，只需要在登录接口后添加一个查看结果树，显示模式切换成JSON Path Tester，右下角就有JSON Path Expression测试 jmeter关联接口的层级结构：1234567891011- 线程组 - - CSV数据文件设置 - - HTTP信息头管理器 - - 登录接口（http请求） - - 查看结果树 - - 响应断言 - - JSON Extractor - - 获取用户信息接口 - - 响应断言 - - 查看结果树 - - 聚合报告 完~]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[SqlServer清理事务日志]]></title>
     <url>%2F2019%2F01%2F13%2FSqlServer%E6%B8%85%E7%90%86%E4%BA%8B%E5%8A%A1%E6%97%A5%E5%BF%97%2F</url>
     <content type="text"><![CDATA[SqlServer事务日志已满解决办法 场景压测时候，web对接了SqlServer，时间长，SqlServer报了错，事务日志已满，无法查询 事务日志事务日志是一个与数据库文件分开的文件。它存储对数据库进行的所有更改，并全部记录插入、更新、删除、提交、回退和数据库模式变化。事务日志还称作前滚日志或重做日志。 事务日志是备份和恢复的重要组件，也是使用 SQL Remote 或 [复制代理] 复制数据所必需的。 在缺省情况下，所有数据库都使用事务日志。事务日志的使用是可选的，但是，除非您因特殊原因而不使用，否则您应始终使用它。运行带有事务日志的数据库可提供更强的故障保护功能、更好的性能以及数据复制功能。 解决办法：123451，数据库属性-选项-恢复模式-选择简单-点击确定2，右键数据库-任务-收缩-文件-文件类型-选择日志-收缩操作-选择在释放未使用的空间前重新组织页，选择1M-点击确定3，数据库属性-选项-恢复模式-选择简单-点击确定 完~]]></content>
@@ -111,8 +122,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -330,8 +341,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -366,9 +377,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -600,8 +611,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>python</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -658,8 +669,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>centos7</tag>
         <tag>linux</tag>
+        <tag>centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -742,8 +753,8 @@
         <category>生活</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>selenium</tag>
+        <tag>自动化测试</tag>
         <tag>lives</tag>
       </tags>
   </entry>
@@ -779,8 +790,8 @@
         <category>自动化测试框架</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>selenium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
         <tag>python3</tag>
         <tag>ddt</tag>
@@ -1089,8 +1100,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1101,8 +1112,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1148,8 +1159,8 @@
         <category>python基础</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -1173,8 +1184,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1185,8 +1196,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1209,8 +1220,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>selenium</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
