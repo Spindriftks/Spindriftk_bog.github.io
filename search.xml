@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos7安装pip3]]></title>
+    <url>%2F2019%2F01%2F29%2FCentos7%E5%AE%89%E8%A3%85pip3%2F</url>
+    <content type="text"><![CDATA[centos7安装pip3 当前基本拿到手的centos安装的可能都是python2.7，对应的pip版本也很低，很多后面的工具包都安装不了，所以，需要安装个pip3 python2.7和python3共存 安装完python3之后，就可以安装pip 安装pip123456789101112wget --no-check-certificate https://pypi.python.org/packages/source/p/pip/pip-8.0.2.tar.gz#md5=3a73c4188f8dbad6a1e6f6d44d117eebtar -zxvf pip-8.0.2.tar.gzmv pip-8.0.2 /usr/local/pip3cd /usr/local/pip3python3 setup.py buildpython3 setup.py install 测试：pip3 install xmind 需要注意的是的，当前安装的pip3不是最新版本，需要升级：pip3 install --upgrade pip]]></content>
+      <categories>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>pip3</tag>
+        <tag>Centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[2019年关将至有感]]></title>
     <url>%2F2019%2F01%2F24%2F2019%E5%B9%B4%E5%85%B3%E5%B0%86%E8%87%B3%E6%9C%89%E6%84%9F%2F</url>
     <content type="text"><![CDATA[2019农历年来临之际有感 年关将近，发发牢骚…近几天“百度已死”的文章铺天盖地，随之而来的很多分析互联网的文章出现，年末了，也扯扯自己感受。最大的感触就是“中国互联网”的确是不再互联。曾经还在百度搜音乐，搜商品..而今，基本都是对应网站（网易云，淘宝）直接搜索。可能也有近几年百度搜索结果太烂的原因，然后呢，不是很关注这行的可能不怎么知道，当前国内互联网，巨头分地，彼此吃像都不怎么样，说到底都是数据，隐私，流量，具体点就是钱。 微信公众号的内容，普通搜索引擎的爬虫无法收录；淘宝为代表的网购平台, 长时间的封杀搜索引擎爬虫（结果就是搜商品只能淘宝、京东站内搜索）；app之间互转越来越困难（抖音转微信等）加上前段时间的马桶MT，聊天宝，多闪被微信封杀…巨头圈地，彼此不互联貌似已经越来越具象；相比之下，国外谷歌搜索结果仍然可以直连亚马逊…无话可说.. 最后，还是扯到搜索上，当前百度基本我是放弃了，必应最近日子也不好过；最最推荐的方式，就是有能力就买台服务器，自己搭个梯子吧，万里长城永不倒啊（直接买VPN不怎么推荐，有点手段的能把你祖宗辈信息都截到）；科学上网做不到，推荐几个小众的搜索网站： 无隐私搜索（chrome有插件，地址栏直接输搜索项，实测非常干净）：https://www.duckduckgo.com/ 类似网站查询网站，可查用户覆盖率和用户标签，其他功能自行体会（有chrome插件）：https://www.similarweb.com/ 在线问答系统（类似百科）：https://www.wolframalpha.com/ （以上网站可能都需要至少科学上网一次装完插件..所以，还是赶紧会科学上网现实，直接Google多方便）]]></content>
@@ -393,9 +405,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
