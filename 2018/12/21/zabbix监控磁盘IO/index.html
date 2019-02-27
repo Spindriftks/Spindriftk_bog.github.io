@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-27T09:30:01.671Z">
+<meta property="og:updated_time" content="2019-02-27T09:40:35.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix监控磁盘IO">
 <meta name="twitter:description" content="素履以往">
@@ -116,8 +116,9 @@
 		
         <p>zabbix监控Linux磁盘IO</p>
 <a id="more"></a>
-<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><p>首先是查询磁盘类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# fdisk -l</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 214.7 GB, 214748364800 bytes, 419430400 sectors</span><br></pre></td></tr></table></figure></p>
-<p>服务器上，基本是在sda盘上进行的IO，所以本次就监控sda就可以了<br>附linux硬件设备概览(/dev目录下)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ide硬盘：/dev/hd[a-d]</span><br><span class="line"></span><br><span class="line">SCSI/SATA/USB硬盘：/dev/sd[a-p]</span><br><span class="line"></span><br><span class="line">u盘：/dev/sd[a-p]</span><br><span class="line"></span><br><span class="line">软驱：/dev/fd[0-1]</span><br><span class="line"></span><br><span class="line">打印机：25针：/dev/lp[0-2]；USB: /dev/usb/lp[0-15]</span><br><span class="line"></span><br><span class="line">鼠标：usb: /dev/usb/mouse[0-15]；ps2: /dev/psaux</span><br><span class="line"></span><br><span class="line">当前cd rom/dvd rom：/dev/cdrom</span><br><span class="line"></span><br><span class="line">当前鼠标：/dev/mouse</span><br></pre></td></tr></table></figure></p>
+<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><p>首先是查询磁盘类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# fdisk -l</span><br><span class="line"></span><br><span class="line">Disk /dev/vda: 214.7 GB, 214748364800 bytes, 419430400 sectors</span><br></pre></td></tr></table></figure></p>
+<p>服务器上，基本是在vda盘上进行的IO，所以本次就监控vda就可以了<br>或者直接<code>iostat -dxk 2</code>看一下效果，哪个设备是需要进行监控的，直接grep即可</p>
+<p>附linux硬件设备概览(/dev目录下)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ide硬盘：/dev/hd[a-d]</span><br><span class="line"></span><br><span class="line">SCSI/SATA/USB硬盘：/dev/sd[a-p]</span><br><span class="line"></span><br><span class="line">u盘：/dev/sd[a-p]</span><br><span class="line"></span><br><span class="line">软驱：/dev/fd[0-1]</span><br><span class="line"></span><br><span class="line">打印机：25针：/dev/lp[0-2]；USB: /dev/usb/lp[0-15]</span><br><span class="line"></span><br><span class="line">鼠标：usb: /dev/usb/mouse[0-15]；ps2: /dev/psaux</span><br><span class="line"></span><br><span class="line">当前cd rom/dvd rom：/dev/cdrom</span><br><span class="line"></span><br><span class="line">当前鼠标：/dev/mouse</span><br></pre></td></tr></table></figure></p>
 <h3 id="获取item值"><a href="#获取item值" class="headerlink" title="获取item值"></a>获取item值</h3><p>使用zabbix监控磁盘IO，只需要在服务器装一个zabbix_agent就，配置完监控脚本即可，这边也就不多说怎么装，怎么配置了，直接上脚本：</p>
 <p><code>userparameter_mysql.conf</code>(/etc/zabbix/zabbix_agentd.d)添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserParameter=disk.status[*],/etc/zabbix/script/disk-status.sdisk-status.sh $1</span><br></pre></td></tr></table></figure></p>
 <p>相应的，在<code>/etc/zabbix/script</code>文件下，创建磁盘信息获取脚本<code>disk-status.sh</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim disk-status.sh</span><br></pre></td></tr></table></figure></p>
@@ -150,7 +151,7 @@
 
 	  
 <span>
-Updated:<time datetime="2019-02-27T09:30:01.671Z" itemprop="dateModified">2019-02-27</time>
+Updated:<time datetime="2019-02-27T09:40:35.812Z" itemprop="dateModified">2019-02-27</time>
 </span>
 
 
