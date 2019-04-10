@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-04-10T05:35:29.880Z</updated>
+  <updated>2019-04-10T08:19:31.368Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>adb进阶一 —— logcat</title>
+    <link href="http://tokyle.com/2019/04/10/adb%E8%BF%9B%E9%98%B6%E4%B8%80-%E2%80%94%E2%80%94-logcat/"/>
+    <id>http://tokyle.com/2019/04/10/adb进阶一-——-logcat/</id>
+    <published>2019-04-10T08:18:18.000Z</published>
+    <updated>2019-04-10T08:19:31.368Z</updated>
+    
+    <content type="html"><![CDATA[<p>adb进阶一 —— logcat</p><a id="more"></a><h3 id="logcat-简介"><a href="#logcat-简介" class="headerlink" title="logcat 简介"></a>logcat 简介</h3><p>logcat是Android中的一个命令行工具，可以用于测试过程中获取程序的log<br>基本用法：<br>测试开始前，可以先清缓存:<code>adb logcat -c</code><br>获取日志：<code>adb logcat &gt; E:\app_workstation\Android_files\logs\1.log</code></p><p>语法格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[adb] logcat [&lt;option&gt;] … [&lt;filter – spec&gt;] …</span><br></pre></td></tr></table></figure></p><p>推荐搭配grep使用</p><h3 id="logcat-缓冲区"><a href="#logcat-缓冲区" class="headerlink" title="logcat 缓冲区"></a>logcat 缓冲区</h3><p>Android log输出量巨大， 特别是通信类log，好在Android降log放在不同的缓冲区内，可用于指定缓冲区输出log，目前有四个缓冲区：</p><table><thead><tr><th>缓冲区名称</th><th>用途</th></tr></thead><tbody><tr><td>Radio</td><td>输出通信系统的log</td></tr><tr><td>System</td><td>输出系统组件的log</td></tr><tr><td>Event</td><td>输出event模块的log</td></tr><tr><td>Main</td><td>所有java层的log，以及不属于上面三层的log</td></tr></tbody></table><p>缓冲区主要是给系统组件使用的，一般的应用不需要考虑，应用的log都在<strong>main</strong>缓冲区中<br>默认log输出（不指定缓冲区的情况下）是输出<code>System</code>和<code>Main</code>缓冲区的log</p><p>获取缓冲区命令：</p><table><thead><tr><th>参数</th><th>描述</th></tr></thead><tbody><tr><td>-b <buffer></buffer></td><td>加载一个可使用的日志缓冲区提供查看，默认是main</td></tr></tbody></table><p>实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb logcat –b radio</span><br><span class="line"></span><br><span class="line">adb logcat –b system</span><br><span class="line"></span><br><span class="line">adb logcat –b events</span><br><span class="line"></span><br><span class="line">adb logcat –b main</span><br></pre></td></tr></table></figure></p><h3 id="logcat-参数"><a href="#logcat-参数" class="headerlink" title="logcat 参数"></a>logcat 参数</h3><h4 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h4><p>由低到高</p><table><thead><tr><th>参数</th><th>含义</th></tr></thead><tbody><tr><td>V</td><td>Verbose（最低优先级）明细</td></tr><tr><td>D</td><td>Debug调试</td></tr><tr><td>I</td><td>Info    信息</td></tr><tr><td>W</td><td>Warning警告</td></tr><tr><td>E</td><td>Error    错误</td></tr><tr><td>F</td><td>Fatal    严重错误</td></tr><tr><td>S</td><td>Silent（Super all output）</td></tr></tbody></table><p>日志过滤器格式：<code>tag: priority</code></p><p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 仅输出标记为“ActivityManager”且优先级大于等于“Info”和 标记为“PowerManagerService”并且优先级大于等于“Debug”的日志</span><br><span class="line"></span><br><span class="line">adb logcat ActivityManager:I PowerManagerService:D *:S</span><br><span class="line"></span><br><span class="line"># 显示所有优先级大于等于“warning”的日志</span><br><span class="line"></span><br><span class="line">adb logcat *:W</span><br><span class="line"></span><br><span class="line"># 显示PowerManagerService的日志信息</span><br><span class="line"></span><br><span class="line">adb logcat -s PowerManagerService</span><br></pre></td></tr></table></figure></p><p>tips：<code>*:S</code>设置所有日志级别高于S的日志，由于没有这样级别，所以加上该过滤器可以确保只会输出符合条件的日志</p><h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><table><thead><tr><th>参数</th><th>描述</th></tr></thead><tbody><tr><td>-b</td><td>加载一个可使用的日志缓冲区供查看，默认值为main</td></tr><tr><td>-c</td><td>清除缓冲区中的全部日志并退出（清除完成后可使用-g 查看）</td></tr><tr><td>-g</td><td>打印日志缓冲区的大小并退出</td></tr><tr><td>-d</td><td>将缓冲区的log转存到屏幕中然后退出</td></tr><tr><td>-f</td><td>将log输出到制定的文件中&lt;文件名&gt;，默认为标准输出（stdout）</td></tr><tr><td>-n</td><td>设置日志的最大数目，默认值为4，需要和-r选项一起使用</td></tr><tr><td>-r</td><td>按照每千字节输出日志，默认值为16，需要和-f一起使用</td></tr><tr><td>-s</td><td>设置过滤器</td></tr><tr><td>-v</td><td>设置输出格式的日志消息</td></tr></tbody></table><p>一般长时间输出log的话建议-f -n -r三个参数连用，这样当一个文件日志输出满了之后可以马上在另一个中进行输出（输出多个指定大小的日志文件）<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -f /data/local/tmp/log.txt -n 2 -r 3</span><br></pre></td></tr></table></figure></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb logcat -b radio -v time &gt; /tmp/event.log</span><br></pre></td></tr></table></figure><p>tips:<code>-v time</code>表示在log中加入每条log发生的时间</p><h4 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h4><p>-v更多格式：</p><table><thead><tr><th>格式</th><th>说明</th></tr></thead><tbody><tr><td>brief</td><td>显示优先级/标记和过程的PID发出的消息（默认格式）</td></tr><tr><td>process</td><td>仅显示进程PID</td></tr><tr><td>tag</td><td>仅显示优先级/标记</td></tr><tr><td>thread</td><td>仅显示进程：线程和优先级/标记</td></tr><tr><td>raw</td><td>显示原始的日志信息，没有其他的元数据字段</td></tr><tr><td>time</td><td>显示日期，调用时间，优先级/标记，PID</td></tr><tr><td>long</td><td>显示所有的元数据字段并且用空行分隔消息内容</td></tr></tbody></table><p>示例：<code>adb logcat -v thread</code></p><p>以上，完~</p><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote><p><a href="https://www.cnblogs.com/bydzhangxiaowei/p/8168598.html" target="_blank" rel="noopener">ADB logcat 过滤方法(抓取日志)</a><br><a href="https://www.cnblogs.com/JianXu/p/5468839.html" target="_blank" rel="noopener">Android logcat命令详解</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;adb进阶一 —— logcat&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机基础" scheme="http://tokyle.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="Android" scheme="http://tokyle.com/tags/Android/"/>
+    
+      <category term="adb" scheme="http://tokyle.com/tags/adb/"/>
+    
+  </entry>
   
   <entry>
     <title>Android调试工具adb简介</title>
@@ -449,28 +473,6 @@
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
       <category term="Nginx" scheme="http://tokyle.com/tags/Nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一次精疲力尽的压测</title>
-    <link href="http://tokyle.com/2018/11/19/%E4%B8%80%E6%AC%A1%E7%B2%BE%E7%96%B2%E5%8A%9B%E5%B0%BD%E7%9A%84%E5%8E%8B%E6%B5%8B/"/>
-    <id>http://tokyle.com/2018/11/19/一次精疲力尽的压测/</id>
-    <published>2018-11-19T06:03:11.000Z</published>
-    <updated>2018-11-19T06:04:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>记一次精疲力尽的无语压测经历</p><a id="more"></a><p>平台改版，需要新的登录，平台组挑选了red hat开源的keycloak，一个针对现代应用程序和服务的开源身份和访问管理解决方案。</p><p>压测主要是进行了接口的压测。<br>正常流程，脚本编写，执行，监控服务器资源，报告。</p><p>但是，这个神奇的接口，每次都是线程到300时候，有一瞬间QPS到达峰值，然后瞬间下降，之后持续一个很稳定的值一直下去，并且伴随着一堆的<code>socket timeout</code>报错。</p><p>于是乎，正常的，重测，看CPU<br><code>top</code>，<code>vmstat</code>，<code>uptime</code>没啥用，CPU根本没什么反应，三台AP都是50%左右</p><p>看内存<br><code>free -m</code>也没啥用，一堆限制内存</p><p>看磁盘<br><code>iostat -dxk 2</code>没怎么写。。</p><p>看网络：<br>看连接<br><code>netstat -an | grep 端口 | wc -l</code>貌似也正常的很。。</p><p>没办法，继续看内存，定位JVM问题：<br><code>jstat PID &gt; 1.log</code>导出dump文件，看一下，有很多block的，暂时不用优化<br><code>jmap -dump:live,format=b,file=dump.hprof PID</code>生成堆栈的完整文件，没啥用。。。<br><code>jmap -heap PID</code>看当前堆内存使用情况，GC正常，没用。。</p><p>然后开始怀疑是自己压测工具的问题，做了jmeter分布式，每台压力机起100个线程，也没什么用。</p><p>最后快绝望了，抱着试试看的心态，切到内网地址，那个到峰值之后降下来的情况终于没了（之所以开始不用内网地址测试，是因为之后上正式环境，提供出去的是外网地址，所以测试中，肯定是用外网地址来模拟）。找到了是内外网的区别之后，找运维同事看了网络的区别，得出的结果是外网地址限制了流量。。。阿里云ECS服务器，限制了外网流量是100Mb/s，我们的接口，一个请求大概数据包是2k，并发情况下，流量超出了限制，直接被阿里云服务器限制了访问。。。服气！</p><p>所以，压测，不止要关注服务器自己的CPU，内存，磁盘，网络连接，还要看服务器提供商的外部限制。。。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;记一次精疲力尽的无语压测经历&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
     
   </entry>
   
