@@ -5,17 +5,19 @@
   
 
   
-  <title>Category: 自动化测试 | 它夏了夏天</title>
+  <title>adb进阶三 —— Monkey (2) | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
-<meta property="og:type" content="website">
-<meta property="og:title" content="它夏了夏天">
-<meta property="og:url" content="http://tokyle.com/categories/自动化测试/index.html">
+<meta name="keywords" content="Android,adb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="adb进阶三 —— Monkey (2)">
+<meta property="og:url" content="http://tokyle.com/2019/04/11/adb进阶三-——-Monkey-2/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-11T08:35:03.286Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="它夏了夏天">
+<meta name="twitter:title" content="adb进阶三 —— Monkey (2)">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -75,201 +77,217 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
+        <section id="main"><article id="post-adb进阶三-——-Monkey-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/02/08/自定义测试报告/" class="archive-article-date">
-  <time datetime="2018-02-08T15:00:04.000Z" itemprop="datePublished">Feb 8</time>
+<a href="/2019/04/11/adb进阶三-——-Monkey-2/" class="article-date">
+  <time datetime="2019-04-11T08:33:46.000Z" itemprop="datePublished">2019-04-11</time>
 </a>
 
 
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/08/自定义测试报告/">自定义测试报告</a>
+    <h1 class="article-title" itemprop="name">
+      adb进阶三 —— Monkey (2)
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey-API"><span class="toc-number">2.</span> <span class="toc-text">Monkey API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey脚本"><span class="toc-number">3.</span> <span class="toc-text">Monkey脚本</span></a></li></ol>
+		
+		</div>
+		
+        <p>adb进阶三 —— Monkey (2)</p>
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因为原生的monkey，是一系列的随机事件，很多时候事满足不了我们自定义场景需求的，比如只想验证APP的登录的稳定性，使用原生的<code>adb shell monkey</code>貌似做不到，这边就需要自定义脚本来实现</p>
+<h3 id="Monkey-API"><a href="#Monkey-API" class="headerlink" title="Monkey API"></a>Monkey API</h3><table>
+<thead>
+<tr>
+<th>API</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LaunchActivity(pkg_name, cl_name)</td>
+<td>启动应用的Activity。参数：包名和启动的Activity</td>
+</tr>
+<tr>
+<td>Tap(x, y, tapDuration)</td>
+<td>模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略</td>
+</tr>
+<tr>
+<td>DispatchPress(keycode)</td>
+<td>按键。参数： keycode</td>
+</tr>
+<tr>
+<td>RotateScreen(rotationDegree, persist)</td>
+<td>旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变</td>
+</tr>
+<tr>
+<td>DispatchFlip(true/false)</td>
+<td>打开或者关闭软键盘</td>
+</tr>
+<tr>
+<td>LongPress()</td>
+<td>长按</td>
+</tr>
+<tr>
+<td>PressAndHold(x, y, pressDuration)</td>
+<td>模拟长按事件</td>
+</tr>
+<tr>
+<td>DispatchString(input)</td>
+<td>输入字符串</td>
+</tr>
+<tr>
+<td>Drag(xStart, yStart, xEnd, yEnd, stepCount)</td>
+<td>拖拽</td>
+</tr>
+<tr>
+<td>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount)</td>
+<td>缩放</td>
+</tr>
+<tr>
+<td>UserWait(sleepTime)</td>
+<td>休眠</td>
+</tr>
+<tr>
+<td>DeviceWakeUp()</td>
+<td>唤醒屏幕</td>
+</tr>
+<tr>
+<td>PowerLog(power_log_type, test_case_status)</td>
+<td>模拟电池电量信息</td>
+</tr>
+<tr>
+<td>WriteLog()</td>
+<td>将电池信息写入sd卡</td>
+</tr>
+<tr>
+<td>RunCmd(cmd)</td>
+<td>运行shell命令</td>
+</tr>
+<tr>
+<td>DispatchPointer(long downTime,  long eventTime, int action, loat x, float y, float pressure, float size, int metaState,  float xPrecision, float yPrecision, int device, int edgeFlags)</td>
+<td>向指定位置，发送单个手势，点击事件</td>
+</tr>
+<tr>
+<td>DispatchKey(long downTime, long eventTime, int action, int code, int repeat, int metaState, int device, int scancode)</td>
+<td>发送键值</td>
+</tr>
+<tr>
+<td>LaunchInstrumentation(test_name,runner_name)</td>
+<td>运行一个instrumentation测试用例</td>
+</tr>
+<tr>
+<td>DispatchTrackball(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int device, int edgeFlags)</td>
+<td>模拟发送轨迹球事件</td>
+</tr>
+<tr>
+<td>ProfileWait</td>
+<td>等待5秒</td>
+</tr>
+<tr>
+<td>StartCaptureFramerate()</td>
+<td>获取帧率</td>
+</tr>
+<tr>
+<td>EndCaptureFramerate(input)</td>
+<td>结束获取帧率</td>
+</tr>
+</tbody>
+</table>
+<p>以<strong>点击事件</strong>为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DispatchPointer(long downTime,  long eventTime, int action, loat x, float y, float pressure, float size, int metaState,  float xPrecision, float yPrecision, int device, int edgeFlags)</span><br></pre></td></tr></table></figure></p>
+<p>参数很多，只需要关注<code>action</code>，<code>x</code>，<code>y</code>，对于参数action值为0代表按下（KeyDown），1代表弹起（KeyUp）。如果使用这个方法实现点击事件，这个方法就应该成对出现，先0再1。</p>
+<ul>
+<li>long downTime：键最初被按下时间</li>
+<li>long eventTime：事件发生时间</li>
+<li>int action：动作ACTION_DOWN=0,ACTION_UP=1,ACTION_MULTIPLE=2</li>
+<li>float x：x坐标</li>
+<li>float y：y坐标</li>
+<li>float pressure：当前事件的压力，值为0～1</li>
+<li>float size：触摸的近似值，范围为0～1</li>
+<li>int metaState：当前按下的meta键的标识</li>
+<li>float xPrecision：x坐标精确值</li>
+<li>float yPrecision：y坐标精确值</li>
+<li>int device：事件来源，范围0～x，0表示不来自物理设备</li>
+<li>int edgeFlags：坐标是否超出了屏幕范围</li>
+</ul>
+<blockquote>
+<p><a href="http://tokyle.com/2018/01/17/appium%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6/">Android键盘事件，keycode</a></p>
+</blockquote>
+<h3 id="Monkey脚本"><a href="#Monkey脚本" class="headerlink" title="Monkey脚本"></a>Monkey脚本</h3><p>和自动化测试时候差不多实现，<strong>打开首页-点击用户名-输入用户名-点击密码-输入密码-点击登录</strong>，相应的，也就是只需要获取用户名和密码以及确定按键的坐标，传到<code>DispatchPointer</code>即可，获取坐标可以使用<code>uiautomatorviewer.bat</code>挺简单的，直接上脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># 头部</span><br><span class="line">type= user</span><br><span class="line">count= 1</span><br><span class="line">speed= 1.0</span><br><span class="line">UserWait(200)</span><br><span class="line">start data &gt;&gt;</span><br><span class="line"></span><br><span class="line"># 打开app登录页</span><br><span class="line">LaunchActivity(com.android.testapp,com.android.testapp.MainActivity)</span><br><span class="line"># 休眠</span><br><span class="line">UserWait(10000)</span><br><span class="line"># 点击用户名文本框（460,751）为坐标</span><br><span class="line">DispatchPointer(10,10,0,460,751,1,1,-1,1,1,0,0)</span><br><span class="line">DispatchPointer(10,10,1,460,751,1,1,-1,1,1,0,0)</span><br><span class="line">UserWait(5000)</span><br><span class="line"># 输入用户名</span><br><span class="line">DispatchString(monkeytest)</span><br><span class="line">DispatchFlip(false)</span><br><span class="line">UserWait(2000)</span><br><span class="line"># 点击密码文本框（490,867）为坐标</span><br><span class="line">DispatchPointer(10,10,0,490,867,1,1,-1,1,1,0,0)</span><br><span class="line">DispatchPointer(10,10,1,490,867,1,1,-1,1,1,0,0)</span><br><span class="line">UserWait(5000)</span><br><span class="line"># 输入密码</span><br><span class="line">DispatchString(123456)</span><br><span class="line">DispatchFlip(false)</span><br><span class="line">UserWait(2000)</span><br><span class="line"># 点击确定</span><br><span class="line">Tap(541,1096)</span><br></pre></td></tr></table></figure></p>
+<p>保存为monkey_test.txt文件，上传到android设备：<code>adb push monkey_test.txt /mnt/sdcard/</code><br>执行脚本：<code>adb shell monkey -f /mnt/sdcard/monkey_test.txt -v 1</code></p>
+<p>完~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/">adb</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2019-04-11T08:35:03.286Z" itemprop="dateModified">2019-04-11</time>
+</span>
+
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/11/adb进阶一-——-Monkey-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">adb进阶二 —— Monkey (1)</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/02/08/单元测试异常捕获/" class="archive-article-date">
-  <time datetime="2018-02-08T08:12:49.000Z" itemprop="datePublished">Feb 8</time>
-</a>
 
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a>
-    </h1>
-  
-
-    </header>
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/02/02/实现断言失败截图/" class="archive-article-date">
-  <time datetime="2018-02-02T07:18:12.000Z" itemprop="datePublished">Feb 2</time>
-</a>
-
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/02/实现断言失败截图/">实现断言失败截图</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/02/01/实现自动化测试数据分离/" class="archive-article-date">
-  <time datetime="2018-02-01T10:48:19.000Z" itemprop="datePublished">Feb 1</time>
-</a>
-
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/01/实现自动化测试数据分离/">实现自动化测试数据分离</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2018/01/23/python实现自动化测试报告邮件实时发送/" class="archive-article-date">
-  <time datetime="2018-01-23T14:11:37.000Z" itemprop="datePublished">Jan 23</time>
-</a>
-
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/23/python实现自动化测试报告邮件实时发送/">python实现自动化测试报告邮件实时发送</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2017/12/28/python3-6安装pywin32/" class="archive-article-date">
-  <time datetime="2017-12-28T13:47:55.000Z" itemprop="datePublished">Dec 28</time>
-</a>
-
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/28/python3-6安装pywin32/">python3.6安装pywin32</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2017/12/27/python3-map-函数/" class="archive-article-date">
-  <time datetime="2017-12-27T14:47:09.000Z" itemprop="datePublished">Dec 27</time>
-</a>
-
-
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/27/python3-map-函数/">python3_map()函数</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/categories/自动化测试/page/2/">2</a><a class="extend next" rel="next" href="/categories/自动化测试/page/2/">Next &raquo;</a>
-  </nav>
-
+</section>
 </section>
         
           
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey-API"><span class="toc-number">2.</span> <span class="toc-text">Monkey API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey脚本"><span class="toc-number">3.</span> <span class="toc-text">Monkey脚本</span></a></li></ol>
+    
+  </div>
+
 <aside id="sidebar">
 
   
@@ -414,13 +432,17 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
     </script>
 
 
 
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
 
 
 <script src="/js/jquery.min.js"></script>
@@ -435,6 +457,9 @@
 	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
 	<script src="/js/gotop.js"></script>
 
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
 
 </div>
 

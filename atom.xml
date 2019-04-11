@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-04-11T06:23:44.660Z</updated>
+  <updated>2019-04-11T08:35:03.286Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>adb进阶三 —— Monkey (2)</title>
+    <link href="http://tokyle.com/2019/04/11/adb%E8%BF%9B%E9%98%B6%E4%B8%89-%E2%80%94%E2%80%94-Monkey-2/"/>
+    <id>http://tokyle.com/2019/04/11/adb进阶三-——-Monkey-2/</id>
+    <published>2019-04-11T08:33:46.000Z</published>
+    <updated>2019-04-11T08:35:03.286Z</updated>
+    
+    <content type="html"><![CDATA[<p>adb进阶三 —— Monkey (2)</p><a id="more"></a><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因为原生的monkey，是一系列的随机事件，很多时候事满足不了我们自定义场景需求的，比如只想验证APP的登录的稳定性，使用原生的<code>adb shell monkey</code>貌似做不到，这边就需要自定义脚本来实现</p><h3 id="Monkey-API"><a href="#Monkey-API" class="headerlink" title="Monkey API"></a>Monkey API</h3><table><thead><tr><th>API</th><th>描述</th></tr></thead><tbody><tr><td>LaunchActivity(pkg_name, cl_name)</td><td>启动应用的Activity。参数：包名和启动的Activity</td></tr><tr><td>Tap(x, y, tapDuration)</td><td>模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略</td></tr><tr><td>DispatchPress(keycode)</td><td>按键。参数： keycode</td></tr><tr><td>RotateScreen(rotationDegree, persist)</td><td>旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变</td></tr><tr><td>DispatchFlip(true/false)</td><td>打开或者关闭软键盘</td></tr><tr><td>LongPress()</td><td>长按</td></tr><tr><td>PressAndHold(x, y, pressDuration)</td><td>模拟长按事件</td></tr><tr><td>DispatchString(input)</td><td>输入字符串</td></tr><tr><td>Drag(xStart, yStart, xEnd, yEnd, stepCount)</td><td>拖拽</td></tr><tr><td>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount)</td><td>缩放</td></tr><tr><td>UserWait(sleepTime)</td><td>休眠</td></tr><tr><td>DeviceWakeUp()</td><td>唤醒屏幕</td></tr><tr><td>PowerLog(power_log_type, test_case_status)</td><td>模拟电池电量信息</td></tr><tr><td>WriteLog()</td><td>将电池信息写入sd卡</td></tr><tr><td>RunCmd(cmd)</td><td>运行shell命令</td></tr><tr><td>DispatchPointer(long downTime,  long eventTime, int action, loat x, float y, float pressure, float size, int metaState,  float xPrecision, float yPrecision, int device, int edgeFlags)</td><td>向指定位置，发送单个手势，点击事件</td></tr><tr><td>DispatchKey(long downTime, long eventTime, int action, int code, int repeat, int metaState, int device, int scancode)</td><td>发送键值</td></tr><tr><td>LaunchInstrumentation(test_name,runner_name)</td><td>运行一个instrumentation测试用例</td></tr><tr><td>DispatchTrackball(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int device, int edgeFlags)</td><td>模拟发送轨迹球事件</td></tr><tr><td>ProfileWait</td><td>等待5秒</td></tr><tr><td>StartCaptureFramerate()</td><td>获取帧率</td></tr><tr><td>EndCaptureFramerate(input)</td><td>结束获取帧率</td></tr></tbody></table><p>以<strong>点击事件</strong>为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DispatchPointer(long downTime,  long eventTime, int action, loat x, float y, float pressure, float size, int metaState,  float xPrecision, float yPrecision, int device, int edgeFlags)</span><br></pre></td></tr></table></figure></p><p>参数很多，只需要关注<code>action</code>，<code>x</code>，<code>y</code>，对于参数action值为0代表按下（KeyDown），1代表弹起（KeyUp）。如果使用这个方法实现点击事件，这个方法就应该成对出现，先0再1。</p><ul><li>long downTime：键最初被按下时间</li><li>long eventTime：事件发生时间</li><li>int action：动作ACTION_DOWN=0,ACTION_UP=1,ACTION_MULTIPLE=2</li><li>float x：x坐标</li><li>float y：y坐标</li><li>float pressure：当前事件的压力，值为0～1</li><li>float size：触摸的近似值，范围为0～1</li><li>int metaState：当前按下的meta键的标识</li><li>float xPrecision：x坐标精确值</li><li>float yPrecision：y坐标精确值</li><li>int device：事件来源，范围0～x，0表示不来自物理设备</li><li>int edgeFlags：坐标是否超出了屏幕范围</li></ul><blockquote><p><a href="http://tokyle.com/2018/01/17/appium%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6/">Android键盘事件，keycode</a></p></blockquote><h3 id="Monkey脚本"><a href="#Monkey脚本" class="headerlink" title="Monkey脚本"></a>Monkey脚本</h3><p>和自动化测试时候差不多实现，<strong>打开首页-点击用户名-输入用户名-点击密码-输入密码-点击登录</strong>，相应的，也就是只需要获取用户名和密码以及确定按键的坐标，传到<code>DispatchPointer</code>即可，获取坐标可以使用<code>uiautomatorviewer.bat</code>挺简单的，直接上脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># 头部</span><br><span class="line">type= user</span><br><span class="line">count= 1</span><br><span class="line">speed= 1.0</span><br><span class="line">UserWait(200)</span><br><span class="line">start data &gt;&gt;</span><br><span class="line"></span><br><span class="line"># 打开app登录页</span><br><span class="line">LaunchActivity(com.android.testapp,com.android.testapp.MainActivity)</span><br><span class="line"># 休眠</span><br><span class="line">UserWait(10000)</span><br><span class="line"># 点击用户名文本框（460,751）为坐标</span><br><span class="line">DispatchPointer(10,10,0,460,751,1,1,-1,1,1,0,0)</span><br><span class="line">DispatchPointer(10,10,1,460,751,1,1,-1,1,1,0,0)</span><br><span class="line">UserWait(5000)</span><br><span class="line"># 输入用户名</span><br><span class="line">DispatchString(monkeytest)</span><br><span class="line">DispatchFlip(false)</span><br><span class="line">UserWait(2000)</span><br><span class="line"># 点击密码文本框（490,867）为坐标</span><br><span class="line">DispatchPointer(10,10,0,490,867,1,1,-1,1,1,0,0)</span><br><span class="line">DispatchPointer(10,10,1,490,867,1,1,-1,1,1,0,0)</span><br><span class="line">UserWait(5000)</span><br><span class="line"># 输入密码</span><br><span class="line">DispatchString(123456)</span><br><span class="line">DispatchFlip(false)</span><br><span class="line">UserWait(2000)</span><br><span class="line"># 点击确定</span><br><span class="line">Tap(541,1096)</span><br></pre></td></tr></table></figure></p><p>保存为monkey_test.txt文件，上传到android设备：<code>adb push monkey_test.txt /mnt/sdcard/</code><br>执行脚本：<code>adb shell monkey -f /mnt/sdcard/monkey_test.txt -v 1</code></p><p>完~</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;adb进阶三 —— Monkey (2)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机基础" scheme="http://tokyle.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="Android" scheme="http://tokyle.com/tags/Android/"/>
+    
+      <category term="adb" scheme="http://tokyle.com/tags/adb/"/>
+    
+  </entry>
   
   <entry>
     <title>adb进阶二 —— Monkey (1)</title>
@@ -448,31 +472,6 @@
       <category term="loadrunner" scheme="http://tokyle.com/tags/loadrunner/"/>
     
       <category term="exchange" scheme="http://tokyle.com/tags/exchange/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux小工具推荐</title>
-    <link href="http://tokyle.com/2018/12/05/Linux%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/"/>
-    <id>http://tokyle.com/2018/12/05/Linux小工具推荐/</id>
-    <published>2018-12-05T05:54:28.000Z</published>
-    <updated>2018-12-05T05:56:07.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Linux实用小工具推荐</p><p>偶然发现几个挺有意思的小工具，推荐下<br><a id="more"></a></p><h3 id="htop"><a href="#htop" class="headerlink" title="htop"></a>htop</h3><p>首先是top的替代品，个人感觉比top好用，界面更好看，支持键盘方向键左右移动，支持一键增减任务优先级（nice%）</p><p>安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install htop</span><br></pre></td></tr></table></figure></p><p>和top一样用，直接<code>htop</code>即可</p><h3 id="mycli"><a href="#mycli" class="headerlink" title="mycli"></a>mycli</h3><p>一个可以在控制台里面进行SQL联想的客户端工具，界面也更好看，比普通在控制台敲SQL爽多了</p><p>效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql root@localhost:accrual_minth&gt; show databases; </span><br><span class="line">                                            databases         </span><br><span class="line">                                            create database   </span><br><span class="line">                                            procedure status</span><br></pre></td></tr></table></figure></p><p>安装：<br>首先是服务器上要有python，如果是python3更好，装了pip最好；python2.7也行，下面演示python2.7安装<br><strong>安装gcc，更新yum</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y update &amp;&amp; yum -y install gcc</span><br></pre></td></tr></table></figure></p><p><strong>安装pip</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line"></span><br><span class="line">python get-pip.py &amp;&amp; yum -y install python-devel</span><br></pre></td></tr></table></figure></p><p><strong>安装mycli</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mycli</span><br></pre></td></tr></table></figure></p><p>可能会有报错：<br><code>Cannot uninstall &#39;configobj&#39;. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall</code></p><p>那就把安装命令替换成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --ignore-installed mycli</span><br></pre></td></tr></table></figure></p><p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mycli -uroot</span><br></pre></td></tr></table></figure></p><h3 id="thefuck"><a href="#thefuck" class="headerlink" title="thefuck"></a>thefuck</h3><p>这个工具，个人觉得是最有意思，简直就是在抒发敲命令的人的心声。想一下，当你敲一个命令，然后提示你<code>xxx command not found</code>是不是很想骂街，然后，国外的某团队就做了个这玩意，当你敲错命令时候，敲个<code>fuck</code>自动帮你纠正命令</p><p>效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yun install aaa</span><br><span class="line">-bash: yun: command not found</span><br><span class="line">[root@localhost ~]# fuck</span><br><span class="line">​​​​​​​​​​yum install aaa [enter/↑/↓/ctrl+c]</span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * base: mirrors.aliyun.com</span><br><span class="line"> * epel: mirrors.tuna.tsinghua.edu.cn</span><br><span class="line"> * extras: mirrors.aliyun.com</span><br><span class="line"> * updates: mirrors.aliyun.com</span><br></pre></td></tr></table></figure></p><p>上述实例，原来敲的是<code>yun install</code>很明显是手残敲错了，然后敲个<code>fuck</code>，自动纠正成了<code>yum install</code>直接回车就可以执行了</p><p>安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install thefuck</span><br></pre></td></tr></table></figure></p><p>配置：<br><strong>编辑bashrc配置文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">vim .bashrc</span><br><span class="line"></span><br><span class="line">#在文件尾加入一行给thefuck重命名为fuck</span><br><span class="line">eval &quot;$(thefuck --alias fuck)&quot;</span><br></pre></td></tr></table></figure></p><p>隐藏文件，可以<code>ls -al</code>看见</p><p><strong>文件生效</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure></p><p>完成~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Linux实用小工具推荐&lt;/p&gt;
-&lt;p&gt;偶然发现几个挺有意思的小工具，推荐下&lt;br&gt;
-    
-    </summary>
-    
-      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
-    
-    
-      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
-    
-      <category term="centos7" scheme="http://tokyle.com/tags/centos7/"/>
     
   </entry>
   
