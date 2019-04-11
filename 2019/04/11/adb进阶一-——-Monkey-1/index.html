@@ -5,19 +5,19 @@
   
 
   
-  <title>adb进阶一 —— Monkey (1) | 它夏了夏天</title>
+  <title>adb进阶二 —— Monkey (1) | 它夏了夏天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="素履以往">
 <meta name="keywords" content="Android,Monkey">
 <meta property="og:type" content="article">
-<meta property="og:title" content="adb进阶一 —— Monkey (1)">
+<meta property="og:title" content="adb进阶二 —— Monkey (1)">
 <meta property="og:url" content="http://tokyle.com/2019/04/11/adb进阶一-——-Monkey-1/index.html">
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="素履以往">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-11T06:13:26.642Z">
+<meta property="og:updated_time" content="2019-04-11T06:23:44.660Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="adb进阶一 —— Monkey (1)">
+<meta name="twitter:title" content="adb进阶二 —— Monkey (1)">
 <meta name="twitter:description" content="素履以往">
   
     <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
@@ -98,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      adb进阶一 —— Monkey (1)
+      adb进阶二 —— Monkey (1)
     </h1>
   
 
@@ -114,7 +114,7 @@
 		
 		</div>
 		
-        <p>adb进阶一 —— Monkey (1)</p>
+        <p>adb进阶二 —— Monkey (1)</p>
 <a id="more"></a>
 <h3 id="Monkey简介"><a href="#Monkey简介" class="headerlink" title="Monkey简介"></a>Monkey简介</h3><p>Monkey是一个可运行在Android环境中的命令行工具，使用monkey尅发送一些伪随机事件（pseudo-random）的用户事件流，例如点击，触摸，手势等。通过monkey，我们可以注入随机事件流或者自定义特定事件来对应用进行健壮性、稳定性测试。</p>
 <h4 id="Monkey用途"><a href="#Monkey用途" class="headerlink" title="Monkey用途"></a>Monkey用途</h4><p>通过使用monkey来对应用进行压力测试。</p>
@@ -221,11 +221,11 @@
 <tbody>
 <tr>
 <td>-p</td>
-<td>如果用此参数指定了一个或几个包，Monkey将只允许系统启动这些包里的Activity。如果你的应用程序还需要访问其它包里的Activity(如选择取一个联系人)，那些包也需要在此同时指定。如果不指定任何包，Monkey将允许系统启动全部包里的Activity。要指定多个包，需要使用多个-p选项，每个-p选项只能用于一个包</td>
+<td>指定包，可一个可多个，多个包需要多个-p</td>
 </tr>
 <tr>
 <td>-c</td>
-<td>如果用此参数指定了一个或几个类别，Monkey将只允许系统启动被这些类别中的某个类别列出的Activity。如果不指定任何类别，Monkey将选择下列类别中列出的Activity：Intent.CATEGORY_LAUNCHER或Intent.CATEGORY_MONKEY。要指定多个类别，需要使用多个-c选项，每个-c选项只能用于一个类别。</td>
+<td>指定类，可一个可多个，多个需多个-c</td>
 </tr>
 </tbody>
 </table>
@@ -298,7 +298,7 @@
 
 	  
 <span>
-Updated:<time datetime="2019-04-11T06:13:26.642Z" itemprop="dateModified">2019-04-11</time>
+Updated:<time datetime="2019-04-11T06:23:44.660Z" itemprop="dateModified">2019-04-11</time>
 </span>
 
 
@@ -401,7 +401,7 @@ Updated:<time datetime="2019-04-11T06:13:26.642Z" itemprop="dateModified">2019-0
       <ul>
         
           <li>
-            <a href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶一 —— Monkey (1)</a>
+            <a href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶二 —— Monkey (1)</a>
           </li>
         
           <li>
