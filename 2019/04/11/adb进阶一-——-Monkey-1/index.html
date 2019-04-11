@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>adb进阶一 —— Monkey (1) | 它夏了夏天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="素履以往">
+<meta name="keywords" content="Android,Monkey">
+<meta property="og:type" content="article">
+<meta property="og:title" content="adb进阶一 —— Monkey (1)">
+<meta property="og:url" content="http://tokyle.com/2019/04/11/adb进阶一-——-Monkey-1/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="素履以往">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-11T06:13:26.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="adb进阶一 —— Monkey (1)">
+<meta name="twitter:description" content="素履以往">
+  
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/Snow.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">它夏了夏天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/Spindriftks" title="Github" target="_blank"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-adb进阶一-——-Monkey-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2019/04/11/adb进阶一-——-Monkey-1/" class="article-date">
+  <time datetime="2019-04-11T06:12:22.000Z" itemprop="datePublished">2019-04-11</time>
+</a>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      adb进阶一 —— Monkey (1)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+		
+		<div id="toc" class="toc-article">
+			<h2 class="toc-title"><span>Contents</span></h2>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey简介"><span class="toc-number">1.</span> <span class="toc-text">Monkey简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey用途"><span class="toc-number">1.1.</span> <span class="toc-text">Monkey用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey程序简介"><span class="toc-number">1.2.</span> <span class="toc-text">Monkey程序简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey命令"><span class="toc-number">2.</span> <span class="toc-text">Monkey命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本命令"><span class="toc-number">2.1.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey-Option"><span class="toc-number">2.2.</span> <span class="toc-text">Monkey Option</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常规类"><span class="toc-number">2.2.1.</span> <span class="toc-text">常规类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#事件类"><span class="toc-number">2.2.2.</span> <span class="toc-text">事件类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#约束类"><span class="toc-number">2.2.3.</span> <span class="toc-text">约束类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#调试类"><span class="toc-number">2.2.4.</span> <span class="toc-text">调试类</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用monkey示例"><span class="toc-number">2.3.</span> <span class="toc-text">常用monkey示例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#补充标准输出知识"><span class="toc-number">2.3.1.</span> <span class="toc-text">补充标准输出知识</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#停止Monkey"><span class="toc-number">2.4.</span> <span class="toc-text">停止Monkey</span></a></li></ol></li></ol>
+		
+		</div>
+		
+        <p>adb进阶一 —— Monkey (1)</p>
+<a id="more"></a>
+<h3 id="Monkey简介"><a href="#Monkey简介" class="headerlink" title="Monkey简介"></a>Monkey简介</h3><p>Monkey是一个可运行在Android环境中的命令行工具，使用monkey尅发送一些伪随机事件（pseudo-random）的用户事件流，例如点击，触摸，手势等。通过monkey，我们可以注入随机事件流或者自定义特定事件来对应用进行健壮性、稳定性测试。</p>
+<h4 id="Monkey用途"><a href="#Monkey用途" class="headerlink" title="Monkey用途"></a>Monkey用途</h4><p>通过使用monkey来对应用进行压力测试。</p>
+<p>Monkey包含一系列选项，主要包括以下方面：</p>
+<ol>
+<li>基础配置项，比如设置注入事件的数量<code>adb shell monkey 500</code></li>
+<li>备选限制，比如限制测试单个包<code>adb shell monkey -p com.android.camera  5000</code></li>
+<li>事件类型和频率</li>
+<li>调试选项</li>
+</ol>
+<h4 id="Monkey程序简介"><a href="#Monkey程序简介" class="headerlink" title="Monkey程序简介"></a>Monkey程序简介</h4><p>monkey在Android文件系统存放路径为：<code>/system/framework/monkey.jar</code><br>启动monkey.jar的shell脚本文件在Android文件系统存放路径为<code>system/bin/monkey</code><br>导到本地:<code>adb pull /system/bin/monkey E:\app_workstation\Android_files\MONKEY</code><br>可以看到monkey的shell内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Script to start &quot;monkey&quot; on the device, which has a very rudimentary</span><br><span class="line"># shell.</span><br><span class="line">#</span><br><span class="line">base=/system</span><br><span class="line">export CLASSPATH=$base/framework/monkey.jar</span><br><span class="line">trap &quot;&quot; HUP</span><br><span class="line">for a in &quot;$@&quot;; do</span><br><span class="line">    echo &quot;  bash arg:&quot; $a</span><br><span class="line">done</span><br><span class="line">exec app_process $base/bin com.android.commands.monkey.Monkey &quot;$@&quot;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到调用的是<code>com.android.commands.monkey.Monkey</code>包</p>
+<h3 id="Monkey命令"><a href="#Monkey命令" class="headerlink" title="Monkey命令"></a>Monkey命令</h3><h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><p>基础语法：<code>adb shell monkey [option] &lt;event-count&gt;</code><br>当不指定任何选项时，monkey将默认静态模式，并且会向目标设备的所有包发送随机事件</p>
+<p>基本使用：<code>adb shell monkey</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; adb shell monkey                                                 </span><br><span class="line">args: []                                                                </span><br><span class="line">usage: monkey [-p ALLOWED_PACKAGE [-p ALLOWED_PACKAGE] ...]             </span><br><span class="line">              [-c MAIN_CATEGORY [-c MAIN_CATEGORY] ...]                 </span><br><span class="line">              [--ignore-crashes] [--ignore-timeouts]                    </span><br><span class="line">              [--ignore-security-exceptions]                            </span><br><span class="line">              [--monitor-native-crashes] [--ignore-native-crashes]      </span><br><span class="line">              [--kill-process-after-error] [--hprof]                    </span><br><span class="line">              [--match-description TEXT]                                </span><br><span class="line">              [--pct-touch PERCENT] [--pct-motion PERCENT]              </span><br><span class="line">              [--pct-trackball PERCENT] [--pct-syskeys PERCENT]         </span><br><span class="line">              [--pct-nav PERCENT] [--pct-majornav PERCENT]              </span><br><span class="line">              [--pct-appswitch PERCENT] [--pct-flip PERCENT]            </span><br><span class="line">              [--pct-anyevent PERCENT] [--pct-pinchzoom PERCENT]        </span><br><span class="line">              [--pct-permission PERCENT]                                </span><br><span class="line">              [--pkg-blacklist-file PACKAGE_BLACKLIST_FILE]             </span><br><span class="line">              [--pkg-whitelist-file PACKAGE_WHITELIST_FILE]             </span><br><span class="line">              [--wait-dbg] [--dbg-no-events]                            </span><br><span class="line">              [--setup scriptfile] [-f scriptfile [-f scriptfile] ...]  </span><br><span class="line">              [--port port]                                             </span><br><span class="line">              [-s SEED] [-v [-v] ...]                                   </span><br><span class="line">              [--throttle MILLISEC] [--randomize-throttle]              </span><br><span class="line">              [--profile-wait MILLISEC]                                 </span><br><span class="line">              [--device-sleep-time MILLISEC]                            </span><br><span class="line">              [--randomize-script]                                      </span><br><span class="line">              [--script-log]                                            </span><br><span class="line">              [--bugreport]                                             </span><br><span class="line">              [--periodic-bugreport]                                    </span><br><span class="line">              [--permission-target-system]                              </span><br><span class="line">              COUNT</span><br></pre></td></tr></table></figure></p>
+<p>可以看见列出了所有monkey的usage，但是并没有启动，因为缺少事件数量，只要加上数量，即可<code>adb shell monkey 10000</code></p>
+<h4 id="Monkey-Option"><a href="#Monkey-Option" class="headerlink" title="Monkey Option"></a>Monkey Option</h4><p>monkey的option可以根据实际需要进行选择，主要分为<strong>常规类</strong>、<strong>事件类</strong>、<strong>约束类</strong>和<strong>调试类</strong></p>
+<h5 id="常规类"><a href="#常规类" class="headerlink" title="常规类"></a>常规类</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>- - help</td>
+<td>显示帮助信息，usage</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>打印日志信息，每增加一个-v，日志显示的信息越详细，目前最多支持三个-v，即：-v -v -v;  L0:一个-v，除启动提示、测试完成和最终结果之外，提供较少信息；  L1：两个-v，-v -v，提供较详细的运行测试信息，如发送到Activity的事件； L2：三个-v，-v -v -v，提供更加详细的信息，如测试中被选中的或未选中的Activity</td>
+</tr>
+</tbody>
+</table>
+<h5 id="事件类"><a href="#事件类" class="headerlink" title="事件类"></a>事件类</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-s</td>
+<td>伪随机数生成器的seed值，如果用相同的seed值再次运行mnkey，会生成相同的事件序列(重复执行刚才的随机操作，复现问题好用)</td>
+</tr>
+<tr>
+<td>- -throttle</td>
+<td>后面接时间，单位毫秒，表示事件之间的固定延时（执行 每一个指令的间隔时间）</td>
+</tr>
+<tr>
+<td>- -pct-touch</td>
+<td>后接触摸事件百分比(触摸事件是一个down-up事件，它发生在屏幕上的某单一位置)，点击</td>
+</tr>
+<tr>
+<td>- -pct-motion</td>
+<td>后接动作事件百分比(动作事件由屏幕上某处的一个down事件、一系列的伪随机事件和一个up事件组成)，滑动</td>
+</tr>
+<tr>
+<td>- -pct-trackball</td>
+<td>后面接轨迹事件的百分比(轨迹事件由一个或几个随机的移动组成，有时还伴随有点击)</td>
+</tr>
+<tr>
+<td>- -pct-syskeys</td>
+<td>后面接“系统”按键事件的百分比(这些按键通常被保留，由系统使用，如Home、Back、StartCall、End Call及音量控制键)。</td>
+</tr>
+<tr>
+<td>- -pct-nav</td>
+<td>后面接“基本”导航事件百分比(导航事件主要来自方向输入设备的上，下，左，右事件)</td>
+</tr>
+<tr>
+<td>- -pct-majornav</td>
+<td>后面接“主要”导航事件的百分比(这些导航事件通常引发图形界面中的动作，如：键盘的中间按键、回退按键、菜单按键)</td>
+</tr>
+<tr>
+<td>- -pct-appswitch</td>
+<td>后面接启动Activity的百分比。在随机间隔里，Monkey将执行一个startActivity()调用，作为最大程度覆盖包中全部Activity的一种方法。</td>
+</tr>
+<tr>
+<td>- -pct-flip</td>
+<td>键盘翻转事件</td>
+</tr>
+<tr>
+<td>- -pct-anyevent</td>
+<td>调整其他时间比例，比如很少使用的keypress等事件</td>
+</tr>
+<tr>
+<td>- -pct-pinchzoom</td>
+<td>缩放事件</td>
+</tr>
+<tr>
+<td>- -pct-permission</td>
+<td>未知</td>
+</tr>
+</tbody>
+</table>
+<h5 id="约束类"><a href="#约束类" class="headerlink" title="约束类"></a>约束类</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-p</td>
+<td>如果用此参数指定了一个或几个包，Monkey将只允许系统启动这些包里的Activity。如果你的应用程序还需要访问其它包里的Activity(如选择取一个联系人)，那些包也需要在此同时指定。如果不指定任何包，Monkey将允许系统启动全部包里的Activity。要指定多个包，需要使用多个-p选项，每个-p选项只能用于一个包</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>如果用此参数指定了一个或几个类别，Monkey将只允许系统启动被这些类别中的某个类别列出的Activity。如果不指定任何类别，Monkey将选择下列类别中列出的Activity：Intent.CATEGORY_LAUNCHER或Intent.CATEGORY_MONKEY。要指定多个类别，需要使用多个-c选项，每个-c选项只能用于一个类别。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="调试类"><a href="#调试类" class="headerlink" title="调试类"></a>调试类</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>- -hprof</td>
+<td>设置此选项，将在Monkey事件序列之前和之后立即生成profiling报告。这将会在data/misc中生成大文件(~5Mb)，所以要小心使用它</td>
+</tr>
+<tr>
+<td>- -ignore-crashes</td>
+<td>当应用程序崩溃或发生任何失控异常时，Monkey将停止运行。如果设置此选项，Monkey将继续向系统发送事件，直到计数完成</td>
+</tr>
+<tr>
+<td>- -ignore-timeouts</td>
+<td>当应用程序发生任何超时错误(如“ApplicationNot Responding”对话框)时，Monkey将停止运行。如果设置此选项，Monkey将继续向系统发送事件，直到计数完成</td>
+</tr>
+<tr>
+<td>- -ignore-security-exceptions</td>
+<td>当应用程序发生任何权限错误（如启动一个需要某些权限的Activity)时，monkey将继续运行直到计数完成</td>
+</tr>
+<tr>
+<td>- -ignore-native-crashes</td>
+<td>当应用程序发生native code的崩溃事件时，monkey将继续运行直至计数完成</td>
+</tr>
+<tr>
+<td>- -kill-process-after-error</td>
+<td>设置此项后，当monkey因为应用程序发生错误而停止时，将会通知系统停止发生错误的进程</td>
+</tr>
+<tr>
+<td>- -monitor-native-crashes</td>
+<td>设置此项后，monkey运行时native code的崩溃事件将被监视并报告</td>
+</tr>
+</tbody>
+</table>
+<h4 id="常用monkey示例"><a href="#常用monkey示例" class="headerlink" title="常用monkey示例"></a>常用monkey示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -p com.android.camera --ignore-crashes --ignore-timeouts --ignore-security-exceptions  --ignore-native-crashes --pct-touch 70 --pct-motion 25 --pct-majornav 5 -v -v -v --throttle 300 100000 &gt; E:\app_workstation\Android_files\MONKEY\1.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>以上命令执行效果：忽略app崩溃，忽略超时，忽略权限异常，忽略应用程序发生崩溃的本地代码，触摸事件百分比70%，手势事件25%，主要导航事件5%；日志等级三级，事件间隔3s，执行100000次事件，输出和错误都打印进D盘1.log文件中</p>
+<h5 id="补充标准输出知识"><a href="#补充标准输出知识" class="headerlink" title="补充标准输出知识"></a>补充标准输出知识</h5><p>linux中，标准输入<code>stdin</code>，标准输出<code>stdout</code>，标准错误<code>stderr</code>，分别使用0,1,2代替，所以就有了以下几种常用的重定向方式：</p>
+<ol>
+<li><code>sh test.sh &gt; 1.log</code>，标准错误输出到屏幕，标准输出打印到1.log文件中，1.log中没有错误内容</li>
+<li><code>sh test.sh &gt; 2.log 2&gt;&amp;1</code>，标准输出和标准错误都打印到2.log文件中</li>
+<li><code>sh test.sh &gt; 3.log 2 &gt;err.log</code>，标准输出打印到3.log文件，标准错误打印到err.log文件</li>
+</ol>
+<p>使用monkey生成日志之后，需要对日志进行筛查，看是否有APP崩溃记录或者无响应记录。</p>
+<ul>
+<li>崩溃记录查找”CRASH”</li>
+<li>无响应记录查找”ANR”（Application No Responding）</li>
+<li>内存泄露问题搜索”GC”（需进一步分析）</li>
+<li>异常问题搜索“Exception”（如果出现空指针，NullPointerException，需格外重视）</li>
+</ul>
+<h4 id="停止Monkey"><a href="#停止Monkey" class="headerlink" title="停止Monkey"></a>停止Monkey</h4><p>既然是linux进程，想停，很简单，找出来，kill掉..<br><code>adb shell ps | grep monkey</code><br><code>adb shell kill -9 PID</code></p>
+<p>完~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+	  
+	  <!-- 百度分享 Start -->
+	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+	  <!-- 百度分享 End -->
+	  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Monkey/">Monkey</a></li></ul>
+
+	  
+<span>
+Updated:<time datetime="2019-04-11T06:13:26.642Z" itemprop="dateModified">2019-04-11</time>
+</span>
+
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/10/adb进阶一-——-logcat/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">adb进阶一 —— logcat</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+  <div id="toc" class="toc-aside">
+  <h2 class="toc-title">Contents</h2>
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey简介"><span class="toc-number">1.</span> <span class="toc-text">Monkey简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey用途"><span class="toc-number">1.1.</span> <span class="toc-text">Monkey用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey程序简介"><span class="toc-number">1.2.</span> <span class="toc-text">Monkey程序简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monkey命令"><span class="toc-number">2.</span> <span class="toc-text">Monkey命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本命令"><span class="toc-number">2.1.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Monkey-Option"><span class="toc-number">2.2.</span> <span class="toc-text">Monkey Option</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常规类"><span class="toc-number">2.2.1.</span> <span class="toc-text">常规类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#事件类"><span class="toc-number">2.2.2.</span> <span class="toc-text">事件类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#约束类"><span class="toc-number">2.2.3.</span> <span class="toc-text">约束类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#调试类"><span class="toc-number">2.2.4.</span> <span class="toc-text">调试类</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用monkey示例"><span class="toc-number">2.3.</span> <span class="toc-text">常用monkey示例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#补充标准输出知识"><span class="toc-number">2.3.1.</span> <span class="toc-text">补充标准输出知识</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#停止Monkey"><span class="toc-number">2.4.</span> <span class="toc-text">停止Monkey</span></a></li></ol></li></ol>
+    
+  </div>
+
+<aside id="sidebar">
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">ABOUT ME</h3>
+  <ul class="widget about-me">
+    
+    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
+    
+    
+    <li>Whatever happened, just tests the world.</li>
+    
+    <li>En...Debug the world!(~O(∩_∩)O)</li>
+    
+    <li>By. Kyle(时欢)</li>
+    
+  </ul>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Android/" style="font-size: 14.17px; color: #6dc1b9">Android</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/CPU/" style="font-size: 13px; color: #7dc3de">CPU</a> <a href="/tags/Centos7/" style="font-size: 19.42px; color: #25b513">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.58px; color: #75c2cc">Django</a> <a href="/tags/Hexo/" style="font-size: 13.58px; color: #75c2cc">Hexo</a> <a href="/tags/IO/" style="font-size: 13px; color: #7dc3de">IO</a> <a href="/tags/JVM/" style="font-size: 13px; color: #7dc3de">JVM</a> <a href="/tags/Jmeter/" style="font-size: 15.33px; color: #5dbe94">Jmeter</a> <a href="/tags/Linux/" style="font-size: 14.75px; color: #65bfa7">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Monkey/" style="font-size: 13px; color: #7dc3de">Monkey</a> <a href="/tags/Nginx/" style="font-size: 13.58px; color: #75c2cc">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/SqlServer/" style="font-size: 13px; color: #7dc3de">SqlServer</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/adb/" style="font-size: 13.58px; color: #75c2cc">adb</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 14.75px; color: #65bfa7">appium</a> <a href="/tags/buff-cache/" style="font-size: 13px; color: #7dc3de">buff/cache</a> <a href="/tags/centos7/" style="font-size: 13.58px; color: #75c2cc">centos7</a> <a href="/tags/cmder/" style="font-size: 13.58px; color: #75c2cc">cmder</a> <a href="/tags/ddt/" style="font-size: 14.75px; color: #65bfa7">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.17px; color: #6dc1b9">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/exchange/" style="font-size: 13px; color: #7dc3de">exchange</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/git/" style="font-size: 13px; color: #7dc3de">git</a> <a href="/tags/grafana/" style="font-size: 13.58px; color: #75c2cc">grafana</a> <a href="/tags/influxdb/" style="font-size: 13.58px; color: #75c2cc">influxdb</a> <a href="/tags/iostat/" style="font-size: 13px; color: #7dc3de">iostat</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/jmeter/" style="font-size: 13.58px; color: #75c2cc">jmeter</a> <a href="/tags/journalctl/" style="font-size: 13px; color: #7dc3de">journalctl</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 14.75px; color: #65bfa7">linux</a> <a href="/tags/lives/" style="font-size: 15.92px; color: #55bd82">lives</a> <a href="/tags/loadrunner/" style="font-size: 15.33px; color: #5dbe94">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.17px; color: #6dc1b9">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 17.08px; color: #45ba5d">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 15.92px; color: #55bd82">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pip3/" style="font-size: 13px; color: #7dc3de">pip3</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 18.83px; color: #2db725">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.58px; color: #75c2cc">smtplib</a> <a href="/tags/systemd/" style="font-size: 13px; color: #7dc3de">systemd</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.58px; color: #75c2cc">windows</a> <a href="/tags/yum/" style="font-size: 13.58px; color: #75c2cc">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 16.5px; color: #4dbc6f">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 14.75px; color: #65bfa7">单元测试</a> <a href="/tags/性能/" style="font-size: 14.75px; color: #65bfa7">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.25px; color: #35b838">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">Calendar</h3>
+  <div class="widget" id="calendar">
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶一 —— Monkey (1)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/10/adb进阶一-——-logcat/">adb进阶一 —— logcat</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/10/Android调试工具adb简介/">Android调试工具adb简介</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/09/记cmder-git一个报错解决/">记cmder/git一个报错解决</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/08/网站性能杂货/">网站性能杂货</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+<div class="widget-wrap">
+  <h3 class="widget-title">Links</h3>
+  <ul class="widget">
+    
+    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
+    
+    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
+    
+    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
+    
+  </ul>
+</div>
+
+
+  
+
+</aside>
+
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Kyle<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <br>
+      <span id="busuanzi_container_site_pv">
+        Total <span id="busuanzi_value_site_pv"></span> views.
+      </span>
+    
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+       
+    <script type="text/javascript">
+    var disqus_shortname = 'tokyle';
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+    </script>
+
+
+
+
+<!-- 百度分享 start -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- 百度分享 end -->
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<div class="bottom-btn">
+
+	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
+	<script src="/js/gotop.js"></script>
+
+
+	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
+	<script src="/js/toc_aside_toggle.js"></script>
+
+</div>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  <script src="/js/languages.js"></script>
+  <script src="/js/calendar.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    
+    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+    
+  });
+  </script>
+
+
+  </div>
+</body>
+</html>
