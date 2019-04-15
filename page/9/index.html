@@ -278,6 +278,15 @@
       <time datetime="2018-06-07T07:10:26.000Z" itemprop="datePublished">2018-06-07</time>
 </a>
 
+ 
+    <a href="/2018/06/07/使用fiddler抓iphone包/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/06/07/使用fiddler抓iphone包/"></span>
+        
+    </a>
 
     </div>
   
@@ -348,6 +357,15 @@
       <time datetime="2018-06-01T13:55:58.000Z" itemprop="datePublished">2018-06-01</time>
 </a>
 
+ 
+    <a href="/2018/06/01/python3-6安装basemap/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/06/01/python3-6安装basemap/"></span>
+        
+    </a>
 
     </div>
   
@@ -418,6 +436,15 @@
       <time datetime="2018-05-22T09:57:09.000Z" itemprop="datePublished">2018-05-22</time>
 </a>
 
+ 
+    <a href="/2018/05/22/【转】loadrunner请求三种格式API/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/05/22/【转】loadrunner请求三种格式API/"></span>
+        
+    </a>
 
     </div>
   
@@ -488,6 +515,15 @@
       <time datetime="2018-05-16T10:40:11.000Z" itemprop="datePublished">2018-05-16</time>
 </a>
 
+ 
+    <a href="/2018/05/16/【转】windows性能监控指标/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/05/16/【转】windows性能监控指标/"></span>
+        
+    </a>
 
     </div>
   
@@ -558,6 +594,15 @@
       <time datetime="2018-05-11T13:31:11.000Z" itemprop="datePublished">2018-05-11</time>
 </a>
 
+ 
+    <a href="/2018/05/11/centos7搭建zabbix/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/05/11/centos7搭建zabbix/"></span>
+        
+    </a>
 
     </div>
   
@@ -628,6 +673,15 @@
       <time datetime="2018-05-10T13:20:07.000Z" itemprop="datePublished">2018-05-10</time>
 </a>
 
+ 
+    <a href="/2018/05/10/centos部署-net-core/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/05/10/centos部署-net-core/"></span>
+        
+    </a>
 
     </div>
   
@@ -698,6 +752,15 @@
       <time datetime="2018-05-08T11:54:34.000Z" itemprop="datePublished">2018-05-08</time>
 </a>
 
+ 
+    <a href="/2018/05/08/使用webpagetest测试不同国家登录响应/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/05/08/使用webpagetest测试不同国家登录响应/"></span>
+        
+    </a>
 
     </div>
   
@@ -812,13 +875,33 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 1;
+                var backgroundnum = 4;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
         })
     </script>
 
+
+    
+
+    
+        <script id="dsq-count-scr" src="//tokyle.disqus.com/count.js" async></script>
+        <script>
+            if ($(".left-col").is(":visible")) {
+                var $disqusCount = $(".disqus-comment-count");
+                $disqusCount.bind("DOMNodeInserted", function(e) {
+                    var num = $(this).text().replace(/[^0-9]/ig,"");
+                    if (num > 0) {
+                        $(this).siblings(".count-comment").text(num);
+                    }
+                    $(this).remove();
+                })
+            } else {
+                $(".disqus-comment-count").remove();
+            }
+        </script>
+     
 
 
 
@@ -836,8 +919,8 @@
             
             
             
-            
-            
+             categories: ".article-category a, a.tag-list-link", 
+             articleNav: "#article-nav a, #post-nav-button a", 
              archives: ".archive-article-title", 
              miniArchives: "a.post-list-link", 
             
@@ -850,8 +933,31 @@
     
 </script>
 
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "~^(*￣(oo)￣)^ zzz" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) OP进行时" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+
+<script type="text/javascript" src="/resources/float.js"></script>
+<script type="text/javascript" src="/resources/love.js"></script>
+<script type="text/javascript" color=0,104,183 opacity=1 zindex=-1 count=50 src="/resources/particle.js"></script>
+<script type="text/javascript" src="/resources/typewriter.js"></script>
+
   </div>
 </body>
 </html>

@@ -278,6 +278,15 @@
       <time datetime="2019-04-08T05:34:15.000Z" itemprop="datePublished">2019-04-08</time>
 </a>
 
+ 
+    <a href="/2019/04/08/伪·influxdb删除数据/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/04/08/伪·influxdb删除数据/"></span>
+        
+    </a>
 
     </div>
   
@@ -348,6 +357,15 @@
       <time datetime="2019-02-28T02:00:04.000Z" itemprop="datePublished">2019-02-27</time>
 </a>
 
+ 
+    <a href="/2019/02/27/Linux垃圾清理/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/02/27/Linux垃圾清理/"></span>
+        
+    </a>
 
     </div>
   
@@ -418,6 +436,15 @@
       <time datetime="2019-01-30T01:58:33.000Z" itemprop="datePublished">2019-01-29</time>
 </a>
 
+ 
+    <a href="/2019/01/29/Centos7安装pip3/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/01/29/Centos7安装pip3/"></span>
+        
+    </a>
 
     </div>
   
@@ -488,6 +515,15 @@
       <time datetime="2019-01-25T00:53:07.000Z" itemprop="datePublished">2019-01-24</time>
 </a>
 
+ 
+    <a href="/2019/01/24/2019年关将至有感/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/01/24/2019年关将至有感/"></span>
+        
+    </a>
 
     </div>
   
@@ -554,6 +590,15 @@
       <time datetime="2019-01-18T06:50:55.000Z" itemprop="datePublished">2019-01-18</time>
 </a>
 
+ 
+    <a href="/2019/01/18/jmeter吞吐量几个插件介绍/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/01/18/jmeter吞吐量几个插件介绍/"></span>
+        
+    </a>
 
     </div>
   
@@ -620,6 +665,15 @@
       <time datetime="2019-01-17T04:15:43.000Z" itemprop="datePublished">2019-01-16</time>
 </a>
 
+ 
+    <a href="/2019/01/16/Jmeter压测关联接口/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/01/16/Jmeter压测关联接口/"></span>
+        
+    </a>
 
     </div>
   
@@ -690,6 +744,15 @@
       <time datetime="2019-01-14T01:49:19.000Z" itemprop="datePublished">2019-01-13</time>
 </a>
 
+ 
+    <a href="/2019/01/13/SqlServer清理事务日志/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2019/01/13/SqlServer清理事务日志/"></span>
+        
+    </a>
 
     </div>
   
@@ -804,13 +867,33 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 1;
+                var backgroundnum = 4;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
         })
     </script>
 
+
+    
+
+    
+        <script id="dsq-count-scr" src="//tokyle.disqus.com/count.js" async></script>
+        <script>
+            if ($(".left-col").is(":visible")) {
+                var $disqusCount = $(".disqus-comment-count");
+                $disqusCount.bind("DOMNodeInserted", function(e) {
+                    var num = $(this).text().replace(/[^0-9]/ig,"");
+                    if (num > 0) {
+                        $(this).siblings(".count-comment").text(num);
+                    }
+                    $(this).remove();
+                })
+            } else {
+                $(".disqus-comment-count").remove();
+            }
+        </script>
+     
 
 
 
@@ -828,8 +911,8 @@
             
             
             
-            
-            
+             categories: ".article-category a, a.tag-list-link", 
+             articleNav: "#article-nav a, #post-nav-button a", 
              archives: ".archive-article-title", 
              miniArchives: "a.post-list-link", 
             
@@ -842,8 +925,31 @@
     
 </script>
 
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "~^(*￣(oo)￣)^ zzz" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) OP进行时" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+
+<script type="text/javascript" src="/resources/float.js"></script>
+<script type="text/javascript" src="/resources/love.js"></script>
+<script type="text/javascript" color=0,104,183 opacity=1 zindex=-1 count=50 src="/resources/particle.js"></script>
+<script type="text/javascript" src="/resources/typewriter.js"></script>
+
   </div>
 </body>
 </html>

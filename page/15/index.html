@@ -278,6 +278,15 @@
       <time datetime="2018-01-18T06:46:51.000Z" itemprop="datePublished">2018-01-18</time>
 </a>
 
+ 
+    <a href="/2018/01/18/cmder简介/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/18/cmder简介/"></span>
+        
+    </a>
 
     </div>
   
@@ -349,6 +358,15 @@
       <time datetime="2018-01-17T14:26:13.000Z" itemprop="datePublished">2018-01-17</time>
 </a>
 
+ 
+    <a href="/2018/01/17/appium键盘事件/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/17/appium键盘事件/"></span>
+        
+    </a>
 
     </div>
   
@@ -419,6 +437,15 @@
       <time datetime="2018-01-17T14:18:04.000Z" itemprop="datePublished">2018-01-17</time>
 </a>
 
+ 
+    <a href="/2018/01/17/appium定位/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/17/appium定位/"></span>
+        
+    </a>
 
     </div>
   
@@ -489,6 +516,15 @@
       <time datetime="2018-01-17T07:54:00.000Z" itemprop="datePublished">2018-01-17</time>
 </a>
 
+ 
+    <a href="/2018/01/17/app安装卸载/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/17/app安装卸载/"></span>
+        
+    </a>
 
     </div>
   
@@ -559,6 +595,15 @@
       <time datetime="2018-01-16T13:37:10.000Z" itemprop="datePublished">2018-01-16</time>
 </a>
 
+ 
+    <a href="/2018/01/16/appium入门篇/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/16/appium入门篇/"></span>
+        
+    </a>
 
     </div>
   
@@ -630,6 +675,15 @@
       <time datetime="2018-01-12T14:53:14.000Z" itemprop="datePublished">2018-01-12</time>
 </a>
 
+ 
+    <a href="/2018/01/12/smtp发邮件/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/12/smtp发邮件/"></span>
+        
+    </a>
 
     </div>
   
@@ -700,6 +754,15 @@
       <time datetime="2018-01-10T14:52:01.000Z" itemprop="datePublished">2018-01-10</time>
 </a>
 
+ 
+    <a href="/2018/01/10/selenium无干预下载/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/01/10/selenium无干预下载/"></span>
+        
+    </a>
 
     </div>
   
@@ -814,13 +877,33 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 1;
+                var backgroundnum = 4;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
         })
     </script>
 
+
+    
+
+    
+        <script id="dsq-count-scr" src="//tokyle.disqus.com/count.js" async></script>
+        <script>
+            if ($(".left-col").is(":visible")) {
+                var $disqusCount = $(".disqus-comment-count");
+                $disqusCount.bind("DOMNodeInserted", function(e) {
+                    var num = $(this).text().replace(/[^0-9]/ig,"");
+                    if (num > 0) {
+                        $(this).siblings(".count-comment").text(num);
+                    }
+                    $(this).remove();
+                })
+            } else {
+                $(".disqus-comment-count").remove();
+            }
+        </script>
+     
 
 
 
@@ -838,8 +921,8 @@
             
             
             
-            
-            
+             categories: ".article-category a, a.tag-list-link", 
+             articleNav: "#article-nav a, #post-nav-button a", 
              archives: ".archive-article-title", 
              miniArchives: "a.post-list-link", 
             
@@ -852,8 +935,31 @@
     
 </script>
 
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "~^(*￣(oo)￣)^ zzz" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) OP进行时" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+
+<script type="text/javascript" src="/resources/float.js"></script>
+<script type="text/javascript" src="/resources/love.js"></script>
+<script type="text/javascript" color=0,104,183 opacity=1 zindex=-1 count=50 src="/resources/particle.js"></script>
+<script type="text/javascript" src="/resources/typewriter.js"></script>
+
   </div>
 </body>
 </html>

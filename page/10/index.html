@@ -278,6 +278,15 @@
       <time datetime="2018-04-22T14:27:49.000Z" itemprop="datePublished">2018-04-22</time>
 </a>
 
+ 
+    <a href="/2018/04/22/Centos7搭建Nitrate/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/22/Centos7搭建Nitrate/"></span>
+        
+    </a>
 
     </div>
   
@@ -348,6 +357,15 @@
       <time datetime="2018-04-20T07:35:53.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
 
+ 
+    <a href="/2018/04/20/Centos下升级python2-7到3-6/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/20/Centos下升级python2-7到3-6/"></span>
+        
+    </a>
 
     </div>
   
@@ -418,6 +436,15 @@
       <time datetime="2018-04-19T12:53:10.000Z" itemprop="datePublished">2018-04-19</time>
 </a>
 
+ 
+    <a href="/2018/04/19/切换163yum源/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/19/切换163yum源/"></span>
+        
+    </a>
 
     </div>
   
@@ -488,6 +515,15 @@
       <time datetime="2018-04-18T12:55:17.000Z" itemprop="datePublished">2018-04-18</time>
 </a>
 
+ 
+    <a href="/2018/04/18/MySQL之SQL优化系列（三）/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/18/MySQL之SQL优化系列（三）/"></span>
+        
+    </a>
 
     </div>
   
@@ -558,6 +594,15 @@
       <time datetime="2018-04-18T05:39:54.000Z" itemprop="datePublished">2018-04-18</time>
 </a>
 
+ 
+    <a href="/2018/04/18/loadruner日常总结/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/18/loadruner日常总结/"></span>
+        
+    </a>
 
     </div>
   
@@ -628,6 +673,15 @@
       <time datetime="2018-04-04T11:57:21.000Z" itemprop="datePublished">2018-04-04</time>
 </a>
 
+ 
+    <a href="/2018/04/04/CentOs7强制修改MySQL中root密码/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/04/CentOs7强制修改MySQL中root密码/"></span>
+        
+    </a>
 
     </div>
   
@@ -698,6 +752,15 @@
       <time datetime="2018-04-04T06:56:06.000Z" itemprop="datePublished">2018-04-04</time>
 </a>
 
+ 
+    <a href="/2018/04/04/yum安装软件失败/#comments" title="查看评论">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2018/04/04/yum安装软件失败/"></span>
+        
+    </a>
 
     </div>
   
@@ -812,13 +875,33 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 1;
+                var backgroundnum = 4;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
         })
     </script>
 
+
+    
+
+    
+        <script id="dsq-count-scr" src="//tokyle.disqus.com/count.js" async></script>
+        <script>
+            if ($(".left-col").is(":visible")) {
+                var $disqusCount = $(".disqus-comment-count");
+                $disqusCount.bind("DOMNodeInserted", function(e) {
+                    var num = $(this).text().replace(/[^0-9]/ig,"");
+                    if (num > 0) {
+                        $(this).siblings(".count-comment").text(num);
+                    }
+                    $(this).remove();
+                })
+            } else {
+                $(".disqus-comment-count").remove();
+            }
+        </script>
+     
 
 
 
@@ -836,8 +919,8 @@
             
             
             
-            
-            
+             categories: ".article-category a, a.tag-list-link", 
+             articleNav: "#article-nav a, #post-nav-button a", 
              archives: ".archive-article-title", 
              miniArchives: "a.post-list-link", 
             
@@ -850,8 +933,31 @@
     
 </script>
 
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "~^(*￣(oo)￣)^ zzz" + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) OP进行时" + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+
+<script type="text/javascript" src="/resources/float.js"></script>
+<script type="text/javascript" src="/resources/love.js"></script>
+<script type="text/javascript" color=0,104,183 opacity=1 zindex=-1 count=50 src="/resources/particle.js"></script>
+<script type="text/javascript" src="/resources/typewriter.js"></script>
+
   </div>
 </body>
 </html>
