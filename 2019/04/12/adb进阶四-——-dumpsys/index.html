@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Kyle" />
+
+
+
+<meta name="description" content="adb进阶四 —— dumpsys">
+<meta name="keywords" content="Android,adb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="adb进阶四 —— dumpsys">
+<meta property="og:url" content="http://tokyle.com/2019/04/12/adb进阶四-——-dumpsys/index.html">
+<meta property="og:site_name" content="它夏了夏天">
+<meta property="og:description" content="adb进阶四 —— dumpsys">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-12T09:22:15.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="adb进阶四 —— dumpsys">
+<meta name="twitter:description" content="adb进阶四 —— dumpsys">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/Snow.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>adb进阶四 —— dumpsys | 它夏了夏天</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: 
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/cats.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Kyle</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:&#115;&#104;&#105;&#104;&#117;&#97;&#110;&#50;&#52;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/Spindriftks" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/net-core/">.net core</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ant/">Ant</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chronograf/">Chronograf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux运维/">Linux运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Locust/">Locust</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Monkey/">Monkey</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nitrate/">Nitrate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/One-Piece/">One Piece</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SiteScope/">SiteScope</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SonarQube/">SonarQube</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SqlServer/">SqlServer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vultr/">Vultr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adb/">adb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/buff-cache/">buff/cache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-head/">elasticsearch head</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exchange/">exchange</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/explain/">explain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiddler/">fiddler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grafana/">grafana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/influxdb/">influxdb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iostat/">iostat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iphone/">iphone</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter/">jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/journalctl/">journalctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loadrunner/">loadrunner</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/">logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory/">memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netstat/">netstat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip3/">pip3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/profiler/">profiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pymysql/">pymysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/response-time/">response time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpagetest/">webpagetest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yum/">yum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix3-4/">zabbix3.4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://stackoverflow.com/">StackOverflow</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pixabay.com/">pixabay</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://testerhome.com/topics/popular">testerhome</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">非典型tester</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Kyle</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/cats.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Kyle</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:&#115;&#104;&#105;&#104;&#117;&#97;&#110;&#50;&#52;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Spindriftks" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-adb进阶四-——-dumpsys" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/12/adb进阶四-——-dumpsys/" class="article-date">
+      <time datetime="2019-04-12T09:21:17.000Z" itemprop="datePublished">2019-04-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      adb进阶四 —— dumpsys
+    </h1>
+  
+
+	
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/">adb</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>adb进阶四 —— dumpsys</p>
+<a id="more"></a>
+<h3 id="dumpsys简介"><a href="#dumpsys简介" class="headerlink" title="dumpsys简介"></a>dumpsys简介</h3><p>Dumpsys用于系统诊断，并提供系统服务状态信息,命令格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys [system serbices]</span><br></pre></td></tr></table></figure></p>
+<h4 id="系统服务查询"><a href="#系统服务查询" class="headerlink" title="系统服务查询"></a>系统服务查询</h4><p>直接运行<code>adb shell dumpsys</code>会输出很多很多信息，可以指定需要检查的服务</p>
+<p>查看系统服务、：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell service list</span><br><span class="line">或者</span><br><span class="line">adb shell dumpsys -l</span><br></pre></td></tr></table></figure></p>
+<p>可以看见<code>cpuinfo</code>，<code>meminfo</code>等服务，因此指定检查的服务示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; adb shell dumpsys cpuinfo</span><br><span class="line">Load: 6.04 / 6.17 / 6.21</span><br><span class="line">CPU usage from 364288ms to 62061ms ago (2019-04-12 16:20:56.605 to 2019-04-12 16:25:58.831):</span><br><span class="line">  99% 28771/com.tencent.tmgp.supercell.clashofclans: 99% user + 0% kernel / faults: 128 minor</span><br><span class="line">  2.4% 1641/system_server: 1.4% user + 0.9% kernel / faults: 5586 minor 1 major</span><br><span class="line">  1.3% 582/android.hardware.sensors@1.0-service: 0.5% user + 0.7% kernel</span><br><span class="line">  0.9% 441/ueventd: 0.6% user + 0.3% kernel</span><br><span class="line">  0.6% 4950/kworker/u16:2: 0% user + 0.6% kernel</span><br><span class="line">  0.5% 5727/kworker/u16:0: 0% user + 0.5% kernel</span><br><span class="line">  0.5% 5679/kworker/u16:5: 0% user + 0.5% kernel</span><br><span class="line">  </span><br><span class="line">... ...</span><br></pre></td></tr></table></figure></p>
+<p>命令行参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-h：对于大多数的服务，可以添加-h看到文本的帮助</span><br><span class="line">-c：对于一些服务，可以添加-c查看数据会更友好</span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; adb shell dumpsys usb -h</span><br><span class="line">Dump current USB state or issue command:</span><br><span class="line">  ports</span><br><span class="line">  set-port-roles &lt;id&gt; &lt;source|sink|no-power&gt; &lt;host|device|no-data&gt;</span><br><span class="line">  add-port &lt;id&gt; &lt;ufp|dfp|dual|none&gt;</span><br><span class="line">  connect-port &lt;id&gt; &lt;ufp|dfp&gt;&lt;?&gt; &lt;source|sink&gt;&lt;?&gt; &lt;host|device&gt;&lt;?&gt;</span><br><span class="line">    (add ? suffix if mode, power role, or data role can be changed)</span><br><span class="line">  disconnect-port &lt;id&gt;</span><br><span class="line">  remove-port &lt;id&gt;</span><br><span class="line">  reset</span><br></pre></td></tr></table></figure></p>
+<h3 id="包服务查询"><a href="#包服务查询" class="headerlink" title="包服务查询"></a>包服务查询</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys package [-h] [-f] [—checkin] [cmd]…</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-h</td>
+<td>打印帮助信息</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>打印intent filter的信息</td>
+</tr>
+<tr>
+<td>–checkin</td>
+<td>打印出已经登记的库、系统功能、安装包</td>
+</tr>
+<tr>
+<td>cmd</td>
+<td>子命令（可以在-h帮助文档中查看有哪些子命令）</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>cmd子命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prov[iders]</td>
+<td>获取content providers</td>
+</tr>
+<tr>
+<td>p[ackages]</td>
+<td>获取安装包基本信息</td>
+</tr>
+<tr>
+<td>s[hared-user]</td>
+<td>获取共享用户ID的应用</td>
+</tr>
+<tr>
+<td>m[essages]</td>
+<td>打印运行时收集的信息</td>
+</tr>
+<tr>
+<td>v[erifiers]</td>
+<td>打印包校验信息</td>
+</tr>
+<tr>
+<td>version</td>
+<td>打印数据库版本信息</td>
+</tr>
+<tr>
+<td>write</td>
+<td>写当前位置</td>
+</tr>
+<tr>
+<td>package.name</td>
+<td>输出给定包的信息</td>
+</tr>
+<tr>
+<td>installs</td>
+<td>安装会话的详细信息</td>
+</tr>
+<tr>
+<td>l[ibraries]</td>
+<td>列出已知的共享库</td>
+</tr>
+<tr>
+<td>f[ibraries]</td>
+<td>列出手机的功能</td>
+</tr>
+<tr>
+<td>k[eysets]</td>
+<td>列出各个包的Signing KeySets</td>
+</tr>
+<tr>
+<td>r[esolvers]</td>
+<td>获取intent filter</td>
+</tr>
+<tr>
+<td>perm[issions]</td>
+<td>获取权限</td>
+</tr>
+<tr>
+<td>pref[erred]</td>
+<td>打印包首选项</td>
+</tr>
+<tr>
+<td>preferred-xml [—full]</td>
+<td>打印包首选项，xml格式打印</td>
+</tr>
+</tbody>
+</table>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; adb shell dumpsys package com.kuaikan.comic </span><br><span class="line">Activity Resolver Table: </span><br><span class="line">  Schemes: </span><br><span class="line">      qwallet1104081998:  </span><br><span class="line">        2d32642 com.kuaikan.comic/com.kuaikan.pay.kkb.activity.RechargeCenterActivity filter ba2036f</span><br><span class="line">          Action: &quot;android.intent.action.VIEW&quot;</span><br><span class="line">          Category: &quot;android.intent.category.BROWSABLE&quot; </span><br><span class="line">          Category: &quot;android.intent.category.DEFAULT&quot; </span><br><span class="line">          Scheme: &quot;qwallet1104081998&quot; </span><br><span class="line">      commonqwallet20181030: </span><br><span class="line">        7efe8c0 com.kuaikan.comic/com.kuaikan.pay.cashPay.TranslucentPayActivity filter b5a1d49</span><br><span class="line">          Action: &quot;android.intent.action.VIEW&quot;   </span><br><span class="line">          Category: &quot;android.intent.category.BROWSABLE&quot;  </span><br><span class="line">          Category: &quot;android.intent.category.DEFAULT&quot; </span><br><span class="line">          Scheme: &quot;commonqwallet20181030&quot;   </span><br><span class="line">          Scheme: &quot;commonalipay20181030&quot;   </span><br><span class="line">          Scheme: &quot;commonwx20181030&quot;</span><br><span class="line">          Scheme: &quot;commonpay20181105&quot;</span><br><span class="line">      comicwx201804028:</span><br></pre></td></tr></table></figure></p>
+<h3 id="activity信息查询"><a href="#activity信息查询" class="headerlink" title="activity信息查询"></a>activity信息查询</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity [-a] [-c]…</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td>包括所有可用的服务器状态</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>包括客户端状态</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>限制输出为给定的包，例如： adb shell dumpsys activity -p com.android.browser</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>打印帮助信息</td>
+</tr>
+<tr>
+<td>cmd</td>
+<td>子命令</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>cmd子命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a[ctivities]</td>
+<td>activity堆栈状态</td>
+</tr>
+<tr>
+<td>r[recents]</td>
+<td>最近activity的状态</td>
+</tr>
+<tr>
+<td>b[rodacasts] [package_name] [histpry [-s]]</td>
+<td>广播状态</td>
+</tr>
+<tr>
+<td>i[ntents] [package_name]</td>
+<td>挂起的intent状态</td>
+</tr>
+<tr>
+<td>p[rocesses] [package_name]</td>
+<td>进程状态</td>
+</tr>
+<tr>
+<td>o[om]</td>
+<td>oom管理</td>
+</tr>
+<tr>
+<td>perm[issions]</td>
+<td>url权限授权状态</td>
+</tr>
+<tr>
+<td>prov[iders] [comp_spec…]</td>
+<td>content provider状态</td>
+</tr>
+<tr>
+<td>provider [comp_spec]</td>
+<td>provider客户端状态</td>
+</tr>
+<tr>
+<td>s[ervices] [comp_spec…]</td>
+<td>服务状态</td>
+</tr>
+<tr>
+<td>as[sociations]</td>
+<td>跟踪应用程序的关联</td>
+</tr>
+<tr>
+<td>service [comp_spec]</td>
+<td>服务客户端状态</td>
+</tr>
+<tr>
+<td>package [package_name]</td>
+<td>给的包的所有状态</td>
+</tr>
+<tr>
+<td>all</td>
+<td>转储所有的activityes</td>
+</tr>
+<tr>
+<td>top</td>
+<td>转储栈顶的activity</td>
+</tr>
+<tr>
+<td>write</td>
+<td>写入所有挂起状态存储</td>
+</tr>
+<tr>
+<td>track-associations</td>
+<td>允许会话跟踪</td>
+</tr>
+<tr>
+<td>untrack-associations</td>
+<td>禁用和明确会话跟踪，命令参数可能也是一个comp_spec 转储的activity</td>
+</tr>
+</tbody>
+</table>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 获取当前页面UI信息</span><br><span class="line">adb shell dumpsys activity top</span><br><span class="line"></span><br><span class="line"># 获取当前页面的Activity</span><br><span class="line">adb shell dumpsys activity top | findstr ACTIVITY</span><br></pre></td></tr></table></figure></p>
+<h3 id="网络信息查询"><a href="#网络信息查询" class="headerlink" title="网络信息查询"></a>网络信息查询</h3><table>
+<thead>
+<tr>
+<th>子命令</th>
+<th>说明</th>
+<th>命令格式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>connectivity</td>
+<td>网络连接</td>
+<td>adb shell dumpsys connectivity</td>
+</tr>
+<tr>
+<td>netpolicy</td>
+<td>网络策略</td>
+<td>adb shell dumpsys netpolicy</td>
+</tr>
+<tr>
+<td>netstats</td>
+<td>网络状态</td>
+<td>adb shell dumpsys netstats</td>
+</tr>
+<tr>
+<td>network_management</td>
+<td>网络管理</td>
+<td>adb shell dumpsys network_management</td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他常用服务信息查询"><a href="#其他常用服务信息查询" class="headerlink" title="其他常用服务信息查询"></a>其他常用服务信息查询</h3><table>
+<thead>
+<tr>
+<th>子命令</th>
+<th>说明</th>
+<th>命令格式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>meminfo</td>
+<td>内存</td>
+<td>adb shell dumpsys meminfo</td>
+</tr>
+<tr>
+<td>cpuinfo</td>
+<td>CPU</td>
+<td>adb shell dumpsys cpuinfo</td>
+</tr>
+<tr>
+<td>gfxinfo</td>
+<td>帧率</td>
+<td>adb shell dumpsys gfxinfo</td>
+</tr>
+<tr>
+<td>display</td>
+<td>显示</td>
+<td>adb shell dumpsys display</td>
+</tr>
+<tr>
+<td>power</td>
+<td>电源</td>
+<td>adb shell dumpsys power</td>
+</tr>
+<tr>
+<td>batterystats</td>
+<td>电池状态</td>
+<td>adb shell dumpsys batterystats</td>
+</tr>
+<tr>
+<td>battery</td>
+<td>电池</td>
+<td>adb shell dumpsys battery</td>
+</tr>
+<tr>
+<td>alarm</td>
+<td>闹钟</td>
+<td>adb shell dumpsys alarm</td>
+</tr>
+<tr>
+<td>location</td>
+<td>位置</td>
+<td>adb shell dumpsys location</td>
+</tr>
+<tr>
+<td>wifi</td>
+<td>wifi</td>
+<td>adb shell dumpsys wifi</td>
+</tr>
+<tr>
+<td>power</td>
+<td>电源</td>
+<td>adb shell dumpsys power</td>
+</tr>
+<tr>
+<td>notification</td>
+<td>通知</td>
+<td>adb shell dumpsys notification</td>
+</tr>
+</tbody>
+</table>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 电池信息</span><br><span class="line">&#123;lamb&#125; adb shell dumpsys battery</span><br><span class="line">Current Battery Service state:</span><br><span class="line">  AC powered: false</span><br><span class="line">  USB powered: true</span><br><span class="line">  Wireless powered: false</span><br><span class="line">  Max charging current: 500000</span><br><span class="line">  Max charging voltage: 5000000</span><br><span class="line">  Charge counter: 3321815</span><br><span class="line">  status: 5 #电池状态</span><br><span class="line">  health: 2 </span><br><span class="line">  present: true</span><br><span class="line">  level: 100 #电量</span><br><span class="line">  scale: 100</span><br><span class="line">  voltage: 4369</span><br><span class="line">  temperature: 310  #电池温度</span><br><span class="line">  technology: Li-poly</span><br></pre></td></tr></table></figure></p>
+<p>完~</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/04/12/adb进阶四-——-dumpsys/">adb进阶四 —— dumpsys</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
+        <p><span>发布时间:</span>2019-04-12, 05:21:17</p>
+        <p><span>最后更新:</span>2019-04-12, 05:22:15</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/12/adb进阶四-——-dumpsys/" title="adb进阶四 —— dumpsys">http://tokyle.com/2019/04/12/adb进阶四-——-dumpsys/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/04/12/adb进阶四-——-dumpsys/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/04/11/adb进阶三-——-Monkey-2/">
+                    adb进阶三 —— Monkey (2)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#dumpsys简介"><span class="toc-number">1.</span> <span class="toc-text">dumpsys简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#系统服务查询"><span class="toc-number">1.1.</span> <span class="toc-text">系统服务查询</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#包服务查询"><span class="toc-number">2.</span> <span class="toc-text">包服务查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#activity信息查询"><span class="toc-number">3.</span> <span class="toc-text">activity信息查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络信息查询"><span class="toc-number">4.</span> <span class="toc-text">网络信息查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他常用服务信息查询"><span class="toc-number">5.</span> <span class="toc-text">其他常用服务信息查询</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"adb进阶四 —— dumpsys　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+    <section class="livere" id="comments">
+    <!-- 来必力City版安装代码 -->
+	<div id="lv-container" data-id="city" data-uid="MTAyMC80MzczNS8yMDI3NA==">
+	<script type="text/javascript">
+	(function(d, s) {
+		var j, e = d.getElementsByTagName(s)[0];
+	
+		if (typeof LivereTower === 'function') { return; }
+	
+		j = d.createElement(s);
+		j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		j.async = true;
+	
+		e.parentNode.insertBefore(j, e);
+	})(document, 'script');
+	</script>
+	<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+	</div>
+	<!-- City版安装代码已完成 -->
+</section>
+
+
+
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/04/11/adb进阶三-——-Monkey-2/" title="下一篇: adb进阶三 —— Monkey (2)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/12/adb进阶四-——-dumpsys/">adb进阶四 —— dumpsys</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/adb进阶三-——-Monkey-2/">adb进阶三 —— Monkey (2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶二 —— Monkey (1)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/10/adb进阶一-——-logcat/">adb进阶一 —— logcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/10/Android调试工具adb简介/">Android调试工具adb简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/09/记cmder-git一个报错解决/">记cmder/git一个报错解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/08/网站性能杂货/">网站性能杂货</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/08/伪·influxdb删除数据/">伪·influxdb删除数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/27/Linux垃圾清理/">Linux垃圾清理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/Centos7安装pip3/">Centos7安装pip3</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/2019年关将至有感/">2019年关将至有感</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/18/jmeter吞吐量几个插件介绍/">jmeter吞吐量几个插件介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/Jmeter压测关联接口/">Jmeter压测关联接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/13/SqlServer清理事务日志/">SqlServer清理事务日志</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/07/zabbix触发器函数介绍/">zabbix触发器函数介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/29/zabbix监控磁盘使用率/">zabbix监控磁盘使用率</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/25/MySQL启用弱口令/">MySQL启用弱口令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/24/Linux几个变量/">Linux几个变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/zabbix监控磁盘IO/">zabbix监控磁盘IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Linux磁盘IO监控工具-iostat/">Linux磁盘IO监控工具-iostat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/14/loadrunner压测exchange邮箱/">loadrunner压测exchange邮箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/05/Linux小工具推荐/">Linux小工具推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/Nginx简单配置/">Nginx简单配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/19/一次精疲力尽的压测/">一次精疲力尽的压测</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/02/JVM内存性能问题定位/">JVM内存性能问题定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/Linux定位最耗CPU的线程/">Linux定位最耗CPU的线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/胡言乱语/">胡言乱语</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/Grafana一点简单使用/">Grafana一点简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Centos7搭建Grafana/">Centos7搭建Grafana</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/11/【转】linux系统内存基础知识/">【转】linux系统内存基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/09/【转】聊一聊职业发展/">【转】聊一聊职业发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/使用Grafana展示Jmeter数据/">使用Grafana展示Jmeter数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/Centos7搭建单机Redis/">Centos7搭建单机Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/Linux查看端口使用情况/">Linux查看端口使用情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/Jmeter分布式环境搭建/">Jmeter分布式环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/13/Mysql开启全SQL执行记录/">Mysql开启全SQL执行记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/12/Jmeter-Ant-Jenkins接口自动化搭建/">Jmeter+Ant+Jenkins接口自动化搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/29/【转】Linux性能监控与分析/">【转】Linux性能监控与分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/23/Centos7搭建SonarQube/">Centos7搭建SonarQube</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/20/Centos7搭建influxdb-chronograf/">Centos7搭建influxdb+chronograf</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/15/一些常用网站/">一些常用网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/15/Centos7开启nginx-status/">Centos7开启nginx status</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/09/ELK环境搭建及测试数据导入/">ELK环境搭建及测试数据导入</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/elasticsearch-6变更记录/">elasticsearch 6变更记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/Centos-7安装elasticsearch-head/">Centos 7安装elasticsearch head</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/Centos下搭建ElasticSearch/">Centos下搭建ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/海贼王TV版目录/">海贼王TV版目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/11/loadrunner判断接口返回/">loadrunner判断接口返回</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Jmeter压测socket-close异常/">Jmeter压测socket close异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/05/Vultr安装锐速/">Vultr安装锐速</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/28/zabbix3-4配置邮件告警/">zabbix3.4配置邮件告警</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/27/zabbix3-4监控linux内存/">zabbix3.4监控linux内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/27/zabbix3-4监控mysql5-7/">zabbix3.4监控mysql5.7</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/zabbix配置/">zabbix配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/计算机基础知识系列（一）/">计算机基础知识系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/12/Centos下切换MySQL数据到数据盘/">Centos下切换MySQL数据到数据盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/使用fiddler抓iphone包/">使用fiddler抓iphone包</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/python3-6安装basemap/">python3.6安装basemap</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/22/【转】loadrunner请求三种格式API/">【转】loadrunner请求三种格式API</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/16/【转】windows性能监控指标/">【转】windows性能监控指标</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/11/centos7搭建zabbix/">centos7搭建zabbix</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/10/centos部署-net-core/">centos部署.net core</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/08/使用webpagetest测试不同国家登录响应/">使用webpagetest测试不同国家登录响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/Centos7搭建Nitrate/">Centos7搭建Nitrate</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Centos下升级python2-7到3-6/">Centos下升级python2.7到3.6</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/19/切换163yum源/">切换163yum源</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/MySQL之SQL优化系列（三）/">MySQL之SQL优化系列（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/loadruner日常总结/">loadruner日常总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/04/CentOs7强制修改MySQL中root密码/">CentOs7强制修改MySQL中root密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/04/yum安装软件失败/">yum安装软件失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/03/MySQL之SQL优化系列（二）/">MySQL之SQL优化系列（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/python性能测试框架locust（一）/">python性能测试框架locust（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/loadrunner监控Mysql/">loadrunner监控Mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/MySQL之SQL优化系列（一）/">MySQL之SQL优化系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/08/python基础之-args与-kwargs/">python基础之*args与**kwargs</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/docker使用简介/">docker使用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/28/新年伊始-开年记/">新年伊始-开年记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/12/写在2018新年来临/">写在2018新年来临</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/11/python3完成mysql操作/">python3完成mysql操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/">基于python3的UI自动化框架搭建系列（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/windows安装mysql5-7/">windows安装mysql5.7</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/python3操作excel/">python3操作excel</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/08/自定义测试报告/">自定义测试报告</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/07/nose执行顺序/">nose执行顺序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/07/基于python3的UI自动化测试框架搭建系列（一）/">基于python3的UI自动化框架搭建系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/【转】python实现chrome伪装成M站/">【转】python实现chrome伪装成M站</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/logging模块使用简介/">logging模块使用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/字符编码简单总结/">字符编码简单总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/实现断言失败截图/">实现断言失败截图</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/实现自动化测试数据分离/">实现自动化测试数据分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/【转】python元类介绍/">【转】python元类介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/VPS重建记/">VPS重建记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/23/python实现自动化测试报告邮件实时发送/">python实现自动化测试报告邮件实时发送</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/20/python数据分离/">python数据分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/20/自娱自乐一/">自娱自乐一</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/appium应用简介/">appium应用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/python项目依赖管理工具-pipenv/">python项目依赖管理工具-pipenv</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/cmder简介/">cmder简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/appium键盘事件/">appium键盘事件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/appium定位/">appium定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/app安装卸载/">app安装卸载</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/appium入门篇/">appium入门篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/smtp发邮件/">smtp发邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/selenium无干预下载/">selenium无干预下载</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/12306余票监控/">12306余票监控</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/登录网易邮箱/">登录网易邮箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/nose跳过测试/">nose跳过测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/03/python单元测试框架-nose/">python单元测试框架-nose</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/02/win32api-VK-CODE/">win32api_VK_CODE</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/28/python3-6安装pywin32/">python3.6安装pywin32</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/python3-map-函数/">python3_map()函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/26/html报告乱码/">html报告乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/pycharm单元测试/">pycharm单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/selenium3-python3-6搭建测试/">selenium3+python3.6搭建测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/world-map/">world_map</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/绘制随机漫步图/">绘制随机漫步图</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/matplotlib绘制渐变图/">matplotlib绘制渐变图</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/19/Django2-0更新内容记录/">Django2.0更新内容记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/15/性能测试-理发师模型/">性能测试-理发师模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/15/Jmeter系统监控配置/">Jmeter系统监控配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Hexo博客中加入图片/">Hexo博客中加入图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/13/python编码/">python编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/13/Django获取不到特定链接/">Django获取不到特定链接</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 Kyle
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 1;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
