@@ -74,7 +74,7 @@
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: 
+        search: true
     }
 </script>
 
@@ -108,6 +108,13 @@
         <p class="header-subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</p>
         
 
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
@@ -177,8 +184,6 @@
                                 <a class="fa GitHub" href="https://github.com/Spindriftks" title="GitHub"></a>
                             
                                 <a class="fa RSS" href="/atom.xml" title="RSS"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
                             
                         </ul>
                     </nav>
@@ -257,8 +262,6 @@
                                 <a class="fa GitHub" target="_blank" href="https://github.com/Spindriftks" title="GitHub"></a>
                             
                                 <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
-                            
-                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
                             
                         </ul>
             </nav>
@@ -572,11 +575,11 @@ npm run start</code><br>浏览器访问:<a href="http://IP:9100即可打开页�
         var titleTime;
         document.addEventListener("visibilitychange", function() {
             if (document.hidden) {
-                document.title = "~^(*￣(oo)￣)^ zzz" + originTitle;
+                document.title = "~^(*￣(oo)￣)^ 瞅啥瞅" + originTitle;
                 clearTimeout(titleTime);
             }
             else {
-                document.title = "(*´∇｀*) OP进行时" + originTitle;
+                document.title = "(*´∇｀*)  瞅你咋地" + originTitle;
                 titleTime = setTimeout(function() {
                     document.title = originTitle;
                 }, 2000);
