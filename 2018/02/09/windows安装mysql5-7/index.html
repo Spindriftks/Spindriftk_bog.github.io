@@ -1,95 +1,284 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hans">
 <head>
-  <meta charset="utf-8">
-  
 
-  
-  <title>windows安装mysql5.7 | 它夏了夏天</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="素履以往">
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Kyle" />
+
+
+
+<meta name="description" content="winwods环境安装配置mysql5.7">
 <meta name="keywords" content="mysql,windows">
 <meta property="og:type" content="article">
 <meta property="og:title" content="windows安装mysql5.7">
 <meta property="og:url" content="http://tokyle.com/2018/02/09/windows安装mysql5-7/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="素履以往">
+<meta property="og:description" content="winwods环境安装配置mysql5.7">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-02-09T07:07:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows安装mysql5.7">
-<meta name="twitter:description" content="素履以往">
-  
-    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/images/Snow.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
+<meta name="twitter:description" content="winwods环境安装配置mysql5.7">
 
-  
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="它夏了夏天" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/Snow.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>windows安装mysql5.7 | 它夏了夏天</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: 
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
 
 </head>
-
 <body>
   <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">它夏了夏天</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://tokyle.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/cats.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Kyle</a></h1>
+        </hgroup>
 
-      <div class="outer">
-        <section id="main"><article id="post-windows安装mysql5-7" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/2018/02/09/windows安装mysql5-7/" class="article-date">
-  <time datetime="2018-02-09T12:06:20.000Z" itemprop="datePublished">2018-02-09</time>
+        
+        <p class="header-subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:&#115;&#104;&#105;&#104;&#117;&#97;&#110;&#50;&#52;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/Spindriftks" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/net-core/">.net core</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ant/">Ant</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos7/">Centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chronograf/">Chronograf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jmeter/">Jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux运维/">Linux运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Locust/">Locust</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Monkey/">Monkey</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nitrate/">Nitrate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/One-Piece/">One Piece</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SiteScope/">SiteScope</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SonarQube/">SonarQube</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SqlServer/">SqlServer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vultr/">Vultr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adb/">adb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/appium/">appium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/buff-cache/">buff/cache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmder/">cmder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ddt/">ddt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch-head/">elasticsearch head</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exchange/">exchange</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/explain/">explain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiddler/">fiddler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grafana/">grafana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/influxdb/">influxdb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iostat/">iostat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iphone/">iphone</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter/">jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/journalctl/">journalctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/">kibana</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lives/">lives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loadrunner/">loadrunner</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/">logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matplotlib/">matplotlib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory/">memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netstat/">netstat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nose/">nose</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openpyxl/">openpyxl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip3/">pip3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pipenv/">pipenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/profiler/">profiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pygal/">pygal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pymysql/">pymysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pywin32/">pywin32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/response-time/">response time</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selenium/">selenium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smtplib/">smtplib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpagetest/">webpagetest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win32api/">win32api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yum/">yum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix3-4/">zabbix3.4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单元测试/">单元测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分离/">数据分离</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://stackoverflow.com/">StackOverflow</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pixabay.com/">pixabay</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://testerhome.com/topics/popular">testerhome</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">非典型tester</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Kyle</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/cats.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Kyle</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">生命中有一种遇见，就让它美如行云流水，然后一生去回味。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:&#115;&#104;&#105;&#104;&#117;&#97;&#110;&#50;&#52;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Spindriftks" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=50928035" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-windows安装mysql5-7" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/09/windows安装mysql5-7/" class="article-date">
+      <time datetime="2018-02-09T12:06:20.000Z" itemprop="datePublished">2018-02-09</time>
 </a>
 
 
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/skill/">skill</a>
-  </div>
-
-  </div>
+    </div>
+  
   <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
       <header class="article-header">
@@ -100,18 +289,28 @@
     </h1>
   
 
+	
       </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/skill/">skill</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
     
     <div class="article-entry" itemprop="articleBody">
       
-		
-		<div id="toc" class="toc-article">
-			<h2 class="toc-title"><span>Contents</span></h2>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装及配置"><span class="toc-number">2.</span> <span class="toc-text">安装及配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-number">2.2.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">2.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务注册"><span class="toc-number">2.3.1.</span> <span class="toc-text">服务注册</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATA文件夹"><span class="toc-number">2.3.2.</span> <span class="toc-text">DATA文件夹</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.4.</span> <span class="toc-text">安装mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动服务"><span class="toc-number">2.5.</span> <span class="toc-text">启动服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-number">3.</span> <span class="toc-text">mysql操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改root密码"><span class="toc-number">3.1.</span> <span class="toc-text">修改root密码</span></a></li></ol></li></ol>
-		
-		</div>
-		
+          
         <p>winwods环境安装配置mysql5.7</p>
 <a id="more"></a>
 <p>版本信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">win 10</span><br><span class="line">mysql 5.7.21</span><br></pre></td></tr></table></figure></p>
@@ -139,258 +338,238 @@
 
       
     </div>
-    <footer class="article-footer">
-	  
-	  <!-- 百度分享 Start -->
-	  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
-	  <!-- 百度分享 End -->
-	  
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
-
-	  
-<span>
-Updated:<time datetime="2018-02-09T07:07:40.000Z" itemprop="dateModified">2018-02-09</time>
-</span>
-
-
-    </footer>
+    
   </div>
   
     
-<nav id="article-nav">
-  
-    <a href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/02/09/windows安装mysql5-7/">windows安装mysql5.7</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
+        <p><span>发布时间:</span>2018-02-09, 07:06:20</p>
+        <p><span>最后更新:</span>2018-02-09, 02:07:40</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/02/09/windows安装mysql5-7/" title="windows安装mysql5.7">http://tokyle.com/2018/02/09/windows安装mysql5-7/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/02/09/windows安装mysql5-7/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
         
-          基于python3的UI自动化框架搭建系列（二）
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/">
+                    基于python3的UI自动化框架搭建系列（二）
+                </a>
+            </div>
         
-      </div>
-    </a>
-  
-  
-    <a href="/2018/02/09/python3操作excel/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">python3操作excel</div>
-    </a>
-  
-</nav>
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/02/09/python3操作excel/">
+                    python3操作excel
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
 
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装及配置"><span class="toc-number">2.</span> <span class="toc-text">安装及配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-number">2.2.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">2.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务注册"><span class="toc-number">2.3.1.</span> <span class="toc-text">服务注册</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATA文件夹"><span class="toc-number">2.3.2.</span> <span class="toc-text">DATA文件夹</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.4.</span> <span class="toc-text">安装mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动服务"><span class="toc-number">2.5.</span> <span class="toc-text">启动服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-number">3.</span> <span class="toc-text">mysql操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改root密码"><span class="toc-number">3.1.</span> <span class="toc-text">修改root密码</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
 
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"windows安装mysql5.7　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+    <section class="livere" id="comments">
+    <!-- 来必力City版安装代码 -->
+	<div id="lv-container" data-id="city" data-uid="MTAyMC80MzczNS8yMDI3NA==">
+	<script type="text/javascript">
+	(function(d, s) {
+		var j, e = d.getElementsByTagName(s)[0];
+	
+		if (typeof LivereTower === 'function') { return; }
+	
+		j = d.createElement(s);
+		j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		j.async = true;
+	
+		e.parentNode.insertBefore(j, e);
+	})(document, 'script');
+	</script>
+	<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+	</div>
+	<!-- City版安装代码已完成 -->
 </section>
-</section>
+
+
+
+
+
+
+
+    <div class="scroll" id="post-nav-button">
         
-          
-  <div id="toc" class="toc-aside">
-  <h2 class="toc-title">Contents</h2>
-    
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装及配置"><span class="toc-number">2.</span> <span class="toc-text">安装及配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-number">2.2.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">2.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务注册"><span class="toc-number">2.3.1.</span> <span class="toc-text">服务注册</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATA文件夹"><span class="toc-number">2.3.2.</span> <span class="toc-text">DATA文件夹</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装mysql"><span class="toc-number">2.4.</span> <span class="toc-text">安装mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动服务"><span class="toc-number">2.5.</span> <span class="toc-text">启动服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-number">3.</span> <span class="toc-text">mysql操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改root密码"><span class="toc-number">3.1.</span> <span class="toc-text">修改root密码</span></a></li></ol></li></ol>
-    
-  </div>
+            <a href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/" title="上一篇: 基于python3的UI自动化框架搭建系列（二）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
 
-<aside id="sidebar">
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
-  
-    
-<div class="widget-wrap">
-  <h3 class="widget-title">ABOUT ME</h3>
-  <ul class="widget about-me">
-    
-    <li><img class="author" title="About me" src="/images/cats.jpg" /></li>
-    
-    
-    <li>Whatever happened, just tests the world.</li>
-    
-    <li>By. Kyle(时欢)</li>
-    
-    <li>[object Object]</li>
-    
-  </ul>
+        
+            <a href="/2018/02/09/python3操作excel/" title="下一篇: python3操作excel">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/12/adb进阶四-——-dumpsys/">adb进阶四 —— dumpsys</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/adb进阶三-——-Monkey-2/">adb进阶三 —— Monkey (2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶二 —— Monkey (1)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/10/adb进阶一-——-logcat/">adb进阶一 —— logcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/10/Android调试工具adb简介/">Android调试工具adb简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/09/记cmder-git一个报错解决/">记cmder/git一个报错解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/08/网站性能杂货/">网站性能杂货</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/08/伪·influxdb删除数据/">伪·influxdb删除数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/27/Linux垃圾清理/">Linux垃圾清理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/Centos7安装pip3/">Centos7安装pip3</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/2019年关将至有感/">2019年关将至有感</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/18/jmeter吞吐量几个插件介绍/">jmeter吞吐量几个插件介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/Jmeter压测关联接口/">Jmeter压测关联接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/13/SqlServer清理事务日志/">SqlServer清理事务日志</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/07/zabbix触发器函数介绍/">zabbix触发器函数介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/29/zabbix监控磁盘使用率/">zabbix监控磁盘使用率</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/25/MySQL启用弱口令/">MySQL启用弱口令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/24/Linux几个变量/">Linux几个变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/zabbix监控磁盘IO/">zabbix监控磁盘IO</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Linux磁盘IO监控工具-iostat/">Linux磁盘IO监控工具-iostat</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/14/loadrunner压测exchange邮箱/">loadrunner压测exchange邮箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/05/Linux小工具推荐/">Linux小工具推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/Nginx简单配置/">Nginx简单配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/19/一次精疲力尽的压测/">一次精疲力尽的压测</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/02/JVM内存性能问题定位/">JVM内存性能问题定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/Linux定位最耗CPU的线程/">Linux定位最耗CPU的线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/胡言乱语/">胡言乱语</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/17/Grafana一点简单使用/">Grafana一点简单使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Centos7搭建Grafana/">Centos7搭建Grafana</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/11/【转】linux系统内存基础知识/">【转】linux系统内存基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/09/【转】聊一聊职业发展/">【转】聊一聊职业发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/使用Grafana展示Jmeter数据/">使用Grafana展示Jmeter数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/Centos7搭建单机Redis/">Centos7搭建单机Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/Linux查看端口使用情况/">Linux查看端口使用情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/Jmeter分布式环境搭建/">Jmeter分布式环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/13/Mysql开启全SQL执行记录/">Mysql开启全SQL执行记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/12/Jmeter-Ant-Jenkins接口自动化搭建/">Jmeter+Ant+Jenkins接口自动化搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/29/【转】Linux性能监控与分析/">【转】Linux性能监控与分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/23/Centos7搭建SonarQube/">Centos7搭建SonarQube</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/20/Centos7搭建influxdb-chronograf/">Centos7搭建influxdb+chronograf</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/15/一些常用网站/">一些常用网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/15/Centos7开启nginx-status/">Centos7开启nginx status</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/09/ELK环境搭建及测试数据导入/">ELK环境搭建及测试数据导入</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/elasticsearch-6变更记录/">elasticsearch 6变更记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/Centos-7安装elasticsearch-head/">Centos 7安装elasticsearch head</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/Centos下搭建ElasticSearch/">Centos下搭建ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/海贼王TV版目录/">海贼王TV版目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/11/loadrunner判断接口返回/">loadrunner判断接口返回</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Jmeter压测socket-close异常/">Jmeter压测socket close异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/05/Vultr安装锐速/">Vultr安装锐速</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/28/zabbix3-4配置邮件告警/">zabbix3.4配置邮件告警</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/27/zabbix3-4监控linux内存/">zabbix3.4监控linux内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/27/zabbix3-4监控mysql5-7/">zabbix3.4监控mysql5.7</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/zabbix配置/">zabbix配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/计算机基础知识系列（一）/">计算机基础知识系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/12/Centos下切换MySQL数据到数据盘/">Centos下切换MySQL数据到数据盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/使用fiddler抓iphone包/">使用fiddler抓iphone包</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/python3-6安装basemap/">python3.6安装basemap</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/22/【转】loadrunner请求三种格式API/">【转】loadrunner请求三种格式API</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/16/【转】windows性能监控指标/">【转】windows性能监控指标</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/11/centos7搭建zabbix/">centos7搭建zabbix</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/10/centos部署-net-core/">centos部署.net core</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/08/使用webpagetest测试不同国家登录响应/">使用webpagetest测试不同国家登录响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/Centos7搭建Nitrate/">Centos7搭建Nitrate</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Centos下升级python2-7到3-6/">Centos下升级python2.7到3.6</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/19/切换163yum源/">切换163yum源</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/MySQL之SQL优化系列（三）/">MySQL之SQL优化系列（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/loadruner日常总结/">loadruner日常总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/04/CentOs7强制修改MySQL中root密码/">CentOs7强制修改MySQL中root密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/04/yum安装软件失败/">yum安装软件失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/03/MySQL之SQL优化系列（二）/">MySQL之SQL优化系列（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/python性能测试框架locust（一）/">python性能测试框架locust（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/loadrunner监控Mysql/">loadrunner监控Mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/MySQL之SQL优化系列（一）/">MySQL之SQL优化系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/08/python基础之-args与-kwargs/">python基础之*args与**kwargs</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/docker使用简介/">docker使用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/28/新年伊始-开年记/">新年伊始-开年记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/12/写在2018新年来临/">写在2018新年来临</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/11/python3完成mysql操作/">python3完成mysql操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/基于python3的UI自动化测试框架搭建系列（二）/">基于python3的UI自动化框架搭建系列（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/windows安装mysql5-7/">windows安装mysql5.7</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/python3操作excel/">python3操作excel</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/08/自定义测试报告/">自定义测试报告</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/07/nose执行顺序/">nose执行顺序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/07/基于python3的UI自动化测试框架搭建系列（一）/">基于python3的UI自动化框架搭建系列（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/【转】python实现chrome伪装成M站/">【转】python实现chrome伪装成M站</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/logging模块使用简介/">logging模块使用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/字符编码简单总结/">字符编码简单总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/02/实现断言失败截图/">实现断言失败截图</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/实现自动化测试数据分离/">实现自动化测试数据分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/【转】python元类介绍/">【转】python元类介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/VPS重建记/">VPS重建记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/23/python实现自动化测试报告邮件实时发送/">python实现自动化测试报告邮件实时发送</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/20/python数据分离/">python数据分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/20/自娱自乐一/">自娱自乐一</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/appium应用简介/">appium应用简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/python项目依赖管理工具-pipenv/">python项目依赖管理工具-pipenv</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/18/cmder简介/">cmder简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/appium键盘事件/">appium键盘事件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/appium定位/">appium定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/app安装卸载/">app安装卸载</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/appium入门篇/">appium入门篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/smtp发邮件/">smtp发邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/selenium无干预下载/">selenium无干预下载</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/12306余票监控/">12306余票监控</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/登录网易邮箱/">登录网易邮箱</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/nose跳过测试/">nose跳过测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/03/python单元测试框架-nose/">python单元测试框架-nose</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/02/win32api-VK-CODE/">win32api_VK_CODE</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/28/python3-6安装pywin32/">python3.6安装pywin32</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/python3-map-函数/">python3_map()函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/26/html报告乱码/">html报告乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/pycharm单元测试/">pycharm单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/selenium3-python3-6搭建测试/">selenium3+python3.6搭建测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/world-map/">world_map</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/绘制随机漫步图/">绘制随机漫步图</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/matplotlib绘制渐变图/">matplotlib绘制渐变图</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/19/Django2-0更新内容记录/">Django2.0更新内容记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/15/性能测试-理发师模型/">性能测试-理发师模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/15/Jmeter系统监控配置/">Jmeter系统监控配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Hexo博客中加入图片/">Hexo博客中加入图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/13/python编码/">python编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/13/Django获取不到特定链接/">Django获取不到特定链接</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
 </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Devops/">Devops</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL-SQL优化/">MySQL-SQL优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/appium/">appium</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/just-for-fun/">just for fun</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python基础/">python基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python黑科技/">python黑科技</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/selenium/">selenium</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/skill/">skill</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能测试/">性能测试</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试/">自动化测试</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/自动化测试框架/">自动化测试框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">10</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/net-core/" style="font-size: 13px; color: #7dc3de">.net core</a> <a href="/tags/Android/" style="font-size: 15.33px; color: #5dbe94">Android</a> <a href="/tags/Ant/" style="font-size: 13px; color: #7dc3de">Ant</a> <a href="/tags/CPU/" style="font-size: 13px; color: #7dc3de">CPU</a> <a href="/tags/Centos7/" style="font-size: 19.42px; color: #25b513">Centos7</a> <a href="/tags/Chronograf/" style="font-size: 13px; color: #7dc3de">Chronograf</a> <a href="/tags/Django/" style="font-size: 13.58px; color: #75c2cc">Django</a> <a href="/tags/Hexo/" style="font-size: 13.58px; color: #75c2cc">Hexo</a> <a href="/tags/IO/" style="font-size: 13px; color: #7dc3de">IO</a> <a href="/tags/JVM/" style="font-size: 13px; color: #7dc3de">JVM</a> <a href="/tags/Jmeter/" style="font-size: 15.33px; color: #5dbe94">Jmeter</a> <a href="/tags/Linux/" style="font-size: 14.75px; color: #65bfa7">Linux</a> <a href="/tags/Linux运维/" style="font-size: 13px; color: #7dc3de">Linux运维</a> <a href="/tags/Locust/" style="font-size: 13px; color: #7dc3de">Locust</a> <a href="/tags/Monkey/" style="font-size: 13px; color: #7dc3de">Monkey</a> <a href="/tags/Nginx/" style="font-size: 13.58px; color: #75c2cc">Nginx</a> <a href="/tags/Nitrate/" style="font-size: 13px; color: #7dc3de">Nitrate</a> <a href="/tags/One-Piece/" style="font-size: 13px; color: #7dc3de">One Piece</a> <a href="/tags/Redis/" style="font-size: 13px; color: #7dc3de">Redis</a> <a href="/tags/SiteScope/" style="font-size: 13px; color: #7dc3de">SiteScope</a> <a href="/tags/SonarQube/" style="font-size: 13px; color: #7dc3de">SonarQube</a> <a href="/tags/SqlServer/" style="font-size: 13px; color: #7dc3de">SqlServer</a> <a href="/tags/Vultr/" style="font-size: 13px; color: #7dc3de">Vultr</a> <a href="/tags/adb/" style="font-size: 14.75px; color: #65bfa7">adb</a> <a href="/tags/android/" style="font-size: 13px; color: #7dc3de">android</a> <a href="/tags/appium/" style="font-size: 14.75px; color: #65bfa7">appium</a> <a href="/tags/buff-cache/" style="font-size: 13px; color: #7dc3de">buff/cache</a> <a href="/tags/centos7/" style="font-size: 13.58px; color: #75c2cc">centos7</a> <a href="/tags/cmder/" style="font-size: 13.58px; color: #75c2cc">cmder</a> <a href="/tags/ddt/" style="font-size: 14.75px; color: #65bfa7">ddt</a> <a href="/tags/docker/" style="font-size: 13px; color: #7dc3de">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14.17px; color: #6dc1b9">elasticsearch</a> <a href="/tags/elasticsearch-head/" style="font-size: 13px; color: #7dc3de">elasticsearch head</a> <a href="/tags/exchange/" style="font-size: 13px; color: #7dc3de">exchange</a> <a href="/tags/explain/" style="font-size: 13px; color: #7dc3de">explain</a> <a href="/tags/fiddler/" style="font-size: 13px; color: #7dc3de">fiddler</a> <a href="/tags/git/" style="font-size: 13px; color: #7dc3de">git</a> <a href="/tags/grafana/" style="font-size: 13.58px; color: #75c2cc">grafana</a> <a href="/tags/influxdb/" style="font-size: 13.58px; color: #75c2cc">influxdb</a> <a href="/tags/iostat/" style="font-size: 13px; color: #7dc3de">iostat</a> <a href="/tags/iphone/" style="font-size: 13px; color: #7dc3de">iphone</a> <a href="/tags/jmeter/" style="font-size: 13.58px; color: #75c2cc">jmeter</a> <a href="/tags/journalctl/" style="font-size: 13px; color: #7dc3de">journalctl</a> <a href="/tags/k8s/" style="font-size: 13px; color: #7dc3de">k8s</a> <a href="/tags/kibana/" style="font-size: 13px; color: #7dc3de">kibana</a> <a href="/tags/linux/" style="font-size: 14.75px; color: #65bfa7">linux</a> <a href="/tags/lives/" style="font-size: 15.92px; color: #55bd82">lives</a> <a href="/tags/loadrunner/" style="font-size: 15.33px; color: #5dbe94">loadrunner</a> <a href="/tags/logging/" style="font-size: 13px; color: #7dc3de">logging</a> <a href="/tags/logstash/" style="font-size: 13px; color: #7dc3de">logstash</a> <a href="/tags/matplotlib/" style="font-size: 14.17px; color: #6dc1b9">matplotlib</a> <a href="/tags/memory/" style="font-size: 13px; color: #7dc3de">memory</a> <a href="/tags/mysql/" style="font-size: 17.08px; color: #45ba5d">mysql</a> <a href="/tags/netstat/" style="font-size: 13px; color: #7dc3de">netstat</a> <a href="/tags/nose/" style="font-size: 15.92px; color: #55bd82">nose</a> <a href="/tags/openpyxl/" style="font-size: 13px; color: #7dc3de">openpyxl</a> <a href="/tags/pip3/" style="font-size: 13px; color: #7dc3de">pip3</a> <a href="/tags/pipenv/" style="font-size: 13px; color: #7dc3de">pipenv</a> <a href="/tags/profiler/" style="font-size: 13px; color: #7dc3de">profiler</a> <a href="/tags/pycharm/" style="font-size: 13px; color: #7dc3de">pycharm</a> <a href="/tags/pygal/" style="font-size: 13px; color: #7dc3de">pygal</a> <a href="/tags/pymysql/" style="font-size: 13px; color: #7dc3de">pymysql</a> <a href="/tags/python/" style="font-size: 20px; color: #1db400">python</a> <a href="/tags/python3/" style="font-size: 18.83px; color: #2db725">python3</a> <a href="/tags/pywin32/" style="font-size: 13px; color: #7dc3de">pywin32</a> <a href="/tags/response-time/" style="font-size: 13px; color: #7dc3de">response time</a> <a href="/tags/selenium/" style="font-size: 17.67px; color: #3db94a">selenium</a> <a href="/tags/smtplib/" style="font-size: 13.58px; color: #75c2cc">smtplib</a> <a href="/tags/systemd/" style="font-size: 13px; color: #7dc3de">systemd</a> <a href="/tags/unittest/" style="font-size: 13px; color: #7dc3de">unittest</a> <a href="/tags/webpagetest/" style="font-size: 13px; color: #7dc3de">webpagetest</a> <a href="/tags/win32api/" style="font-size: 13px; color: #7dc3de">win32api</a> <a href="/tags/windows/" style="font-size: 13.58px; color: #75c2cc">windows</a> <a href="/tags/yum/" style="font-size: 13.58px; color: #75c2cc">yum</a> <a href="/tags/zabbix3-4/" style="font-size: 16.5px; color: #4dbc6f">zabbix3.4</a> <a href="/tags/单元测试/" style="font-size: 14.75px; color: #65bfa7">单元测试</a> <a href="/tags/性能/" style="font-size: 14.75px; color: #65bfa7">性能</a> <a href="/tags/数据分离/" style="font-size: 13px; color: #7dc3de">数据分离</a> <a href="/tags/线程/" style="font-size: 13px; color: #7dc3de">线程</a> <a href="/tags/自动化测试/" style="font-size: 18.25px; color: #35b838">自动化测试</a> <a href="/tags/进程/" style="font-size: 13px; color: #7dc3de">进程</a>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">14</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    <div class="widget-wrap">
-  <h3 class="widget-title">Calendar</h3>
-  <div class="widget" id="calendar">
-  </div>
-</div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/04/12/adb进阶四-——-dumpsys/">adb进阶四 —— dumpsys</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/11/adb进阶三-——-Monkey-2/">adb进阶三 —— Monkey (2)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/11/adb进阶一-——-Monkey-1/">adb进阶二 —— Monkey (1)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/10/adb进阶一-——-logcat/">adb进阶一 —— logcat</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/10/Android调试工具adb简介/">Android调试工具adb简介</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-
-  
-    
-<div class="widget-wrap">
-  <h3 class="widget-title">Links</h3>
-  <ul class="widget">
-    
-    <li><a href="https://stackoverflow.com/" target="_BLANK">StackOverflow</a></li>
-    
-    <li><a href="https://pixabay.com/" target="_BLANK">pixabay（图片）</a></li>
-    
-    <li><a href="https://testerhome.com/topics/popular" target="_BLANK">testerhome</a></li>
-    
-  </ul>
-</div>
-
-
-  
-
-</aside>
-
-        
-      </div>
       <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Kyle<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/howiefh/hexo-theme-landscape-f" target="_blank" title="Landscape-F">Landscape-F</a>
-    
-      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-      <br>
-      <span id="busuanzi_container_site_pv">
-        Total <span id="busuanzi_value_site_pv"></span> views.
-      </span>
-    
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 Kyle
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
     </div>
-  </div>
 </footer>
-
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-       
-    <script type="text/javascript">
-    var disqus_shortname = 'tokyle';
-    (function(){
-      var dsq = document.createElement('script');
-      dsq.type = 'text/javascript';
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 1;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
     </script>
 
 
 
 
-<!-- 百度分享 start -->
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","douban","bdysc","sqq","qq","hi","baidu","huaban","youdao","sdo","mail","xg","diandian","fx","copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-<!-- 百度分享 end -->
 
-
-<script src="/js/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<div class="bottom-btn">
-
-	<a class="icon-gotop" href="javascript:void(0)" title="返回顶部"></a>
-	<script src="/js/gotop.js"></script>
-
-
-	<a class="icon-toc-toggle" href="javascript:void(0)" title="文章目录"></a>
-	<script src="/js/toc_aside_toggle.js"></script>
-
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-
-  <script src="/js/languages.js"></script>
-  <script src="/js/calendar.js"></script>
-
-  <script type="text/javascript">
-  $(function() {
+<script>
+    // Open in New Window
     
-    $('#calendar').aCalendar('zh-CN', $.extend({"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"dayOfWeekShort":["S","M","T","W","T","F","S"],"dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"postsMonthTip":"Posts published in LMM yyyy","titleFormat":"yyyy LMM","titleLinkFormat":"/archives/yyyy/MM/","headArrows":{"previous":"<span class=\"cal-prev\"></span>","next":"<span class=\"cal-next\"></span>"},"footArrows":{"previous":" ","next":" "},"weekOffset":0,"single":false,"root":"/calendar/","url":"/calendar.json"}, {single:true, root:'calendar/'}));
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
     
-  });
-  </script>
+</script>
 
-
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
   </div>
 </body>
 </html>
