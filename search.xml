@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Android性能测试——内存]]></title>
+    <url>%2F2019%2F04%2F18%2FAndroid%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%2F</url>
+    <content type="text"><![CDATA[Android性能测试——内存 内存通常情况下我们说的内存都是指手机的RAM，RAM主要包括： 寄存器：速度最快的存储 栈（stack）：在jvm中栈用来存储一些对象的引用、局部变量以及计算过程的中间数据，在方法退出后那么这些变量也会被销毁。它的存储比堆快得多，只比CPU里的寄存器慢 堆（Heap）：用来存储程序中的一些对象，比如你用new关键字创建的对象，它就会被存储在堆内存中，但是这个对象在堆内存中的首地址会存储在栈中；堆中分配的内存，由java虚拟机自动垃圾回收器（GC）来管理。关于GC的，记得之前稍微记过点JVM内存性能问题定位 … … Dalvik和JVMDavlik虚拟机（DVM）是Android系统在java虚拟机（JVM）基础上优化得到的，DVM是基于寄存器的，而JVM是基于栈的，由于寄存器更高效，DVM性能相比JVM要好一点。 Android中进程的堆内存RAM作为进程运行不可或缺的资源，对Android系统性能和稳定性有着决定性影响，RAM的一部分被操作系统留作他用，比如显存等等，当然这个程序员无法干预，我们也不必过多地关注它。进程空间中的heap空间是我们需要重点关注的。heap空间完全由程序员控制，我们使用的C++ new和java new所申请的空间都是heap空间， C/C++申请的内存空间在native heap中，而java申请的内存空间则在dalvik heap中。 Android的java程序为什么容易OOM这个是因为Android系统对dalvik的vmheapsize作了硬性限制，当java进程申请的java空间超过阈值时，就会抛出OOM异常（这个阈值可以是48M、24M、16M等，视机型而定），可以通过adb shell getprop | grep dalvik.vm.heapgrowthlimit查看此值。也就是说，程序发生OMM并不表示RAM不足，而是因为程序申请的java heap对象超过了dalvik vmheapgrowthlimit。也就是说，在RAM充足的情况下，也可能发生OOM。 这样的设计似乎有些不合理，但是Google为什么这样做呢？这样设计的目的是为了让Android系统能同时让比较多的进程常驻内存，这样程序启动时就不用每次都重新加载到内存，能够给用户更快的响应。迫使每个应用程序使用较小的内存，移动设备非常有限的RAM就能使比较多的app常驻其中。但是有一些大型应用程序是无法忍受vmheapgrowthlimit的限制的 实际上dalvik.vm.heapgrowthlimit和dalvik.vm.heapsize都是java虚拟机的最大内存限制，应用如果不想在dalvikheap达到heapgrowthlimit限制的时候出现OOM，需要在Manifest中的application标签中声明android:largeHeap=“true”，声明后应用dalvik heap达到heapsize的时候才会出现OOM 12345&#123;lamb&#125; adb shell getprop | grep dalvik.vm.heapgrowthlimit[dalvik.vm.heapgrowthlimit]: [192m]&#123;lamb&#125; adb shell getprop | grep dalvik.vm.heapsize[dalvik.vm.heapsize]: [512m] Android内存采集dumpsys 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970&#123;lamb&#125; adb shell dumpsys meminfo com.kuaikan.comic Applications Memory Usage (in Kilobytes): Uptime: 467997959 Realtime: 2137774428 ** MEMINFO in pid 15956 [com.kuaikan.comic] ** Pss Private Private SwapPss Heap Heap Heap Total Dirty Clean Dirty Size Alloc Free ------ ------ ------ ------ ------ ------ ------ Native Heap 98778 98668 64 406 127872 120081 7790 Dalvik Heap 8247 8204 24 52 20111 7823 12288 Dalvik Other 2505 2496 4 2 Stack 2464 2464 0 0 Ashmem 258 256 0 0 Gfx dev 24048 23372 676 0 Other dev 45 8 28 0 .so mmap 4157 2036 716 26 .jar mmap 8 8 0 0 .apk mmap 9900 9676 160 0 .dex mmap 20863 17524 2380 0 .oat mmap 2731 0 384 0 .art mmap 8290 6736 148 12 Other mmap 29 4 0 0 EGL mtrack 38636 38636 0 0 GL mtrack 5480 5480 0 0 Unknown 6031 6016 0 3 TOTAL 232971 221584 4584 501 147983 127904 20078 App Summary Pss(KB) ------ Java Heap: 15088 Native Heap: 98668 Code: 32884 Stack: 2464 Graphics: 68164 Private Other: 8900 System: 6803 TOTAL: 232971 TOTAL SWAP PSS: 501 Objects Views: 927 ViewRootImpl: 2 AppContexts: 11 Activities: 1 Assets: 8 AssetManagers: 5 Local Binders: 89 Proxy Binders: 42 Parcel memory: 56 Parcel count: 226 Death Recipients: 5 OpenSSL Sockets: 10 WebViews: 0 SQL MEMORY_USED: 3886 PAGECACHE_OVERFLOW: 1026 MALLOC_SIZE: 309 DATABASES pgsz dbsz Lookaside(b) cache Dbname 4 52 109 54/31/17 /data/user/0/com.kuaikan.comic/databases/bugly_db_ 4 100 76 83/57/9 /data/user/0/com.kuaikan.comic/databases/kkmh-room.db 4 12 0/0/0 (attached) temp 4 100 109 147/26/14 /data/user/0/com.kuaikan.comic/databases/kkmh-room.db (1) 4 20 24 1/16/2 /data/user/0/com.kuaikan.comic/databases/ThrowalbeLog.db 4 564 88 52/43/25 /data/user/0/com.kuaikan.comic/databases/kkmh.db 4 20 109 185/24/10 /data/user/0/com.kuaikan.comic/databases/btechainh.db 4 20 45 6/19/5 /data/user/0/com.kuaikan.comic/databases/sharesdk.db 4 20 52 23/24/6 /data/user/0/com.kuaikan.comic/databases/aa_in_techain.db 4 36 92 106/41/25 /data/user/0/com.kuaikan.comic/databases/techain_d.db 4 52 47 2/17/3 /data/user/0/com.kuaikan.comic/databases/volcano_ac_techain.db 4 20 29 1/16/2 /data/user/0/com.kuaikan.comic/databases/tracker.db 4 60 97 3/21/5 /data/user/0/com.kuaikan.comic/databases/tes_db 4 16 52 12/17/5 /storage/emulated/0/Mob/comm/dbs/.dh 4 20 65 16/19/5 /data/user/0/com.kuaikan.comic/databases/x24_techain_typhoon.db 4 76 38 54/17/3 /data/user/0/com.kuaikan.comic/databases/com.kuaikan.comic 4 28 50 5/18/4 /data/user/0/com.kuaikan.comic/databases/tcyrtsdb.db 4 44 80 10/21/7 /data/user/0/com.kuaikan.comic/databases/beacon_tbs_db 4 20 26 1/16/2 /data/user/0/com.kuaikan.comic/databases/kk-push Asset Allocations zip:/data/user/0/com.tencent.mm/app_tbs/core_share/res.apk:/resources.arsc: 97K 字段含义 私有内存(Dirty and Clean)进程独占内存。也就是进程销毁时可以回收的内存容量。通常private Dirty内存是最重要的部分，因为只被自己进程使用。Dirty内存是已经被修改的内存页，因此必须常驻内存（因为没有swap）；Clean内存是已经映射持久文件使用的内存页（例如正在被执行的代码），因此一段时间不使用的话就可以置换出去。 实际使用内存(PSS)将跨进程共享页也加入进来， 进行按比例计算PSS。这样能够比较准确的表示进程占用的实际物理内存 Native Heap AllocJNI层的内存分配 Dalvik Heap AllocJava层的内存分配 这两个值一直增长，应用程序可能出现了内存泄漏 测试Android内存1. monkey压力测试 1adb shell monkey -p com.kuaikan.comic --ignore-crashes --ignore-timeouts --ignore-security-exceptions --ignore-native-crashes --pct-touch 70 --pct-motion 25 --pct-majornav 5 -v -v -v --throttle 300 100000 2. adb shell dumpsys meminfo监控内存 1adb shell dumpsys meminfo com.kuaikan.comic 如发现内存过大，保存HPROF文件1adb shell am dumpheap com.kuaikan.comic /data/local/tmp/1.hprof 3. 格式化D:\dev\android\android-sdk-windows\platform-tools下有个hprof-conv.exe工具1hprof-conv 1.hprof 2.hprof 4. 用MAT分析MAT度娘盘地址（提取码：jidc） 扩展知识Android沙盒由于Android是建立在Linux系统之上的，所以Android系统继承了Linux的 类Unix继承进程隔离机制与最小权限原则，并且在原有Linux的进程管理基础上对UID的使用做了改进，形成了Android应用的”沙箱“机制。 普通的Linux中启动的应用通常和登陆用户相关联，同一用户的UID相同。但是Android中给不同的应用都赋予了不同的UID，这样不同的应用将不能相互访问资源。对应用而言，这样会更加封闭，安全。 在Android系统中，应用（通常）都在一个独立的沙箱中运行，即每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。Dalvik经过优化，允许在有限的内存中同时高效地运行多个虚拟机的实例，并且每一个Dalvik应用作为一个独立的Linux进程执行。Android这种基于Linux的进程“沙箱”机制，是整个安全设计的基础之一。 简单点说就是在Android的世界中每一个应用相当与一个Linux中的用户，他们相互独立，不能相互共享与访问，（这也就解释了Android系统中为什么需要进程间通信），正是由于沙盒机制的存在最大程度的保护了应用之间的安全，但是也带来了每一个应用所分配的内存大小是有限制的问题。 获取当前页面activity通过adb shell dumpsys window |findstr mCurrent，捕获当前页面的activity通过adb shell dumpsys activity|findstr &quot;realActivity&quot;, 捕获到当前页面的activity 频繁GC的可能原因 Memory Churn（内存抖动），内存抖动是因为大量的对象被创建又在短时间内马上被释放 瞬间产生大量的对象会严重占用Young Generation的内存区域，当达到阀值，剩余空间不够的时候，也会触发GC。即使每次分配的对象占用了很少的内存，但是他们叠加在一起会增加 Heap的压力，从而触发更多其他类型的GC。这个操作有可能会影响到帧率，并使得用户感知到性能问题。 优秀Android博客 Android性能优化-详解内存优化来龙去脉Android性能优化&amp;内存篇一份详细&amp;全面内存优化指南 以上，完~]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>adb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[记一次Linux磁盘清理]]></title>
     <url>%2F2019%2F04%2F18%2F%E8%AE%B0%E4%B8%80%E6%AC%A1Linux%E7%A3%81%E7%9B%98%E6%B8%85%E7%90%86%2F</url>
     <content type="text"><![CDATA[记一次Linux清磁盘 最近发现有台机器磁盘满了，搜了下，nohub.out占完了 然后果断的rm -rf nohub.out，以为结束了，然而df -h看了下，一点都没释放。。。 因为被删除的文件在删除的时侯还是进程在操作(打开、访问等)的缘故，rm只完成了在磁盘上文件实体的释放，而类似free list结构中相应的文件系统因进程的操作相应的inode并未释放。 解决的方法：这样的问题解决起来也很简单，找到操作的进程，kill掉就可以了 当然，闲得无聊，你重启机器，也没话说(最后，别忘了重启你的程序) 在网上发现两个可以不用停止服务就可清空nohup.out的命令。第一种：cp /dev/null nohup.out第二种：cat /dev/null &gt; nohup.out 以上，完~]]></content>
@@ -768,8 +780,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>Centos7</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -910,8 +922,8 @@
         <category>生活</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>自动化测试</tag>
+        <tag>selenium</tag>
         <tag>lives</tag>
       </tags>
   </entry>
@@ -947,8 +959,8 @@
         <category>自动化测试框架</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>自动化测试</tag>
+        <tag>selenium</tag>
         <tag>nose</tag>
         <tag>python3</tag>
         <tag>ddt</tag>
@@ -1257,8 +1269,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1269,8 +1281,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1316,8 +1328,8 @@
         <category>python基础</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -1341,8 +1353,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1353,8 +1365,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1377,8 +1389,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
