@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="python3.6安装basemap">
-<meta name="keywords" content="matplotlib">
+<meta name="description" content="记一次Linux清磁盘">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python3.6安装basemap">
-<meta property="og:url" content="http://tokyle.com/2018/06/01/python3-6安装basemap/index.html">
+<meta property="og:title" content="记一次Linux磁盘清理">
+<meta property="og:url" content="http://tokyle.com/2019/04/18/记一次Linux磁盘清理/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="python3.6安装basemap">
+<meta property="og:description" content="记一次Linux清磁盘">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-12T01:36:16.000Z">
+<meta property="og:updated_time" content="2019-04-18T07:21:57.142Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python3.6安装basemap">
-<meta name="twitter:description" content="python3.6安装basemap">
+<meta name="twitter:title" content="记一次Linux磁盘清理">
+<meta name="twitter:description" content="记一次Linux清磁盘">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>python3.6安装basemap | 它夏了夏天</title>
+<title>记一次Linux磁盘清理 | 它夏了夏天</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -269,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-python3-6安装basemap" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-记一次Linux磁盘清理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/06/01/python3-6安装basemap/" class="article-date">
-      <time datetime="2018-06-01T13:55:58.000Z" itemprop="datePublished">2018-06-01</time>
+      <a href="/2019/04/18/记一次Linux磁盘清理/" class="article-date">
+      <time datetime="2019-04-18T07:20:41.000Z" itemprop="datePublished">2019-04-18</time>
 </a>
 
 
@@ -288,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      python3.6安装basemap
+      记一次Linux磁盘清理
     </h1>
   
 
@@ -298,13 +298,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/python基础/">python基础</a>
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/matplotlib/">matplotlib</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -314,18 +314,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>python3.6安装basemap</p>
+        <p>记一次Linux清磁盘</p>
 <a id="more"></a>
-<p>很久没碰matplotlib了，想看看有没有中国地图加人口，这样绘制一张图，找白天，貌似<code>basemap</code>里面有，basemap需要：<code>from mpl_toolkits.basemap import Basemap</code>，然后就尝试安装<code>mpl_toolkits</code>，不出所料，失败了。。。</p>
-<p>折腾半天，附上windows下python3.6安装basemap步骤：</p>
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>首先，一个神奇的网站，经常逛：</p>
-<blockquote>
-<p><a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="noopener">python包下载</a></p>
-</blockquote>
-<p>下载对应python版本的文件，cp36表示3.6版本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">basemap‑1.1.0‑cp36‑cp36m‑win_amd64.whl </span><br><span class="line">pyproj‑1.9.5.1‑cp36‑cp36m‑win_amd64.whl</span><br></pre></td></tr></table></figure>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>windows进入cmd模式，进入保存上述俩文件的路径，使用pip安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install pyproj‑1.9.5.1‑cp36‑cp36m‑win_amd64.whl</span><br><span class="line">pip install basemap‑1.1.0‑cp36‑cp36m‑win_amd64.whl</span><br></pre></td></tr></table></figure></p>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>打开简单的世界地图：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.basemap import Basemap</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(16, 8))</span><br><span class="line">m = Basemap()</span><br><span class="line">m.drawcoastlines()</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p>最近发现有台机器磁盘满了，搜了下，nohub.out占完了</p>
+<p>然后果断的rm -rf nohub.out，以为结束了，然而df -h看了下，一点都没释放。。。</p>
+<p>因为被删除的文件在删除的时侯还是进程在操作(打开、访问等)的缘故，rm只完成了在磁盘上文件实体的释放，而类似free list结构中相应的文件系统因进程的操作相应的inode并未释放。</p>
+<p>解决的方法：<br>这样的问题解决起来也很简单，找到操作的进程，kill掉就可以了</p>
+<p>当然，闲得无聊，你重启机器，也没话说<br>(最后，别忘了重启你的程序)</p>
+<p>在网上发现两个可以不用停止服务就可清空nohup.out的命令。<br>第一种：cp /dev/null nohup.out<br>第二种：cat /dev/null &gt; nohup.out</p>
+<p>以上，完~</p>
 
       
     </div>
@@ -334,13 +331,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/06/01/python3-6安装basemap/">python3.6安装basemap</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/18/记一次Linux磁盘清理/">记一次Linux磁盘清理</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
-        <p><span>发布时间:</span>2018-06-01, 09:55:58</p>
-        <p><span>最后更新:</span>2018-09-11, 21:36:16</p>
+        <p><span>发布时间:</span>2019-04-18, 03:20:41</p>
+        <p><span>最后更新:</span>2019-04-18, 03:21:57</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/06/01/python3-6安装basemap/" title="python3.6安装basemap">http://tokyle.com/2018/06/01/python3-6安装basemap/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/06/01/python3-6安装basemap/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/18/记一次Linux磁盘清理/" title="记一次Linux磁盘清理">http://tokyle.com/2019/04/18/记一次Linux磁盘清理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/04/18/记一次Linux磁盘清理/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -352,16 +349,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/06/07/使用fiddler抓iphone包/">
-                    使用fiddler抓iphone包
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/05/22/【转】loadrunner请求三种格式API/">
-                    【转】loadrunner请求三种格式API
+                <a href="/2019/04/16/centos7搭建testlink/">
+                    centos7搭建testlink
                 </a>
             </div>
         
@@ -373,7 +364,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证"><span class="toc-number">3.</span> <span class="toc-text">验证</span></a></li></ol>
+            
         
     </div>
     <style>
@@ -409,7 +400,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"python3.6安装basemap　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"记一次Linux磁盘清理　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -452,15 +443,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/06/07/使用fiddler抓iphone包/" title="上一篇: 使用fiddler抓iphone包">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/05/22/【转】loadrunner请求三种格式API/" title="下一篇: 【转】loadrunner请求三种格式API">
+            <a href="/2019/04/16/centos7搭建testlink/" title="下一篇: centos7搭建testlink">
                 <i class="fa fa-angle-right"></i>
             </a>
         
