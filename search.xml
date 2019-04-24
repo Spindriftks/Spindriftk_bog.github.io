@@ -70,6 +70,7 @@
       <tags>
         <tag>Android</tag>
         <tag>adb</tag>
+        <tag>Monkey</tag>
       </tags>
   </entry>
   <entry>
@@ -81,6 +82,7 @@
       </categories>
       <tags>
         <tag>Android</tag>
+        <tag>adb</tag>
         <tag>Monkey</tag>
       </tags>
   </entry>
