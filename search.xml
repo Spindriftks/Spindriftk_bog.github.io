@@ -8,7 +8,7 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -329,7 +329,7 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>centos7</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -374,7 +374,7 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>Linux</tag>
         <tag>CPU</tag>
       </tags>
   </entry>
@@ -466,7 +466,7 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>Linux</tag>
         <tag>netstat</tag>
       </tags>
   </entry>
@@ -876,7 +876,7 @@
       </categories>
       <tags>
         <tag>mysql</tag>
-        <tag>linux</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -887,8 +887,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>centos7</tag>
+        <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
