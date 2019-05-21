@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[jumpserver简单使用]]></title>
+    <url>%2F2019%2F05%2F21%2Fjumpserver%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[jumpserver简单使用 Jumpserver搭建完成之后，就可以通过堡垒机跳转到制定的机器了，登录jumpserver： 要么直接是命令行(xshell 客户端)：1ssh username@192.168.0.1 2222 回车再输入密码即可（192.168.0.1是jumpserver搭建的服务器的ip） 使用xshell客户端秘钥进行登录，jumpserver服务器创建登录用户，设置密码，生成公钥和私钥，xshell使用该用户进行登录（具体设置后面会说明） jumpserver登录web页面有几块：仪表盘、用户管理、资产管理、权限管理、会话管理、作业中心、日志审计、系统设置简单介绍一下基本的一些用法 系统设置系统设置里面有几个，基本设置、邮件设置、LDAP设置、终端设置、安全设置 基本设置很简单，配置下当前jumpserver web端的url即可，Email主题前缀就是发送的邮件主题前缀，可以自定，没啥好说的; 1# 修改 url 的&quot;localhost&quot;为你的实际 url 地址, 否则邮件收到的地址将为&quot;localhost&quot; 也无法创建新用户 邮件设置，根据实际的邮件配置即可，使用SSL，端口为465，设置完成之后，可以点击“测试连接”试试看能不能成功；1234# 点击页面上边的&quot;邮件设置&quot;, 进入邮件设置页面# 默认使用 25 端口, 不勾选 SSL 和 TLS; 如果需要勾选 SSL, 端口需要修改成 465; 如果需要勾选 TLS, 端口需要改成 587# 不可以同时勾选 SSL 和 TLS# 配置邮件服务后, 点击页面的&quot;测试连接&quot;按钮, 如果配置正确, Jumpserver 会发送一条测试邮件到您的 SMTP 账号邮箱里面, 确定收到测试邮件后点击保存即可使用 LDAP设置，统一用户认证，看你需不需要使用域账号了，具体怎么配置可以咨询IT；1234# 如果不需要使用&quot;ldap&quot;用户登陆 jumpserver, 可以直接跳过, 不需要设置# 先&quot;测试&quot;通过才能保存# DN 和 OU 一定要完整(如 &quot;DN:cn=Manage,ou=Jumpserver,dc=jumpserver,ou=org&quot;)# 注：可借用第三方 gui 工具查看 ldap 用户的属性, 新版本已经支持中文名登录, 即cn=中文也可正常使用 终端设置，按需勾选，密码认证，密钥认证等；123456# &quot;密码认证&quot;和&quot;密钥认证&quot;是 SSH 连接跳板机时所使用的认证方式(都不选会造成无法使用 SSH 方式连接登录跳板机, 不影响 web 登录)# &quot;Telnet成功正则表达式&quot; telnet设备登陆失败需要设置# &quot;命令存储&quot;&quot;录像存储&quot;位置设置# &quot;命令存储&quot;&quot;录像存储&quot;修改后, 需要在Jumpserver 会话管理-终端管理 修改terminal的配置 录像存储 命令记录, 然后重启 Jumpserver 服务# 设置后重启 Coco 才能生效 安全设置，也是按需勾选；1234# &quot;MAF二次认证&quot;勾选会开启全局强制&quot;MFA&quot;, 所有 jumpserver 用户必须使用动态口令进行认证登录(即时生效)# &quot;限制登录失败&quot;和&quot;限制登录时间&quot;设置需要重启 jumpserver 才能生效# &quot;SSH最大空闲时间&quot;设置需要重启 coco 才能生效# &quot;密码校验规则&quot;设置立即生效 用户管理用户管理分用户列表和用户组，顾名思义，jumpserver的用户和组；根据实际需要创建对应的用户，和组，用户分到对应的组即可；1234567# 点击页面左侧&quot;用户列表&quot;菜单下的&quot;用户列表&quot;, 进入用户列表页面# 点击页面左上角&quot;创建用户&quot;按钮, 进入创建用户页面, (也可以通过右上角导入模版进行用户导入)# 其中, 用户名即 Jumpserver 登录账号(具有唯一性, 不能重名)。名称为页面右上角用户标识(可重复)# 成功提交用户信息后, Jumpserver 会发送一条设置&quot;用户密码&quot;的邮件到您填写的用户邮箱# 点击邮件中的设置密码链接, 设置好密码后, 您就可以用户名和密码登录 Jumpserver 了。# 用户首次登录 Jumpserver, 会被要求完善用户信息, 按照向导操作即可。注：MFA 即 Google Authenticator, 使用此软件需要APP时间与浏览器时间同步 关于创建用户及完善用户信息，为了方便后续使用xshell客户端可以使用密钥登录，需要一点注意： 首先，在jumpserver服务器上创建登录的账号，设置密码，生成公钥和私钥(root账号)： 12345678#新增用户useradd kyle# 设置新密码passwd kyle# 生成公钥及私钥（记得过程中输入密钥的密码，后面会用到）ssh-keygen 在用户的家目录下（/home/kyle），会有.ssh文件夹（ls -al），里面是生成的公钥和私钥（cd /home/kyle/.ssh &amp;&amp; ls -al），这边用id_rsa_1和id_rsa_1.pub表示，便于识别 在jumpserver服务器上创建完账号kyle之后，在jumpserver web界面创建用户，用户名使用kyle，邮件自填，点击保存，等着收邮件，邮件会提示改密码，更改了密码之后，会进行完善用户信息，最主要的就是一个密钥，将之前生生成的公钥（id_rsa_1.pub）内容填进去即可(cat，复制) 资产管理资产管理顾名思义就是管理设备的地方 资产列表管理资产的节点，左边是资产树，右击可以进行增删改操作，右侧是该节点下的资产，界面挺简单 网域列表这个功能没用过，看官方文档介绍的，12网域功能是为了解决部分环境（如：混合云）无法直接连接而新增的功能，原理是通过网关服务器进行跳转登录。 JMS =&gt; 网域网关 =&gt; 目标资产 管理用户jumpserver的管理用户，可以理解为资产上的root用户，或者是具备all sudo权限的用户；页面直接点创建管理用户，填写资产机器的root账号信息，或者用all sudo权限的账号信息即可（有个添加秘钥的选项，这个可以设置，root在目标机器上生成公钥和私钥，再引过来即可） 系统用户官方解释：1系统用户是 Jumpserver跳转登录资产时使用的用户，可以理解为登录资产用户，如 web, sa, dba(`ssh web@some-host`), 而不是使用某个用户的用户名跳转登录服务器(`ssh kyle@some-host`); 简单来说是 用户使用自己的用户名登录Jumpserver, Jumpserver使用系统用户登录资产。 系统用户创建时，如果选择了自动推送 Jumpserver会使用ansible自动推送系统用户到资产中，如果资产(交换机、windows)不支持ansible, 请手动填写账号密码。 以下为官方文档的注意事项：1234567891011121314151617181920# &quot;系统用户&quot;是 Jumpserver 跳转登录资产时使用的用户, 用户使用该用户登录资产# &quot;自动生成密码&quot;、&quot;自动推送&quot;、&quot;Sudo&quot;等功能需要对应资产的&quot;管理用户&quot;是且有root权限, 否则自动推送失败# ssh 协议的 &quot;Sudo&quot; 栏设定用户的 sudo 权限,# ssh 协议如果创建的&quot;系统用户&quot;已在资产上面存在, &quot;推送&quot;将会覆盖掉原用户的&quot;home&quot;目录权限(注: 替换成700权限)# ssh 协议的 &quot;ssh私钥&quot; 如果私钥有密码, 请把key的密码填在密码栏上, 目前仅支持 RSA DSA 格式私钥# 这里简单举几个 &quot;sudo&quot; 设置例子Sudo /bin/su # 当前系统用户可以免sudo密码执行sudo su命令Sudo /usr/bin/git, /usr/bin/php, /bin/cat, /bin/more, /bin/less, /usr/bin/tail# 当前系统用户可以免sudo密码执行git php cat more less tailSudo !/usr/bin/yum # 当前系统用户不可以执行sudo yum命令# 此处的权限应该根据使用用户的需求汇总后定制, 原则上给予最小权限即可# &quot;系统用户&quot;创建时, 如果选择了&quot;自动推送&quot; Jumpserver 会使用&quot;Ansible&quot;自动推送系统用户到资产中, &quot;root&quot;用户不支持推送# 如果资产(交换机、Windows)不支持&quot;Ansible&quot;, 请去掉&quot;自动生成密钥&quot;、&quot;自动推送&quot;勾选。手动填写资产上已有的账号及账号密码# 如果想让用户登录资产时自己输入密码, 可以在创建系统用户时选择&quot;手动登录&quot; 权限管理权限管理下，主要就是资产授权，可以创建授权规则，选择用户或者组12345# &quot;名称&quot;, 授权的名称, 不能重复# &quot;用户&quot;和&quot;用户组&quot;二选一, 不推荐即选择用户又选择用户组# &quot;资产&quot;和&quot;节点&quot;二选一, 选择节点会包含节点下面的所有资产# &quot;系统用户&quot;, 及所选的用户或用户组下的用户能通过该系统用户使用所选节点或者节点下的资产# 用户(组), 资产(节点), 系统用户是一对一的关系, 所以当拥有 Linux、Windows 不同类型资产时, 应该分别给 Linux 资产和 Windows 资产创建授权规则 Jumpserver一些名词解释用户管理 用户组多个用户可以组合成用户组，为了方便进行授权，可以将一个部门或者几个用户组成用户组，在授权中使用组授权，该组中的用户拥有所有授权的主机权限 用户用户是授权和登陆的主体，将来为每个员工简历一个账户，用来登录跳板机，将资产授权给改用户 资产管理 资产资产通常是我们的服务器、网络设备等，将资产授权给用户，用户则会有权限登录资产，执行命令等 管理账号添加资产时需要一个管理账号，该账号是该资产上已有的有管理权限的用户，如root，或者是有NOPASSWD:ALL sudo权限的用户，改管理账号用来向资产推送系统用户，为系统用户添加sudo，获取资产的一些信息 授权管理 系统用户系统用户是服务器上建立的一些真实存在的可以ssh登陆的用户，如dev,sa,dba等，系统用户可以使用jumpserver推送到服务器上，也可以利用自己公司的工具进行推送，授权时将用户、资产、系统用户关联起来，则表明用户有权限登陆该资产的这个系统用户，例如：用户小明以dev系统用户登录192.168.0.2资产，简单理解就是，将某个资产上的某个系统用户映射给这个用户登录 用户作用：123456789登录web（使用用户）登陆跳板机（使用用户）跳转登陆Client端（使用系统用户）系统用户 关联sudo（就是sudo授权），该系统用户就拥有sudo权限推送系统用户（使用管理用户，管理用户是Client端上已有的用户并且有sudo权限） 以上，完~ 参考文档 官方指导文档优秀指导文档]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>Centos7</tag>
+        <tag>Jumpserver</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[centos7安装jumpserver堡垒机]]></title>
     <url>%2F2019%2F05%2F20%2Fcentos7%E5%AE%89%E8%A3%85jumpserver%E5%A0%A1%E5%9E%92%E6%9C%BA%2F</url>
     <content type="text"><![CDATA[centos7安装jumpserver堡垒机 Jumpserverjumpserver是一款常用的开源堡垒机方案，基于python+django，适合上手，安装需要确保python3环境 centos7下python2和python3共存 安装jumpserver克隆项目123cd /optgit clone --depth=1 https://github.com/jumpserver/jumpserver.git 安装RPM包123cd /opt/jumpserver/requirementsyum -y install `cat rpm_requirements.txt` 安装python库依赖tip: 安装pip，实际可以使用pip3安装依赖安装pip12345678# 安装epel扩展源yum -y install epel-release# 安装pipyum -y install python-pip# 清楚cacheyum clean all 安装依赖1pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ 安装redis使用redis作为cache和celery broke12345yum -y install redissystemctl enable redissystemctl start redis 配置数据库这边使用的是MySQL，安装教程就不写了，很简单，创建jumpserver库和用户：12345678create database jumpserver character set utf8;create user jumpserver@&apos;%&apos; identified by &apos;pwd&apos;;GRANT ALL PRIVILEGES ON *.* TO &apos;jumpserver&apos;@&apos;%&apos; IDENTIFIED BY &apos;pwd&apos; WITH GRANT OPTION;flush privileges;exit; 修改jumpserver配置文件123cd /opt/jumpservercp config_example.yml config.yml 123456789# 生成随机SECRET_KEYSECRET_KEY=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 50`echo &quot;SECRET_KEY=$SECRET_KEY&quot; &gt;&gt; ~/.bashrc# 生成随机BOOTSTRAP_TOKENBOOTSTRAP_TOKEN=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 16`echo &quot;BOOTSTRAP_TOKEN=$BOOTSTRAP_TOKEN&quot; &gt;&gt; ~/.bashrc 1234567891011sed -i &quot;s/SECRET_KEY:/SECRET_KEY: $SECRET_KEY/g&quot; /opt/jumpserver/config.ymlsed -i &quot;s/BOOTSTRAP_TOKEN:/BOOTSTRAP_TOKEN: $BOOTSTRAP_TOKEN/g&quot; /opt/jumpserver/config.ymlsed -i &quot;s/# DEBUG: true/DEBUG: false/g&quot; /opt/jumpserver/config.ymlsed -i &quot;s/# LOG_LEVEL: DEBUG/LOG_LEVEL: ERROR/g&quot; /opt/jumpserver/config.ymlsed -i &quot;s/# SESSION_EXPIRE_AT_BROWSER_CLOSE: false/SESSION_EXPIRE_AT_BROWSER_CLOSE: true/g&quot; /opt/jumpserver/config.ymlsed -i &quot;s/DB_PASSWORD: /DB_PASSWORD: $DB_PASSWORD/g&quot; /opt/jumpserver/config.yml 查看SECRET_KEY和BOOTSTRAP_TOKEN123456cat ~/.bashrc或者echo -e &quot;\033[31m 你的SECRET_KEY是 $SECRET_KEY \033[0m&quot;echo -e &quot;\033[31m 你的BOOTSTRAP_TOKEN是 $BOOTSTRAP_TOKEN \033[0m&quot; 人工确认修改没有问题：vim /opt/jumpserver/config.yml12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576# SECURITY WARNING: keep the secret key used in production secret!# 加密秘钥 生产环境中请修改为随机字符串，请勿外泄, 可使用命令生成 # $ cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 49;echoSECRET_KEY: # SECURITY WARNING: keep the bootstrap token used in production secret!# 预共享Token coco和guacamole用来注册服务账号，不在使用原来的注册接受机制BOOTSTRAP_TOKEN: # Development env open this, when error occur display the full process track, Production disable it# DEBUG 模式 开启DEBUG后遇到错误时可以看到更多日志DEBUG: false# DEBUG, INFO, WARNING, ERROR, CRITICAL can set. See https://docs.djangoproject.com/en/1.10/topics/logging/# 日志级别LOG_LEVEL: ERROR# LOG_DIR: # Session expiration setting, Default 24 hour, Also set expired on on browser close# 浏览器Session过期时间，默认24小时, 也可以设置浏览器关闭则过期# SESSION_COOKIE_AGE: 86400SESSION_EXPIRE_AT_BROWSER_CLOSE: true# Database setting, Support sqlite3, mysql, postgres ....# 数据库设置# See https://docs.djangoproject.com/en/1.10/ref/settings/#databases# SQLite setting:# 使用单文件sqlite数据库# DB_ENGINE: sqlite3# DB_NAME: # MySQL or postgres setting like:# 使用Mysql作为数据库DB_ENGINE: mysqlDB_HOST: 127.0.0.1DB_PORT: 3306DB_USER: jumpserverDB_PASSWORD: DB_NAME: jumpserver# When Django start it will bind this host and port# ./manage.py runserver 127.0.0.1:8080# 运行时绑定端口HTTP_BIND_HOST: 0.0.0.0HTTP_LISTEN_PORT: 8080# Use Redis as broker for celery and web socket# Redis配置REDIS_HOST: 127.0.0.1REDIS_PORT: 6379# REDIS_PASSWORD: # REDIS_DB_CELERY: 3# REDIS_DB_CACHE: 4# Use OpenID authorization# 使用OpenID 来进行认证设置# BASE_SITE_URL: http://localhost:8080# AUTH_OPENID: false # True or False# AUTH_OPENID_SERVER_URL: https://openid-auth-server.com/# AUTH_OPENID_REALM_NAME: realm-name# AUTH_OPENID_CLIENT_ID: client-id# AUTH_OPENID_CLIENT_SECRET: client-secret## Use Radius authorization# 使用Radius来认证# AUTH_RADIUS: false# RADIUS_SERVER: localhost# RADIUS_PORT: 1812# RADIUS_SECRET: # OTP settings# OTP/MFA 配置# OTP_VALID_WINDOW: 0# OTP_ISSUER_NAME: Jumpserver 运行Jumpserver1234567cd /opt/jumpserver# 后台运行./jms start all -d# 其他命令./jms start|stop|status all 安装SSH Server和 WebSocket Server：Cococlone项目1git clone --depth=1 https://github.com/jumpserver/coco.git 安装依赖12345cd /opt/coco/requirementsyum -y install $(cat rpm_requirements.txt)pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ 修改配置1234567cd /opt/coco/cp config_example.yml config.ymlsed -i &quot;s/BOOTSTRAP_TOKEN: &lt;PleasgeChangeSameWithJumpserver&gt;/BOOTSTRAP_TOKEN: $BOOTSTRAP_TOKEN/g&quot; /opt/coco/config.ymlsed -i &quot;s/# LOG_LEVEL: INFO/LOG_LEVEL: ERROR/g&quot; /opt/coco/config.yml vim /opt/coco/config.yml 启coco12345# 后台启动./cocod start -d# 更多命令./cocod start|stop|statu 安装Web Terminal 前端: Luna直接下载解压12345678cd /optwget https://github.com/jumpserver/luna/releases/download/1.4.10/luna.tar.gz#如果网络有问题导致下载无法完成可以使用下面地址wget https://demo.jumpserver.org/download/luna/1.4.10/luna.tar.gztar -zxvf luna.tar.gzchown -R root:root luna nginx配置安装nginx1234yum install yum-utils# 配置nginx yum源vim /etc/yum.repos.d/nginx.repo 内容：123456[nginx-stable]name=nginx stable repobaseurl=http://nginx.org/packages/centos/$releasever/$basearch/gpgcheck=1enabled=1gpgkey=https://nginx.org/keys/nginx_signing.key 安装：12345678yum makecache fastyum install -y nginxmv default.conf default.conf_20190520.bak# 修改配置vim /etc/nginx/conf.d/jumpserver.conf 修改如下：1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859server &#123; listen 80; # 代理端口, 以后将通过此端口进行访问, 不再通过8080端口 # server_name demo.jumpserver.org; # 修改成你的域名或者注释掉 client_max_body_size 100m; # 录像及文件上传大小限制 location /luna/ &#123; try_files $uri / /index.html; alias /opt/luna/; # luna 路径, 如果修改安装目录, 此处需要修改 &#125; location /media/ &#123; add_header Content-Encoding gzip; root /opt/jumpserver/data/; # 录像位置, 如果修改安装目录, 此处需要修改 &#125; location /static/ &#123; root /opt/jumpserver/data/; # 静态资源, 如果修改安装目录, 此处需要修改 &#125; location /socket.io/ &#123; proxy_pass http://localhost:5000/socket.io/; # 如果coco安装在别的服务器, 请填写它的ip proxy_buffering off; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection &quot;upgrade&quot;; proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; access_log off; &#125; location /coco/ &#123; proxy_pass http://localhost:5000/coco/; # 如果coco安装在别的服务器, 请填写它的ip proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; access_log off; &#125; location /guacamole/ &#123; proxy_pass http://localhost:8081/; # 如果guacamole安装在别的服务器, 请填写它的ip proxy_buffering off; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection $http_connection; proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; access_log off; &#125; location / &#123; proxy_pass http://localhost:8080; # 如果jumpserver安装在别的服务器, 请填写它的ip proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; &#125;&#125; 启动nginx123systemctl enable nginxsystemctl start nginx 访问jumpservernginx启动后，浏览器访问http:ip:nginx配置的端口即可访问，默认账密admin/admin 测试连接如果登录客户端是 macOS 或 Linux, 登录语法如下$ ssh -p2222 admin@192.168.244.144$ sftp -P2222 admin@192.168.244.144密码: admin 如果登录客户端是 Windows, Xshell Terminal 登录语法如下$ ssh admin@192.168.244.144 2222$ sftp admin@192.168.244.144 2222密码: admin如果能登陆代表部署成功 以上，完~ 官方文档 官方安装指导]]></content>
@@ -841,8 +853,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>Centos7</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -983,8 +995,8 @@
         <category>生活</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>自动化测试</tag>
+        <tag>selenium</tag>
         <tag>lives</tag>
       </tags>
   </entry>
@@ -1020,9 +1032,9 @@
         <category>自动化测试框架</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python3</tag>
         <tag>自动化测试</tag>
+        <tag>selenium</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1125,8 +1137,8 @@
         <category>python黑科技</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python3</tag>
+        <tag>selenium</tag>
         <tag>logging</tag>
       </tags>
   </entry>
@@ -1330,8 +1342,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1342,8 +1354,8 @@
         <category>selenium</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1389,8 +1401,8 @@
         <category>python基础</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
         <tag>win32api</tag>
       </tags>
   </entry>
@@ -1414,8 +1426,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1426,8 +1438,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -1450,8 +1462,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>selenium</tag>
         <tag>python</tag>
+        <tag>selenium</tag>
       </tags>
   </entry>
   <entry>
