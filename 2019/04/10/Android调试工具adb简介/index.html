@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="Android调试工具adb简介">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-10T05:35:29.880Z">
+<meta property="og:updated_time" content="2019-05-22T09:48:08.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android调试工具adb简介">
 <meta name="twitter:description" content="Android调试工具adb简介">
@@ -388,6 +388,8 @@
 </li>
 </ul>
 <p>当设备root后，其实能获取的就更多了，例如MAC 地址啥的</p>
+<h3 id="获取当前页面activity"><a href="#获取当前页面activity" class="headerlink" title="获取当前页面activity"></a>获取当前页面activity</h3><p>用于手上没有apk反编译，也没开发可以问，直接手机打开app，adb shell获取activity</p>
+<p>通过<code>adb shell dumpsys window |findstr mCurrent</code>，捕获当前页面的activity<br>通过<code>adb shell dumpsys activity|findstr realActivity</code>, 捕获到当前页面的activity</p>
 <p>以上，完~</p>
 
       
@@ -400,7 +402,7 @@
         <p><span>本文标题:</span><a href="/2019/04/10/Android调试工具adb简介/">Android调试工具adb简介</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
         <p><span>发布时间:</span>2019-04-10, 01:32:15</p>
-        <p><span>最后更新:</span>2019-04-10, 01:35:29</p>
+        <p><span>最后更新:</span>2019-05-22, 05:48:08</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/04/10/Android调试工具adb简介/" title="Android调试工具adb简介">http://tokyle.com/2019/04/10/Android调试工具adb简介/</a>
             <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/04/10/Android调试工具adb简介/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -436,7 +438,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#adb"><span class="toc-number">1.</span> <span class="toc-text">adb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用abd命令"><span class="toc-number">2.</span> <span class="toc-text">常用abd命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adb-shell"><span class="toc-number">3.</span> <span class="toc-text">adb shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pm"><span class="toc-number">3.1.</span> <span class="toc-text">pm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#am"><span class="toc-number">3.2.</span> <span class="toc-text">am</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">3.3.</span> <span class="toc-text">其他</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#adb"><span class="toc-number">1.</span> <span class="toc-text">adb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用abd命令"><span class="toc-number">2.</span> <span class="toc-text">常用abd命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adb-shell"><span class="toc-number">3.</span> <span class="toc-text">adb shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pm"><span class="toc-number">3.1.</span> <span class="toc-text">pm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#am"><span class="toc-number">3.2.</span> <span class="toc-text">am</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">3.3.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取当前页面activity"><span class="toc-number">4.</span> <span class="toc-text">获取当前页面activity</span></a></li></ol>
         
     </div>
     <style>

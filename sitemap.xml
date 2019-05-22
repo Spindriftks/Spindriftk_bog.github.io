@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tokyle.com/2019/04/10/Android%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7adb%E7%AE%80%E4%BB%8B/</loc>
+    
+    <lastmod>2019-05-22T09:48:08.862Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tokyle.com/2019/05/21/jumpserver%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2019-05-21T07:17:23.224Z</lastmod>
@@ -131,13 +138,6 @@
     <loc>http://tokyle.com/2019/04/10/adb%E8%BF%9B%E9%98%B6%E4%B8%80-%E2%80%94%E2%80%94-logcat/</loc>
     
     <lastmod>2019-04-10T08:19:31.368Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tokyle.com/2019/04/10/Android%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7adb%E7%AE%80%E4%BB%8B/</loc>
-    
-    <lastmod>2019-04-10T05:35:29.880Z</lastmod>
     
   </url>
   
