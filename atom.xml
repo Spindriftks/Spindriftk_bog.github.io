@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-05-21T07:17:23.224Z</updated>
+  <updated>2019-05-23T02:15:34.163Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>appium使用uiautomator2无法启动app问题</title>
+    <link href="http://tokyle.com/2019/05/22/appium%E4%BD%BF%E7%94%A8uiautomator2%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8app%E9%97%AE%E9%A2%98/"/>
+    <id>http://tokyle.com/2019/05/22/appium使用uiautomator2无法启动app问题/</id>
+    <published>2019-05-23T01:56:07.000Z</published>
+    <updated>2019-05-23T02:15:34.163Z</updated>
+    
+    <content type="html"><![CDATA[<p>appium使用uiautomator2无法启动app问题</p><a id="more"></a><p>之前有遇到过Android 7之后，使用appium登录进去之后，拿不到元素，page_source获取也超时，找了资料，都说是android 7的原因，解决办法很简单，appium起的时候，加个参数就行了,改成下面这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">desired_caps = &#123;&#125;</span><br><span class="line">desired_caps[&apos;platformName&apos;] = &apos;Android&apos;</span><br><span class="line">desired_caps[&apos;platformVersion&apos;] = &apos;8.1.0&apos;</span><br><span class="line">desired_caps[&apos;deviceName&apos;] = &apos;yanfyang&apos;</span><br><span class="line">desired_caps[&apos;appPackage&apos;] = &apos;com.kuaikan.comic&apos;</span><br><span class="line">desired_caps[&apos;appActivity&apos;] = &apos;com.kuaikan.comic.ui.LaunchActivity&apos;</span><br><span class="line">desired_caps[&apos;automationName&apos;] = &apos;uiautomator2&apos;</span><br><span class="line">desired_caps[&apos;noReset&apos;] = True</span><br><span class="line"></span><br><span class="line">driver = webdriver.Remote(&apos;http://localhost:4723/wd/hub&apos;, desired_caps)</span><br></pre></td></tr></table></figure></p><p>增加了一个：<code>desired_caps[&#39;automationName&#39;] = &#39;uiautomator2&#39;</code></p><p>这样直接启动，会有点问题</p><h3 id="Message-An-unknown-server-side-error-occurred-while-processing-the-command-Original-error-Could-not-sign-with-default-certificate"><a href="#Message-An-unknown-server-side-error-occurred-while-processing-the-command-Original-error-Could-not-sign-with-default-certificate" class="headerlink" title="Message: An unknown server-side error occurred while processing the command. Original error: Could not sign with default certificate."></a>Message: An unknown server-side error occurred while processing the command. Original error: Could not sign with default certificate.</h3><p>后面还有更有价值的报错，完整的不记得了，大概是这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files (x86)\Appium\resources\app\node_modules\appium-uiautomator2-server\apks\appium-uiautomator2-server-v3.1.1.apk       Access denied</span><br></pre></td></tr></table></figure></p><p>看到<code>Access denied</code>，首先就检查了下，因为当前电脑是域账号登录的，不是管理员，对那个报错的文件夹，权限只有读，没有写的权限，看样子问题是权限的</p><p><strong>解决办法</strong>：打开appium时候，右键使用管理员权限打开，这样就可以了</p><h3 id="命令行方式管理员运行appium"><a href="#命令行方式管理员运行appium" class="headerlink" title="命令行方式管理员运行appium"></a>命令行方式管理员运行appium</h3><p>linux或者mac好解决，sudo 即可，windows下，查了点资料，有个命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runas /user:Administrator Appium.exe</span><br></pre></td></tr></table></figure></p><p>需要进入appium目录下执行</p><p>执行这条命令，会让输入一个administrator的密码，这个密码，可以更改，方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">右击我的电脑——管理——本地用户和组——点击用户——选择administrator——右击设置密码</span><br></pre></td></tr></table></figure></p><h4 id="1327-用户帐户限制阻止了此用户进行登录。例如：不允许使用空密码，登录次数的限制，或强制实施的某个策略限制。"><a href="#1327-用户帐户限制阻止了此用户进行登录。例如：不允许使用空密码，登录次数的限制，或强制实施的某个策略限制。" class="headerlink" title="1327: 用户帐户限制阻止了此用户进行登录。例如：不允许使用空密码，登录次数的限制，或强制实施的某个策略限制。"></a>1327: 用户帐户限制阻止了此用户进行登录。例如：不允许使用空密码，登录次数的限制，或强制实施的某个策略限制。</h4><p>输入密码之后，还是会报错上述错误，这个，是由于没有解禁用户造成的，解禁办法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">右击我的电脑——管理——本地用户和组——点击用户——选择administrator——右击——选择属性——取消勾选  账户已禁用</span><br></pre></td></tr></table></figure></p><p>以上，完~</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;appium使用uiautomator2无法启动app问题&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="appium" scheme="http://tokyle.com/categories/appium/"/>
+    
+    
+      <category term="appium" scheme="http://tokyle.com/tags/appium/"/>
+    
+      <category term="uiautomator2" scheme="http://tokyle.com/tags/uiautomator2/"/>
+    
+  </entry>
   
   <entry>
     <title>jumpserver简单使用</title>
@@ -466,26 +490,6 @@
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
       <category term="pip3" scheme="http://tokyle.com/tags/pip3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2019年关将至有感</title>
-    <link href="http://tokyle.com/2019/01/24/2019%E5%B9%B4%E5%85%B3%E5%B0%86%E8%87%B3%E6%9C%89%E6%84%9F/"/>
-    <id>http://tokyle.com/2019/01/24/2019年关将至有感/</id>
-    <published>2019-01-25T00:53:07.000Z</published>
-    <updated>2019-01-25T00:55:03.239Z</updated>
-    
-    <content type="html"><![CDATA[<p>2019农历年来临之际有感</p><a id="more"></a><p>年关将近，发发牢骚…<br>近几天“百度已死”的文章铺天盖地，随之而来的很多分析互联网的文章出现，年末了，也扯扯自己感受。最大的感触就是“中国互联网”的确是不再互联。曾经还在百度搜音乐，搜商品..而今，基本都是对应网站（网易云，淘宝）直接搜索。可能也有近几年百度搜索结果太烂的原因，然后呢，不是很关注这行的可能不怎么知道，当前国内互联网，巨头分地，彼此吃像都不怎么样，说到底都是数据，隐私，流量，具体点就是钱。</p><p>微信公众号的内容，普通搜索引擎的爬虫无法收录；<br>淘宝为代表的网购平台, 长时间的封杀搜索引擎爬虫（结果就是搜商品只能淘宝、京东站内搜索）；<br>app之间互转越来越困难（抖音转微信等）<br>加上前段时间的马桶MT，聊天宝，多闪被微信封杀…<br>巨头圈地，彼此不互联貌似已经越来越具象；相比之下，国外谷歌搜索结果仍然可以直连亚马逊…无话可说..</p><p>最后，还是扯到搜索上，当前百度基本我是放弃了，必应最近日子也不好过；最最推荐的方式，就是有能力就买台服务器，自己搭个梯子吧，万里长城永不倒啊（直接买VPN不怎么推荐，有点手段的能把你祖宗辈信息都截到）；科学上网做不到，推荐几个小众的搜索网站：</p><p>无隐私搜索（chrome有插件，地址栏直接输搜索项，实测非常干净）：<br><code>https://www.duckduckgo.com/</code></p><p>类似网站查询网站，可查用户覆盖率和用户标签，其他功能自行体会（有chrome插件）：<br><code>https://www.similarweb.com/</code></p><p>在线问答系统（类似百科）：<br><code>https://www.wolframalpha.com/</code></p><p>（以上网站可能都需要至少科学上网一次装完插件..所以，还是赶紧会科学上网现实，直接Google多方便）</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;2019农历年来临之际有感&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="生活" scheme="http://tokyle.com/categories/%E7%94%9F%E6%B4%BB/"/>
-    
     
   </entry>
   
