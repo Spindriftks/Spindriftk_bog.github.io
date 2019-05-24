@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[excel随机函数]]></title>
+    <url>%2F2019%2F05%2F23%2Fexcel%E9%9A%8F%E6%9C%BA%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[excel随机函数 前言需要给客户一份性能报告，然后有些数据需要稍微修饰下，服务器资源部分，采用的是之前nmon生成的报告，nmon的报告可以通过修改数据，自动生成图像，然后我们就需要在一个数值区间内生成几千个数据，来尽量真实点（o(╥﹏╥)o）（好没下限的感觉） 例如，现在需要出一个CPU使用率的监控图像，采用nmon和nmon_analyser生成了图像之后，找到cpu sheet页，通过更改User%，Sys%，Wait%以及Idle%来生成需要的数据的监控图像 现在需要生成一个CPU使用率在76%左右的图像，也就是需要User%的值大约在[74%, 78%]这个区间内，然后需要的是1000个这个区间的随机数，生成随机数的方法很多，这边介绍的excel的函数 RAND()直接上用法 如果要生成[0, 10]，单元格内输入=RAND()*10，回车即可，按F9刷新 如果要生成[0.50]，单元格内输入=RAND()*50，回车即可，按F9刷新 然后，如果要生成[1, 8]，单元格内输入=RAND()*7+1，回车即可，按F9刷新 因此，我们的需求可以在单元格内写=RAND()*4+74，回车即可，按F9刷新（1000条数据，直接往下拖即可） 纯粹是个无聊小技能。。 以上，完~]]></content>
+      <categories>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>excel</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[appium使用uiautomator2无法启动app问题]]></title>
     <url>%2F2019%2F05%2F22%2Fappium%E4%BD%BF%E7%94%A8uiautomator2%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8app%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[appium使用uiautomator2无法启动app问题 之前有遇到过Android 7之后，使用appium登录进去之后，拿不到元素，page_source获取也超时，找了资料，都说是android 7的原因，解决办法很简单，appium起的时候，加个参数就行了,改成下面这样：12345678910desired_caps = &#123;&#125;desired_caps[&apos;platformName&apos;] = &apos;Android&apos;desired_caps[&apos;platformVersion&apos;] = &apos;8.1.0&apos;desired_caps[&apos;deviceName&apos;] = &apos;yanfyang&apos;desired_caps[&apos;appPackage&apos;] = &apos;com.kuaikan.comic&apos;desired_caps[&apos;appActivity&apos;] = &apos;com.kuaikan.comic.ui.LaunchActivity&apos;desired_caps[&apos;automationName&apos;] = &apos;uiautomator2&apos;desired_caps[&apos;noReset&apos;] = Truedriver = webdriver.Remote(&apos;http://localhost:4723/wd/hub&apos;, desired_caps) 增加了一个：desired_caps[&#39;automationName&#39;] = &#39;uiautomator2&#39; 这样直接启动，会有点问题 Message: An unknown server-side error occurred while processing the command. Original error: Could not sign with default certificate.后面还有更有价值的报错，完整的不记得了，大概是这样1C:\Program Files (x86)\Appium\resources\app\node_modules\appium-uiautomator2-server\apks\appium-uiautomator2-server-v3.1.1.apk Access denied 看到Access denied，首先就检查了下，因为当前电脑是域账号登录的，不是管理员，对那个报错的文件夹，权限只有读，没有写的权限，看样子问题是权限的 解决办法：打开appium时候，右键使用管理员权限打开，这样就可以了 命令行方式管理员运行appiumlinux或者mac好解决，sudo 即可，windows下，查了点资料，有个命令：1runas /user:Administrator Appium.exe 需要进入appium目录下执行 执行这条命令，会让输入一个administrator的密码，这个密码，可以更改，方法：1右击我的电脑——管理——本地用户和组——点击用户——选择administrator——右击设置密码 1327: 用户帐户限制阻止了此用户进行登录。例如：不允许使用空密码，登录次数的限制，或强制实施的某个策略限制。输入密码之后，还是会报错上述错误，这个，是由于没有解禁用户造成的，解禁办法：1右击我的电脑——管理——本地用户和组——点击用户——选择administrator——右击——选择属性——取消勾选 账户已禁用 以上，完~]]></content>
