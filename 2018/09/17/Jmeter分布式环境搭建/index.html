@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="Jmeter分布式环境搭建">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-17T09:58:31.000Z">
+<meta property="og:updated_time" content="2019-05-24T07:55:18.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jmeter分布式环境搭建">
 <meta name="twitter:description" content="Jmeter分布式环境搭建">
@@ -321,9 +321,9 @@
 <p>2、执行时，master会把脚本发送到每台slave上，slave 拿到脚本后就开始执行，slave执行时不需要启动GUI，我理解它应该是通过命令行模式执行的。</p>
 <p>3、执行完成后，slave会把结果回传给master，master会收集所有slave的信息并汇总。</p>
 <p>示例有三台机器，ip分别为：192.168.3.1,192.168.3.2,192.168.3.3；其中192.168.3.3作为调度机，启动GUI界面</p>
-<h3 id="执行机（slave）配置"><a href="#执行机（slave）配置" class="headerlink" title="执行机（slave）配置"></a>执行机（slave）配置</h3><p>前提条件是执行机所在服务器已经搭建好jmeter执行环境，并且有安装jmeter（建议执行机和调度机jmeter版本完全一致，省的麻烦）<br>进行执行机中（192.168.3.1,192.168.3.2）jmeter安装目录<br>1，编辑<code>jmeter.properties</code>，找到<code>server_port=1099</code>，以及<code>server.rmi.localport=1099</code>修改端口；该端口就是启动<code>jmeter-server.bat</code>之后，控制台显示的端口，也是调度机调度的端口</p>
+<h3 id="执行机（slave）配置"><a href="#执行机（slave）配置" class="headerlink" title="执行机（slave）配置"></a>执行机（slave）配置</h3><p>前提条件是执行机所在服务器已经搭建好jmeter执行环境，并且有安装jmeter（建议执行机和调度机jmeter版本完全一致，省的麻烦）<br>进行执行机中（192.168.3.1,192.168.3.2）jmeter安装目录<br>1，编辑<code>jmeter.properties</code>，找到<code>server_port=1099</code>，以及<code>server.rmi.localport=1099</code>修改端口,修改<code>server.rmi.ssl.disable=true</code>；该端口就是启动<code>jmeter-server.bat</code>之后，控制台显示的端口，也是调度机调度的端口</p>
 <p>2，启动<code>jmeter-server.bat</code>，控制台打印信息类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Created remote object: UnicastServerRef2 [liveRef: [endpoint:[192.168.3.1:1099]</span><br><span class="line">local),objID:[1bfcefd1:165e6dc02e3:-7fff, 2154557740781192439]]]</span><br></pre></td></tr></table></figure></p>
-<h3 id="调度机（master）配置"><a href="#调度机（master）配置" class="headerlink" title="调度机（master）配置"></a>调度机（master）配置</h3><p>1，找到bin目录下的<code>jmeter.properties</code>，修改配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote_hosts=192.168.3.1:1099,192.168.3.2:1099</span><br></pre></td></tr></table></figure></p>
+<h3 id="调度机（master）配置"><a href="#调度机（master）配置" class="headerlink" title="调度机（master）配置"></a>调度机（master）配置</h3><p>1，找到bin目录下的<code>jmeter.properties</code>，修改配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">remote_hosts=192.168.3.1:1099,192.168.3.2:1099</span><br><span class="line">server_port=1099</span><br><span class="line">server.rmi.port=1099</span><br><span class="line">server.rmi.localport=1099</span><br><span class="line">server.rmi.ssl.disable=true</span><br></pre></td></tr></table></figure></p>
 <p>保存退出<br>2，启动GUI（jmeter.bat），打开测试脚本，点击菜单栏的运行，选择远程启动全部（或者指定某台执行机）</p>
 <h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>1，如果进行了参数化，需要在执行机上和调度机一模一样的路径放置参数化文件</p>
 <p>2，启动执行机时候如果有报错：<code>rmi-keystore.jks（系统找不到指定文件）</code><br>解决办法：编辑<code>jmeter.properties</code>，修改参数：<code>server.rmi.ssl.disable=true</code>即可</p>
@@ -338,7 +338,7 @@
         <p><span>本文标题:</span><a href="/2018/09/17/Jmeter分布式环境搭建/">Jmeter分布式环境搭建</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
         <p><span>发布时间:</span>2018-09-17, 05:50:56</p>
-        <p><span>最后更新:</span>2018-09-17, 05:58:31</p>
+        <p><span>最后更新:</span>2019-05-24, 03:55:18</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/09/17/Jmeter分布式环境搭建/" title="Jmeter分布式环境搭建">http://tokyle.com/2018/09/17/Jmeter分布式环境搭建/</a>
             <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/09/17/Jmeter分布式环境搭建/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
