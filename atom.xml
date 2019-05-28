@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-05-27T08:59:06.172Z</updated>
+  <updated>2019-05-28T09:37:56.047Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>闲谈测试理论</title>
+    <link href="http://tokyle.com/2019/05/28/%E9%97%B2%E8%B0%88%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA/"/>
+    <id>http://tokyle.com/2019/05/28/闲谈测试理论/</id>
+    <published>2019-05-28T09:37:16.000Z</published>
+    <updated>2019-05-28T09:37:56.047Z</updated>
+    
+    <content type="html"><![CDATA[<p>闲谈测试理论</p><a id="more"></a><h3 id="测试理念"><a href="#测试理念" class="headerlink" title="测试理念"></a>测试理念</h3><p>也是个人的测试坚持吧，有很多，最在意的几条</p><p><strong>不为进度牺牲质量</strong></p><p><strong>软件测试，绝对不存在随便点点</strong></p><p><strong>测试人员要全力关注的是测试设计</strong></p><p><strong>测试工程师，是产品的第一批用户，关注用户满意度</strong></p><h3 id="测试工作"><a href="#测试工作" class="headerlink" title="测试工作"></a>测试工作</h3><h4 id="从需求出发"><a href="#从需求出发" class="headerlink" title="从需求出发"></a>从需求出发</h4><p>软件产品的设计、研发、测试、投产，一定是为了满足一定的需求，PRD（产品需求文档）所描述的产品需求，是切研发、测试开展的基础。或许现在很多公司号称敏捷开发， 没有PRD，那也一定会在类似wiki上有相应的记载，如果这个也没有，那产品最终的质量是很值得怀疑的，毕竟一点需求痕迹都没有，那测试人员的测试根据，就只是开发实现了，比起PO的需求，已经产生了很大的偏差。</p><p>测试人员进行软件测试必须从需求出发。首先要全面了解需求，包括其背景、关联性、用户特点等；其次要深入挖掘隐含的需求和关联，包括某个需求隐含了 对于系统现有功能的修改等等。 我们只有在全面、深入了解需求的基础上，才能设计全面、有效的测试用例来进行测试，以满足对于软件产品满足需求的基本质量保证。</p><h4 id="测试设计"><a href="#测试设计" class="headerlink" title="测试设计"></a>测试设计</h4><p>测试活动，最应该关注的是测试设计，而不是最后冷冰冰的执行了多少多少用例，提交了多少多少bug。</p><p>测试设计的基础是对于需求的全面理解，并且在需求的基础上，对于需求实现的设计进行一定的了解；很多测试人员进行测试活动的依据都是需求文档，而忽略了开发的逻辑设计这一块；如果可以进行一定的开发设计分析的话，可以帮助我们测试人员更加全面的进行质量验证（有些时候，开发是可以实现需求，但是会出现数组溢出等问题，这样的问题，在其他地方可能就会引起重大的bug）</p><p>个人觉得，关注测试设计，才是关注了软件测试之道</p><h4 id="测试目标"><a href="#测试目标" class="headerlink" title="测试目标"></a>测试目标</h4><p>需要明确的是，软件测试，是在生命周期的接近最末端，单单靠测试，是无法保证软件质量的，测试人员，是软件质量的验证者，并不是保障，软件质量需要整个生命周期，整个团队一起努力。</p><p>软件测试并不能保证测试活动结束之后，产品没有bug，这是不现实的，没有一个软件产品可以号称自己没有bug，同样，这也不是测试的目标。</p><p>引用网上看到的一句话：<br><strong>测试活动-是一个运用测试的思维和各种测试理论及方法，将所测试的软件产品的每一个功能都改变成一组特定的输入和一组特定的输出一一确定对应的形式，形成测试用例，然后待开发人员提交测试后，在测试环境部署被测程序，根据测试用例进行主动测试的过程。</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;闲谈测试理论&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://tokyle.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="lives" scheme="http://tokyle.com/tags/lives/"/>
+    
+  </entry>
   
   <entry>
     <title>所谓测试新时代</title>
@@ -464,28 +486,6 @@
       <category term="cmder" scheme="http://tokyle.com/tags/cmder/"/>
     
       <category term="git" scheme="http://tokyle.com/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网站性能杂货</title>
-    <link href="http://tokyle.com/2019/04/08/%E7%BD%91%E7%AB%99%E6%80%A7%E8%83%BD%E6%9D%82%E8%B4%A7/"/>
-    <id>http://tokyle.com/2019/04/08/网站性能杂货/</id>
-    <published>2019-04-08T07:17:59.000Z</published>
-    <updated>2019-04-08T07:19:24.084Z</updated>
-    
-    <content type="html"><![CDATA[<p>页面性能优化参考</p><a id="more"></a><h3 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h3><p>很多时候，会打开chrome F12的network栏，查看页面信息，页面底部会有三个时间：<br><code>DOMContentLoaded</code>,<code>Load</code>,<code>Finish</code></p><h4 id="DOMContentLoaded-和-Load"><a href="#DOMContentLoaded-和-Load" class="headerlink" title="DOMContentLoaded 和 Load"></a>DOMContentLoaded 和 Load</h4><p>DOMContentLoaded 和 Load 分别对应 页面 DOMContentLoaded 和 Load 事件触发的时间点，即：</p><p><code>DOMContentLoaded</code>：DOM树构建完成。即HTML页面由上向下解析HTML结构到末尾封闭标签 。</p><p><code>Load</code>:页面加载完毕。 DOM树构建完成后，继续加载html/css 中的图片资源等外部资源，加载完成后视为页面加载完毕。</p><p>DOMContentLoaded 会比 Load 时间小，两者时间差大致等于外部资源加载的时间。</p><h4 id="Finish"><a href="#Finish" class="headerlink" title="Finish"></a>Finish</h4><p><code>Finish</code> 时间是页面上所有 http 请求发送到响应完成的时间，HTTP1.0/1.1 协议限定，单个域名的请求并发量是 6 个，即Finish是所有请求（不只是XHR请求，还包括DOC，img，js，css等资源的请求）在并发量为6的限制下完成的时间。</p><h3 id="优化实践"><a href="#优化实践" class="headerlink" title="优化实践"></a>优化实践</h3><h4 id="Make-fewer-HTTP-requests-（最大限度地减少HTTP请求）"><a href="#Make-fewer-HTTP-requests-（最大限度地减少HTTP请求）" class="headerlink" title="Make fewer HTTP requests （最大限度地减少HTTP请求）"></a>Make fewer HTTP requests （最大限度地减少HTTP请求）</h4><p>终端用户响应的时间中，有80%用于下载各项内容。这部分时间包括下载页面中的图像、样式表、脚本、Flash等。通过减少页面中的元素可以减少HTTP请求的次数。这是提高网页速度的关键步骤。<br>     减少页面组件的方法其实就是简化页面设计。那么有没有一种方法既能保持页面内容的丰富性又能达到加快响应时间的目的呢？这里有几条减少HTTP请求次数同时又可能保持页面内容丰富的技术。</p><p>合并文件是通过把所有的脚本放到一个文件中来减少HTTP请求的方法，如可以简单地把所有的CSS文件都放入一个样式表中。当脚本或者样式表在不同页面中使用时需要做不同的修改，这可能会相对麻烦点，但即便如此也要把这个方法作为改善页面性能的重要一步。</p><p>CSS Sprites是减少图像请求的有效方法。把所有的背景图像都放到一个图片文件中，然后通过CSS的background-image和background-position属性来显示图片的不同部分；</p><p>图片地图是把多张图片整合到一张图片中。虽然文件的总体大小不会改变，但是可以减少HTTP请求次数。图片地图只有在图片的所有组成部分在页面中是 紧挨在一起的时候才能使用，如导航栏。确定图片的坐标和可能会比较繁琐且容易出错，同时使用图片地图导航也不具有可读性，因此不推荐这种方法；</p><p>内联图像是使用data:URL scheme的方法把图像数据加载页面中。这可能会增加页面的大小。把内联图像放到样式表（可缓存）中可以减少HTTP请求同时又避免增加页面文件的大小。但是内联图像现在还没有得到主流浏览器的支持。</p><h4 id="Use-a-Content-Delivery-Network-CDN-（使用内容分发网络）"><a href="#Use-a-Content-Delivery-Network-CDN-（使用内容分发网络）" class="headerlink" title="Use a Content Delivery Network (CDN)（使用内容分发网络）"></a>Use a Content Delivery Network (CDN)（使用内容分发网络）</h4><p>用户与你网站服务器的接近程度会影响响应时间的长短。把你的网站内容分散到多个、处于不同地域位置的服务器上可以加快下载速度。但是首先我们应该做些什么呢？</p><p>按地域布置网站内容的第一步并不是要尝试重新架构你的网站让他们在分发服务器上正常运行。根据应用的需求来改变网站结构，这可能会包括一些比较复杂的任 务，如在服务器间同步Session状态和合并数据库更新等。要想缩短用户和内容服务器的距离，这些架构步骤可能是不可避免的。</p><p>要记住，在终端用户的响应时间中有80%到90%的响应时间用于下载图像、样式表、脚本、Flash等页面内容。这就是网站性能黄金守则。和重新设计你的 应用程序架构这样比较困难的任务相比，首先来分布静态内容会更好一点。这不仅会缩短响应时间，而且对于内容分发网络来说它更容易实现。</p><p>内容分发网络（Content Delivery Network，CDN）是由一系列分散到各个不同地理位置上的Web服务器组成的，它提高了网站内容的传输速度。用于向用户传输内容的服务器主要是根据 和用户在网络上的靠近程度来指定的。例如，拥有最少网络跳数（network hops）和响应速度最快的服务器会被选定。</p><p>一些大型的网络公司拥有自己的CDN，但是使用像Akamai Technologies，Mirror Image Internet， 或者Limelight Networks这样的CDN服务成本却非常高。对于刚刚起步的企业和个人网站来说，可能没有使用CDN的成本预算，但是随着目标用户群的不断扩大和更加 全球化，CDN就是实现快速响应所必需的了。以Yahoo来说，他们转移到CDN上的网站程序静态内容节省了终端用户20%以上的响应时间。使用CDN是 一个只需要相对简单地修改代码实现显著改善网站访问速度的方法。</p><h4 id="Add-Expires-headers添加一个Expires或Cache-Control头"><a href="#Add-Expires-headers添加一个Expires或Cache-Control头" class="headerlink" title="Add Expires headers添加一个Expires或Cache-Control头"></a>Add Expires headers添加一个Expires或Cache-Control头</h4><p>这条守则包括两方面的内容：<br>对于静态内容：设置文件头过期时间Expires的值为“Never expire”（永不过期）<br>对于动态内容：使用恰当的Cache-Control文件头来帮助浏览器进行有条件的请求</p><p>网页内容设计现在越来越丰富，这就意味着页面中要包含更多的脚本、样式表、图片和Flash。第一次访问你页面的用户就意味着进行多次的HTTP请求，但 是通过使用Expires文件头就可以使这样内容具有缓存性。它避免了接下来的页面访问中不必要的HTTP请求。Expires文件头经常用于图像文件， 但是应该在所有的内容都使用他，包括脚本、样式表和Flash等。</p><p>浏览器（和代理）使用缓存来减少HTTP请求的大小和次数以加快页面访问速度。Web服务器在HTTP响应中使用Expires文件头来告诉客户端内容需 要缓存多长时间。</p><h4 id="Compress-components-with-gzip-用gzip的压缩内容"><a href="#Compress-components-with-gzip-用gzip的压缩内容" class="headerlink" title="Compress components with gzip  用gzip的压缩内容"></a>Compress components with gzip  用gzip的压缩内容</h4><p>网络传输中的HTTP请求和应答时间可以通过前端机制得到显著改善。的确，终端用户的带宽、互联网提供者、与对等交换点的靠近程度等都不是网站开发者所能决定的。但是还有其他因素影响着响应时间。通过减小HTTP响应的大小可以节省HTTP响应时间。</p><p>从HTTP/1.1开始，web客户端都默认支持HTTP请求中有Accept-Encoding文件头的压缩格式<br> Accept-Encoding: gzip, deflate</p><p>如果web服务器在请求的文件头中检测到上面的代码，就会以客户端列出的方式压缩响应内容。Web服务器把压缩方式通过响应文件头中的Content-Encoding来返回给浏览器<br> Content-Encoding: gzip</p><p>Gzip是目前最流行也是最有效的压缩方式。这是由GNU项目开发并通过RFC 1952来标准化的。另外仅有的一个压缩格式是deflate，但是它的使用范围有限效果也稍稍逊色。</p><h4 id="Reduce-DNS-lookups（减少DNS查找）"><a href="#Reduce-DNS-lookups（减少DNS查找）" class="headerlink" title="Reduce DNS lookups（减少DNS查找）"></a>Reduce DNS lookups（减少DNS查找）</h4><p>域名系统（DNS）提供了域名和IP的对应关系，就像电话本中人名和他们的电话号码的关系一样。当你在浏览器地址栏中输入www.dudo.org时，DNS解析服务器就会返回这个域名对应的IP地址。DNS解析的过程同样也是需要时间的。一般情况下返回给定域名对应的IP地址会花费20到120毫秒的时间。而且在这个过程中浏览器什么都不会做直到DNS查找完毕。</p><p> 缓存DNS查找可以改善页面性能。这种缓存需要一个特定的缓存服务器，这种服务器一般属于用户的ISP提供商或者本地局域网控制，但是它同样会在用户使用 的计算机上产生缓存。DNS信息会保留在操作系统的DNS缓存中（微软Windows系统中DNS Client Service）。大多数浏览器有独立于操作系统以外的自己的缓存。由于浏览器有自己的缓存记录，因此在一次请求中它不会受到操作系统的影响。</p><p>Internet Explorer默认情况下对DNS查找记录的缓存时间为30分钟，它在注册表中的键值为DnsCacheTimeout。Firefox对DNS的查找 记录缓存时间为1分钟，它在配置文件中的选项为network.dnsCacheExpiration（Fasterfox把这个选项改为了1小时）</p><p>当客户端中的DNS缓存都为空时（浏览器和操作系统都为空），DNS查找的次数和页面中主机名的数量相同。这其中包括页面中URL、图片、脚本文件、样式表、Flash对象等包含的主机名。减少主机名的数量可以减少DNS查找次数。</p><p>减少主机名的数量还可以减少页面中并行下载的数量。减少DNS查找次数可以节省响应时间，但是减少并行下载却会增加响应时间。我的指导原则是把这些页面中 的内容分割成至少两部分但不超过四部分。这种结果就是在减少DNS查找次数和保持较高程度并行下载两者之间的权衡了</p><h4 id="Reduce-the-number-of-DOM-elements（减少DOM元素的数量）"><a href="#Reduce-the-number-of-DOM-elements（减少DOM元素的数量）" class="headerlink" title="Reduce the number of DOM elements（减少DOM元素的数量）"></a>Reduce the number of DOM elements（减少DOM元素的数量）</h4><p>一个复杂的页面意味着需要下载更多数据，同时也意味着JavaScript遍历DOM的效率越慢。比如当你增加一个事件句柄时在500和5000个DOM元素中循环效果肯定是不一样的。</p><p>  大量的DOM元素的存在意味着页面中有可以不用移除内容只需要替换元素标签就可以精简的部分。你在页面布局中使用表格了吗？你有没有仅仅为了布局而引入更多的<div>元素呢？也许会存在一个适合或者在语意是更贴切的标签可以供你使用。</div></p><p>DOM元素数量很容易计算出来，只需要在Firebug的控制台内输入：<br>document.getElementsByTagName(‘*’).length</p><h4 id="Reduce-cookie-size-（减少Cookie的大小）"><a href="#Reduce-cookie-size-（减少Cookie的大小）" class="headerlink" title="Reduce cookie size （减少Cookie的大小）"></a>Reduce cookie size （减少Cookie的大小）</h4><p>HTTP coockie可以用于权限验证和个性化身份等多种用途。coockie内的有关信息是通过HTTP文件头来在web服务器和浏览器之间进行交流的。因此保持coockie尽可能的小以减少用户的响应时间十分重要。</p><p>有关更多信息可以查看Tenni Theurer和Patty Chi的文章“When the Cookie Crumbles”。这们研究中主要包括：<br>去除不必要的coockie<br>使coockie体积尽量小以减少对用户响应的影响<br>注意在适应级别的域名上设置coockie以便使子域名不受影响<br>设置合理的过期时间。较早地Expire时间和不要过早去清除coockie，都会改善用户的响应时间。</p><h4 id="Use-cookie-free-domains使用无Cookie的域名"><a href="#Use-cookie-free-domains使用无Cookie的域名" class="headerlink" title="Use cookie-free domains使用无Cookie的域名"></a>Use cookie-free domains使用无Cookie的域名</h4><p>当浏览器在请求中同时请求一张静态的图片和发送coockie时，服务器对于这些coockie不会做任何地使用。因此他们只是因为某些负面因素而创建的 网络传输。所有你应该确定对于静态内容的请求是无coockie的请求。创建一个子域名并用他来存放所有静态内容</p><p>如果你的域名是www.example.org，你可以在static.example.org上存在静态内容。但是，如果你不是在www.example.org上 而是在顶级域名example.org设置了coockie，那么所有对于static.example.org的请求都包含coockie。在这种情况 下，你可以再重新购买一个新的域名来存在静态内容，并且要保持这个域名是无coockie的。Yahoo!使用的是ymig.com，YouTube使用 的是ytimg.com，Amazon使用的是images-anazon.com等等。</p><p>使用无coockie域名存在静态内容的另外一个好处就是一些代理（服务器）可能会拒绝对coockie的内容请求进行缓存。一个相关的建议就是，如果你想确定应该使用example.org还是www.example.org作 为你的一主页，你要考虑到coockie带来的影响。忽略掉www会使你除了把coockie设置到<em>.example.org（</em>是泛域名解析，代表了 所有子域名译者dudo注）外没有其它选择，因此出于性能方面的考虑最好是使用带有www的子域名并且在它上面设置coockie。</p><h3 id="…-…"><a href="#…-…" class="headerlink" title="… …"></a>… …</h3><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote><p><a href="http://www.cnblogs.com/jiahaohk/archive/2009/08/29/1556330.html" target="_blank" rel="noopener">加快您的网站的最佳实践（Best Practices for Speeding Up Your Web Site）</a><br><a href="http://developer.yahoo.com/performance/rules.html" target="_blank" rel="noopener">英文原文</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;页面性能优化参考&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="性能" scheme="http://tokyle.com/tags/%E6%80%A7%E8%83%BD/"/>
     
   </entry>
   
