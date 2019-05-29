@@ -15,22 +15,18 @@
 
 
 
-<meta name="description" content="nose进行单元测试，和unittest一样，有跳过某个方法，指定特定类进行测试的功能。">
-<meta name="keywords" content="nose,单元测试">
+<meta name="description" content="几个测试问题思考">
+<meta name="keywords" content="lives">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nose跳过测试">
-<meta property="og:url" content="http://tokyle.com/2018/01/04/nose跳过测试/index.html">
+<meta property="og:title" content="几个测试问题思考">
+<meta property="og:url" content="http://tokyle.com/2019/05/29/几个测试问题思考/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="nose进行单元测试，和unittest一样，有跳过某个方法，指定特定类进行测试的功能。">
+<meta property="og:description" content="几个测试问题思考">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://tokyle.com/images/nosetests_py.jpg">
-<meta property="og:image" content="http://tokyle.com/images/nosetests_single.jpg">
-<meta property="og:image" content="http://tokyle.com/images/nosetests_skip.jpg">
-<meta property="og:updated_time" content="2018-03-08T07:10:53.000Z">
+<meta property="og:updated_time" content="2019-05-29T09:08:24.081Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nose跳过测试">
-<meta name="twitter:description" content="nose进行单元测试，和unittest一样，有跳过某个方法，指定特定类进行测试的功能。">
-<meta name="twitter:image" content="http://tokyle.com/images/nosetests_py.jpg">
+<meta name="twitter:title" content="几个测试问题思考">
+<meta name="twitter:description" content="几个测试问题思考">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -62,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>nose跳过测试 | 它夏了夏天</title>
+<title>几个测试问题思考 | 它夏了夏天</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -273,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-nose跳过测试" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-几个测试问题思考" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/01/04/nose跳过测试/" class="article-date">
-      <time datetime="2018-01-04T08:39:45.000Z" itemprop="datePublished">2018-01-04</time>
+      <a href="/2019/05/29/几个测试问题思考/" class="article-date">
+      <time datetime="2019-05-29T09:07:26.000Z" itemprop="datePublished">2019-05-29</time>
 </a>
 
 
@@ -292,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      nose跳过测试
+      几个测试问题思考
     </h1>
   
 
@@ -302,13 +298,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/python基础/">python基础</a>
+    <a class="article-category-link" href="/categories/生活/">生活</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nose/">nose</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lives/">lives</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -318,25 +314,75 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>nose进行单元测试，和unittest一样，有跳过某个方法，指定特定类进行测试的功能。</p>
+        <p>几个测试问题思考</p>
 <a id="more"></a>
-<h3 id="识别规则"><a href="#识别规则" class="headerlink" title="识别规则"></a>识别规则</h3><p>使用nose进行单元测试，测试用例识别规则如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nosetests only_test_this.py</span><br><span class="line">nosetests test.module</span><br><span class="line">nosetests another.test:TestCase.test_method</span><br><span class="line">nosetests a.test:TestCase</span><br><span class="line">nosetests /path/to/test/file.py:test.function</span><br></pre></td></tr></table></figure></p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><h4 id="执行全部测试"><a href="#执行全部测试" class="headerlink" title="执行全部测试"></a>执行全部测试</h4><p>直接代码示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import traceback</span><br><span class="line">from nose.tools import eq_</span><br><span class="line">from nose.plugins.attrib import attr</span><br><span class="line">from nose.plugins.skip import SkipTest</span><br><span class="line">from functools import reduce</span><br><span class="line"></span><br><span class="line">class test_nosetests():</span><br><span class="line"></span><br><span class="line">    #测试加法</span><br><span class="line">    def test_sum(self):</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 3</span><br><span class="line">        eq_(a+b,res)</span><br><span class="line"></span><br><span class="line">    #测试乘法</span><br><span class="line">    def test_mul(self):</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 2</span><br><span class="line">        eq_(a*b, res)</span><br><span class="line"></span><br><span class="line">    #测试除法</span><br><span class="line">    def test_div(self):</span><br><span class="line">        a = 2</span><br><span class="line">        b = 0</span><br><span class="line">        res = 1</span><br><span class="line">        try:</span><br><span class="line">            eq_(a/b, res)</span><br><span class="line">        except ZeroDivisionError as e:</span><br><span class="line">            print(traceback.print_exc())</span><br><span class="line"></span><br><span class="line">    #测试reduce函数</span><br><span class="line">    def test_reduce(self):</span><br><span class="line">        req = range(1,6)</span><br><span class="line">        a = 120</span><br><span class="line">        res = reduce(lambda x, y: x*y, req)</span><br><span class="line">        eq_(a, res)</span><br></pre></td></tr></table></figure></p>
-<p>想要对<code>test_nosetests</code>该方法进行测试，可以：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. nosetests -v NoseTestsexercise.py --with-html --html-file=G:/workstation/report/test_nosetests.html</span><br><span class="line">2. nosetests -v NoseTestsexercise.py:test_nosetests --with-html --html-file=G:/workstation/report/test_nosetests.html</span><br></pre></td></tr></table></figure>
-<p>由于该python文件只有这一个测试类，所以直接nosetests该python文件即可以进行测试，或者是指定该python文件的测试类如<code>NoseTestsexercise.py:test_nosetests</code>方式</p>
-<p>测试结果：<img src="/images/nosetests_py.jpg" alt=""></p>
-<h4 id="执行指定方法的测试"><a href="#执行指定方法的测试" class="headerlink" title="执行指定方法的测试"></a>执行指定方法的测试</h4><p>执行指定的一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nosetests -v NoseTestsexercise.py:test_nosetests.test_reduce --with-html --html-file=G:/workstation/report/test_nosetests.html</span><br></pre></td></tr></table></figure></p>
-<p>示例执行了<code>test_nosetests</code>类下的<code>test_reduce</code>方法的测试</p>
-<p>测试结果：<img src="/images/nosetests_single.jpg" alt=""></p>
-<h4 id="跳过指定方法的测试"><a href="#跳过指定方法的测试" class="headerlink" title="跳过指定方法的测试"></a>跳过指定方法的测试</h4><p>有的时候，只需要跳过某个方法：<br>例如想跳过<code>test_mul</code>该方法，只需要在代码上增加跳过标志即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#测试乘法</span><br><span class="line">   def test_mul(self):</span><br><span class="line">       a = 1</span><br><span class="line">       b = 2</span><br><span class="line">       res = 2</span><br><span class="line">       eq_(a*b, res)</span><br><span class="line">       raise SkipTest</span><br></pre></td></tr></table></figure></p>
-<p>执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nosetests -v NoseTestsexercise.py:test_nosetests --with-html --html-file=G:/workstation/report/test_nosetests.html</span><br></pre></td></tr></table></figure></p>
-<p>测试结果：<img src="/images/nosetests_skip.jpg" alt=""></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>另外，nosetests也有用例执行优先级的功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from nose.plugins.attrib import attr</span><br><span class="line">	@attr(speed=&apos;slow&apos;)</span><br><span class="line">    def test_big_download(self):</span><br><span class="line">        print(&apos;pass&apos;)</span><br></pre></td></tr></table></figure></p>
-<p>执行只需要：<code>nosetests -a speed=slow</code>即可</p>
-<blockquote>
-<p><a href="http://www.cnblogs.com/landhu/p/5689414.html" target="_blank" rel="noopener">参考用法</a></p>
-</blockquote>
+<p>翻到了关于测试职业生涯的文章，里面有提到几个问题，自己想了想，挺震撼的，之前真没仔细考虑过</p>
+<h3 id="如果测试时间不够，怎么办"><a href="#如果测试时间不够，怎么办" class="headerlink" title="如果测试时间不够，怎么办"></a>如果测试时间不够，怎么办</h3><p>或者可以延伸为，<strong>如果测试时间不够，肯定不能够全部覆盖的进行测试，是否可以只测试客户关心的，比较常用的功能？</strong></p>
+<p>想了挺久，结合网友的讨论，我给出的答案是：<br>作为测试，碰到时间紧张，测试资源欠缺，我们所唯一能做的就是上报公司，让公司协调人工和资源做延期处理。这样做，公司可能会因为不能如期交付而受到一定的经济损失，但交付一个合格的产品给客户，绝对不会有信誉上的损失（即使做了常用功能的测试，也不能保障产品就已经达到的交付标准，实在是中彩票的事情），从长远来看，会有更多的收益；</p>
+<p>作为测试，我们没有任何权利自己做风险处理，“测客户关心的，测主要功能”都是错误的测试行为；</p>
+<p>作为测试，坚守自己的职业道德底线，只做职责范围内和力所能及的事情；</p>
+<p>最后，一个大话，作为测试，不仅需要对支付你工资的老板负责，也请为你手中的产品负责，为客户支付的金钱负责。</p>
+<h3 id="如果让你测试一个完全不熟悉的系统，怎么办"><a href="#如果让你测试一个完全不熟悉的系统，怎么办" class="headerlink" title="如果让你测试一个完全不熟悉的系统，怎么办"></a>如果让你测试一个完全不熟悉的系统，怎么办</h3><p>前提当然是可能没有需求说明书，甚至没有产品架构图<br>看到testerhome上一个回答，很有启发性<br>没有标准答案，参考如下：</p>
+<ol>
+<li><p>先去直接操作和观察被测物。（比直接奔向需求要加分很多，想一下，你实际工作中，快速理解一个东西靠的是什么？肯定不是先读文档，且不说这些文档是不是能够正确的描述被测物）</p>
+</li>
+<li><p>其他信息来源：同类产品，说明书，直接操作、观察被测物，原有版本，找产品经理，找开发，找销售，运维，客服，找用户，公司知识库，历史邮件，会议纪要，原来的各种文档，代码，google，相关法规，行业标准。。。</p>
+</li>
+<li><p>如果项目进度很赶，会先上手操作，参考能找到的一切文档及信息源，通过迭代，一边学一边加深理解，一边给出质量反馈；</p>
+</li>
+<li><p>思考是什么原因造成这样的局面：没有需求文档，没有架构图，开发很赶没空搭理。怎么解决：推动知识库建设和必要的文档输出，也是很重要的。</p>
+</li>
+</ol>
+<h3 id="怎么优化测试工作"><a href="#怎么优化测试工作" class="headerlink" title="怎么优化测试工作"></a>怎么优化测试工作</h3><p>开发提测质量不高。测试的头几天，很多主流程都走不通，导致测试总是在等待，或者是跟着开发一起联调。而这段时间，已经被习惯性的认为是测试时间了，因为：提测了</p>
+<p>项目抱怨，测试时间过长，如何缩短测试时间</p>
+<p>先分析测试时间过长的原因，可能是：</p>
+<ol>
+<li><p>测试环境不可用，测试环境被占用</p>
+</li>
+<li><p>开发提测质量不高，主流程都走不通</p>
+</li>
+</ol>
+<p>解决办法：<br>关于环境问题，可能可以实施：</p>
+<ol>
+<li><p>监控环境使用率，可用率（时间占比）；</p>
+</li>
+<li><p>规范部署，部署时间，操作人，checklist；</p>
+</li>
+<li><p>制定规则，权限分明，操作环境的人员，分工；</p>
+</li>
+<li><p>确定部署人员，backup人员，完整可行的部署手册</p>
+</li>
+<li><p>环境分组，分版本操作（更新devops技能，docker容器化进行环境隔离） </p>
+</li>
+<li><p>等等… </p>
+</li>
+</ol>
+<p>关于体侧质量</p>
+<p>测试可以：</p>
+<ol>
+<li><p>有明确的测试计划，并让所有干系人都有明确的预期</p>
+</li>
+<li><p>测试依据风险测试，最大的风险得到最快的cover，科学分配时间，明显缩短bug反馈时间弧</p>
+</li>
+<li><p>bug严格管理，所有重要bug都及时修复</p>
+</li>
+<li><p>良好的沟通和汇报机制，每天让团队主要干系人清晰的知道，距离发布还差多远</p>
+</li>
+<li><p>外部资源联调非常早的进行，不会让它在测试后期成为测试blocker。</p>
+</li>
+</ol>
+<p>要求开发可以：</p>
+<ol>
+<li><p>根据测试提供冒烟用例，开发必须完成一定程度的自测才能提测。</p>
+</li>
+<li><p>测试和开发做自动化同期共建，在开发过程中，核心功能就被自动化用例保护起来了。</p>
+</li>
+<li><p>开发切分feature提测，而不是攒一个大招一下子提一坨</p>
+</li>
+<li><p>代码Codereview变成团队常规活动，QA在早期跟进核心代码，把问题坑杀在萌芽阶段</p>
+</li>
+</ol>
+<p>结合新的理念，测试左移：提前参与；测试右移：生产监控体系；全面保障产品质量，并且提高测试效率。</p>
 
       
     </div>
@@ -345,13 +391,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/01/04/nose跳过测试/">nose跳过测试</a></p>
+        <p><span>本文标题:</span><a href="/2019/05/29/几个测试问题思考/">几个测试问题思考</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
-        <p><span>发布时间:</span>2018-01-04, 03:39:45</p>
-        <p><span>最后更新:</span>2018-03-08, 02:10:53</p>
+        <p><span>发布时间:</span>2019-05-29, 05:07:26</p>
+        <p><span>最后更新:</span>2019-05-29, 05:08:24</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/01/04/nose跳过测试/" title="nose跳过测试">http://tokyle.com/2018/01/04/nose跳过测试/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/01/04/nose跳过测试/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/29/几个测试问题思考/" title="几个测试问题思考">http://tokyle.com/2019/05/29/几个测试问题思考/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/05/29/几个测试问题思考/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -363,16 +409,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/01/05/登录网易邮箱/">
-                    登录网易邮箱
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/01/03/python单元测试框架-nose/">
-                    python单元测试框架-nose
+                <a href="/2019/05/28/闲谈测试理论/">
+                    闲谈测试理论
                 </a>
             </div>
         
@@ -384,7 +424,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#识别规则"><span class="toc-number">1.</span> <span class="toc-text">识别规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例"><span class="toc-number">2.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#执行全部测试"><span class="toc-number">2.1.</span> <span class="toc-text">执行全部测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行指定方法的测试"><span class="toc-number">2.2.</span> <span class="toc-text">执行指定方法的测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#跳过指定方法的测试"><span class="toc-number">2.3.</span> <span class="toc-text">跳过指定方法的测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">3.</span> <span class="toc-text">其他</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#如果测试时间不够，怎么办"><span class="toc-number">1.</span> <span class="toc-text">如果测试时间不够，怎么办</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果让你测试一个完全不熟悉的系统，怎么办"><span class="toc-number">2.</span> <span class="toc-text">如果让你测试一个完全不熟悉的系统，怎么办</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么优化测试工作"><span class="toc-number">3.</span> <span class="toc-text">怎么优化测试工作</span></a></li></ol>
         
     </div>
     <style>
@@ -420,7 +460,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"nose跳过测试　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"几个测试问题思考　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -463,15 +503,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/01/05/登录网易邮箱/" title="上一篇: 登录网易邮箱">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/01/03/python单元测试框架-nose/" title="下一篇: python单元测试框架-nose">
+            <a href="/2019/05/28/闲谈测试理论/" title="下一篇: 闲谈测试理论">
                 <i class="fa fa-angle-right"></i>
             </a>
         
