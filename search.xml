@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[docker简单使用（一）]]></title>
+    <url>%2F2019%2F06%2F10%2Fdocker%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[docker简单使用（一） 镜像操作获取镜像docker获取镜像很简单，docker pull image:tag即可，不加tag默认获取最新latest例如，获取Ubuntu和nginx：12345docker pull ubuntu #获取latestdocker pull ubuntu:16.04 #获取16.04版本ubuntudocker pull nginx #获取latest版nginx 运行镜像获取完镜像之后，可以通过dokcer images来查看：1234567[root@localhost ~]# docker imagesREPOSITORY TAG IMAGE ID CREATED SIZEnginx latest 62c261073ecf 5 days ago 109MBubuntu 16.04 2a697363a870 3 weeks ago 119MBubuntu latest 7698f282e524 3 weeks ago 69.9MBhello-world latest fce289e99eb9 5 months ago 1.84kBngrinder/controller latest e7f8d86685cd 3 years ago 246MB 镜像的运行，以ubuntu:16.04为例1docker run -it ubuntu:16.04 可以通过docker ps -a来查看当前运行的镜像：123[root@localhost docker]# docker ps -aCONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES385364730b09 ubuntu:16.04 &quot;/bin/bash&quot; 18 seconds ago Up 16 seconds nervous_jones 其中-it表示以交互式方式运行镜像，这样，就可以进入交互式终端（ubuntu），来进行一些操作，例如查看当前系统：123456789101112root@385364730b09:/# cat /etc/os-releaseNAME=&quot;Ubuntu&quot;VERSION=&quot;16.04.6 LTS (Xenial Xerus)&quot;ID=ubuntuID_LIKE=debianPRETTY_NAME=&quot;Ubuntu 16.04.6 LTS&quot;VERSION_ID=&quot;16.04&quot;HOME_URL=&quot;http://www.ubuntu.com/&quot;SUPPORT_URL=&quot;http://help.ubuntu.com/&quot;BUG_REPORT_URL=&quot;http://bugs.launchpad.net/ubuntu/&quot;VERSION_CODENAME=xenialUBUNTU_CODENAME=xenial 使用exit退出容器 查看当前容器状态：123[root@localhost ~]# docker ps -aCONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES385364730b09 ubuntu:16.04 &quot;/bin/bash&quot; 2 minutes ago Exited (0) 4 seconds ago nervous_jones 可以看见当前STATUS状态从Up xxx变成了Exited，容器以及被关闭，如果该容器只是用来调试错误，在关闭之后可以进行删除操作：docker rm 385364730b09(Container id) 或者在启动镜像时候就直接指定关闭即删除容器：1docker run -it --rm ubuntu:16.04 运行webserver像类似nginx这样的webserver，运行时候，需要指定端口，可以这样：1docker run --name web1 -d -p 8088:80 nginx 以nginx镜像启动名为web1的容器，端口从80映射到8088，这样，在浏览器中可以使用http://ip:8088打开nginx欢迎页面。 commit保存新镜像前面已经启动了nginx的镜像，并且以8088端口运行，现在，修改nginx的欢迎页面来生成一个新的镜像：1docker exec -it web1 bash 进入容器之后，修改默认页：123echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.htmlexit 刷新浏览器页面即可，当前欢迎页已被修改修改了容器的文件，也就是改动了容器的存储层，可以通过docker diff web1来查看具体改动 以上已经完成了修改nginx默认页，现在需要将修改保存成新的镜像，这样后面就可以直接使用123456[root@localhost ~]# docker commit \&gt; --author &quot;kyle&quot; \&gt; --message &quot;change the default page&quot; \&gt; web1 \&gt; nginx:v2sha256:f531cfc896d61fd557748ddabb1ce2233e57f4e88e6cf49502e4c3e03de77eff 然后使用docker images查看：12345678[root@localhost ~]# docker imagesREPOSITORY TAG IMAGE ID CREATED SIZEnginx v2 f531cfc896d6 12 minutes ago 109MBnginx latest 62c261073ecf 6 days ago 109MBubuntu 16.04 2a697363a870 3 weeks ago 119MBubuntu latest 7698f282e524 3 weeks ago 69.9MBhello-world latest fce289e99eb9 5 months ago 1.84kBngrinder/controller latest e7f8d86685cd 3 years ago 246MB 通过docker history查看镜像的历史记录：1234567891011121314[root@localhost ~]# docker history nginx:v2IMAGE CREATED CREATED BY SIZE COMMENTf531cfc896d6 15 minutes ago nginx -g daemon off; 106B change the default page62c261073ecf 6 days ago /bin/sh -c #(nop) CMD [&quot;nginx&quot; &quot;-g&quot; &quot;daemon… 0B &lt;missing&gt; 6 days ago /bin/sh -c #(nop) STOPSIGNAL SIGTERM 0B &lt;missing&gt; 6 days ago /bin/sh -c #(nop) EXPOSE 80 0B &lt;missing&gt; 6 days ago /bin/sh -c ln -sf /dev/stdout /var/log/nginx… 22B &lt;missing&gt; 6 days ago /bin/sh -c set -x &amp;&amp; addgroup --system -… 54MB &lt;missing&gt; 6 days ago /bin/sh -c #(nop) ENV PKG_RELEASE=1~stretch 0B &lt;missing&gt; 6 days ago /bin/sh -c #(nop) ENV NJS_VERSION=0.3.2 0B &lt;missing&gt; 6 days ago /bin/sh -c #(nop) ENV NGINX_VERSION=1.17.0 0B &lt;missing&gt; 4 weeks ago /bin/sh -c #(nop) LABEL maintainer=NGINX Do… 0B &lt;missing&gt; 4 weeks ago /bin/sh -c #(nop) CMD [&quot;bash&quot;] 0B &lt;missing&gt; 4 weeks ago /bin/sh -c #(nop) ADD file:fcb9328ea4c115670… 55.3MB 备注： docker commit要慎用，该操作，即使是简单的修改一个默认页面，也会同时添加或改动很多文件，如果是安装软件包、编译构建，那会有大量无关内容被添加进来，不小心清理会导致镜像极为臃肿；并且，docker commit除了制作镜像的人，其他没有人知道执行过什么命令，无法保证下一次可以生成一个一模一样的镜像（以上，来自docker practice） 关于docker镜像的制作，最优良的方式是写dockerfile 这个后面再说]]></content>
+      <categories>
+        <category>容器化</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[几个测试问题思考]]></title>
     <url>%2F2019%2F05%2F29%2F%E5%87%A0%E4%B8%AA%E6%B5%8B%E8%AF%95%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83%2F</url>
     <content type="text"><![CDATA[几个测试问题思考 翻到了关于测试职业生涯的文章，里面有提到几个问题，自己想了想，挺震撼的，之前真没仔细考虑过 如果测试时间不够，怎么办或者可以延伸为，如果测试时间不够，肯定不能够全部覆盖的进行测试，是否可以只测试客户关心的，比较常用的功能？ 想了挺久，结合网友的讨论，我给出的答案是：作为测试，碰到时间紧张，测试资源欠缺，我们所唯一能做的就是上报公司，让公司协调人工和资源做延期处理。这样做，公司可能会因为不能如期交付而受到一定的经济损失，但交付一个合格的产品给客户，绝对不会有信誉上的损失（即使做了常用功能的测试，也不能保障产品就已经达到的交付标准，实在是中彩票的事情），从长远来看，会有更多的收益； 作为测试，我们没有任何权利自己做风险处理，“测客户关心的，测主要功能”都是错误的测试行为； 作为测试，坚守自己的职业道德底线，只做职责范围内和力所能及的事情； 最后，一个大话，作为测试，不仅需要对支付你工资的老板负责，也请为你手中的产品负责，为客户支付的金钱负责。 如果让你测试一个完全不熟悉的系统，怎么办前提当然是可能没有需求说明书，甚至没有产品架构图看到testerhome上一个回答，很有启发性没有标准答案，参考如下： 先去直接操作和观察被测物。（比直接奔向需求要加分很多，想一下，你实际工作中，快速理解一个东西靠的是什么？肯定不是先读文档，且不说这些文档是不是能够正确的描述被测物） 其他信息来源：同类产品，说明书，直接操作、观察被测物，原有版本，找产品经理，找开发，找销售，运维，客服，找用户，公司知识库，历史邮件，会议纪要，原来的各种文档，代码，google，相关法规，行业标准。。。 如果项目进度很赶，会先上手操作，参考能找到的一切文档及信息源，通过迭代，一边学一边加深理解，一边给出质量反馈； 思考是什么原因造成这样的局面：没有需求文档，没有架构图，开发很赶没空搭理。怎么解决：推动知识库建设和必要的文档输出，也是很重要的。 怎么优化测试工作开发提测质量不高。测试的头几天，很多主流程都走不通，导致测试总是在等待，或者是跟着开发一起联调。而这段时间，已经被习惯性的认为是测试时间了，因为：提测了 项目抱怨，测试时间过长，如何缩短测试时间 先分析测试时间过长的原因，可能是： 测试环境不可用，测试环境被占用 开发提测质量不高，主流程都走不通 解决办法：关于环境问题，可能可以实施： 监控环境使用率，可用率（时间占比）； 规范部署，部署时间，操作人，checklist； 制定规则，权限分明，操作环境的人员，分工； 确定部署人员，backup人员，完整可行的部署手册 环境分组，分版本操作（更新devops技能，docker容器化进行环境隔离） 等等… 关于提测质量 测试可以： 有明确的测试计划，并让所有干系人都有明确的预期 测试依据风险测试，最大的风险得到最快的cover，科学分配时间，明显缩短bug反馈时间弧 bug严格管理，所有重要bug都及时修复 良好的沟通和汇报机制，每天让团队主要干系人清晰的知道，距离发布还差多远 外部资源联调非常早的进行，不会让它在测试后期成为测试blocker。 要求开发可以： 根据测试提供冒烟用例，开发必须完成一定程度的自测才能提测。 测试和开发做自动化同期共建，在开发过程中，核心功能就被自动化用例保护起来了。 开发切分feature提测，而不是攒一个大招一下子提一坨 代码Codereview变成团队常规活动，QA在早期跟进核心代码，把问题坑杀在萌芽阶段 结合新的理念，测试左移：提前参与；测试右移：生产监控体系；全面保障产品质量，并且提高测试效率。]]></content>
@@ -289,8 +300,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -419,8 +430,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -431,8 +442,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -650,8 +661,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -978,8 +989,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1046,12 +1057,11 @@
     <url>%2F2018%2F03%2F05%2Fdocker%E4%BD%BF%E7%94%A8%E7%AE%80%E4%BB%8B%2F</url>
     <content type="text"><![CDATA[日常docker使用简介 由于日常测试的项目都是在云端，阿里云，AWS上，基本也都是使用了虚拟化技术，项目放在docker或者k8s中。我现在所在的公司，是把项目放在docker中，挂在阿里云上，所以日常使用比较多的就是docker了。 常用操作查看服务从跳转机进入指定的docker所在服务器中，想要查看目前运行的服务：查看所有服务:1docker ps -a 和在linux下查看服务差不多，只是前面加了个docker；查看指定的服务，例如想查看服务名为boss的服务:1docker ps -a |grep boss 看着还是和linux下查看服务一样。。 查看日志一般进行测试时，习惯是开着日志，动态查看，因为有的错误，页面不会全部展示出来，我的习惯是进行测试时，浏览器开启开发者模式（F12），后台开启动态日志，执行操作之后进行数据库查询验证；那么docker下进行动态日志展示：1docker logs -f --tail=300 ContainerId 解释：首先在服务所在的服务器下，查询得到该服务当前开启的容器ID（containerId）docker ps -a该命令执行完成，会展示服务的基础信息：12[root@test-docker2 anmavadmin]# docker ps -aCONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 即可以获取得到指定服务的containerid，动态查看日志和linux下类似，linux下普通的查看日志：1tail -f -n 300 xxx.log 即可动态显示日志文件后300行的日志，同样的，在docker下查看也是使用-f动态显示，显示行数用--tail=行数，再加上指定的Container Id即可1docker logs -f --tail=300 boss_container_id 进入Docker容器docker说到底，其实就是个小型的linux环境，所以，和普通linux一样，也是可以直接进入docker内部，进入docker内部有四种方法，方法很多，日常熟练的掌握一l两种即可。: 进入docker内部的四种方法 我日常使用的是docker exec进入docker内部：1docker exec -it ContainerId /bin/bash 即可进入容器内部，之后就可以和普通linux下一样操作。 K8S（Kubernetes） + Docker当前很多环境的搭建方案选择都是k8s+docker的混合搭建，这样的环境，进行测试工作的常用操作： 查看服务所在节点首先是进入k8s所在的服务器，查看需要查看日志的服务所在docker节点（正常情况下都不会只有一台docker，负载均衡，都知道。。。）：1kubectl get pods -o wide 即可显示所有服务的基础信息，包括服务名称，状态，IP，docker节点：123[root@centos7-k8s1 xxx]# kubectl get pods -o wideNAME READY STATUS RESTARTS AGE IP NODEtest-boss-server-060b3cf86fa24bd7c9ce2548015e9b38-07qn1 1/1 Running 0 12h 172.17.46.3 centos7-k8s1 此时即可获取到服务所在节点，例如上述示例，服务在centos7-k8s1，即节点1上，所以进入节点1所在服务器，即可动态查看服务日志:123进入节点1，sudo su root(或者就是sudo 命令)docker ps -a |grep bossdocker logs -f --tail=300 containerid 查看服务状态测试中也会遇见点击页面无响应，后台报服务连接超时的错误，此时，可以查看当前服务运行状态：1kubectl get rc -o wide 获取到的信息：123[root@centos7-k8s1 xxx]# kubectl get rc -o wideNAME DESIRED CURRENT READY AGE CONTAINER(S) IMAGE(S) SELECTORtest-boss-server 2 2 2 12h test-boss-server registry.docker.test.cn:5000/test-dev/test-boss-server:20180304_215608 deployment=060b3cf86fa24bd7c9ce2548015e9b38,name=test-boss-server,version=test 可以看出boss服务，期望运行节点数是2，当前运行节点数也是2，所以该服务当前是正常状态。一旦出现DESIRED和CURRENT的值不一致，表明有服务出现问题。出现问题之后就需要对服务进行问题定位，重启等操作，就不多说了。 后记自己对于虚拟化技术的掌握度基本是皮毛都算不上，现在还是满足最基本工作需要范围o(╥﹏╥)o，后期看来得好好补。。 3月3号时候，突然有个冲动，步行到西山岛上去，然后就说走就走。。。从渔洋山一直到西山岛-金庭游客中心,一个人默默的暴走了近1个小时40分钟，9.5km，走完全程3段太湖大桥，穿过岛两座，可惜天公不作美啊，太湖湖面上雾有点大，桥上风景还是有点朦胧，得找个天气晴朗的日志再走一遭！（再也不穿登山鞋去了，原本想爬山才穿的登山鞋，结果徒步差点没把脚走废掉。。。） 生命在于运动，恰逢一年一度的跑步黄金时期，该走出去，走走，跑跑，爬爬山~~~(大早上来发现VPS又挂了，哎我的hexo可以搭在VPS上的，进不去还写个鬼博客，只好又重搭了一个，愁)]]></content>
       <categories>
-        <category>skill</category>
+        <category>容器化</category>
       </categories>
       <tags>
         <tag>docker</tag>
         <tag>k8s</tag>
-        <tag>Linux运维</tag>
       </tags>
   </entry>
   <entry>
