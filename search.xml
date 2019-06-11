@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[hexo博客配置https]]></title>
     <url>%2F2019%2F06%2F11%2Fhexo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEhttps%2F</url>
-    <content type="text"><![CDATA[hexo博客配置https 整天被chrome提醒不安全，简直了，实在忍不下去了，给博客加个s 方法很简单，到CloudFlare解析域名，修改DNS即可 原DNS123dns23.hichina.comdns24.hichina.com 修改后：123cortney.ns.cloudflare.comlloyd.ns.cloudflare.com CloudFlare注册以后配置很简单，基本输入自己域名（tokyle.com）下一步下一步就结束了 就最后有一步配置DNS:DNS Manage your Domain Name System (DNS) settings时候，CNAME配置自己的域名，然后到对应的域名提供商（阿里云）去修改DNS解析 成功之后，CloudFlare会邮件给你，就可以愉快的https了：https://tokyle.com]]></content>
+    <content type="text"><![CDATA[hexo博客配置https 整天被chrome提醒不安全，简直了，实在忍不下去了，给博客加个s 方法很简单，到CloudFlare解析域名，开启CDN强制http转https，修改DNS即可 原DNS123dns23.hichina.comdns24.hichina.com 修改后：123cortney.ns.cloudflare.comlloyd.ns.cloudflare.com CloudFlare注册以后配置很简单，基本输入自己域名（tokyle.com）下一步下一步就结束了 就最后有一步配置DNS:DNS Manage your Domain Name System (DNS) settings时候，CNAME配置自己的域名，然后到对应的域名提供商（阿里云）去修改DNS解析 成功之后，CloudFlare会邮件给你，就可以愉快的https了： https://tokyle.com]]></content>
       <categories>
         <category>计算机基础</category>
       </categories>
