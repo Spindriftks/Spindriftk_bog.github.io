@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="记cmder/git一个报错解决">
-<meta name="keywords" content="cmder,git">
+<meta name="description" content="docker简单使用（四） Docker容器操作">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记cmder&#x2F;git一个报错解决">
-<meta property="og:url" content="http://tokyle.com/2019/04/09/记cmder-git一个报错解决/index.html">
+<meta property="og:title" content="docker简单使用（四）">
+<meta property="og:url" content="http://tokyle.com/2019/06/13/docker简单使用（四）/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="记cmder/git一个报错解决">
+<meta property="og:description" content="docker简单使用（四） Docker容器操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-10T01:40:32.000Z">
+<meta property="og:updated_time" content="2019-06-13T06:49:04.406Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记cmder&#x2F;git一个报错解决">
-<meta name="twitter:description" content="记cmder/git一个报错解决">
+<meta name="twitter:title" content="docker简单使用（四）">
+<meta name="twitter:description" content="docker简单使用（四） Docker容器操作">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>记cmder/git一个报错解决 | 它夏了夏天</title>
+<title>docker简单使用（四） | 它夏了夏天</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -269,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-记cmder-git一个报错解决" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-docker简单使用（四）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/04/09/记cmder-git一个报错解决/" class="article-date">
-      <time datetime="2019-04-10T01:39:50.000Z" itemprop="datePublished">2019-04-09</time>
+      <a href="/2019/06/13/docker简单使用（四）/" class="article-date">
+      <time datetime="2019-06-13T06:48:29.000Z" itemprop="datePublished">2019-06-13</time>
 </a>
 
 
@@ -288,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      记cmder/git一个报错解决
+      docker简单使用（四）
     </h1>
   
 
@@ -298,13 +298,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/skill/">skill</a>
+    <a class="article-category-link" href="/categories/容器化/">容器化</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmder/">cmder</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -314,32 +314,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>记cmder/git一个报错解决</p>
-<a id="more"></a>
-<h3 id="Couldn’t-reserve-space-for-cygwin’s-heap-Win32-error-0"><a href="#Couldn’t-reserve-space-for-cygwin’s-heap-Win32-error-0" class="headerlink" title="Couldn’t reserve space for cygwin’s heap, Win32 error 0"></a>Couldn’t reserve space for cygwin’s heap, Win32 error 0</h3><p>早上开机想试试adb工具，由于是在Windows机器，第一个想到的还是用<code>cmder</code>来命令行操作，然后不知道是昨天系统自动更新强制杀了昨天的cmder进程造成文件损坏还是什么鬼，<code>ls</code>直接报错（普通用户打开cmder就可以执行ls，用管理员打开，就不行），具体报错信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; ls</span><br><span class="line">      0 [main] us 0 init_cheap: VirtualAlloc pointer is null, Win32 error 487</span><br><span class="line">AllocationBase 0x0, BaseAddress 0x68570000, RegionSize 0x450000, State 0x10000</span><br><span class="line">D:\dev\cmder\vendor\msysgit\bin\ls.exe: *** Couldn&apos;t reserve space for cygwin&apos;s heap, Win32 error 0</span><br></pre></td></tr></table></figure></p>
-<p>同样的报错也可能出现在使用<code>git</code>时候：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\Git\bin\git.exe pull --progress &quot;origin&quot; </span><br><span class="line">Done</span><br><span class="line">    0 [main] us 0 init_cheap: VirtualAlloc pointer is null, Win32 error 487</span><br><span class="line">AllocationBase 0x0, BaseAddress 0x68560000, RegionSize 0x390000, State 0x10000</span><br><span class="line">C:\Program Files\Git\bin\sh.exe: *** Couldn&apos;t reserve space for cygwin&apos;s heap, Win32 error 0</span><br></pre></td></tr></table></figure></p>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><h4 id="重装cmder"><a href="#重装cmder" class="headerlink" title="重装cmder"></a>重装cmder</h4><p>首先以为是昨天系统自动升级时候强制杀了cmder进程造成文件损坏，就尝试重装了次，为了避免注册表问题，还选了其他的地址，安装完毕之后管理员打开cmder，ls还是报那个错，失败</p>
-<h4 id="rebase-exe-b"><a href="#rebase-exe-b" class="headerlink" title="rebase.exe -b"></a>rebase.exe -b</h4><p>这个办法，原理不知道。。。在stackoverflow翻到的，不过是真解决了</p>
-<ol>
-<li><p>首先是进<code>路径\msysgit\bin</code>查看是否有<code>rebase.exe</code>该程序</p>
-</li>
-<li><p>命令行进入<code>路径\msysgit\bin</code>目录，执行<code>rebase.exe -b 0x50000000 msys-1.0.dll</code>即可，正常情况下执行该命令没任何响应，重启cmder或者git即解决</p>
-</li>
-</ol>
-<h5 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h5><ol>
-<li><code>rebase.exe</code>文件所在路径不固定，可能在<code>路径\msysgit\bin</code>下，也可能在<code>C:\Program Files (x86)\Git\bin</code>下</li>
-<li>在执行<code>rebase</code>之前，需要确保<code>msys-1.0.dll</code>不是运行状态，<br> 查看方法，启动命令行，执行<code>tasklist /m msys-1.0.dll</code></li>
-<li>养成好习惯，在执行rebase之前，先备份：<code>copy msys-1.0.dll msys-1.0.dll.bak</code>，如果执行失败<code>ReBaseImage (msys-1.0.dll) failed with last error = 6</code><br>考虑按以下步骤：</li>
-</ol>
-<ul>
-<li>把dll文件拷贝到其他的目录下</li>
-<li>重新复制生成备份文件</li>
-<li>用副本替换原文件<br>另外，考虑用管理员身份运行</li>
-</ul>
-<p>以上，完~</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
-<p><a href="http://jakob.engbloms.se/archives/1403" target="_blank" rel="noopener">初始解决：jakob</a><br><a href="https://stackoverflow.com/questions/18502999/git-extensions-win32-error-487-couldnt-reserve-space-for-cygwins-heap-win32" target="_blank" rel="noopener">stackoverflow问题解决</a></p>
-</blockquote>
+        <p>docker简单使用（四）</p>
+<p>Docker容器操作<br><a id="more"></a></p>
+<h3 id="容器启动"><a href="#容器启动" class="headerlink" title="容器启动"></a>容器启动</h3><h4 id="新建并启动"><a href="#新建并启动" class="headerlink" title="新建并启动"></a>新建并启动</h4><p>构建完镜像之后，启动容器<br>例如：<code>docker run -it ubintu:16.04 bash</code>，启ubuntu，并开启交互终端</p>
+<h4 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h4><p>容器已经关闭，可以使用<code>docker container start containerID(或name)</code>启动<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker run --name web1 -d -p 8088:80 nginx</span><br><span class="line">73a5c1a3ac2300f6e2317ae39c9571b84be07e44beb92fcb98b41ee68aa6672a</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                          PORTS                  NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   14 seconds ago      Up 4 seconds                    0.0.0.0:8088-&gt;80/tcp   web1</span><br></pre></td></tr></table></figure></p>
+<p>关掉容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker kill 73a5c1a3ac23</span><br><span class="line">73a5c1a3ac23</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                        PORTS               NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   About a minute ago   Exited (137) 14 seconds ago                       web1</span><br></pre></td></tr></table></figure></p>
+<p>重新启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker container start 73a5c1a3ac23</span><br><span class="line">73a5c1a3ac23</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                     PORTS                  NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   About a minute ago   Up 9 seconds               0.0.0.0:8088-&gt;80/tcp   web1</span><br></pre></td></tr></table></figure></p>
+<p><code>docker container start -i  5879098886bf</code>以交互模式重启</p>
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><p>推荐<code>docker exec</code>，交互模式：<code>docker exec -it container</code></p>
+<h3 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h3><p>可以<code>docker container stop containerid(name)</code><br>也可以暴力的<code>dokcer kill containerid</code></p>
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><p><code>docker rm containerid</code></p>
+<p>删除镜像：<code>docker rmi imageid</code></p>
 
       
     </div>
@@ -348,13 +333,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/04/09/记cmder-git一个报错解决/">记cmder/git一个报错解决</a></p>
+        <p><span>本文标题:</span><a href="/2019/06/13/docker简单使用（四）/">docker简单使用（四）</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
-        <p><span>发布时间:</span>2019-04-09, 21:39:50</p>
-        <p><span>最后更新:</span>2019-04-09, 21:40:32</p>
+        <p><span>发布时间:</span>2019-06-13, 02:48:29</p>
+        <p><span>最后更新:</span>2019-06-13, 02:49:04</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/04/09/记cmder-git一个报错解决/" title="记cmder/git一个报错解决">http://tokyle.com/2019/04/09/记cmder-git一个报错解决/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/04/09/记cmder-git一个报错解决/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/06/13/docker简单使用（四）/" title="docker简单使用（四）">http://tokyle.com/2019/06/13/docker简单使用（四）/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/06/13/docker简单使用（四）/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -366,16 +351,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/04/10/Android调试工具adb简介/">
-                    Android调试工具adb简介
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/04/08/网站性能杂货/">
-                    网站性能杂货
+                <a href="/2019/06/12/docker简单使用（三）/">
+                    docker简单使用（三）
                 </a>
             </div>
         
@@ -387,7 +366,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Couldn’t-reserve-space-for-cygwin’s-heap-Win32-error-0"><span class="toc-number">1.</span> <span class="toc-text">Couldn’t reserve space for cygwin’s heap, Win32 error 0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决"><span class="toc-number">2.</span> <span class="toc-text">解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#重装cmder"><span class="toc-number">2.1.</span> <span class="toc-text">重装cmder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rebase-exe-b"><span class="toc-number">2.2.</span> <span class="toc-text">rebase.exe -b</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Tips"><span class="toc-number">2.2.1.</span> <span class="toc-text">Tips</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#容器启动"><span class="toc-number">1.</span> <span class="toc-text">容器启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#新建并启动"><span class="toc-number">1.1.</span> <span class="toc-text">新建并启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启容器"><span class="toc-number">1.2.</span> <span class="toc-text">重启容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进入容器"><span class="toc-number">2.</span> <span class="toc-text">进入容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#停止容器"><span class="toc-number">3.</span> <span class="toc-text">停止容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除容器"><span class="toc-number">4.</span> <span class="toc-text">删除容器</span></a></li></ol>
         
     </div>
     <style>
@@ -423,7 +402,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"记cmder/git一个报错解决　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"docker简单使用（四）　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -466,15 +445,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/04/10/Android调试工具adb简介/" title="上一篇: Android调试工具adb简介">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/04/08/网站性能杂货/" title="下一篇: 网站性能杂货">
+            <a href="/2019/06/12/docker简单使用（三）/" title="下一篇: docker简单使用（三）">
                 <i class="fa fa-angle-right"></i>
             </a>
         
