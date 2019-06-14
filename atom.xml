@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-14T05:46:56.644Z</updated>
+  <updated>2019-06-14T06:30:36.537Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker简单使用（六）</title>
+    <link href="http://tokyle.com/2019/06/14/docker%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%EF%BC%88%E5%85%AD%EF%BC%89/"/>
+    <id>http://tokyle.com/2019/06/14/docker简单使用（六）/</id>
+    <published>2019-06-14T06:29:55.000Z</published>
+    <updated>2019-06-14T06:30:36.537Z</updated>
+    
+    <content type="html"><![CDATA[<p>docker简单使用（六）</p><p>数据卷<br><a id="more"></a></p><p>数据卷的使用，类似于linux下的挂载。</p><p>数据卷是一个可供一个或多个容器使用的特殊目录，有以下特性：</p><ul><li>数据卷可以在容器间共享和重用</li><li>对数据卷的修改立刻生效</li><li>对数据卷的更新，不会影响到镜像</li><li>数据卷默认一直存在，即使容器被删除</li></ul><p>创建数据卷：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create test_vol</span><br></pre></td></tr></table></figure></p><p>查看数据卷：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mynexus]# docker volume ls | grep test</span><br><span class="line">local               test_vol</span><br></pre></td></tr></table></figure></p><p>查看数据卷详细信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mynexus]# docker volume inspect test_vol</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;CreatedAt&quot;: &quot;2019-06-14T14:08:45+08:00&quot;,</span><br><span class="line">        &quot;Driver&quot;: &quot;local&quot;,</span><br><span class="line">        &quot;Labels&quot;: &#123;&#125;,</span><br><span class="line">        &quot;Mountpoint&quot;: &quot;/var/lib/docker/volumes/test_vol/_data&quot;,</span><br><span class="line">        &quot;Name&quot;: &quot;test_vol&quot;,</span><br><span class="line">        &quot;Options&quot;: &#123;&#125;,</span><br><span class="line">        &quot;Scope&quot;: &quot;local&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p><p>启动一个挂载数据卷的容器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8077:80 --name web2 --mount source=test_vol,target=/webapp nginx</span><br></pre></td></tr></table></figure></p><p>查看数据卷具体信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">docker inspect web2</span><br><span class="line"></span><br><span class="line"># 在Mounts节点</span><br><span class="line"> &quot;Mounts&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;Type&quot;: &quot;volume&quot;,</span><br><span class="line">                &quot;Name&quot;: &quot;test_vol&quot;,</span><br><span class="line">                &quot;Source&quot;: &quot;/var/lib/docker/volumes/test_vol/_data&quot;,</span><br><span class="line">                &quot;Destination&quot;: &quot;/webapp&quot;,</span><br><span class="line">                &quot;Driver&quot;: &quot;local&quot;,</span><br><span class="line">                &quot;Mode&quot;: &quot;z&quot;,</span><br><span class="line">                &quot;RW&quot;: true,</span><br><span class="line">                &quot;Propagation&quot;: &quot;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br></pre></td></tr></table></figure></p><p>删除数据卷：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume rm test_vol</span><br></pre></td></tr></table></figure></p><p>删除之前需要将使用这个数据卷的容器关闭，否则报错</p><p>挂载主机目录<br>使用<code>--mount</code>标记</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8076:80 --name web3 --mount type=bind,source=/home/volumetest,target=/opt/webapp nginx</span><br></pre></td></tr></table></figure><p>本地文件需要存在，否则报错</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;docker简单使用（六）&lt;/p&gt;
+&lt;p&gt;数据卷&lt;br&gt;
+    
+    </summary>
+    
+      <category term="容器化" scheme="http://tokyle.com/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/"/>
+    
+    
+      <category term="docker" scheme="http://tokyle.com/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>docker简单使用（五）</title>
@@ -451,28 +474,6 @@
       <category term="Android" scheme="http://tokyle.com/tags/Android/"/>
     
       <category term="adb" scheme="http://tokyle.com/tags/adb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一次Linux磁盘清理</title>
-    <link href="http://tokyle.com/2019/04/18/%E8%AE%B0%E4%B8%80%E6%AC%A1Linux%E7%A3%81%E7%9B%98%E6%B8%85%E7%90%86/"/>
-    <id>http://tokyle.com/2019/04/18/记一次Linux磁盘清理/</id>
-    <published>2019-04-18T07:20:41.000Z</published>
-    <updated>2019-04-18T07:21:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>记一次Linux清磁盘</p><a id="more"></a><p>最近发现有台机器磁盘满了，搜了下，nohub.out占完了</p><p>然后果断的rm -rf nohub.out，以为结束了，然而df -h看了下，一点都没释放。。。</p><p>因为被删除的文件在删除的时侯还是进程在操作(打开、访问等)的缘故，rm只完成了在磁盘上文件实体的释放，而类似free list结构中相应的文件系统因进程的操作相应的inode并未释放。</p><p>解决的方法：<br>这样的问题解决起来也很简单，找到操作的进程，kill掉就可以了</p><p>当然，闲得无聊，你重启机器，也没话说<br>(最后，别忘了重启你的程序)</p><p>在网上发现两个可以不用停止服务就可清空nohup.out的命令。<br>第一种：cp /dev/null nohup.out<br>第二种：cat /dev/null &gt; nohup.out</p><p>以上，完~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;记一次Linux清磁盘&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机基础" scheme="http://tokyle.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
-    
-    
-      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
     
   </entry>
   
