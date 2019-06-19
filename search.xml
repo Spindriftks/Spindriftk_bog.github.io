@@ -5,7 +5,7 @@
     <url>%2F2019%2F06%2F19%2Fpytest%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
     <content type="text"><![CDATA[pytest学习实践（一） pytest是python中一个很好用的框架，主要特点： 支持参数化（不用unittest一样接ddt） 支持简单单元测试及复杂功能测试，可以用来做selenium和appium，以及接口自动化（pytest+request） 众多第三方插件：pytest-html（报告）、pytest-selenium（集成selenium）、pytest-rerunfailures（失败重跑）等 测试用来skip和xfail处理 CI方便 pytest插件大全 安装1pip install pytest 测试写一个简单的测试函数：1234567import osdef test_func1(): assert 1 == 1if __name__ == &apos;__main__&apos;: os.system(&apos;pytest&apos;) 运行结果：1234567collected 1 itemtest_1.py . [100%]========================== 1 passed in 0.06 seconds ===========================Process finished with exit code 0 pytest以.表示测试成功，可以看一下测试失败：1234567import osdef test_func1(): assert 1 == 2if __name__ == &apos;__main__&apos;: os.system(&apos;pytest&apos;) 运行结果：12345678910111213collected 1 itemtest_1.py F [100%]================================== FAILURES ===================================_________________________________ test_func1 __________________________________ def test_func1():&gt; assert 1 == 2E assert 1 == 2test_1.py:5: AssertionError========================== 1 failed in 0.11 seconds =========================== F表示运行失败]]></content>
       <categories>
-        <category>python</category>
+        <category>python基础</category>
       </categories>
       <tags>
         <tag>pytest</tag>
@@ -378,8 +378,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>pip3</tag>
         <tag>Centos7</tag>
+        <tag>pip3</tag>
       </tags>
   </entry>
   <entry>
@@ -508,8 +508,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -520,8 +520,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -739,8 +739,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1067,8 +1067,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
