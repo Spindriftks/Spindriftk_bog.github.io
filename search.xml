@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[pytest学习实践（二）]]></title>
+    <url>%2F2019%2F06%2F19%2Fpytest%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%BA%8C%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[pytest学习实践（二） 断言pytest的断言就用的python最基本的assert12345678910import pytestdef func(x): return x + 1def test_func(): assert func(3) == 5if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;]) 异常捕获用raises来捕获预期的异常123456789101112import jsonimport pytestdef func(): filename = &apos;package.json&apos; with open(filename) as f_obj: json.load(f_obj) raise FileNotFoundErrordef test_func(): with pytest.raises(FileNotFoundError): func() 多个类组成用例12345678910111213import pytestclass TestClass(): def test_one(self): x = &quot;this&quot; assert &apos;h&apos; in x def test_two(self): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;]) 只要函数以test_开头，都可以识别 指定测试case12345678910def test_one(): x = &quot;this&quot; assert &apos;h&apos; in xdef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;, &apos;test_2.py::test_one&apos;]) 但是这样的方式只能指定一个函数，如果需要执行多个，就有点麻烦 使用pytest.mark进行标记1234567891011121314151617@pytest.mark.commitdef test_one(): x = &quot;this&quot; assert &apos;h&apos; in x@pytest.mark.finisheddef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)@pytest.mark.finisheddef test_three(): assert 1 == 2if __name__ == &apos;__main__&apos;: pytest.main([&apos;-m&apos;, &apos;finished&apos;]) # os.system(&apos;pytest -m finished&apos;) 使用mark进行标记，标记哪些需要执行，也支持：pytest -m &quot;commit and finished&quot; 跳过测试1234@pytest.mark.skipdef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;) 也支持skipif123@pytest.mark.skipif(sys.platform == &quot;win32&quot;, reason=&quot;not support win32&quot;)def test_four(): assert 1 == 1 捕获遇见错误xfail使用xfail来标记，期望该测试函数执行失败（执行失败，但又不想跳过）；配合配置文件test.ini，文件中指定标志位，例如：12[pytest]xfail_strict=true 12345@pytest.mark.xfail(strict=True)def test_five(): a = id([&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]) b = id([1, 2, 3]) assert a == b 运行返回结果x表示XFAIL预见的失败；X表示XPASS预见的成果 也可以用pytest --runxfail强制执行标记xfail的用例 参数化pytest使用pytest.mark.parametrize(argnames, argvalues)进行参数化实现 123@pytest.mark.parametrize(&apos;passwd&apos;, [&apos;12345678909&apos;, &apos;sdsddewd&apos;])def test_six(passwd): assert len(passwd) &gt;= 10 测试结果：1234567891011121314.F [100%]================================== FAILURES ===================================_____________________________ test_six[sdsddewd] ______________________________passwd = &apos;sdsddewd&apos; @pytest.mark.parametrize(&apos;passwd&apos;, [&apos;12345678909&apos;, &apos;sdsddewd&apos;]) def test_six(passwd):&gt; assert len(passwd) &gt;= 10E AssertionError: assert 8 &gt;= 10E + where 8 = len(&apos;sdsddewd&apos;)test_2.py:31: AssertionError1 failed, 1 passed in 0.15 seconds case重试安装插件1pip install -U pytest-rerunfailures 执行123if __name__ == &apos;__main__&apos;: pytest.main([&apos;-s&apos;, &apos;-q&apos;, &apos;--reruns&apos;, &apos;3&apos;]) # os.system(&apos;pytest -s -q test_2.py --reruns 3&apos;) 11 failed, 1 warnings, 3 rerun in 0.13 seconds 可以指定单个case重试 多进程运行cases安装插件1pip install -U pytest-xdist 执行123if __name__ == &apos;__main__&apos;: # pytest.main([&apos;-s&apos;, &apos;-n&apos;, &apos;3&apos;]) os.system(&apos;pytest -s -n 3 test_2.py&apos;) 12gw0 I / gw1 I / gw2 Igw0 [1] / gw1 [1] / gw2 [1] 生成测试报告（htmlReport）安装插件1pip install -U pytest-html 执行123if __name__ == &apos;__main__&apos;: # pytest.main([&apos;--html=report.html&apos;]) os.system(&apos;pytest test_2.py --html=report.html&apos;) 报告很好看！]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>pytest</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[pytest学习实践（一）]]></title>
     <url>%2F2019%2F06%2F19%2Fpytest%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
     <content type="text"><![CDATA[pytest学习实践（一） pytest是python中一个很好用的框架，主要特点： 支持参数化（不用unittest一样接ddt） 支持简单单元测试及复杂功能测试，可以用来做selenium和appium，以及接口自动化（pytest+request） 众多第三方插件：pytest-html（报告）、pytest-selenium（集成selenium）、pytest-rerunfailures（失败重跑）等 测试用来skip和xfail处理 CI方便 pytest插件大全 安装1pip install pytest 测试写一个简单的测试函数：1234567import osdef test_func1(): assert 1 == 1if __name__ == &apos;__main__&apos;: os.system(&apos;pytest&apos;) 运行结果：1234567collected 1 itemtest_1.py . [100%]========================== 1 passed in 0.06 seconds ===========================Process finished with exit code 0 pytest以.表示测试成功，可以看一下测试失败：1234567import osdef test_func1(): assert 1 == 2if __name__ == &apos;__main__&apos;: os.system(&apos;pytest&apos;) 运行结果：12345678910111213collected 1 itemtest_1.py F [100%]================================== FAILURES ===================================_________________________________ test_func1 __________________________________ def test_func1():&gt; assert 1 == 2E assert 1 == 2test_1.py:5: AssertionError========================== 1 failed in 0.11 seconds =========================== F表示运行失败]]></content>
@@ -1266,8 +1277,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1401,8 +1412,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1460,8 +1471,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1473,8 +1484,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
