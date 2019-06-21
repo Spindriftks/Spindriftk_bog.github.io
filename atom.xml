@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-21T06:42:33.311Z</updated>
+  <updated>2019-06-21T09:07:31.485Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一次Android安全问题定位</title>
+    <link href="http://tokyle.com/2019/06/21/%E4%B8%80%E6%AC%A1Android%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/"/>
+    <id>http://tokyle.com/2019/06/21/一次Android安全问题定位/</id>
+    <published>2019-06-21T09:06:26.000Z</published>
+    <updated>2019-06-21T09:07:31.485Z</updated>
+    
+    <content type="html"><![CDATA[<p>一次Android安全问题定位</p><a id="more"></a><p>有个账密明文存库问题，<code>default.realm</code>存了明文的用户名和密码</p><h3 id="文件获取"><a href="#文件获取" class="headerlink" title="文件获取"></a>文件获取</h3><p>首先，很明显，需要root手机了，正常的权限，根本进不去<code>/data/data</code>文件夹</p><p>root完之后开始</p><p><code>adb devices</code>，设备已连接上</p><p><code>su</code>切换用户，进入shell</p><p>赋权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /data</span><br><span class="line">chmod 777 /data/data</span><br><span class="line">chmod -R 777 /data/data/com.test.package</span><br></pre></td></tr></table></figure></p><p><code>find / -name &quot;default.realm&quot;</code>查找该数据库文件</p><p><code>cd /data/data/com.test.package/files</code>进入数据库文件夹</p><p><code>cp default.realm /sdcard</code>将数据库文件拷贝到外部存储器SD卡（方便拉倒本地）</p><p><code>exit</code><br>退出adb shell</p><p><code>adb pull /sdcard/default.realm E:/LOGS</code> 将SD卡里数据库文件拉到本地</p><h3 id="文件查看"><a href="#文件查看" class="headerlink" title="文件查看"></a>文件查看</h3><p>没那本事在windows下看<code>.realm</code>，找个台mac，装了个<code>Realm Browser</code>打开导出的<code>default.realm</code></p><p>看到在user表，明文的链接，用户名，密码。。。<br>(android sdk的platform_tool中有个monitor.bat工具，可以看见android的文件系统，可能不能深层次进入，还是命令行方式靠谱)</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一次Android安全问题定位&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
+    
+    
+      <category term="adb" scheme="http://tokyle.com/tags/adb/"/>
+    
+  </entry>
   
   <entry>
     <title>Service Mesh基础知识</title>
@@ -446,30 +468,6 @@
     
     
       <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>centos7安装docker</title>
-    <link href="http://tokyle.com/2019/05/14/centos7%E5%AE%89%E8%A3%85docker/"/>
-    <id>http://tokyle.com/2019/05/14/centos7安装docker/</id>
-    <published>2019-05-14T06:21:34.000Z</published>
-    <updated>2019-05-14T06:33:02.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Centos7安装docker</p><a id="more"></a><p>容器化大潮，微服务最后一里路，至少掌握docker的基本使用</p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><code>查看内核版本，大于3.10才能安装</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure><p><code>更新yum源</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure><p><code>卸载旧版本</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker docker-common docker-selinux docker-engine -y</span><br></pre></td></tr></table></figure><p><code>安装需要的安装包</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure><p><code>配置yum源（防止万里长城，配置阿里yum源）</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure><p><code>查看可选择版本</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br></pre></td></tr></table></figure><p><code>安装最新稳定版（repo中默认开启了stable仓库）</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce</span><br></pre></td></tr></table></figure><p><code>或者指定版本</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce-18.06.3.ce</span><br></pre></td></tr></table></figure><p><code>启动并加自启动</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br><span class="line">systemctl enable docker</span><br></pre></td></tr></table></figure><p><code>验证</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost docker]# docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:           18.09.6</span><br><span class="line"> API version:       1.39</span><br><span class="line"> Go version:        go1.10.8</span><br><span class="line"> Git commit:        481bc77156</span><br><span class="line"> Built:             Sat May  4 02:34:58 2019</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Experimental:      false</span><br><span class="line"></span><br><span class="line">Server: Docker Engine - Community</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          18.09.6</span><br><span class="line">  API version:      1.39 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.10.8</span><br><span class="line">  Git commit:       481bc77</span><br><span class="line">  Built:            Sat May  4 02:02:43 2019</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     false</span><br></pre></td></tr></table></figure></p><p>有client和server表示安装成功</p><p>本篇算是容器化的第一篇，计划后续好好折腾折腾docker和K8S，去年欠下的，要补回来了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Centos7安装docker&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="容器化" scheme="http://tokyle.com/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/"/>
-    
-    
-      <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
-    
-      <category term="docker" scheme="http://tokyle.com/tags/docker/"/>
     
   </entry>
   

@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="关于自动化测试执行期间断言的异常的选择迷茫">
-<meta name="keywords" content="python3,自动化测试,单元测试">
+<meta name="description" content="一次Android安全问题定位">
+<meta name="keywords" content="adb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单元测试异常捕获">
-<meta property="og:url" content="http://tokyle.com/2018/02/08/单元测试异常捕获/index.html">
+<meta property="og:title" content="一次Android安全问题定位">
+<meta property="og:url" content="http://tokyle.com/2019/06/21/一次Android安全问题定位/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="关于自动化测试执行期间断言的异常的选择迷茫">
+<meta property="og:description" content="一次Android安全问题定位">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-08T03:18:32.000Z">
+<meta property="og:updated_time" content="2019-06-21T09:07:31.485Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单元测试异常捕获">
-<meta name="twitter:description" content="关于自动化测试执行期间断言的异常的选择迷茫">
+<meta name="twitter:title" content="一次Android安全问题定位">
+<meta name="twitter:description" content="一次Android安全问题定位">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>单元测试异常捕获 | 它夏了夏天</title>
+<title>一次Android安全问题定位 | 它夏了夏天</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -269,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-单元测试异常捕获" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-一次Android安全问题定位" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/02/08/单元测试异常捕获/" class="article-date">
-      <time datetime="2018-02-08T08:12:49.000Z" itemprop="datePublished">2018-02-08</time>
+      <a href="/2019/06/21/一次Android安全问题定位/" class="article-date">
+      <time datetime="2019-06-21T09:06:26.000Z" itemprop="datePublished">2019-06-21</time>
 </a>
 
 
@@ -288,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      单元测试异常捕获
+      一次Android安全问题定位
     </h1>
   
 
@@ -298,13 +298,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/自动化测试/">自动化测试</a>
+    <a class="article-category-link" href="/categories/skill/">skill</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动化测试/">自动化测试</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/">adb</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -314,23 +314,21 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>关于自动化测试执行期间断言的异常的选择迷茫</p>
+        <p>一次Android安全问题定位</p>
 <a id="more"></a>
-<p>大概是这段时间有点压抑，昨天下午就不知道怎么钻在了单元测试断言失败需不需要捕获异常这个问题上。<br>大家都知道，进行单元测试时，加入断言验证单元测试结果，断言失败会报错，通过会打印<code>ok</code>标识。</p>
-<h3 id="nose进行单元测试"><a href="#nose进行单元测试" class="headerlink" title="nose进行单元测试"></a>nose进行单元测试</h3><p>使用nose进行单元测试示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from nose.tools import assert_equal</span><br><span class="line"></span><br><span class="line">def test_sum():</span><br><span class="line">    a = 1</span><br><span class="line">    b = 2</span><br><span class="line">    res = 5</span><br><span class="line">    assert_equal(res, a+b)</span><br></pre></td></tr></table></figure></p>
-<p>控制台执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nosetests -v -s Testexec.py</span><br></pre></td></tr></table></figure></p>
-<p>打印信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Testexec.test_sum ... FAIL</span><br><span class="line"></span><br><span class="line">======================================================================</span><br><span class="line">FAIL: Testexec.test_sum</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;g:\skills\python36\lib\site-packages\nose\case.py&quot;, line 198, in runTest</span><br><span class="line">    self.test(*self.arg)</span><br><span class="line">  File &quot;G:\workstation\py_workstation\DataDriverTest\Testexec.py&quot;, line 17, in test_sum</span><br><span class="line">    assert_equal(res, a+b)</span><br><span class="line">AssertionError: 5 != 3</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 test in 0.007s</span><br><span class="line"></span><br><span class="line">FAILED (failures=1)</span><br></pre></td></tr></table></figure></p>
-<p>可以看出，断言失败了，控制台也打印出了断言失败的信息。但是在进行自动化测试过程中，如果你想加入日志模块，在执行过程中就在控制台或者文件中打印日志，例如：<code>Testexec.test_sum ... 断言失败，3不等于5</code>这样的信息，很明显，直接用上述写法是不会走到打印失败信息这一步，所以就需要将断言失败的异常捕获，类似这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from nose.tools import assert_equal</span><br><span class="line"></span><br><span class="line">def test_sum():</span><br><span class="line">    try:</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 5</span><br><span class="line">        assert_equal(res, a+b)</span><br><span class="line">    except AssertionError as e:</span><br><span class="line">        print(&quot;断言失败，&#123;0&#125;不等于&#123;1&#125;&quot;.format(a+b, res))</span><br></pre></td></tr></table></figure></p>
-<p>这种写法执行单元测试，结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;lamb&#125; nosetests -v -s Testexec.py</span><br><span class="line">Testexec.test_sum ... 断言失败，3不等于5</span><br><span class="line">ok</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 test in 0.002s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure></p>
-<p>可以看见在断言失败的情况下，打印出了自定义的断言失败信息，这样也就满足进行自动化测试时，实时有日志生成，方便查看，但是这样有个问题，<strong>你一旦把断言失败的异常捕获了，那该条测试执行结果就是OK状态，到最后统计时候就不容易看出是哪条执行失败了，只能查看日志</strong>；而且日志中也没有展示具体在哪一行有报错，所以这样的方式需要改进。</p>
-<h3 id="打印堆栈信息"><a href="#打印堆栈信息" class="headerlink" title="打印堆栈信息"></a>打印堆栈信息</h3><p>在断言失败时，把异常捕获，此时不会展示具体断言错误的信息，所以就需要添加堆栈信息打印：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def test_sum():</span><br><span class="line">    try:</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 5</span><br><span class="line">        assert_equal(res, a+b)</span><br><span class="line">    except AssertionError as e:</span><br><span class="line">        logging.error(&quot;断言失败，&#123;0&#125;不等于&#123;1&#125;&quot;.format(a+b, res) +</span><br><span class="line">              str(traceback.print_exc())</span><br></pre></td></tr></table></figure></p>
-<p>这样就可以获取堆栈信息，可以查看具体哪一行有报错，<strong>但是，这样堆栈的日志也只会打印在控制台上，不利于查看</strong>，好<code>traceback.print_exc()</code>可以指定日志输出路径，所以只需要修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def test_sum():</span><br><span class="line">    try:</span><br><span class="line">        a = 1</span><br><span class="line">        b = 2</span><br><span class="line">        res = 5</span><br><span class="line">        assert_equal(res, a+b)</span><br><span class="line">    except AssertionError as e:</span><br><span class="line">        logging.error(&quot;断言失败，&#123;0&#125;不等于&#123;1&#125;&quot;.format(a+b, res) +</span><br><span class="line">              str(traceback.print_exc(file=open(&apos;test.log&apos;, &apos;a&apos;))))</span><br></pre></td></tr></table></figure></p>
-<p>这样就可以完成，错误日志打印到文件中，其中<code>a</code>表示append。</p>
-<h3 id="邮件附件"><a href="#邮件附件" class="headerlink" title="邮件附件"></a>邮件附件</h3><p>在进行自动化测试时，我们经常不仅需要日志文件，更多用到的是测试报告，在自动化用例执行完成之后以邮件形式发送到指定邮箱，只需要查看邮件的附件，就可以知晓用例执行情况；但是使用<code>unittest</code>或者<code>nose</code>时，一旦把断言异常捕获，那该条用例结果就是ok状态，实际上我们知道这条用例其实是执行失败了，这样，使用<code>HTMLTestRunner</code>或者是<code>nosetests --with-html --html-file</code>生成的html文件中，用例执行状态就都是<code>success</code>状态，很显然是不正确的。</p>
-<p>所以我考虑的是，自己写自定义的测试报告样式，定义一个状态标志<code>status</code>，初始状态为<code>success</code>，在用例执行过程中，一旦捕获了断言异常，就将状态更新为<code>fail</code>，在测试报告中，执行结果栏展示的是该状态，这样就可以实现结果查看了。</p>
-<p>自定义测试报告样式。。现在还是只有这个想法，未完待续，待实现了再来更新！（前端知识匮乏啊，越来越觉得自己弱。。。）</p>
-<p>断言捕获，可以生成日志，在屏幕和日志文件中打印显示，但是，这样，所有的单元测试都是通过状态，没有一条fail；</p>
-<p>断言不捕获，直接邮件发送结果，可以在邮件中看出具体哪条用例执行失败，可以点开失败，查看具体失败信息</p>
+<p>有个账密明文存库问题，<code>default.realm</code>存了明文的用户名和密码</p>
+<h3 id="文件获取"><a href="#文件获取" class="headerlink" title="文件获取"></a>文件获取</h3><p>首先，很明显，需要root手机了，正常的权限，根本进不去<code>/data/data</code>文件夹</p>
+<p>root完之后开始</p>
+<p><code>adb devices</code>，设备已连接上</p>
+<p><code>su</code>切换用户，进入shell</p>
+<p>赋权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /data</span><br><span class="line">chmod 777 /data/data</span><br><span class="line">chmod -R 777 /data/data/com.test.package</span><br></pre></td></tr></table></figure></p>
+<p><code>find / -name &quot;default.realm&quot;</code>查找该数据库文件</p>
+<p><code>cd /data/data/com.test.package/files</code>进入数据库文件夹</p>
+<p><code>cp default.realm /sdcard</code>将数据库文件拷贝到外部存储器SD卡（方便拉倒本地）</p>
+<p><code>exit</code><br>退出adb shell</p>
+<p><code>adb pull /sdcard/default.realm E:/LOGS</code> 将SD卡里数据库文件拉到本地</p>
+<h3 id="文件查看"><a href="#文件查看" class="headerlink" title="文件查看"></a>文件查看</h3><p>没那本事在windows下看<code>.realm</code>，找个台mac，装了个<code>Realm Browser</code>打开导出的<code>default.realm</code></p>
+<p>看到在user表，明文的链接，用户名，密码。。。<br>(android sdk的platform_tool中有个monitor.bat工具，可以看见android的文件系统，可能不能深层次进入，还是命令行方式靠谱)</p>
 
       
     </div>
@@ -339,13 +337,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/02/08/单元测试异常捕获/">单元测试异常捕获</a></p>
+        <p><span>本文标题:</span><a href="/2019/06/21/一次Android安全问题定位/">一次Android安全问题定位</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
-        <p><span>发布时间:</span>2018-02-08, 03:12:49</p>
-        <p><span>最后更新:</span>2018-02-07, 22:18:32</p>
+        <p><span>发布时间:</span>2019-06-21, 05:06:26</p>
+        <p><span>最后更新:</span>2019-06-21, 05:07:31</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/02/08/单元测试异常捕获/" title="单元测试异常捕获">http://tokyle.com/2018/02/08/单元测试异常捕获/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/02/08/单元测试异常捕获/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/06/21/一次Android安全问题定位/" title="一次Android安全问题定位">http://tokyle.com/2019/06/21/一次Android安全问题定位/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/06/21/一次Android安全问题定位/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -357,16 +355,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/02/08/自定义测试报告/">
-                    自定义测试报告
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/02/07/nose执行顺序/">
-                    nose执行顺序
+                <a href="/2019/06/21/Service-Mesh基础知识/">
+                    Service Mesh基础知识
                 </a>
             </div>
         
@@ -378,7 +370,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nose进行单元测试"><span class="toc-number">1.</span> <span class="toc-text">nose进行单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打印堆栈信息"><span class="toc-number">2.</span> <span class="toc-text">打印堆栈信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件附件"><span class="toc-number">3.</span> <span class="toc-text">邮件附件</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件获取"><span class="toc-number">1.</span> <span class="toc-text">文件获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件查看"><span class="toc-number">2.</span> <span class="toc-text">文件查看</span></a></li></ol>
         
     </div>
     <style>
@@ -414,7 +406,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"单元测试异常捕获　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"一次Android安全问题定位　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -457,15 +449,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/02/08/自定义测试报告/" title="上一篇: 自定义测试报告">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/02/07/nose执行顺序/" title="下一篇: nose执行顺序">
+            <a href="/2019/06/21/Service-Mesh基础知识/" title="下一篇: Service Mesh基础知识">
                 <i class="fa fa-angle-right"></i>
             </a>
         
