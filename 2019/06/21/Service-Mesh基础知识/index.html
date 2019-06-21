@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="Service Mesh基础知识">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/a025e134gy1g48rpbys10g21hc0tee81.gif">
-<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/a025e134gy1g48rei92dng21hc0te7ip.gif">
-<meta property="og:updated_time" content="2019-06-21T06:38:36.583Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a025e134gy1g48rpbys10g21hc0tee81.gif">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a025e134gy1g48ru7eqtng21hc0te7ip.gif">
+<meta property="og:updated_time" content="2019-06-21T06:42:33.311Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Service Mesh基础知识">
 <meta name="twitter:description" content="Service Mesh基础知识">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/a025e134gy1g48rpbys10g21hc0tee81.gif">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a025e134gy1g48rpbys10g21hc0tee81.gif">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -339,7 +339,7 @@
 <p>说完nginx的代理，说回service mesh，其实service mesh也就是类似于nginx的一个代理，可以看做是分布式微服务代理。在传统的代理模式下，代理一般是单独的代理服务器，所有请求先通过代理，再转发到实际的后端。service mesh中，代理是分布式的，常驻在服务身边（sidecar模式），每个服务可以理解成有两个部分，一个是原来的服务（service），一个是用于service mesh的代理（sidecar），sidecar之间相互连接，和彼此的服务彼此隔离，和传统的代理一样，流量也就是经过sidecar进行管理，所有的服务的sidecar进行连接，组成了mesh（网格）。</p>
 <p>同时，传统的代理，基本是只基于网络流量，但是 Service Mesh 中，代理会知道整个集群的所有应用信息，并且额外添加了热更新、注入服务发现、降级熔断、认证授权、超时重试、日志监控等功能，让这些通用的功能不必每个应用都自己实现，放在代理中即可。换句话说，Service Mesh 中的代理对微服务中的应用做了定制化的改进。</p>
 <p>有了service mesh，管理员只需要和代理层打交道，就能达到对整个微服务系统控制的效果。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g48rpbys10g21hc0tee81.gif" alt="Service Mesh原理"></p>
+<p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48rpbys10g21hc0tee81.gif" alt="Service Mesh原理"></p>
 <h3 id="Istio"><a href="#Istio" class="headerlink" title="Istio"></a>Istio</h3><p>Istio其实就是Service Mesh架构的一种实现，来看看通过istio可以解决什么问题：<br>来自Istio网站：</p>
 <ul>
 <li>HTTP、gRPC、WebSocket和TCP流量的自动负载均衡。</li>
@@ -348,7 +348,7 @@
 <li>自动指标、日志和集群内所有流量的跟踪，包括集群入口和出口。</li>
 <li>通过集群中的服务之间的强身份断言来实现服务间的身份验证。</li>
 </ul>
-<p><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g48rei92dng21hc0te7ip.gif" alt="Istio能带来什么"></p>
+<p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48ru7eqtng21hc0te7ip.gif" alt="Istio解决的问题"></p>
 <p>以上内容均来自万能的互联网，由于自己目前对k8s理解还比较浅，对k8s的sidecar还只是理论的认知，Service Mesh和Istio以及Serviceless和knative当前也只是在理论阶段，本篇只是敲门，后面再慢慢入门。</p>
 
       
@@ -361,7 +361,7 @@
         <p><span>本文标题:</span><a href="/2019/06/21/Service-Mesh基础知识/">Service Mesh基础知识</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
         <p><span>发布时间:</span>2019-06-21, 02:31:34</p>
-        <p><span>最后更新:</span>2019-06-21, 02:38:36</p>
+        <p><span>最后更新:</span>2019-06-21, 02:42:33</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/06/21/Service-Mesh基础知识/" title="Service Mesh基础知识">http://tokyle.com/2019/06/21/Service-Mesh基础知识/</a>
             <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/06/21/Service-Mesh基础知识/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

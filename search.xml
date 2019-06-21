@@ -401,8 +401,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -531,8 +531,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -798,9 +798,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1090,8 +1090,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1289,8 +1289,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1424,8 +1424,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1483,8 +1483,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1496,8 +1496,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
