@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Service Mesh基础知识]]></title>
+    <url>%2F2019%2F06%2F21%2FService-Mesh%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%2F</url>
+    <content type="text"><![CDATA[Service Mesh基础知识 微服务大噪一时，可以说是最火的后端架构，微服务架构将原来的单体应用进行服务拆分，做成一个个独立的服务应用，各个服务各司其职，彼此独立，各个服务甚至不需要用同样的编程语言，更方便团队协作。 微服务包含一些基本组件，服务发现，服务注册，鉴权，熔断降级等。由于微服务是将单体拆分为独立应用，当应用越来越大，微服务越来越多，管理起来也就会越来越麻烦。一套微服务环境，链路追踪，负载均衡，安全配置，流量管理等等，可能就会耗费大量时间去维护。针对微服务不断壮大，微服务管理的相关问题，出现了新的微服务框架Service Mesh(服务网格) Service Mesh在解释service mesh之前，先看看nginx的基本概念 nginx有几大功能，其中正向代理和反向代理，应该都很熟悉。本来最基本的架构是A和B需要进行通信，A和B可以直接相互传输，买房子为例，买家和卖家直接交易。这样的架构有个问题，A和B传输之间的信息，旁人无法知道，传输状态外界也无法监控，传输的数据包如果太大把带宽占满，外界也无法知晓，这样的情况下，就有了中间加一层，代理,C。 A和B进行通信，会经过C，A向C发起通知，要和B通信，消息给C，C转给B。C就成了中间人，也就是代理，说两个日常常用但可能没多想的例子： 国内万里长城的存在，想要见识外部世界，就需要VPN，俗称的翻墙。技术实现其实很简单，VPN其实是搭建在一台可以直接访问外部网站（例如IG）的服务器上的正向代理服务，可能在日本，可能在美国等；本地挂VPN翻墙，其实就是用客户端去访问正向代理服务，再由服务进行转发，达到大陆也可以访问外网的效果。这就是正向代理（Forward Proxy） 典型的nginx负载均衡，A访问C，C将A的请求，分发给下面的无数个B(B1,B2,B3,B4,B5…)。A其实压根不知道它是最终是在和B进行通信，A也根本不关心有多少个B，只要有C，和C进行通信，就能达到A和无数个B进行通信的效果，C就是反向代理。（Reverse Proxy） 说完代理的例子，说说中间加这么一层有什么意义： 拦截：原来A和B直接通信，没人能阻止，现在加了层这个，就可以防止员工上班时间看视频。。。 统计：既然A和B所有的通信都会经过代理，那么也就可以通过代理来统计网络传输中的数据信息 缓存：典型应用CDN，访问比较慢，直接将数据缓存到访问快的地方，通过这个地方进行访问，要快很多 分发：负载均衡 跳板：堡垒机… … 说完nginx的代理，说回service mesh，其实service mesh也就是类似于nginx的一个代理，可以看做是分布式微服务代理。在传统的代理模式下，代理一般是单独的代理服务器，所有请求先通过代理，再转发到实际的后端。service mesh中，代理是分布式的，常驻在服务身边（sidecar模式），每个服务可以理解成有两个部分，一个是原来的服务（service），一个是用于service mesh的代理（sidecar），sidecar之间相互连接，和彼此的服务彼此隔离，和传统的代理一样，流量也就是经过sidecar进行管理，所有的服务的sidecar进行连接，组成了mesh（网格）。 同时，传统的代理，基本是只基于网络流量，但是 Service Mesh 中，代理会知道整个集群的所有应用信息，并且额外添加了热更新、注入服务发现、降级熔断、认证授权、超时重试、日志监控等功能，让这些通用的功能不必每个应用都自己实现，放在代理中即可。换句话说，Service Mesh 中的代理对微服务中的应用做了定制化的改进。 有了service mesh，管理员只需要和代理层打交道，就能达到对整个微服务系统控制的效果。 IstioIstio其实就是Service Mesh架构的一种实现，来看看通过istio可以解决什么问题：来自Istio网站： HTTP、gRPC、WebSocket和TCP流量的自动负载均衡。 通过丰富的路由规则、重试、故障转移和故障注入对流量行为进行细粒度控制。 支持访问控制、速率限制和配额的可拔插策略层和配置API。 自动指标、日志和集群内所有流量的跟踪，包括集群入口和出口。 通过集群中的服务之间的强身份断言来实现服务间的身份验证。 以上内容均来自万能的互联网，由于自己目前对k8s理解还比较浅，对k8s的sidecar还只是理论的认知，Service Mesh和Istio以及Serviceless和knative当前也只是在理论阶段，本篇只是敲门，后面慢慢入门]]></content>
+      <categories>
+        <category>cloud native</category>
+      </categories>
+      <tags>
+        <tag>Service Mesh</tag>
+        <tag>Istio</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[pytest学习实践（二）]]></title>
     <url>%2F2019%2F06%2F19%2Fpytest%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%BA%8C%EF%BC%89%2F</url>
     <content type="text"><![CDATA[pytest学习实践（二） 断言pytest的断言就用的python最基本的assert12345678910import pytestdef func(x): return x + 1def test_func(): assert func(3) == 5if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;]) 异常捕获用raises来捕获预期的异常123456789101112import jsonimport pytestdef func(): filename = &apos;package.json&apos; with open(filename) as f_obj: json.load(f_obj) raise FileNotFoundErrordef test_func(): with pytest.raises(FileNotFoundError): func() 多个类组成用例12345678910111213import pytestclass TestClass(): def test_one(self): x = &quot;this&quot; assert &apos;h&apos; in x def test_two(self): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;]) 只要函数以test_开头，都可以识别 指定测试case12345678910def test_one(): x = &quot;this&quot; assert &apos;h&apos; in xdef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)if __name__ == &apos;__main__&apos;: pytest.main([&apos;-q&apos;, &apos;test_2.py::test_one&apos;]) 但是这样的方式只能指定一个函数，如果需要执行多个，就有点麻烦 使用pytest.mark进行标记1234567891011121314151617@pytest.mark.commitdef test_one(): x = &quot;this&quot; assert &apos;h&apos; in x@pytest.mark.finisheddef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;)@pytest.mark.finisheddef test_three(): assert 1 == 2if __name__ == &apos;__main__&apos;: pytest.main([&apos;-m&apos;, &apos;finished&apos;]) # os.system(&apos;pytest -m finished&apos;) 使用mark进行标记，标记哪些需要执行，也支持：pytest -m &quot;commit and finished&quot; 跳过测试1234@pytest.mark.skipdef test_two(): x = &apos;hello&apos; assert hasattr(x, &apos;check&apos;) 也支持skipif123@pytest.mark.skipif(sys.platform == &quot;win32&quot;, reason=&quot;not support win32&quot;)def test_four(): assert 1 == 1 捕获遇见错误xfail使用xfail来标记，期望该测试函数执行失败（执行失败，但又不想跳过）；配合配置文件test.ini，文件中指定标志位，例如：12[pytest]xfail_strict=true 12345@pytest.mark.xfail(strict=True)def test_five(): a = id([&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]) b = id([1, 2, 3]) assert a == b 运行返回结果x表示XFAIL预见的失败；X表示XPASS预见的成果 也可以用pytest --runxfail强制执行标记xfail的用例 参数化pytest使用pytest.mark.parametrize(argnames, argvalues)进行参数化实现 123@pytest.mark.parametrize(&apos;passwd&apos;, [&apos;12345678909&apos;, &apos;sdsddewd&apos;])def test_six(passwd): assert len(passwd) &gt;= 10 测试结果：1234567891011121314.F [100%]================================== FAILURES ===================================_____________________________ test_six[sdsddewd] ______________________________passwd = &apos;sdsddewd&apos; @pytest.mark.parametrize(&apos;passwd&apos;, [&apos;12345678909&apos;, &apos;sdsddewd&apos;]) def test_six(passwd):&gt; assert len(passwd) &gt;= 10E AssertionError: assert 8 &gt;= 10E + where 8 = len(&apos;sdsddewd&apos;)test_2.py:31: AssertionError1 failed, 1 passed in 0.15 seconds case重试安装插件1pip install -U pytest-rerunfailures 执行123if __name__ == &apos;__main__&apos;: pytest.main([&apos;-s&apos;, &apos;-q&apos;, &apos;--reruns&apos;, &apos;3&apos;]) # os.system(&apos;pytest -s -q test_2.py --reruns 3&apos;) 11 failed, 1 warnings, 3 rerun in 0.13 seconds 可以指定单个case重试 多进程运行cases安装插件1pip install -U pytest-xdist 执行123if __name__ == &apos;__main__&apos;: # pytest.main([&apos;-s&apos;, &apos;-n&apos;, &apos;3&apos;]) os.system(&apos;pytest -s -n 3 test_2.py&apos;) 12gw0 I / gw1 I / gw2 Igw0 [1] / gw1 [1] / gw2 [1] 生成测试报告（htmlReport）安装插件1pip install -U pytest-html 执行123if __name__ == &apos;__main__&apos;: # pytest.main([&apos;--html=report.html&apos;]) os.system(&apos;pytest test_2.py --html=report.html&apos;) 报告很好看！]]></content>
@@ -531,8 +543,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -750,8 +762,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -786,9 +798,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1277,8 +1289,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1412,8 +1424,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1471,8 +1483,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1484,8 +1496,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>

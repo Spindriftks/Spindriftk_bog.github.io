@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-19T07:55:58.784Z</updated>
+  <updated>2019-06-21T06:33:48.239Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Service Mesh基础知识</title>
+    <link href="http://tokyle.com/2019/06/21/Service-Mesh%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://tokyle.com/2019/06/21/Service-Mesh基础知识/</id>
+    <published>2019-06-21T06:31:34.000Z</published>
+    <updated>2019-06-21T06:33:48.239Z</updated>
+    
+    <content type="html"><![CDATA[<p>Service Mesh基础知识</p><a id="more"></a><p>微服务大噪一时，可以说是最火的后端架构，微服务架构将原来的单体应用进行服务拆分，做成一个个独立的服务应用，各个服务各司其职，彼此独立，各个服务甚至不需要用同样的编程语言，更方便团队协作。</p><p>微服务包含一些基本组件，服务发现，服务注册，鉴权，熔断降级等。由于微服务是将单体拆分为独立应用，当应用越来越大，微服务越来越多，管理起来也就会越来越麻烦。一套微服务环境，链路追踪，负载均衡，安全配置，流量管理等等，可能就会耗费大量时间去维护。针对微服务不断壮大，微服务管理的相关问题，出现了新的微服务框架<code>Service Mesh</code>(服务网格)</p><h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>在解释service mesh之前，先看看nginx的基本概念</p><p>nginx有几大功能，其中正向代理和反向代理，应该都很熟悉。本来最基本的架构是A和B需要进行通信，A和B可以直接相互传输，买房子为例，买家和卖家直接交易。这样的架构有个问题，A和B传输之间的信息，旁人无法知道，传输状态外界也无法监控，传输的数据包如果太大把带宽占满，外界也无法知晓，这样的情况下，就有了中间加一层，代理,C。</p><p>A和B进行通信，会经过C，A向C发起通知，要和B通信，消息给C，C转给B。C就成了中间人，也就是代理，说两个日常常用但可能没多想的例子：</p><ol><li>国内万里长城的存在，想要见识外部世界，就需要VPN，俗称的翻墙。技术实现其实很简单，VPN其实是搭建在一台可以直接访问外部网站（例如IG）的服务器上的正向代理服务，可能在日本，可能在美国等；本地挂VPN翻墙，其实就是用客户端去访问正向代理服务，再由服务进行转发，达到大陆也可以访问外网的效果。这就是正向代理（Forward Proxy）</li><li>典型的nginx负载均衡，A访问C，C将A的请求，分发给下面的无数个B(B1,B2,B3,B4,B5…)。A其实压根不知道它是最终是在和B进行通信，A也根本不关心有多少个B，只要有C，和C进行通信，就能达到A和无数个B进行通信的效果，C就是反向代理。（Reverse Proxy）</li></ol><p>说完代理的例子，说说中间加这么一层有什么意义：</p><ol><li>拦截：原来A和B直接通信，没人能阻止，现在加了层这个，就可以防止员工上班时间看视频。。。</li><li>统计：既然A和B所有的通信都会经过代理，那么也就可以通过代理来统计网络传输中的数据信息</li><li>缓存：典型应用CDN，访问比较慢，直接将数据缓存到访问快的地方，通过这个地方进行访问，要快很多</li><li>分发：负载均衡</li><li>跳板：堡垒机<br>… …</li></ol><p>说完nginx的代理，说回service mesh，其实service mesh也就是类似于nginx的一个代理，可以看做是分布式微服务代理。在传统的代理模式下，代理一般是单独的代理服务器，所有请求先通过代理，再转发到实际的后端。service mesh中，代理是分布式的，常驻在服务身边（sidecar模式），每个服务可以理解成有两个部分，一个是原来的服务（service），一个是用于service mesh的代理（sidecar），sidecar之间相互连接，和彼此的服务彼此隔离，和传统的代理一样，流量也就是经过sidecar进行管理，所有的服务的sidecar进行连接，组成了mesh（网格）。</p><p>同时，传统的代理，基本是只基于网络流量，但是 Service Mesh 中，代理会知道整个集群的所有应用信息，并且额外添加了热更新、注入服务发现、降级熔断、认证授权、超时重试、日志监控等功能，让这些通用的功能不必每个应用都自己实现，放在代理中即可。换句话说，Service Mesh 中的代理对微服务中的应用做了定制化的改进。</p><p>有了service mesh，管理员只需要和代理层打交道，就能达到对整个微服务系统控制的效果。</p><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48qzwwig4g21hc0tee81.gif" alt="Service Mesh效果"></p><h3 id="Istio"><a href="#Istio" class="headerlink" title="Istio"></a>Istio</h3><p>Istio其实就是Service Mesh架构的一种实现，来看看通过istio可以解决什么问题：<br>来自Istio网站：</p><ul><li>HTTP、gRPC、WebSocket和TCP流量的自动负载均衡。</li><li>通过丰富的路由规则、重试、故障转移和故障注入对流量行为进行细粒度控制。</li><li>支持访问控制、速率限制和配额的可拔插策略层和配置API。</li><li>自动指标、日志和集群内所有流量的跟踪，包括集群入口和出口。</li><li>通过集群中的服务之间的强身份断言来实现服务间的身份验证。</li></ul><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48rei92dng21hc0te7ip.gif" alt="Istio能解决什么"></p><p>以上内容均来自万能的互联网，由于自己目前对k8s理解还比较浅，对k8s的sidecar还只是理论的认知，Service Mesh和Istio以及Serviceless和knative当前也只是在理论阶段，本篇只是敲门，后面慢慢入门</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Service Mesh基础知识&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="cloud native" scheme="http://tokyle.com/categories/cloud-native/"/>
+    
+    
+      <category term="Service Mesh" scheme="http://tokyle.com/tags/Service-Mesh/"/>
+    
+      <category term="Istio" scheme="http://tokyle.com/tags/Istio/"/>
+    
+  </entry>
   
   <entry>
     <title>pytest学习实践（二）</title>
@@ -446,28 +470,6 @@
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
       <category term="docker" scheme="http://tokyle.com/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>修改Linux时间</title>
-    <link href="http://tokyle.com/2019/04/28/%E4%BF%AE%E6%94%B9Linux%E6%97%B6%E9%97%B4/"/>
-    <id>http://tokyle.com/2019/04/28/修改Linux时间/</id>
-    <published>2019-04-28T05:37:01.000Z</published>
-    <updated>2019-04-28T05:38:51.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>linux修改系统时间</p><a id="more"></a><h3 id="手动修改"><a href="#手动修改" class="headerlink" title="手动修改"></a>手动修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date -s 04/28/19</span><br></pre></td></tr></table></figure><p>修改日期为：2019/04/28</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date -s 11:28:00</span><br></pre></td></tr></table></figure><p>修改时间为11:28:00</p><p>或者一次：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date -s &quot;2019-04-28 11:28:00&quot;</span><br></pre></td></tr></table></figure></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hwclock -w</span><br></pre></td></tr></table></figure><p>将时间写入bios避免重启失效</p><h3 id="同步网络时间"><a href="#同步网络时间" class="headerlink" title="同步网络时间"></a>同步网络时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ntp</span><br></pre></td></tr></table></figure><p>ntp常用服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">中国国家授时中心：210.72.145.44</span><br><span class="line">NTP服务器(上海) ：ntp.api.bz</span><br><span class="line">美国：time.nist.gov </span><br><span class="line">复旦：ntp.fudan.edu.cn </span><br><span class="line">微软公司授时主机(美国) ：time.windows.com </span><br><span class="line">台警大授时中心(台湾)：asia.pool.ntp.org</span><br></pre></td></tr></table></figure></p><h4 id="同步时间："><a href="#同步时间：" class="headerlink" title="同步时间："></a>同步时间：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntpdate -dv ntp.api.bz</span><br></pre></td></tr></table></figure><p>同步完成之后，发现时间有点不对，12h误差<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# date</span><br><span class="line">Sun Apr 28 01:20:14 EDT 2019</span><br></pre></td></tr></table></figure></p><p>查了下，<code>EDT</code>是美国东部时间，需要改成北京时间</p><h3 id="时区修改"><a href="#时区修改" class="headerlink" title="时区修改"></a>时区修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/localtime /etc/localtime.bak </span><br><span class="line"></span><br><span class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime </span><br><span class="line"></span><br><span class="line">date</span><br></pre></td></tr></table></figure><p>完成~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;linux修改系统时间&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机基础" scheme="http://tokyle.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
-    
-    
-      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
     
   </entry>
   
