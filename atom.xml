@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-21T09:07:31.485Z</updated>
+  <updated>2019-06-24T02:10:32.267Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>敏捷测试与自动化</title>
+    <link href="http://tokyle.com/2019/06/23/%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    <id>http://tokyle.com/2019/06/23/敏捷测试与自动化/</id>
+    <published>2019-06-24T02:09:56.000Z</published>
+    <updated>2019-06-24T02:10:32.267Z</updated>
+    
+    <content type="html"><![CDATA[<p>敏捷测试与自动化</p><a id="more"></a><h3 id="敏捷自动化问题"><a href="#敏捷自动化问题" class="headerlink" title="敏捷自动化问题"></a>敏捷自动化问题</h3><p>最近看到一篇文章，讨论敏捷开发模式下的自动化实施问题，看到里面有很多值得好好想想的地方。</p><p>首先，在一个追求敏捷开发的团队中，很多时候，测试工作都是放在整个项目的最后一个环节，尤其是Android应用项目，多数情况下，会出现很多个版本一起上线，这个时候，作为测试的压力明显是非常大，工作量巨大，纯手工进行测试很可能会忙于应付需求，这个时候正式自动化回归最大效率化的时候，然后现状很可能是，自动化连手工都不如，需要半天甚至一天才能出测试结果，每次运行都是全流程，自动化测试报告也需要大量时间进行分析，这无疑是很失败的敏捷自动化实施。</p><p>很多团队，可能也有专人进行了很长时间的专职自动化设计，搭建，但是效果一直不理想，原因可能是：</p><ol><li><p>自动化人员与业务剥离，甚至不了解业务，所有用例需要业务功能测试人员提供；试想这样的情况下，自动化也不是纯框架设计，进行的也是涉及业务的自动化用例设计，那怎么可能设计出有效的自动化用例呢。</p></li><li><p>管理人员对于自动化预期过高，认为自动化测试可以实现所有的测试活动；自动化测试，说到底，也是在设计了断言的情况下进行验证，也就是已知结果的情况，很多时候，测试工作需要随机测试，暴力测试等等去发现很多非正常情况下可能出现的问题。</p></li><li><p>自动化测试没有专人，没有必要的时间和精力；有的公司可能实行的是固定测试开发团队进行自动化框架编辑搭建，后续的自动化用例是由产线的测试工程师进行编写维护；这样的做法，的确算是功能细分，但是有个前提，产线的测试有时间和精力去专门做自动化测试相关。很多团队有点搞笑，自动化用例让产线实施，并不给产线测试需要的时间去学习和练习自动化测试技能，最终的结果，可想而知。</p></li></ol><p>其实测试人员也都知道，产品交接时间点临近时，产品功能交付的优先级肯定是高于自动化实施，测试人员需要确保的是那些即将交付的产品功能，而不是确保产品功能正常的自动化测试用例。但是长此以往的不断将自动化测试实施优先级降低，一次次的迭代发布日期指定，只会将产线折腾的异常忙碌，烦躁。造成这种情况的原因，可能是迫于市场和客户压力，需要一次次的制定满足于市场的新功能，短时间铺开市场，解决客户问题，但是这样的一次次的追求快，仓促发布功能，最终真的是在满足市场吗？守业更比创业难，不要等到最后市场诚信低至谷底时候才想起来，当然，追求快速IPO分钱走人就当没说。</p><p>插一句：敏捷工作方式的目的是以最小幅度增长的方式发布可供用户使用的功能，并且得到用户的即时反馈。</p><h3 id="可能的解决办法"><a href="#可能的解决办法" class="headerlink" title="可能的解决办法"></a>可能的解决办法</h3><ol><li><p>设定合理的预期，想清楚，为什么需要自动化，需要自动化做什么，怎么实施可以帮助现在的团队。有个很扯淡的想法，实施自动化是因为不想做手工。。。</p></li><li><p>给自动化分配专用的资源，公司需要关注的不应该仅仅是测试开发需要专门的资源，产线的自动化用例编写维护人员更需要专门的时间和精力去学习，练习，维护自动化，整天疲于应对功能迭代压力，最终结果是自动化夭折。</p></li><li><p>提高自动化关注度和优先级，这个需要在公司层面，宣传论证实施自动化的价值，试问如果团队都不知道自动化为何物，就提出要花大时间，聘请专员进行自动化，是不是有点扯。</p></li><li><p>将自动化测试看做软件研发对待，这点是对自动化测试工程师本身来说的，实施自动化测试之前，需要和产品研发一样，需求分析，方案论证，概要设计，详细设计等。</p></li><li><p>合理制定目标，也是针对自动化实施人员来说的，在经验没有那么丰富，或者时间没有那么充裕的情况下，是是不是可以考虑首先进行的是接口的自动化，而不是直接UI。</p></li><li><p>持续学习，既然敏捷工作模式下，产品都是一些快速迭代的过程，那身为自动化工程师的你，是不是应该为了适应不断增加的需求，去快递学习。例如自动化工具后续直接使用docker镜像化，自动化实施配合CI，构建完成直接Jenkins调度，无需手工执行，自动化实施过程中，关注测试右移，实施APM监控等等。</p></li></ol><p>以上是看到的和自己的一点点想法，希望国内广大的测试同胞们可以不被自动化所累，知道自己想要的是什么，其实在我看来，追求系统的底层实现，开发语言的基本语法，高效实施等，才是更有效的方式，一味的追求工具，追求框架，很可能会迷失自己，毕竟做到后面，自动化也成了维护代码。</p><p>愿测试可以被温柔以待</p><p>突然想到个毫无关系的一句话：<code>少年不知画中意，归来已成画中人</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;敏捷测试与自动化&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="自动化测试" scheme="http://tokyle.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="自动化测试" scheme="http://tokyle.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>一次Android安全问题定位</title>
@@ -446,28 +468,6 @@
       <category term="Centos7" scheme="http://tokyle.com/tags/Centos7/"/>
     
       <category term="Jumpserver" scheme="http://tokyle.com/tags/Jumpserver/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>几个linux命令小技巧</title>
-    <link href="http://tokyle.com/2019/05/15/%E5%87%A0%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
-    <id>http://tokyle.com/2019/05/15/几个linux命令小技巧/</id>
-    <published>2019-05-16T01:36:27.000Z</published>
-    <updated>2019-05-16T01:39:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>一些Linux技巧型命令</p><a id="more"></a><p>可能不是太常用，算是可以提高效率的一点点方式，简单实践了一下。</p><h3 id="光标类"><a href="#光标类" class="headerlink" title="光标类"></a>光标类</h3><p>不同于vi/vim下的<code>h</code>、<code>j</code>、<code>k</code>、<code>l</code>上下左右移动，这边介绍的是普通模式下的光标移动。</p><h4 id="删除从行开头到光标处的命令"><a href="#删除从行开头到光标处的命令" class="headerlink" title="删除从行开头到光标处的命令"></a>删除从行开头到光标处的命令</h4><p><code>ctrl + u</code><br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /home/;ll光标处</span><br></pre></td></tr></table></figure></p><p>按下<code>ctrl+u</code>，会将<code>cd /home/;ll</code>该行删除</p><h4 id="删除从光标到结尾处的命令"><a href="#删除从光标到结尾处的命令" class="headerlink" title="删除从光标到结尾处的命令"></a>删除从光标到结尾处的命令</h4><p><code>ctrl + k</code><br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /home/;光标处ll</span><br></pre></td></tr></table></figure></p><p>按下<code>ctrl+k</code>，会将<code>ll</code>删除</p><h4 id="删除一个词（空格隔开的字符串）"><a href="#删除一个词（空格隔开的字符串）" class="headerlink" title="删除一个词（空格隔开的字符串）"></a>删除一个词（空格隔开的字符串）</h4><p><code>ctrl + w</code><br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ls -al光标处</span><br></pre></td></tr></table></figure></p><p>按下<code>ctrl w</code>，会将<code>-al</code>删除</p><h3 id="资源查看"><a href="#资源查看" class="headerlink" title="资源查看"></a>资源查看</h3><h4 id="各目录子目录占用空间大小"><a href="#各目录子目录占用空间大小" class="headerlink" title="各目录子目录占用空间大小"></a>各目录子目录占用空间大小</h4><p>tips: <strong>-h参数会将结果展示为人类可读的方式，所以结果会加上M、G这样的单位</strong></p><p>查看当前磁盘占用情况，这个都知道<code>df -h</code><br>查看目录各子目录占用空间大小，例如查看<code>/home</code>下各子目录空间大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# du -h --max-depth=1 /home/</span><br><span class="line">91M/home/ngrinder</span><br><span class="line">0/home/docker</span><br><span class="line">143M/home/</span><br></pre></td></tr></table></figure></p><p>查看内存情况：<code>free -h</code></p><h3 id="进程操作"><a href="#进程操作" class="headerlink" title="进程操作"></a>进程操作</h3><h4 id="获取pid"><a href="#获取pid" class="headerlink" title="获取pid"></a>获取pid</h4><p>很多时候，我们需要查看运行进行的PID，无论是进行分析还是杀进程。。以前的常用做法是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep zabbix_server</span><br></pre></td></tr></table></figure></p><p>这样，拿到<code>zabbix_server</code>这个进程的PID，同时会输出一堆信息，如果我们只想要一个pid，也有办法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pgrep zabbix_server</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">pidof zabbix_server</span><br></pre></td></tr></table></figure></p><h4 id="杀进程"><a href="#杀进程" class="headerlink" title="杀进程"></a>杀进程</h4><p>之前杀进程，比较常用的就是<code>ps -ef|grep XX</code>拿到pid，然后kill掉，或者写的复杂点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 `ps -ef | grep zabbix | grep -v grep | awk &apos;&#123;print $2&#125;&apos;`</span><br></pre></td></tr></table></figure></p><p>现在有比较简单的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill zabbix</span><br></pre></td></tr></table></figure></p><h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h4 id="清空文件内容"><a href="#清空文件内容" class="headerlink" title="清空文件内容"></a>清空文件内容</h4><p>之前清空日志文件的内容，一直很头疼，文件太大根本进不去，sed和awk又没那么熟练，现在找到个比较快捷的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;zabbix_server.log</span><br></pre></td></tr></table></figure></p><p>完成清空<br>效果展示：<br>清空前：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost zabbix]# ll</span><br><span class="line">total 108</span><br><span class="line">-rw-rw-r-- 1 zabbix zabbix 50071 May 16 08:55 zabbix_server.log</span><br></pre></td></tr></table></figure></p><p>清空：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost zabbix]# &gt;zabbix_server.log</span><br><span class="line"></span><br><span class="line">[root@localhost zabbix]# ll</span><br><span class="line">total 56</span><br><span class="line">-rw-rw-r-- 1 zabbix zabbix     0 May 16 08:57 zabbix_server.log</span><br></pre></td></tr></table></figure></p><p>linux是个非常有意思的系统啊，有事没事多多研究<code>grep</code>、<code>sed</code>、<code>awk</code>以及<code>vi/vim</code>啊！</p><p>以上，完~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一些Linux技巧型命令&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="skill" scheme="http://tokyle.com/categories/skill/"/>
-    
-    
-      <category term="Linux" scheme="http://tokyle.com/tags/Linux/"/>
     
   </entry>
   
