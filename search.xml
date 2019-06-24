@@ -542,8 +542,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1101,8 +1101,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
