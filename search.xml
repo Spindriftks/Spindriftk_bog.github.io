@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python字符串实践]]></title>
+    <url>%2F2019%2F06%2F25%2Fpython%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AE%9E%E8%B7%B5%2F</url>
+    <content type="text"><![CDATA[python字符串实践 收银小票打印尝试 python字符串对齐方式首先，看几个命令的效果：12345678from math import piprint(&quot;&#123;0:&lt;10.2f&#125;\n&#123;0:^10.2f&#125;\n&#123;0:&gt;10.2f&#125;&quot;.format(pi))print(&apos;&#123;&#125;&apos;.format(pi))print(&apos;&#123;0&#125;&apos;.format(pi))print(&apos;&#123;&#123;:&#123;&#125;&#125;&#125;&apos;.format(10))print(&apos;&#123;:10.2f&#125;&apos;.format(pi)) 运行结果：12345673.14 3.14 3.143.1415926535897933.141592653589793&#123;:10&#125; 3.14 收银小票尝试：实现方式有点low，写的有点乱。。1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/6/20 16:06&quot;&quot;&quot;# from math import pi# print(&quot;&#123;0:&lt;10.2f&#125;\n&#123;0:^10.2f&#125;\n&#123;0:&gt;10.2f&#125;&quot;.format(pi))# print(&apos;&#123;&#125;&apos;.format(pi))# print(&apos;&#123;0&#125;&apos;.format(pi))# print(&apos;&#123;&#123;:&#123;&#125;&#125;&#125;&apos;.format(10))# print(&apos;&#123;:10.2f&#125;&apos;.format(pi))def fruit_price(fruit): if fruit == &apos;Watermelon&apos;: return 1.6 elif fruit == &apos;Apple&apos;: return 10 elif fruit == &apos;Peach&apos;: return 3.3 elif fruit == &apos;Pear&apos;: return 2 else: return Nonedef enter_price(): price = [] weights = [] fruits = [] num = 0 while True: num += 1 fruit = input(&apos;Enter the fruit: &apos;) weight = input(&apos;Enter the weight: &apos;) fruits.append(fruit) weights.append(weight) a = fruit_price(fruit) price.append(a) if fruit == &apos;q&apos; or weight == &apos;q&apos;: break num -= 1 fruits.remove(fruits[-1]) price.remove(price[-1]) weights.remove(weights[-1]) return [num,fruits,weights,price]fruit_res = enter_price()print(fruit_res)# 设置小票宽度width = int(input(&apos;Please enter your width: &apos;))price_width = 10num_width = 10item_width = width - price_width - num_width# 设置小票表头格式header_fmt = &apos;&#123;&#123;:&#123;&#125;&#125;&#125;&#123;&#123;:^&#123;&#125;&#125;&#125;&#123;&#123;:&gt;&#123;&#125;&#125;&#125;&apos;.format(item_width, num_width, price_width)fmt = &apos;&#123;&#123;:&#123;&#125;&#125;&#125;&#123;&#123;:^&#123;&#125;&#125;&#125;&#123;&#123;:&gt;&#123;&#125;.2f&#125;&#125;&apos;.format(item_width, num_width, price_width)print(&apos;*&apos;* width)print(&quot;Here&apos;s Your Ticket&quot;)print(&apos;=&apos;* width)print(header_fmt.format(&apos;Item&apos;, &apos;Num&apos;, &apos;Price&apos;))print(&apos;-&apos; * width)# 循环打印水果，单价，数量num = fruit_res[0]i = 0prices = []for i in range(int(num)): prices.append(int(fruit_res[2][i]) * float(fruit_res[3][i])) print(fmt.format(fruit_res[1][i], fruit_res[2][i], fruit_res[3][i])) i += 1print(&apos;-&apos; * width)# 打印总价Sum = sum(prices)item2_width = width - price_widthfoot_fmt = &apos;&#123;&#123;:&lt;&#123;&#125;&#125;&#125;&#123;&#123;:&gt;&#123;&#125;.2f&#125;&#125;&apos;.format(item2_width, price_width)print(foot_fmt.format(&apos;Summary&apos;, Sum))print(&apos;-&apos; * width) 运行结果：1234567891011121314151617181920212223Enter the fruit: WatermelonEnter the weight: 10Enter the fruit: AppleEnter the weight: 20Enter the fruit: PeachEnter the weight: 30Enter the fruit: qEnter the weight: q[3, [&apos;Watermelon&apos;, &apos;Apple&apos;, &apos;Peach&apos;], [&apos;10&apos;, &apos;20&apos;, &apos;30&apos;], [1.6, 10, 3.3]]Please enter your width: 45*********************************************Here&apos;s Your Ticket=============================================Item Num Price---------------------------------------------Watermelon 10 1.60Apple 20 10.00Peach 30 3.30---------------------------------------------Summary 315.00---------------------------------------------Process finished with exit code 0 有空再改进。。]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[敏捷测试与自动化]]></title>
     <url>%2F2019%2F06%2F23%2F%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8C%96%2F</url>
     <content type="text"><![CDATA[敏捷测试与自动化 敏捷自动化问题最近看到一篇文章，讨论敏捷开发模式下的自动化实施问题，看到里面有很多值得好好想想的地方。 首先，在一个追求敏捷开发的团队中，很多时候，测试工作都是放在整个项目的最后一个环节，尤其是Android应用项目，多数情况下，会出现很多个版本一起上线，这个时候，作为测试的压力明显是非常大，工作量巨大，纯手工进行测试很可能会忙于应付需求，这个时候正式自动化回归最大效率化的时候，然后现状很可能是，自动化连手工都不如，需要半天甚至一天才能出测试结果，每次运行都是全流程，自动化测试报告也需要大量时间进行分析，这无疑是很失败的敏捷自动化实施。 很多团队，可能也有专人进行了很长时间的专职自动化设计，搭建，但是效果一直不理想，原因可能是： 自动化人员与业务剥离，甚至不了解业务，所有用例需要业务功能测试人员提供；试想这样的情况下，自动化也不是纯框架设计，进行的也是涉及业务的自动化用例设计，那怎么可能设计出有效的自动化用例呢。 管理人员对于自动化预期过高，认为自动化测试可以实现所有的测试活动；自动化测试，说到底，也是在设计了断言的情况下进行验证，也就是已知结果的情况，很多时候，测试工作需要随机测试，暴力测试等等去发现很多非正常情况下可能出现的问题。 自动化测试没有专人，没有必要的时间和精力；有的公司可能实行的是固定测试开发团队进行自动化框架编辑搭建，后续的自动化用例是由产线的测试工程师进行编写维护；这样的做法，的确算是功能细分，但是有个前提，产线的测试有时间和精力去专门做自动化测试相关。很多团队有点搞笑，自动化用例让产线实施，并不给产线测试需要的时间去学习和练习自动化测试技能，最终的结果，可想而知。 其实测试人员也都知道，产品交接时间点临近时，产品功能交付的优先级肯定是高于自动化实施，测试人员需要确保的是那些即将交付的产品功能，而不是确保产品功能正常的自动化测试用例。但是长此以往的不断将自动化测试实施优先级降低，一次次的迭代发布日期指定，只会将产线折腾的异常忙碌，烦躁。造成这种情况的原因，可能是迫于市场和客户压力，需要一次次的制定满足于市场的新功能，短时间铺开市场，解决客户问题，但是这样的一次次的追求快，仓促发布功能，最终真的是在满足市场吗？守业更比创业难，不要等到最后市场诚信低至谷底时候才想起来，当然，追求快速IPO分钱走人就当没说。 插一句：敏捷工作方式的目的是以最小幅度增长的方式发布可供用户使用的功能，并且得到用户的即时反馈。 可能的解决办法 设定合理的预期，想清楚，为什么需要自动化，需要自动化做什么，怎么实施可以帮助现在的团队。有个很扯淡的想法，实施自动化是因为不想做手工。。。 给自动化分配专用的资源，公司需要关注的不应该仅仅是测试开发需要专门的资源，产线的自动化用例编写维护人员更需要专门的时间和精力去学习，练习，维护自动化，整天疲于应对功能迭代压力，最终结果是自动化夭折。 提高自动化关注度和优先级，这个需要在公司层面，宣传论证实施自动化的价值，试问如果团队都不知道自动化为何物，就提出要花大时间，聘请专员进行自动化，是不是有点扯。 将自动化测试看做软件研发对待，这点是对自动化测试工程师本身来说的，实施自动化测试之前，需要和产品研发一样，需求分析，方案论证，概要设计，详细设计等。 合理制定目标，也是针对自动化实施人员来说的，在经验没有那么丰富，或者时间没有那么充裕的情况下，是是不是可以考虑首先进行的是接口的自动化，而不是直接UI。 持续学习，既然敏捷工作模式下，产品都是一些快速迭代的过程，那身为自动化工程师的你，是不是应该为了适应不断增加的需求，去快递学习。例如自动化工具后续直接使用docker镜像化，自动化实施配合CI，构建完成直接Jenkins调度，无需手工执行，自动化实施过程中，关注测试右移，实施APM监控等等。 以上是看到的和自己的一点点想法，希望国内广大的测试同胞们可以不被自动化所累，知道自己想要的是什么，其实在我看来，追求系统的底层实现，开发语言的基本语法，高效实施等，才是更有效的方式，一味的追求工具，追求框架，很可能会迷失自己，毕竟做到后面，自动化也成了维护代码。 愿测试可以被温柔以待 突然想到个毫无关系的一句话：少年不知画中意，归来已成画中人]]></content>
@@ -553,8 +564,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -633,8 +644,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>grafana</tag>
         <tag>Centos7</tag>
+        <tag>grafana</tag>
       </tags>
   </entry>
   <entry>
@@ -820,9 +831,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1112,8 +1123,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
