@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[性能监控简单小结]]></title>
+    <url>%2F2019%2F06%2F26%2F%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E7%AE%80%E5%8D%95%E5%B0%8F%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[性能监控简单小结 涉及MySQL和JVM MySQL首先是MySQL的常用监控项 缓存 缓存概览 123456789101112mysql&gt; show variables like &quot;%Query_cache%%&quot;;+------------------------------+----------+| Variable_name | Value |+------------------------------+----------+| have_query_cache | YES || query_cache_limit | 16777216 || query_cache_min_res_unit | 4096 || query_cache_size | 16777216 || query_cache_type | OFF || query_cache_wlock_invalidate | OFF |+------------------------------+----------+6 rows in set (0.24 sec) 缓存碎片率 1234567891011121314mysql&gt; show status like &quot;%Qcache%&quot;;+-------------------------+----------+| Variable_name | Value |+-------------------------+----------+| Qcache_free_blocks | 1 || Qcache_free_memory | 16760152 || Qcache_hits | 0 || Qcache_inserts | 0 || Qcache_lowmem_prunes | 0 || Qcache_not_cached | 19860231 || Qcache_queries_in_cache | 0 || Qcache_total_blocks | 1 |+-------------------------+----------+8 rows in set (0.21 sec) 其中，如果Qcache_free_blocks大致等于Qcache_total_blocks/2，说明碎片非常严重如果Qcache_lowmem_prunes的值正在增加，并且有大量的自由块，表示碎片导致查询正在被从缓存中永久删除 缓存碎片率 = Qcache_free_block/Qcache_total_blocks *100%如果查询缓存碎片率都超过20%，可以使用FLUSH QUERY CACHE整理缓存碎片 缓存利用率 = （query_cache_size - Qcache_free_memory）/ query_cache_size *100% 查询缓存利用率低于25%，表明query_cache_size值设置过大，可以适当减小；查询利用率在80%以上，并且Qcache_lowmem_prunes &gt;50，表明query_cache_size值太小或者碎片太多 thread_cache_size123456789mysql&gt; show variables like &quot;thread%&quot;;+-------------------+---------------------------+| Variable_name | Value |+-------------------+---------------------------+| thread_cache_size | 32 || thread_handling | one-thread-per-connection || thread_stack | 262144 |+-------------------+---------------------------+3 rows in set (0.00 sec) 缓存在Cache中的线程数量 连接数 DB已连接线程数 1234567mysql&gt; show status like &apos;Connections&apos;;+---------------+--------+| Variable_name | Value |+---------------+--------+| Connections | 245884 |+---------------+--------+1 row in set (0.00 sec) 当前连接线程状态 1234567891011121314mysql&gt; show status like &apos;%thread%&apos;;+------------------------------------------+-------+| Variable_name | Value |+------------------------------------------+-------+| Delayed_insert_threads | 0 || Performance_schema_thread_classes_lost | 0 || Performance_schema_thread_instances_lost | 0 || Slow_launch_threads | 0 || Threads_cached | 18 || Threads_connected | 9 || Threads_created | 27 || Threads_running | 1 |+------------------------------------------+-------+8 rows in set (0.00 sec) 服务器允许最大连接数 1234567mysql&gt; show variables like &apos;max_connections&apos;;+-----------------+-------+| Variable_name | Value |+-----------------+-------+| max_connections | 151 |+-----------------+-------+1 row in set (0.00 sec) 一般500 ~ 800比较合适 服务器响应的最大连接数1234567mysql&gt; show global status like &apos;Max_used_connections&apos;;+----------------------+-------+| Variable_name | Value |+----------------------+-------+| Max_used_connections | 27 |+----------------------+-------+1 row in set (0.00 sec) Max_used_connections/max_connections &lt;= 85%比较理想 连接队列长度1234567mysql&gt; show variables like &apos;back_log&apos;;+---------------+-------+| Variable_name | Value |+---------------+-------+| back_log | 80 |+---------------+-------+1 row in set (0.00 sec) 类似于线程队列，当无法响应请求时，就让线程排队；值越小越好。 索引 索引缓存大小1234567mysql&gt; show variables like &apos;key_buffer_size&apos;;+-----------------+----------+| Variable_name | Value |+-----------------+----------+| key_buffer_size | 33554432 |+-----------------+----------+1 row in set (0.00 sec 连接缓存命中率Threads_Cache_Hit = (Connections - Threads_created)/Connections*100%建议90%左右甚至更高 索引缓存未命中率12345678mysql&gt; show global status like &apos;key_read%&apos;;+-------------------+-------+| Variable_name | Value |+-------------------+-------+| Key_read_requests | 28 || Key_reads | 10 |+-------------------+-------+2 rows in set (0.10 sec) 索引缓存未命中率key_cache_miss_rate = Key_reads/Key_read_requests *100%1%即100个索引中有一个在缓存中找不到，要直接从硬盘读取;建议小于0.1% 索引缓存命中率12345678910111213mysql&gt; show global status like &apos;key_%&apos;;+------------------------+-------+| Variable_name | Value |+------------------------+-------+| Key_blocks_not_flushed | 0 || Key_blocks_unused | 26785 || Key_blocks_used | 7 || Key_read_requests | 28 || Key_reads | 10 || Key_write_requests | 2 || Key_writes | 2 |+------------------------+-------+7 rows in set (0.00 sec) key_buffer_read_hits = (1-Key_reads/Key_read_requests) *100%key_buffer_write_hits = (1-Key_writes/Key_write_requests)*100%越大越好 索引读取统计12345678mysql&gt; show global status like &apos;key_blocks_u%&apos;;+-------------------+-------+| Variable_name | Value |+-------------------+-------+| Key_blocks_unused | 26785 || Key_blocks_used | 7 |+-------------------+-------+2 rows in set (0.00 sec) Key_blocks_unused表示未使用的缓存簇（blocks）数，Key_blocks_used表示曾经用到的最大的blocks数，如果缓存都用到了，那么要么增加key_buffer_size，要么就是过度索引把缓存占满了。比较理想的情况：Key_blocks_used/(Key_blocks_unused + Key_blocks_used) *100% ≈ 80% 表 临时表123456789mysql&gt; show global status like &apos;created_tmp%&apos;;+-------------------------+--------+| Variable_name | Value |+-------------------------+--------+| Created_tmp_disk_tables | 3054 || Created_tmp_files | 7 || Created_tmp_tables | 624084 |+-------------------------+--------+3 rows in set (0.00 sec) 临时表比较大无法在内存中完成时就不得不使用磁盘文件。如果Created_tmp_tables非常大，则可能是系统中排序操作过多，或者表连接方式不是很优化。如果Created_tmp_disk_tables和Created_tmp_tables的比率过高，如超过10%，则需要考虑tmp_table_size这个系统参数的值是都设置的足够大。参考值： Created_tmp_disk_tables/Created_tmp_tables &lt; 5% 12345678mysql&gt; show variables where Variable_name in (&apos;tmp_table_size&apos;, &apos;max_heap_table_size&apos;);+---------------------+----------+| Variable_name | Value |+---------------------+----------+| max_heap_table_size | 33554432 || tmp_table_size | 33554432 |+---------------------+----------+2 rows in set (0.01 sec) MySQL规定的内部内存临时表的最大值，每个线程都要分配。（实际起限制作用的是tmp_table_size和max_heap_table_size的最小值。）如果内存临时表超出了限制，MySQL就会自动地把它转化为基于磁盘的MyISAM表，存储在指定的tmpdir目录下：1234567mysql&gt; show variables like &quot;tmpdir&quot;;+---------------+-------+| Variable_name | Value |+---------------+-------+| tmpdir | /tmp |+---------------+-------+1 row in set (0.01 sec) 表扫描情况12345678910111213mysql&gt; show global status like &apos;handler_read%&apos;;+-----------------------+----------+| Variable_name | Value |+-----------------------+----------+| Handler_read_first | 9357279 || Handler_read_key | 77387871 || Handler_read_last | 121 || Handler_read_next | 69589828 || Handler_read_prev | 104 || Handler_read_rnd | 531042 || Handler_read_rnd_next | 45348670 |+-----------------------+----------+7 rows in set (0.00 sec) 1234567mysql&gt; show global status like &apos;com_select&apos;;+---------------+----------+| Variable_name | Value |+---------------+----------+| Com_select | 19894899 |+---------------+----------+1 row in set (0.00 sec) 表扫描率 = Handler_read_rnd_next /Com_select如果表扫描率超过4000，说明进行了太多表扫描，可能是索引没有建好； JVMjps直接运行命令，返回java进程号，参数：123-l： 返回java进程全路径 -q： 仅显示进程号-v： 返回JVM参数，可以查看堆大小 jstat用的最多 查看运行情况首先通过jps获取进程号，再使用jstat获取JVM中加载的累的数据和size12[root@localhost ~]# jps15649 Gtest.0-y-1.1.5.jar 1234567[root@localhost ~]# jstat -class -h5 15649 1000Loaded Bytes Unloaded Bytes Time 11654 21472.7 0 0.0 4.21 11654 21472.7 0 0.0 4.21 11654 21472.7 0 0.0 4.21 11654 21472.7 0 0.0 4.21 11654 21472.7 0 0.0 4.21 每1秒统计一次，每统计5次显示一次表头 字段含义： Item 含义 Loaded 加载类的数目 Bytes 加载类的Size，单位Bytes Unloaded 卸载类的数量 Bytes 卸载类的Size，单位Bytes Time 加载和卸载类花费的时间 jstat 所有选项说明更详细可以man jstat查看，所有选项及对应的参数说明 Item 含义 class 查看类加载情况的统计 compiler 查看HotSpot中即使编译器编译情况的统计 gc 用于查看JVM中堆的垃圾回收情况统计 gccapacity 查看新生代、老年代及元空间情况 gccause 最后一次及当前正在垃圾回收的原因 gcnew 查看新生代垃圾回收情况 gcnewcapacity 查看新生代存储容量情况 gcold 查看老年代及持久代发生GC的情况 gcoldcapacity 查看老年代容量 gcmetacapacity 元空间容量 gcutil GC统计 jstat gccapacity 123[root@localhost ~]# jstat -gccapacity 15649 NGCMN NGCMX NGC S0C S1C EC OGCMN OGCMX OGC OC MCMN MCMX MC CCSMN CCSMX CCSC YGC FGC 84992.0 1355776.0 688640.0 8192.0 20992.0 640512.0 171008.0 2711552.0 201728.0 201728.0 0.0 1105920.0 65280.0 0.0 1048576.0 8192.0 14 3 字段说明： Item 说明 NGCMN 新生代最小容量（KB） NGCMX 新生代最大容量(KB) NGC 新生代当前容量(KB) S0C 当前幸存者一区（survivor）容量(KB) S1C 当前幸存者二区（survivor）容量(KB) EC 当前伊甸园（eden）容量(KB) OGCMN 老年代初始化大小(KB) OGCMX 老年代最大容量(KB) OGC 老年代当前容量(KB) Current old generation capacity (kB) OC old区当前容量（KB） Current old space capacity (kB) MCMN 最小元空间容量（kB） MCMX 最大元空间容量（kB） MC 元空间容量（kB） CCSMN 压缩类空间最小容量（kB） CCSMX 压缩类空间最大容量（kB） CCSC 压缩类空间容量（kB） YGC young GC次数 FGC Full GC次数 jstat gcutil 123[root@localhost ~]# jstat -gcutil 15649 S0 S1 E O M CCS YGC YGCT FGC FGCT GCT 99.22 0.00 81.74 21.00 95.96 93.63 14 0.161 3 0.186 0.347 字段说明： Item 含义 S0 幸存者一区已使用的容量百分比 S1 幸存者二区已使用的容量百分比 E 伊甸园已使用的容量百分比 O 老年代已使用的容量百分比 M 元空间已使用的容量百分比 CCS 压缩类空间利用率百分比 YGC Young GC次数 YGCT JVM启动到采样时，Young GC用时（s） FGC Full GC次数 FGCT JVM启动到采样时，Full GC用时（s） GCT GC总时间 jmapjmap我知道的作用，就是dump下堆快照，再用工具分析1jmap -dump:live,format=b,file=dump.hprof PID 其他用法： jmap分析jvm内存jmap -heap pidOP 打印当前java堆活跃的各个对象的数量、大小jmap -histo:live 16102 | head -10 12345[C is a char[][S is a short[][I is a int[][B is a byte[][[I is a int[][] 打印等待回收的对象信息jmap -finalizerinfo pid dump快照打印下来之后，传到本地，可以使用Jsisualvm或者MemoryAnalyze（mat）打开 MemoryAnalyze 提取码：t4yy jstack步骤： top -c P（找最耗CPU进程拿pid） 4209 top -Hp 4209 P (找最耗CPU线程，拿pid) 9890 printf “%x” 9890 （转换为16进制） jstack 4209 | grep 26a2 -C5 –color 以上，就是整理的一点监控相关，配合以下几篇，性能测试的性能问题定位，差不多入门： windows性能监控指标Linux性能监控与分析Linux定位最耗CPU的线程JVM内存性能问题定位]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[性能测试工具nGrinder试用]]></title>
     <url>%2F2019%2F06%2F25%2F%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7nGrinder%E8%AF%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[性能测试工具nGrinder试用 之前就有听过这工具，但本着工具在精不在多原则，一直没用过，最近看市场上，苏州有家公司把这个列进了要求，就试用了下 安装这边是直接使用的docker拉的镜像安装1docker pull ngrinder/controller 直接拉了最新版本镜像，然后起容器：1docker run --name ngrinder -d -p 8099:80 ngrinder/controller 嗯，起起来了，不出所料，后续起agent时候挂了，端口没开：1ERROR agent controller: Error while connecting to agent controller server at /192.168.0.97:16001 原因很简单，起容器时候，没暴露16001端口，省略后续的其他踩坑，直接把要用的端口都开了：1234docker run --name ngrinder -d -p 8099:80 \ -p 16001:16001 \ -p 12000-12009:12000-12009 \ ngrinder/controller 查看状态：12345# 拿containeriddocker ps -a# 看日志docker logs -f --tail=300 containerid 起好之后，浏览器打开：http://192.168.0.97:8099，默认账密admin/admin界面长这样： 配置在帮助旁边的admin下，点击下载代理和下载监控，传到服务器上，解压完起代理和监控（linux下直接起shell脚本）先创建脚本,再创建性能测试 创建脚本填写对应参数即可： 测试配置页面也很简单，都是一些通用的配置，代理数量，vusers，启动延时配置，运行时间，运行次数等 配置完成，点保存并运行即可 测试报告：其中有日志，也可以点详细测试结果查看更详细的数据支持下载CSV报告查看 以上就是nGrinder的一次，总的印象，工具还行，报告很直观，但是对于编码可能要求（看了下，Jython编写的，基本就是python的request框架），语言试用Groovy和Jython;内置了SVN，团队之间脚本分享很方便。 实在不想手持身份证用七牛云，用了新浪的图床，很可能图会挂。。见谅。。]]></content>
@@ -575,8 +587,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1134,8 +1146,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1333,8 +1345,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1468,8 +1480,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1527,8 +1539,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1540,8 +1552,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
