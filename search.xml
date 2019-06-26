@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[性能测试工具nGrinder试用]]></title>
     <url>%2F2019%2F06%2F25%2F%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7nGrinder%E8%AF%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[性能测试工具nGrinder试用 之前就有听过这工具，但本着工具在精不在多原则，一直没用过，最近看市场上，苏州有家公司把这个列进了要求，就试用了下 安装这边是直接使用的docker拉的镜像安装1docker pull ngrinder/controller 直接拉了最新版本镜像，然后起容器：1docker run --name ngrinder -d -p 8099:80 ngrinder/controller 嗯，起起来了，不出所料，后续起agent时候挂了，端口没开：1ERROR agent controller: Error while connecting to agent controller server at /192.168.0.97:16001 原因很简单，起容器时候，没暴露16001端口，省略后续的其他踩坑，直接把要用的端口都开了：1234docker run --name ngrinder -d -p 8099:80 \ -p 16001:16001 \ -p 12000-12009:12000-12009 \ ngrinder/controller 查看状态：12345# 拿containeriddocker ps -a# 看日志docker logs -f --tail=300 containerid 起好之后，浏览器打开：http://192.168.0.97:8099，默认账密admin/admin界面长这样： 配置在帮助旁边的admin下，点击下载代理和下载监控，传到服务器上，解压完起代理和监控（linux下直接起shell脚本）先创建脚本,再创建性能测试 创建脚本填写对应参数即可： 测试配置页面也很简单，都是一些通用的配置，代理数量，vusers，启动延时配置，运行时间，运行次数等 配置完成，点保存并运行即可 测试报告：其中有日志，也可以点详细测试结果查看更详细的数据支持下载CSV报告查看 以上就是nGrinder的一次，总的印象，工具还行，报告很直观，但是对于编码可能要求，语言试用Groovy和Jython 实在不想手持身份证用七牛云，用了新浪的图床，很可能图会挂。。见谅。。]]></content>
+    <content type="text"><![CDATA[性能测试工具nGrinder试用 之前就有听过这工具，但本着工具在精不在多原则，一直没用过，最近看市场上，苏州有家公司把这个列进了要求，就试用了下 安装这边是直接使用的docker拉的镜像安装1docker pull ngrinder/controller 直接拉了最新版本镜像，然后起容器：1docker run --name ngrinder -d -p 8099:80 ngrinder/controller 嗯，起起来了，不出所料，后续起agent时候挂了，端口没开：1ERROR agent controller: Error while connecting to agent controller server at /192.168.0.97:16001 原因很简单，起容器时候，没暴露16001端口，省略后续的其他踩坑，直接把要用的端口都开了：1234docker run --name ngrinder -d -p 8099:80 \ -p 16001:16001 \ -p 12000-12009:12000-12009 \ ngrinder/controller 查看状态：12345# 拿containeriddocker ps -a# 看日志docker logs -f --tail=300 containerid 起好之后，浏览器打开：http://192.168.0.97:8099，默认账密admin/admin界面长这样： 配置在帮助旁边的admin下，点击下载代理和下载监控，传到服务器上，解压完起代理和监控（linux下直接起shell脚本）先创建脚本,再创建性能测试 创建脚本填写对应参数即可： 测试配置页面也很简单，都是一些通用的配置，代理数量，vusers，启动延时配置，运行时间，运行次数等 配置完成，点保存并运行即可 测试报告：其中有日志，也可以点详细测试结果查看更详细的数据支持下载CSV报告查看 以上就是nGrinder的一次，总的印象，工具还行，报告很直观，但是对于编码可能要求（看了下，Jython编写的，基本就是python的request框架），语言试用Groovy和Jython;内置了SVN，团队之间脚本分享很方便。 实在不想手持身份证用七牛云，用了新浪的图床，很可能图会挂。。见谅。。]]></content>
       <categories>
         <category>性能测试</category>
       </categories>
@@ -587,8 +587,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -806,8 +806,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -842,9 +842,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1333,8 +1333,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1468,8 +1468,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1527,8 +1527,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1540,8 +1540,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
