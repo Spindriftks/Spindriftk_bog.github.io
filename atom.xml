@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-27T02:01:11.690Z</updated>
+  <updated>2019-06-27T03:17:47.756Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Influxdb启动失败日志定位</title>
+    <link href="http://tokyle.com/2019/06/26/Influxdb%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E6%97%A5%E5%BF%97%E5%AE%9A%E4%BD%8D/"/>
+    <id>http://tokyle.com/2019/06/26/Influxdb启动失败日志定位/</id>
+    <published>2019-06-27T03:15:54.000Z</published>
+    <updated>2019-06-27T03:17:47.756Z</updated>
+    
+    <content type="html"><![CDATA[<p>Influxdb启动失败日志定位</p><a id="more"></a><p>之前做过Jmeter使用influxdb和grafana展示测试数据，当时使用了graphite，现在看到Jmeter好像可以直接存在influxdb中，就想尝试下，就找了台机器搭建influxdb，然后悲剧了，起不来。</p><p>其实问题很简单，基本不是端口占用就是文件夹权限问，主要是找不到日志。。</p><p>下面是完整的经过<br>搭建完influxdb，并且<code>systemctl start influxdb</code>之后，想连进去看看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# influx</span><br><span class="line">Failed to connect to http://localhost:8086: Get http://localhost:8086/ping: dial tcp [::1]:8086: connect: connection refused</span><br><span class="line">Please check your connection settings and ensure &apos;influxd&apos; is running.</span><br></pre></td></tr></table></figure></p><p>进不去。。检查状态：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# systemctl  status  influxdb</span><br><span class="line">● influxdb.service - InfluxDB is an open-source, distributed, time series database</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/influxdb.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: failed (Result: start-limit) since 四 2019-06-27 11:00:45 CST; 2min 0s ago</span><br><span class="line">     Docs: https://docs.influxdata.com/influxdb/</span><br><span class="line">  Process: 3587 ExecStart=/usr/bin/influxd -config /etc/influxdb/influxdb.conf $INFLUXD_OPTS (code=exited, status=1/FAILURE)</span><br><span class="line"> Main PID: 3587 (code=exited, status=1/FAILURE)</span><br><span class="line"></span><br><span class="line">6月 27 11:00:44 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 11:00:44 tokyle.com systemd[1]: influxdb.service failed.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service failed.</span><br></pre></td></tr></table></figure></p><p>压根没起来</p><p>找日志，先到<code>/var/lib/influxdb</code>下，没知道，<code>/var/log/</code>没找到</p><p>找<strong>系统日志</strong><br><code>journalctl -u influxdb</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u influxdb</span><br><span class="line"></span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service failed.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.</span><br></pre></td></tr></table></figure></p><p>还是看不出什么问题</p><p>最后，不使用systemctl直接手工启动influxdb：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop influxdb</span><br><span class="line"></span><br><span class="line">cd /usr/bin</span><br><span class="line"></span><br><span class="line">[root@tokyle bin]# influxd -config /etc/influxdb/influxdb.conf </span><br><span class="line"></span><br><span class="line"> 8888888           .d888 888                   8888888b.  888888b.</span><br><span class="line">   888            d88P&quot;  888                   888  &quot;Y88b 888  &quot;88b</span><br><span class="line">   888            888    888                   888    888 888  .88P</span><br><span class="line">   888   88888b.  888888 888 888  888 888  888 888    888 8888888K.</span><br><span class="line">   888   888 &quot;88b 888    888 888  888  Y8bd8P&apos; 888    888 888  &quot;Y88b</span><br><span class="line">   888   888  888 888    888 888  888   X88K   888    888 888    888</span><br><span class="line">   888   888  888 888    888 Y88b 888 .d8&quot;&quot;8b. 888  .d88P 888   d88P</span><br><span class="line"> 8888888 888  888 888    888  &quot;Y88888 888  888 8888888P&quot;  8888888P&quot;</span><br><span class="line"></span><br><span class="line">2019-06-27T03:04:08.786635ZinfoInfluxDB starting&#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;1.6.1&quot;, &quot;branch&quot;: &quot;1.6&quot;, &quot;commit&quot;: &quot;5766854b95ae86cccf6cc8ffe4c5bb9eacc994b8&quot;&#125;</span><br><span class="line">2019-06-27T03:04:08.786678ZinfoGo runtime&#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;go1.10.3&quot;, &quot;maxprocs&quot;: 4&#125;</span><br><span class="line">run: open server: listen: listen tcp 127.0.0.1:8088: bind: address already in use</span><br></pre></td></tr></table></figure></p><p>终于看见了，端口被占用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# netstat -anp | grep 8088</span><br><span class="line">tcp6       0      0 :::8088                 :::*                    LISTEN      22329/docker-proxy</span><br></pre></td></tr></table></figure><p>docker占了8088,问题解决</p><p>以上经过，记住，influxdb找不到日志：</p><ol><li>journalctl -u influxdb</li><li>/usr/bin/influxd -config /etc/influxdb/influxdb.conf</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Influxdb启动失败日志定位&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
+    
+    
+      <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
+    
+  </entry>
   
   <entry>
     <title>Jmeter ForEach控制器使用</title>
@@ -436,28 +458,6 @@
     <summary type="html">
     
       &lt;p&gt;所谓测试新时代&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="生活" scheme="http://tokyle.com/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-      <category term="lives" scheme="http://tokyle.com/tags/lives/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>测试 有惑</title>
-    <link href="http://tokyle.com/2019/05/27/%E6%B5%8B%E8%AF%95-%E6%9C%89%E6%83%91/"/>
-    <id>http://tokyle.com/2019/05/27/测试-有惑/</id>
-    <published>2019-05-27T08:09:13.000Z</published>
-    <updated>2019-05-27T08:10:21.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>测试有惑</p><a id="more"></a><p>最近因为一些事情，一度要转devops，一个我们这样的小互联网环境下还比较不常用的词汇；同时也遇上要手工造200多个excel这样的无语需求，烦躁之际，看到几篇文章，静下来好好想想，我现在的软件测试，是不是已经迷茫了。</p><h3 id="测试有惑"><a href="#测试有惑" class="headerlink" title="测试有惑"></a>测试有惑</h3><p>最近挺长时间，身边充斥着新兴技术，“大数据”、“容器化”、“微服务”、“service mesh”、“AI”等等，很长一段时间，我也像绝大多数人一样，追在后面，无尽的翻阅着“大数据下如何进行软件测试”、“如何测试分布式系统”、“容器化时代的测试技术”等等诸如此类的文章，渐渐的，从一个测试，学了python，关注了docker，k8s，到如今的servicemesh，istio；渐渐的，也感觉越来越无力，越来越迷茫，我的所作，是不是已经完成偏成了追求工具，追求新鲜，对于软件测试最基本的理论，是不是已经忘记的差不多了。</p><p>看到一篇博客，作者写了一句话，我也问了自己，发现，有点悲哀。</p><p><strong>面对被测对象，你的测试理念是什么</strong>，是否清楚，为何而战。</p><p>技术，永远处于不断重构中，而自己的测试理念，信念，才是作为测试从业者的根基，互联网的世界里，技术上的推陈出新永远比你的学习速度要快，一味的去追求技术，是不是需要担心，有一天，作为没有坚实测试理念的我们，会被技术革了命。</p><p>越来越迷茫，默然做着自己都不知道为什么的测试的我们，是不是可以稍微等一等，停下来重新寻找，或许已经丢失了的，我们的软件测试之道。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;测试有惑&lt;/p&gt;
     
     </summary>
     

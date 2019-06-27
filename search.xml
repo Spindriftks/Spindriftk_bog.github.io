@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Influxdb启动失败日志定位]]></title>
+    <url>%2F2019%2F06%2F26%2FInfluxdb%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E6%97%A5%E5%BF%97%E5%AE%9A%E4%BD%8D%2F</url>
+    <content type="text"><![CDATA[Influxdb启动失败日志定位 之前做过Jmeter使用influxdb和grafana展示测试数据，当时使用了graphite，现在看到Jmeter好像可以直接存在influxdb中，就想尝试下，就找了台机器搭建influxdb，然后悲剧了，起不来。 其实问题很简单，基本不是端口占用就是文件夹权限问，主要是找不到日志。。 下面是完整的经过搭建完influxdb，并且systemctl start influxdb之后，想连进去看看：123[root@tokyle bin]# influxFailed to connect to http://localhost:8086: Get http://localhost:8086/ping: dial tcp [::1]:8086: connect: connection refusedPlease check your connection settings and ensure &apos;influxd&apos; is running. 进不去。。检查状态：12345678910111213141516[root@tokyle bin]# systemctl status influxdb● influxdb.service - InfluxDB is an open-source, distributed, time series database Loaded: loaded (/usr/lib/systemd/system/influxdb.service; enabled; vendor preset: disabled) Active: failed (Result: start-limit) since 四 2019-06-27 11:00:45 CST; 2min 0s ago Docs: https://docs.influxdata.com/influxdb/ Process: 3587 ExecStart=/usr/bin/influxd -config /etc/influxdb/influxdb.conf $INFLUXD_OPTS (code=exited, status=1/FAILURE) Main PID: 3587 (code=exited, status=1/FAILURE)6月 27 11:00:44 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 11:00:44 tokyle.com systemd[1]: influxdb.service failed.6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.6月 27 11:00:45 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.6月 27 11:00:45 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service6月 27 11:00:45 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.6月 27 11:00:45 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service failed. 压根没起来 找日志，先到/var/lib/influxdb下，没知道，/var/log/没找到 找系统日志journalctl -u influxdb123456789journalctl -u influxdb6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service: main process exited, code=exited, status=1/FAILURE6月 27 10:46:02 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service failed.6月 27 10:46:03 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.6月 27 10:46:03 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.6月 27 10:46:03 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service6月 27 10:46:03 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database. 还是看不出什么问题 最后，不使用systemctl直接手工启动influxdb：123456789101112131415161718systemctl stop influxdbcd /usr/bin[root@tokyle bin]# influxd -config /etc/influxdb/influxdb.conf 8888888 .d888 888 8888888b. 888888b. 888 d88P&quot; 888 888 &quot;Y88b 888 &quot;88b 888 888 888 888 888 888 .88P 888 88888b. 888888 888 888 888 888 888 888 888 8888888K. 888 888 &quot;88b 888 888 888 888 Y8bd8P&apos; 888 888 888 &quot;Y88b 888 888 888 888 888 888 888 X88K 888 888 888 888 888 888 888 888 888 Y88b 888 .d8&quot;&quot;8b. 888 .d88P 888 d88P 8888888 888 888 888 888 &quot;Y88888 888 888 8888888P&quot; 8888888P&quot;2019-06-27T03:04:08.786635Z info InfluxDB starting &#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;1.6.1&quot;, &quot;branch&quot;: &quot;1.6&quot;, &quot;commit&quot;: &quot;5766854b95ae86cccf6cc8ffe4c5bb9eacc994b8&quot;&#125;2019-06-27T03:04:08.786678Z info Go runtime &#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;go1.10.3&quot;, &quot;maxprocs&quot;: 4&#125;run: open server: listen: listen tcp 127.0.0.1:8088: bind: address already in use 终于看见了，端口被占用 12[root@tokyle bin]# netstat -anp | grep 8088tcp6 0 0 :::8088 :::* LISTEN 22329/docker-proxy docker占了8088,问题解决 以上经过，记住，influxdb找不到日志： journalctl -u influxdb /usr/bin/influxd -config /etc/influxdb/influxdb.conf]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>Influxdb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Jmeter ForEach控制器使用]]></title>
     <url>%2F2019%2F06%2F26%2FJmeter-ForEach%E6%8E%A7%E5%88%B6%E5%99%A8%E4%BD%BF%E7%94%A8%2F</url>
     <content type="text"><![CDATA[Jmeter ForEach控制器使用 昨天遇到的问题，有个接口需要循环删除多个taskid（前一个接口获得），找了网上资料，最后成功实现 ForEach控制器ForEach控制器一般和用户自定义变量一起使用，其在用户自定义变量中读取一系列相关的变量。该控制器下的采样器或控制器都会被执行一次或多次，每次读取不同的变量值 字段解释： 字段 含义 Input Variable Prefix 输入变量前缀 Output variable name 输出变量名称 Start index for loop(exclusive) 循环开始的索引（这里如果不填写，默认从1开始，如果没有1开始的变量，执行时会报错） End index for loop(inclusive) 循环结束的索引 Add”_”before number 输入变量名称中是否使用“_”进行间隔 一般用法ForEach控制器一般喝用户定义的变量一起使用结构类似这样： 在用户定义的变量插件中定义了四个name，在后续http请求，需要每个都传进去执行一次，也就是整个线程组执行是一次，其中http请求会执行四次，并且每次使用不通的name ForEach控制器配置： 传入name，输出testname，在后续http请求中，name替换成${testname}即可看看效果： 改进回到之前那个删除taskid的问题，可以采用同样的方式，只要保证，传给ForEach控制器的是key:value形式，并且是同一个key，不同的value 其中search接口返回数据大概是这样：12345678910[ &#123; &quot;taskId&quot;:&quot;5d12ddc64d44wserwreeaa4cb56&quot;, &quot;input&quot;:Object&#123;...&#125; &#125;, &#123; &quot;taskId&quot;:&quot;5d12ddc64ereea017eaa4cb56&quot;, &quot;input&quot;:Object&#123;...&#125; &#125;] 可以看到返回值中有多个taskId，这些taskId是需要全部传给后续delete接口删除的可以用JSON提取出所有的taskID，再传给ForEach控制器，输出一个新的变量taskidItem，将该taskidItem传给delete接口，达到有多少taskId，delete接口就取不同的taskId循环多少次，最终全部删除的效果 JSON Extractor配置： 以上就是本次实现，ForEach控制器，总的来说，适用于有多个value值返回，并且这些value值都需要进行后续操作的场景]]></content>
@@ -445,7 +456,7 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>influxdb</tag>
+        <tag>Influxdb</tag>
       </tags>
   </entry>
   <entry>
@@ -598,8 +609,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -806,7 +817,7 @@
       </categories>
       <tags>
         <tag>Centos7</tag>
-        <tag>influxdb</tag>
+        <tag>Influxdb</tag>
         <tag>Chronograf</tag>
       </tags>
   </entry>
@@ -1157,8 +1168,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1356,8 +1367,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1491,8 +1502,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1550,8 +1561,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1563,8 +1574,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
