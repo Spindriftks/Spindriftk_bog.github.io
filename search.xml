@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter使用Grafana展示]]></title>
+    <url>%2F2019%2F06%2F27%2FJmeter%E4%BD%BF%E7%94%A8Grafana%E5%B1%95%E7%A4%BA%2F</url>
+    <content type="text"><![CDATA[Jmeter使用Grafana展示 之前写过一个Jmeter + Influxdb + Grafana实时展示测试结果： 使用Grafana展示Jmeter数据 之前使用的Backend Listener选择的是org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender 现在直接使用org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender更简单一点 安装influxdb 安装： 12wget https://dl.influxdata.com/influxdb/releases/influxdb-1.7.6.x86_64.rpmsudo yum localinstall influxdb-1.7.6.x86_64.rpm 启动： 12345加自启动：systemctl enable influxdb启服务：systemctl start influxdb 建库： 进控制台：1234[root@tokyle influxdb]# influxConnected to http://localhost:8086 version 1.6.1InfluxDB shell version: 1.6.1&gt; 建库12345678910111213# 建库create database jmeterdb; # 建存储策略CREATE RETENTION POLICY &quot;jmeter_7d&quot; ON &quot;jmeterdb&quot; DURATION 7d REPLICATION 1 DEFAULT;# 查看存储策略show retention policies on jmeterdb;name duration shardGroupDuration replicaN default---- -------- ------------------ -------- -------autogen 0s 168h0m0s 1 falsejmeter_7d 168h0m0s 24h0m0s 1 true 安装grafana 安装 12wget https://dl.grafana.com/oss/release/grafana-6.2.5-1.x86_64.rpm sudo yum localinstall grafana-6.2.5-1.x86_64.rpm 启动 12345systemctl daemon-reloadsystemctl start grafana-serversystemctl status grafana-server 进官网，下载Jmter标准模板。。。 Grafana-Jmeter模板 可以直接下载Json，然后进grafana web页面，导入dashboard即可 Jmeter配置主要就是配置一个Backend Listener 需要修改部分： influxdbUrl: IP改为自己influxdb的IP application：自定义一个应用名称，后面grafana要用到 summaryOnly：false 然后就可以直接运行jmeter跑结果了，在grafana中可以直观的呈现： Jmeter MetricsJmter对接influxdb之后，可以在表里找到很多的字段，翻jmeter官网，看看各个metric的含义 Jmeter官网Metrics教程 线程/虚拟用户 Item 含义 minAT 最小活跃线程（虚拟用户） maxAT 最大活跃线程（虚拟用户） meanAT 平均活跃线程（虚拟用户） startedT started threads运行中的线程？ endedT Finished thread停止的线程 响应时间 Item 含义 .ok.count 成功的请求数 .h.count/hit QPS .ok.min 最小成功请求响应时间 .ok.max 最大成功请求响应时间 .ok.avg 成功请求平均响应时间 .ok.pct 请求成功率 .a.count 总请求数（成功+失败） .sb.bytes 发送数据量（Bytes） .rb.bytes 接收数据量（Bytes） countError 错误数 pct90.0 90%响应时间 pct95.0 95%响应时间 pct99.0 99%响应时间]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>grafana</tag>
+        <tag>Influxdb</tag>
+        <tag>Jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Influxdb启动失败日志定位]]></title>
     <url>%2F2019%2F06%2F26%2FInfluxdb%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E6%97%A5%E5%BF%97%E5%AE%9A%E4%BD%8D%2F</url>
     <content type="text"><![CDATA[Influxdb启动失败日志定位 之前做过Jmeter使用influxdb和grafana展示测试数据，当时使用了graphite，现在看到Jmeter好像可以直接存在influxdb中，就想尝试下，就找了台机器搭建influxdb，然后悲剧了，起不来。 其实问题很简单，基本不是端口占用就是文件夹权限问，主要是找不到日志。。 下面是完整的经过搭建完influxdb，并且systemctl start influxdb之后，想连进去看看：123[root@tokyle bin]# influxFailed to connect to http://localhost:8086: Get http://localhost:8086/ping: dial tcp [::1]:8086: connect: connection refusedPlease check your connection settings and ensure &apos;influxd&apos; is running. 进不去。。检查状态：12345678910111213141516[root@tokyle bin]# systemctl status influxdb● influxdb.service - InfluxDB is an open-source, distributed, time series database Loaded: loaded (/usr/lib/systemd/system/influxdb.service; enabled; vendor preset: disabled) Active: failed (Result: start-limit) since 四 2019-06-27 11:00:45 CST; 2min 0s ago Docs: https://docs.influxdata.com/influxdb/ Process: 3587 ExecStart=/usr/bin/influxd -config /etc/influxdb/influxdb.conf $INFLUXD_OPTS (code=exited, status=1/FAILURE) Main PID: 3587 (code=exited, status=1/FAILURE)6月 27 11:00:44 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 11:00:44 tokyle.com systemd[1]: influxdb.service failed.6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.6月 27 11:00:45 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.6月 27 11:00:45 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service6月 27 11:00:45 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.6月 27 11:00:45 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service failed. 压根没起来 找日志，先到/var/lib/influxdb下，没知道，/var/log/没找到 找系统日志journalctl -u influxdb123456789journalctl -u influxdb6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service: main process exited, code=exited, status=1/FAILURE6月 27 10:46:02 tokyle.com systemd[1]: Unit influxdb.service entered failed state.6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service failed.6月 27 10:46:03 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.6月 27 10:46:03 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.6月 27 10:46:03 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service6月 27 10:46:03 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database. 还是看不出什么问题 最后，不使用systemctl直接手工启动influxdb：123456789101112131415161718systemctl stop influxdbcd /usr/bin[root@tokyle bin]# influxd -config /etc/influxdb/influxdb.conf 8888888 .d888 888 8888888b. 888888b. 888 d88P&quot; 888 888 &quot;Y88b 888 &quot;88b 888 888 888 888 888 888 .88P 888 88888b. 888888 888 888 888 888 888 888 888 8888888K. 888 888 &quot;88b 888 888 888 888 Y8bd8P&apos; 888 888 888 &quot;Y88b 888 888 888 888 888 888 888 X88K 888 888 888 888 888 888 888 888 888 Y88b 888 .d8&quot;&quot;8b. 888 .d88P 888 d88P 8888888 888 888 888 888 &quot;Y88888 888 888 8888888P&quot; 8888888P&quot;2019-06-27T03:04:08.786635Z info InfluxDB starting &#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;1.6.1&quot;, &quot;branch&quot;: &quot;1.6&quot;, &quot;commit&quot;: &quot;5766854b95ae86cccf6cc8ffe4c5bb9eacc994b8&quot;&#125;2019-06-27T03:04:08.786678Z info Go runtime &#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;go1.10.3&quot;, &quot;maxprocs&quot;: 4&#125;run: open server: listen: listen tcp 127.0.0.1:8088: bind: address already in use 终于看见了，端口被占用 12[root@tokyle bin]# netstat -anp | grep 8088tcp6 0 0 :::8088 :::* LISTEN 22329/docker-proxy docker占了8088,问题解决 以上经过，记住，influxdb找不到日志： journalctl -u influxdb /usr/bin/influxd -config /etc/influxdb/influxdb.conf]]></content>
@@ -479,8 +492,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -876,9 +889,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>

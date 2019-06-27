@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-27T03:17:47.756Z</updated>
+  <updated>2019-06-27T06:41:04.346Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jmeter使用Grafana展示</title>
+    <link href="http://tokyle.com/2019/06/27/Jmeter%E4%BD%BF%E7%94%A8Grafana%E5%B1%95%E7%A4%BA/"/>
+    <id>http://tokyle.com/2019/06/27/Jmeter使用Grafana展示/</id>
+    <published>2019-06-27T06:31:09.000Z</published>
+    <updated>2019-06-27T06:41:04.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>Jmeter使用Grafana展示</p><a id="more"></a><p>之前写过一个Jmeter + Influxdb + Grafana实时展示测试结果：</p><blockquote><p><a href="https://tokyle.com/2018/09/27/%E4%BD%BF%E7%94%A8Grafana%E5%B1%95%E7%A4%BAJmeter%E6%95%B0%E6%8D%AE/">使用Grafana展示Jmeter数据</a></p></blockquote><p>之前使用的<code>Backend Listener</code>选择的是<code>org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender</code></p><p>现在直接使用<code>org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</code>更简单一点</p><h3 id="安装influxdb"><a href="#安装influxdb" class="headerlink" title="安装influxdb"></a>安装influxdb</h3><ul><li>安装：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.influxdata.com/influxdb/releases/influxdb-1.7.6.x86_64.rpm</span><br><span class="line">sudo yum localinstall influxdb-1.7.6.x86_64.rpm</span><br></pre></td></tr></table></figure><ul><li>启动：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">加自启动：</span><br><span class="line">systemctl enable influxdb</span><br><span class="line"></span><br><span class="line">启服务：</span><br><span class="line">systemctl start influxdb</span><br></pre></td></tr></table></figure><ul><li>建库：</li></ul><p>进控制台：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle influxdb]# influx</span><br><span class="line">Connected to http://localhost:8086 version 1.6.1</span><br><span class="line">InfluxDB shell version: 1.6.1</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p><p>建库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 建库</span><br><span class="line">create database jmeterdb;</span><br><span class="line"> </span><br><span class="line"># 建存储策略</span><br><span class="line">CREATE RETENTION POLICY &quot;jmeter_7d&quot; ON &quot;jmeterdb&quot; DURATION 7d REPLICATION 1 DEFAULT;</span><br><span class="line"></span><br><span class="line"># 查看存储策略</span><br><span class="line">show retention policies on jmeterdb;</span><br><span class="line"></span><br><span class="line">name      duration shardGroupDuration replicaN default</span><br><span class="line">----      -------- ------------------ -------- -------</span><br><span class="line">autogen   0s       168h0m0s           1        false</span><br><span class="line">jmeter_7d 168h0m0s 24h0m0s            1        true</span><br></pre></td></tr></table></figure></p><h3 id="安装grafana"><a href="#安装grafana" class="headerlink" title="安装grafana"></a>安装grafana</h3><ul><li>安装</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.grafana.com/oss/release/grafana-6.2.5-1.x86_64.rpm </span><br><span class="line">sudo yum localinstall grafana-6.2.5-1.x86_64.rpm</span><br></pre></td></tr></table></figure><ul><li>启动</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">systemctl start grafana-server</span><br><span class="line"></span><br><span class="line">systemctl status grafana-server</span><br></pre></td></tr></table></figure><p>进官网，下载Jmter标准模板。。。</p><blockquote><p><a href="https://grafana.com/dashboards/5496" target="_blank" rel="noopener">Grafana-Jmeter模板</a></p></blockquote><p>可以直接下载Json，然后进grafana web页面，导入dashboard即可</p><h3 id="Jmeter配置"><a href="#Jmeter配置" class="headerlink" title="Jmeter配置"></a>Jmeter配置</h3><p>主要就是配置一个<code>Backend Listener</code></p><p><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g4fodelbddj213f094tbg.jpg" alt="Jmeter配置"></p><p>需要修改部分：</p><ol><li><p>influxdbUrl: IP改为自己influxdb的IP</p></li><li><p>application：自定义一个应用名称，后面grafana要用到</p></li><li><p>summaryOnly：false</p></li></ol><p>然后就可以直接运行jmeter跑结果了，在grafana中可以直观的呈现：</p><h3 id="Jmeter-Metrics"><a href="#Jmeter-Metrics" class="headerlink" title="Jmeter Metrics"></a>Jmeter Metrics</h3><p>Jmter对接influxdb之后，可以在表里找到很多的字段，翻jmeter官网，看看各个metric的含义</p><blockquote><p><a href="http://jmeter.apache.org/usermanual/realtime-results.html" target="_blank" rel="noopener">Jmeter官网Metrics教程</a></p></blockquote><h4 id="线程-虚拟用户"><a href="#线程-虚拟用户" class="headerlink" title="线程/虚拟用户"></a>线程/虚拟用户</h4><table><thead><tr><th>Item</th><th>含义</th></tr></thead><tbody><tr><td>minAT</td><td>最小活跃线程（虚拟用户）</td></tr><tr><td>maxAT</td><td>最大活跃线程（虚拟用户）</td></tr><tr><td>meanAT</td><td>平均活跃线程（虚拟用户）</td></tr><tr><td>startedT</td><td>started threads运行中的线程？</td></tr><tr><td>endedT</td><td>Finished thread停止的线程</td></tr></tbody></table><h4 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h4><table><thead><tr><th>Item</th><th>含义</th></tr></thead><tbody><tr><td>.ok.count</td><td>成功的请求数</td></tr><tr><td>.h.count/hit</td><td>QPS</td></tr><tr><td>.ok.min</td><td>最小成功请求响应时间</td></tr><tr><td>.ok.max</td><td>最大成功请求响应时间</td></tr><tr><td>.ok.avg</td><td>成功请求平均响应时间</td></tr><tr><td>.ok.pct</td><td>请求成功率</td></tr><tr><td>.a.count</td><td>总请求数（成功+失败）</td></tr><tr><td>.sb.bytes</td><td>发送数据量（Bytes）</td></tr><tr><td>.rb.bytes</td><td>接收数据量（Bytes）</td></tr><tr><td>countError</td><td>错误数</td></tr><tr><td>pct90.0</td><td>90%响应时间</td></tr><tr><td>pct95.0</td><td>95%响应时间</td></tr><tr><td>pct99.0</td><td>99%响应时间</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Jmeter使用Grafana展示&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="grafana" scheme="http://tokyle.com/tags/grafana/"/>
+    
+      <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
+    
+      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+  </entry>
   
   <entry>
     <title>Influxdb启动失败日志定位</title>
@@ -436,28 +462,6 @@
     <summary type="html">
     
       &lt;p&gt;闲谈测试理论&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="生活" scheme="http://tokyle.com/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-      <category term="lives" scheme="http://tokyle.com/tags/lives/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>所谓测试新时代</title>
-    <link href="http://tokyle.com/2019/05/27/%E6%89%80%E8%B0%93%E6%B5%8B%E8%AF%95%E6%96%B0%E6%97%B6%E4%BB%A3/"/>
-    <id>http://tokyle.com/2019/05/27/所谓测试新时代/</id>
-    <published>2019-05-27T08:57:56.000Z</published>
-    <updated>2019-05-27T08:59:06.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>所谓测试新时代</p><a id="more"></a><h3 id="2019-软件测试"><a href="#2019-软件测试" class="headerlink" title="2019 软件测试"></a>2019 软件测试</h3><p>翻到了<code>World Quality Report 2018-19</code>看了好几项，也看了testerhome，软件质量报告等优秀公众号的文章，世界的确在变。</p><p>2019甚至之后很多年，国内的软件测试和质量保障人员的职责，已经不是单纯的找bug，现在我们需要做的，是客户满意度和业务成果的推动者。<br>刚入行时候，就一直挂在嘴边的一句话，软件测试，是要站在客户角度看问题，但是随着节奏越来越快，“涉世”越来越深，逐渐的，也就成了，找到个bug，提交各jira，结束，曾几何时，我们就迷失了自己；现在<code>World Quality Report 2018-19</code>再次提出了，<strong>客户满意度</strong>这个词，也是对我们已经迷茫的测试人员一个警醒。</p><h4 id="2019软件测试的趋势"><a href="#2019软件测试的趋势" class="headerlink" title="2019软件测试的趋势"></a>2019软件测试的趋势</h4><h5 id="AI在质量保障和测试中的作用"><a href="#AI在质量保障和测试中的作用" class="headerlink" title="AI在质量保障和测试中的作用"></a>AI在质量保障和测试中的作用</h5><p>随着过去一年甚至几年的AI大潮，AI技术在软件测试中越来越有应用市场，对于自动化的保障、对本身的AI产品的测试、使用AI进行质量预测等等，说实话，是个新技术，也是未来的一个趋势，但是目前该方案还没有那么的普及，很多公司，自身都没有响应的人工智能开发，所以，至少对我来说，是个值得参考的方向，但当前阶段，我不会去过多关注。</p><h5 id="敏捷以及devops"><a href="#敏捷以及devops" class="headerlink" title="敏捷以及devops"></a>敏捷以及devops</h5><p>这个，至少在我现在在的公司，是大谈特谈，从最高层开始，大力推行所谓敏捷开发，敏捷团队，说实话，一个小而优的团队，进行快速迭代对于产品来说，肯定是好的，同时配以devops，辅助CI\CD，全自动化回滚，测试等，可以想象，这样的团队，日常开发、测试、发布的效率有多高。但是实际上呢，从我现在公司的状况来看，一味的牺牲质量去追求速度，为了敏捷实施敏捷，到头来是留下了一堆祸根，客户生产问题接踵而至，整个产线疲于应付客户问题，无心关注新的功能点的设计，质量控制，继续往后，新的功能点进行快速迭代上线，缺乏有效的测试，更加增加了祸根数量，为后续的生产问题集中爆发写下了引言，整个，已经形成了恶性循环。</p><p>同时，敏捷团队和devops的转型，已经打乱了原来的QA团队，所有人分配到了不同的产线，这样使得跨项目的合作共享变成尤其困难。这点值得吐槽的更多，算了，不说了。</p><h5 id="自动化"><a href="#自动化" class="headerlink" title="自动化"></a>自动化</h5><p>这个已经不是新鲜事了，几乎所有公司都在追求自动化。也用现在的公司来举例子吧，当前实现的自动化</p><ol><li>产品重构多，自动化脚本几乎每次都会随着产品新迭代进行更新，没有一个可以适应多版本的自动化方案；</li><li>自动化测试环境以及自动化测试数据，准备异常繁琐，大多时间是消耗在环境排查及数据准备上；</li><li>自动化技术及理念不推陈出新，并没有思考过怎么样进行更高效的自动化覆盖，一味的沉溺于维护当前脚本；</li></ol><h5 id="测试环境和成本"><a href="#测试环境和成本" class="headerlink" title="测试环境和成本"></a>测试环境和成本</h5><p>关于测试环境和测试数据，很多公司做法不一样，但是同样的，对于测试来说，很多时候，问题是出现在测试环境上，很多时间是消耗在准备测试数据上，如何进行快速的测试环境部署，以及如何保障测试数据复用真的是衡量一个企业测试团队成熟度的一项指标。</p><h4 id="应对策略"><a href="#应对策略" class="headerlink" title="应对策略"></a>应对策略</h4><h5 id="以智能的、分阶段的方式提升基础自动化和智能测试自动化水平"><a href="#以智能的、分阶段的方式提升基础自动化和智能测试自动化水平" class="headerlink" title="以智能的、分阶段的方式提升基础自动化和智能测试自动化水平"></a>以智能的、分阶段的方式提升基础自动化和智能测试自动化水平</h5><p>未来，自动化肯定是测试的必备技能，团队的自动化测试水平，很直接的会影响到后续一系列开展，是真的可以决定团队是否能真正开展敏捷的关键。</p><p><code>World Quality Report 2018-19</code>给的建议如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1, 优化测试</span><br><span class="line">2，实施基础的自动化测试</span><br><span class="line">3，采用智能的、自适应的测试自动化方案让自动化变得更加“智能”</span><br></pre></td></tr></table></figure></p><h5 id="以非孤立的方式实施测试数据和测试环境的管理"><a href="#以非孤立的方式实施测试数据和测试环境的管理" class="headerlink" title="以非孤立的方式实施测试数据和测试环境的管理"></a>以非孤立的方式实施测试数据和测试环境的管理</h5><p>企业要开始生命周期的自动化，把测试自动化和数据、环境的准备工作一起开展，不要分离开来。另外，要采用更加智能的方式来管理测试环境和数据。</p><h5 id="构建超出测试开发（SDET）之外的质量工程技能"><a href="#构建超出测试开发（SDET）之外的质量工程技能" class="headerlink" title="构建超出测试开发（SDET）之外的质量工程技能"></a>构建超出测试开发（SDET）之外的质量工程技能</h5><p>这项，原谅才疏学浅，暂时get不到，抄录一下。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">敏捷、DevOps、云、IoT、区块链和AI这些新趋势的发展，以及更加自动的、集成的质量保障方法的需求，企业需要关注新的质量技能。</span><br><span class="line"></span><br><span class="line">推荐以下方式做好质量保障能力建设：</span><br><span class="line"></span><br><span class="line">1、第一优先级是吸引敏捷测试专家，需要具备功能自动化技能和领域测试技能，自动化测试将是每个质量保障人员的必备技能；</span><br><span class="line"></span><br><span class="line">2、第二优先级是吸引 SDET ，他们的必备技能要求有高级自动化测试、白盒测试、开发和平台构建能力，同时最好还有 AI 应用的基础算法应用能力和自然语言处理技能；</span><br><span class="line"></span><br><span class="line">3、第三优先级是吸引拥有一些特定 QA 技能集的人员，比如安全等非功能测试、测试环境和数据的管理技能等；</span><br><span class="line"></span><br><span class="line">4、第四优先级是吸引高级 QA 专家，需要有AI架构技能，以构建能够执行重复、智能任务的“智能资产”，这些技能由深度机器学习概念和算法组成，比如决策树、分类器、神经网络、高级统计学和数据优化技能。</span><br></pre></td></tr></table></figure></p><h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>1，未来，我们需要更加关注客户满意度，追求速度，忽视客户满意度，迟早药丸；<br>2，低水平的自动化测试，测试数据及测试环境的管理已经影响到整个敏捷的实施；加强自动化培训，更加规范科学的进行测试数据及环境的管理，才能更好保障QA实施；<br>3，测试人员，需要更多的必备技能，来应对未来的挑战；这点上，个人还是坚持，测试人员需要明了并坚定自己的测试理念。以此为根基，进行测试技术的扩展，才是可行的路。</p><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote><p><a href="https://mp.weixin.qq.com/s/voKNIhVOPLrjgQhDUhte9w" target="_blank" rel="noopener">2019 软件测试行业 5 大关键趋势与应对策略</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;所谓测试新时代&lt;/p&gt;
     
     </summary>
     
