@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos7搭建wordpress博客]]></title>
+    <url>%2F2019%2F07%2F03%2FCentos7%E6%90%AD%E5%BB%BAwordpress%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[Centos7搭建wordpress博客 其实，也不是想换成wordpress，就是想看看搭起来怎么样 下载安装包当前最新版本是5.2.2，但是没有汉化包，折腾半天，英语还是看的费劲，当然，全英文无压力可以用和这个，看了下汉化进度，简体中文0%，繁体中文100%，所以不介意的话，可以用台湾同胞制作的繁体中文汉化包： 官网5.22下载繁体中文汉化包 汉化包下载完了之后，先进入wordpress的wp-content文件夹，创建一个languages文件夹，然后将汉化包解压到这个文件夹，然后浏览器刷新页面即可 当前简体中文版汉化的最高版本是5.0.4，下载地址： 简体中文汉化版 httpd安装httpd很简单yum install httpd，启动：systemctl start httpd 将上一步下载好的安装包，解压到httpd目录下：/var/www/html，重命名文件夹，更改属主和属组12345tar -zxvf wordpress-5.2.2.tar.gz -C /var/www/htmlmv wordpress blogchown -R root:root blog 并且，由于多加了一层blog，需要更改httpd的配置文件，修改路径：vim /etc/httpd/conf/httpd.conf将DocumentRoot和Directory改为/var/www/html/blog MySQL安装MySQL就不说了，装好之后，进控制台，建库和用户：12345create database wordpress character set utf8;create user wordpress@&apos;%&apos; identified by &apos;test@1234&apos;;GRANT ALL PRIVILEGES ON *.* TO &apos;wordpress&apos;@&apos;%&apos; IDENTIFIED BY &apos;test@1234&apos; WITH GRANT OPTION;flush privileges;exit; php使用yum install php安装的php版本是5.6有点低，wordpress5.2.2不支持，最好是安装PHP7卸载原来版本1yum remove php* 更改RPM源12rpm -Uvh https://mirror.webtatic.com/yum/el7/epel-release.rpmrpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm 安装：1yum install php71w php71w-cli php71w-common php71w-devel php71w-embedded php71w-fpm php71w-gd php71w-mbstring php71w-mysqlnd php71w-opcache php71w-pdo php71w-xml php71w-ldap php71w-mcrypt 验证：php -v 配置wordpress修改数据库配置： 进入blog文件夹（之前重命名的），重命名wp-config-sample.php为wp-config.php，添加数据库信息：12mv wp-config-sample.php wp-config.phpvim wp-config.php 修改对应数据库信息，并且访问https://api.wordpress.org/secret-key/1.1/salt/获取Authentication Unique Keys，并且粘贴进来。 编辑完成之后，重启httpd:systemctl restart httpd浏览器输入IP，开始使用wordpress]]></content>
+      <categories>
+        <category>skill</category>
+      </categories>
+      <tags>
+        <tag>wordpress</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Jmeter生成Report Dashboard]]></title>
     <url>%2F2019%2F07%2F02%2FJmeter%E7%94%9F%E6%88%90Report-Dashboard%2F</url>
     <content type="text"><![CDATA[Jmeter生成Report Dashboard Report DashboardJmeter最后生成的测试结果报告一直是被吐槽的，今天翻官方教程时候，发现，人家报告根本就很好看啊，自己不会用。。 Generating Report Dashboard 生成方法很简单，命令行运行jmeter脚本即可，格式：1jmeter -n -t &lt;test JMX file&gt; -l &lt;test log file&gt; -e -o &lt;Path to output folder&gt; 示例：1jmeter -n -t 111.jmx -l report\01-result.csv -e -o report\01-Dashboard 运行完成之后，会在report文件夹下，生成一个01-Dashboard文件夹，浏览器打开index.html就是一个很完整的Report Dashboard 效果图： 响应时间图 另一种生成dashboard的方式：12Generation from an existing sample CSV log file（从结果csv文件产生）jmeter -g &lt;log file&gt; -o &lt;Path to output folder&gt; 这是在已经执行完测试，生成了csv的测试结果 Jmeter几条常用命令算是自己平时可能用的比较多的： 命令行模式jmeter命令行模式（脚本和jmeter.bat在一个目录）123jmeter -n -t test1.jmx -r -l report\01-result.csv -j report\01-log.log（分布式）jmeter -n -t APP.jmx -l report\01-result.csv -j report\01-log.log（单台） 顺便记点不相关的：iostat安装：1yum install -y sysstat htop安装：123yum -y install epel-releaseyum install htop]]></content>
@@ -713,8 +724,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>grafana</tag>
         <tag>Centos7</tag>
+        <tag>grafana</tag>
       </tags>
   </entry>
   <entry>
@@ -900,9 +911,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
