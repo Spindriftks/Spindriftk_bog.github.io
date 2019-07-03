@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-06-27T06:44:36.149Z</updated>
+  <updated>2019-07-03T02:02:28.280Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jmeter生成Report Dashboard</title>
+    <link href="http://tokyle.com/2019/07/02/Jmeter%E7%94%9F%E6%88%90Report-Dashboard/"/>
+    <id>http://tokyle.com/2019/07/02/Jmeter生成Report-Dashboard/</id>
+    <published>2019-07-03T01:51:12.000Z</published>
+    <updated>2019-07-03T02:02:28.280Z</updated>
+    
+    <content type="html"><![CDATA[<p>Jmeter生成Report Dashboard</p><a id="more"></a><h3 id="Report-Dashboard"><a href="#Report-Dashboard" class="headerlink" title="Report Dashboard"></a>Report Dashboard</h3><p>Jmeter最后生成的测试结果报告一直是被吐槽的，今天翻官方教程时候，发现，人家报告根本就很好看啊，自己不会用。。</p><blockquote><p><a href="https://jmeter.apache.org/usermanual/generating-dashboard.html#top" target="_blank" rel="noopener">Generating Report Dashboard</a></p></blockquote><p>生成方法很简单，命令行运行jmeter脚本即可，格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t &lt;test JMX file&gt; -l &lt;test log file&gt; -e -o &lt;Path to output folder&gt;</span><br></pre></td></tr></table></figure></p><p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t 111.jmx -l report\01-result.csv -e -o report\01-Dashboard</span><br></pre></td></tr></table></figure></p><p>运行完成之后，会在report文件夹下，生成一个<code>01-Dashboard</code>文件夹，浏览器打开<code>index.html</code>就是一个很完整的<strong>Report Dashboard</strong></p><p>效果图：<br><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g4mecnxu8xj21h30phmyo.jpg" alt="dashboard"></p><p>响应时间图<br><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g4medfxay2j21gz0q60uk.jpg" alt></p><p>另一种生成dashboard的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generation from an existing sample CSV log file（从结果csv文件产生）</span><br><span class="line">jmeter -g &lt;log file&gt; -o &lt;Path to output folder&gt;</span><br></pre></td></tr></table></figure></p><p>这是在已经执行完测试，生成了csv的测试结果</p><h3 id="Jmeter几条常用命令"><a href="#Jmeter几条常用命令" class="headerlink" title="Jmeter几条常用命令"></a>Jmeter几条常用命令</h3><p>算是自己平时可能用的比较多的：</p><h4 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h4><p>jmeter命令行模式（脚本和jmeter.bat在一个目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t test1.jmx  -r -l report\01-result.csv -j report\01-log.log（分布式）</span><br><span class="line"></span><br><span class="line">jmeter -n -t APP.jmx   -l report\01-result.csv -j report\01-log.log（单台）</span><br></pre></td></tr></table></figure></p><p>顺便记点不相关的：<br>iostat安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y sysstat</span><br></pre></td></tr></table></figure></p><p>htop安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line"></span><br><span class="line">yum install htop</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Jmeter生成Report Dashboard&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+  </entry>
   
   <entry>
     <title>Jmeter使用Grafana展示</title>
@@ -440,28 +462,6 @@
     <summary type="html">
     
       &lt;p&gt;几个测试问题思考&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="生活" scheme="http://tokyle.com/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-      <category term="lives" scheme="http://tokyle.com/tags/lives/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>闲谈测试理论</title>
-    <link href="http://tokyle.com/2019/05/28/%E9%97%B2%E8%B0%88%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA/"/>
-    <id>http://tokyle.com/2019/05/28/闲谈测试理论/</id>
-    <published>2019-05-28T09:37:16.000Z</published>
-    <updated>2019-05-28T09:37:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>闲谈测试理论</p><a id="more"></a><h3 id="测试理念"><a href="#测试理念" class="headerlink" title="测试理念"></a>测试理念</h3><p>也是个人的测试坚持吧，有很多，最在意的几条</p><p><strong>不为进度牺牲质量</strong></p><p><strong>软件测试，绝对不存在随便点点</strong></p><p><strong>测试人员要全力关注的是测试设计</strong></p><p><strong>测试工程师，是产品的第一批用户，关注用户满意度</strong></p><h3 id="测试工作"><a href="#测试工作" class="headerlink" title="测试工作"></a>测试工作</h3><h4 id="从需求出发"><a href="#从需求出发" class="headerlink" title="从需求出发"></a>从需求出发</h4><p>软件产品的设计、研发、测试、投产，一定是为了满足一定的需求，PRD（产品需求文档）所描述的产品需求，是切研发、测试开展的基础。或许现在很多公司号称敏捷开发， 没有PRD，那也一定会在类似wiki上有相应的记载，如果这个也没有，那产品最终的质量是很值得怀疑的，毕竟一点需求痕迹都没有，那测试人员的测试根据，就只是开发实现了，比起PO的需求，已经产生了很大的偏差。</p><p>测试人员进行软件测试必须从需求出发。首先要全面了解需求，包括其背景、关联性、用户特点等；其次要深入挖掘隐含的需求和关联，包括某个需求隐含了 对于系统现有功能的修改等等。 我们只有在全面、深入了解需求的基础上，才能设计全面、有效的测试用例来进行测试，以满足对于软件产品满足需求的基本质量保证。</p><h4 id="测试设计"><a href="#测试设计" class="headerlink" title="测试设计"></a>测试设计</h4><p>测试活动，最应该关注的是测试设计，而不是最后冷冰冰的执行了多少多少用例，提交了多少多少bug。</p><p>测试设计的基础是对于需求的全面理解，并且在需求的基础上，对于需求实现的设计进行一定的了解；很多测试人员进行测试活动的依据都是需求文档，而忽略了开发的逻辑设计这一块；如果可以进行一定的开发设计分析的话，可以帮助我们测试人员更加全面的进行质量验证（有些时候，开发是可以实现需求，但是会出现数组溢出等问题，这样的问题，在其他地方可能就会引起重大的bug）</p><p>个人觉得，关注测试设计，才是关注了软件测试之道</p><h4 id="测试目标"><a href="#测试目标" class="headerlink" title="测试目标"></a>测试目标</h4><p>需要明确的是，软件测试，是在生命周期的接近最末端，单单靠测试，是无法保证软件质量的，测试人员，是软件质量的验证者，并不是保障，软件质量需要整个生命周期，整个团队一起努力。</p><p>软件测试并不能保证测试活动结束之后，产品没有bug，这是不现实的，没有一个软件产品可以号称自己没有bug，同样，这也不是测试的目标。</p><p>引用网上看到的一句话：<br><strong>测试活动-是一个运用测试的思维和各种测试理论及方法，将所测试的软件产品的每一个功能都改变成一组特定的输入和一组特定的输出一一确定对应的形式，形成测试用例，然后待开发人员提交测试后，在测试环境部署被测程序，根据测试用例进行主动测试的过程。</strong></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;闲谈测试理论&lt;/p&gt;
     
     </summary>
     

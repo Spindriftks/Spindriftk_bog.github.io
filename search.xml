@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter生成Report Dashboard]]></title>
+    <url>%2F2019%2F07%2F02%2FJmeter%E7%94%9F%E6%88%90Report-Dashboard%2F</url>
+    <content type="text"><![CDATA[Jmeter生成Report Dashboard Report DashboardJmeter最后生成的测试结果报告一直是被吐槽的，今天翻官方教程时候，发现，人家报告根本就很好看啊，自己不会用。。 Generating Report Dashboard 生成方法很简单，命令行运行jmeter脚本即可，格式：1jmeter -n -t &lt;test JMX file&gt; -l &lt;test log file&gt; -e -o &lt;Path to output folder&gt; 示例：1jmeter -n -t 111.jmx -l report\01-result.csv -e -o report\01-Dashboard 运行完成之后，会在report文件夹下，生成一个01-Dashboard文件夹，浏览器打开index.html就是一个很完整的Report Dashboard 效果图： 响应时间图 另一种生成dashboard的方式：12Generation from an existing sample CSV log file（从结果csv文件产生）jmeter -g &lt;log file&gt; -o &lt;Path to output folder&gt; 这是在已经执行完测试，生成了csv的测试结果 Jmeter几条常用命令算是自己平时可能用的比较多的： 命令行模式jmeter命令行模式（脚本和jmeter.bat在一个目录）123jmeter -n -t test1.jmx -r -l report\01-result.csv -j report\01-log.log（分布式）jmeter -n -t APP.jmx -l report\01-result.csv -j report\01-log.log（单台） 顺便记点不相关的：iostat安装：1yum install -y sysstat htop安装：123yum -y install epel-releaseyum install htop]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>Jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Jmeter使用Grafana展示]]></title>
     <url>%2F2019%2F06%2F27%2FJmeter%E4%BD%BF%E7%94%A8Grafana%E5%B1%95%E7%A4%BA%2F</url>
     <content type="text"><![CDATA[Jmeter使用Grafana展示 之前写过一个Jmeter + Influxdb + Grafana实时展示测试结果： 使用Grafana展示Jmeter数据 之前使用的Backend Listener选择的是org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender 现在直接使用org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender更简单一点 安装influxdb 安装： 12wget https://dl.influxdata.com/influxdb/releases/influxdb-1.7.6.x86_64.rpmsudo yum localinstall influxdb-1.7.6.x86_64.rpm 启动： 12345加自启动：systemctl enable influxdb启服务：systemctl start influxdb 建库： 进控制台：1234[root@tokyle influxdb]# influxConnected to http://localhost:8086 version 1.6.1InfluxDB shell version: 1.6.1&gt; 建库12345678910111213# 建库create database jmeterdb; # 建存储策略CREATE RETENTION POLICY &quot;jmeter_7d&quot; ON &quot;jmeterdb&quot; DURATION 7d REPLICATION 1 DEFAULT;# 查看存储策略show retention policies on jmeterdb;name duration shardGroupDuration replicaN default---- -------- ------------------ -------- -------autogen 0s 168h0m0s 1 falsejmeter_7d 168h0m0s 24h0m0s 1 true 安装grafana 安装 12wget https://dl.grafana.com/oss/release/grafana-6.2.5-1.x86_64.rpm sudo yum localinstall grafana-6.2.5-1.x86_64.rpm 启动 12345systemctl daemon-reloadsystemctl start grafana-serversystemctl status grafana-server 进官网，下载Jmter标准模板。。。 Grafana-Jmeter模板 可以直接下载Json，然后进grafana web页面，导入dashboard即可 Jmeter配置主要就是配置一个Backend Listener 需要修改部分： influxdbUrl: IP改为自己influxdb的IP application：自定义一个应用名称，后面grafana要用到 summaryOnly：false 然后就可以直接运行jmeter跑结果了，在grafana中可以直观的呈现： Jmeter MetricsJmter对接influxdb之后，可以在表里找到很多的字段，翻jmeter官网，看看各个metric的含义 Jmeter官网Metrics教程 线程/虚拟用户 Item 含义 minAT 最小活跃线程（虚拟用户） maxAT 最大活跃线程（虚拟用户） meanAT 平均活跃线程（虚拟用户） startedT started threads运行中的线程？ endedT Finished thread停止的线程 响应时间 Item 含义 .ok.count 成功的请求数 .h.count/hit QPS .ok.min 最小成功请求响应时间 .ok.max 最大成功请求响应时间 .ok.avg 成功请求平均响应时间 .ok.pct 请求成功率 .a.count 总请求数（成功+失败） .sb.bytes 发送数据量（Bytes） .rb.bytes 接收数据量（Bytes） countError 错误数 pct90.0 90%响应时间 pct95.0 95%响应时间 pct99.0 99%响应时间]]></content>
@@ -634,8 +645,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -702,8 +713,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>grafana</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -853,8 +864,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
