@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-07-04T07:01:00.237Z</updated>
+  <updated>2019-07-05T06:12:24.614Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python3 MD5加密</title>
+    <link href="http://tokyle.com/2019/07/05/python3-MD5%E5%8A%A0%E5%AF%86/"/>
+    <id>http://tokyle.com/2019/07/05/python3-MD5加密/</id>
+    <published>2019-07-05T06:11:31.000Z</published>
+    <updated>2019-07-05T06:12:24.614Z</updated>
+    
+    <content type="html"><![CDATA[<p>python3 MD5加密</p><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*-coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">@author: kyle</span><br><span class="line">@time: 2019/7/5 13:09</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import time</span><br><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line"># ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;</span><br><span class="line"># cd63c0e512a99aeabc73d1e6b9f26cbe</span><br><span class="line"></span><br><span class="line"># m = hashlib.md5(&apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;.</span><br><span class="line">#                 encode(encoding=&apos;utf-8&apos;)).hexdigest()</span><br><span class="line"></span><br><span class="line"># 生成13位时间戳</span><br><span class="line">timestamp = int(time.time()*1000)</span><br><span class="line">strs= &apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&apos;</span><br><span class="line"></span><br><span class="line">md5str = strs + str(timestamp) + &apos;_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;</span><br><span class="line"># print(md5str)</span><br><span class="line"></span><br><span class="line"># 加密</span><br><span class="line">m = hashlib.md5(md5str.encode(encoding=&apos;utf-8&apos;)).hexdigest()</span><br><span class="line"></span><br><span class="line">print(&quot;md5sss:&quot; + m +&quot;&lt;&gt;&quot;)</span><br></pre></td></tr></table></figure><p>在windows下放在英文文件路径下，再创建一个.bat脚本：<code>python xxx.python</code><br>配合Jmeter的<code>OS Process Sampler</code>完成jmeter调用python实现MD5加密，之前写过HmacSHA256加密的</p><blockquote><p><a href="https://tokyle.com/2019/04/23/Jmeter%E8%B0%83%E7%94%A8python%E5%AE%8C%E6%88%90HmacSHA256%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/">Jmeter调用python完成HmacSHA256加密处理</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;python3 MD5加密&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+      <category term="python3" scheme="http://tokyle.com/tags/python3/"/>
+    
+      <category term="MD5" scheme="http://tokyle.com/tags/MD5/"/>
+    
+  </entry>
   
   <entry>
     <title>一些测试杂说</title>
@@ -446,29 +472,6 @@
       <category term="Hexo" scheme="http://tokyle.com/tags/Hexo/"/>
     
       <category term="https" scheme="http://tokyle.com/tags/https/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker简单使用（二）</title>
-    <link href="http://tokyle.com/2019/06/11/docker%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>http://tokyle.com/2019/06/11/docker简单使用（二）/</id>
-    <published>2019-06-11T08:06:36.000Z</published>
-    <updated>2019-06-11T08:07:36.209Z</updated>
-    
-    <content type="html"><![CDATA[<p>docker简单使用（二）</p><p>Dockerfile简介一<br><a id="more"></a></p><h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><p>Dockerfile是一个包含一条条指令的文本文件，其中每一条指令都构建一层（每一条指令的内存，就是描述该层应当如何构建）（docker镜像采用联合文件系统）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">联合文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。</span><br></pre></td></tr></table></figure><p>Dockerfile使用示例，建立一个空白文件夹，进去文件夹，创建Dockerfile，编辑Dockerfile，编写指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir nginxtest</span><br><span class="line"></span><br><span class="line">cd nginxtest</span><br><span class="line"></span><br><span class="line">vim Dockerfile</span><br></pre></td></tr></table></figure></p><p>Dockerfile内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM nginx</span><br><span class="line"></span><br><span class="line">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</span><br></pre></td></tr></table></figure></p><p>在当前文件夹，构建镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginxtest]# docker build -t nginx:v3 .</span><br><span class="line">Sending build context to Docker daemon  2.048kB</span><br><span class="line">Step 1/2 : FROM nginx</span><br><span class="line"> ---&gt; 62c261073ecf</span><br><span class="line">Step 2/2 : RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</span><br><span class="line"> ---&gt; Running in c20926fff810</span><br><span class="line">Removing intermediate container c20926fff810</span><br><span class="line"> ---&gt; 6ee9e7b88db2</span><br><span class="line">Successfully built 6ee9e7b88db2</span><br><span class="line">Successfully tagged nginx:v3</span><br></pre></td></tr></table></figure></p><p>注意docker build最后有个<code>.</code>表示镜像构建的上下文（Context）</p><h3 id="镜像构建上下文（Context）"><a href="#镜像构建上下文（Context）" class="headerlink" title="镜像构建上下文（Context）"></a>镜像构建上下文（Context）</h3><p>说实话，网上全是抄的一模一样的，全部来去《docker practice》，我也说不好自己理解的是对是错。。</p><p>首先，我也抄一下，docker其实是C/S架构，在执行docker build的时候，其实是有和server端（Docker引擎，服务端守护进程）进行交互。<br>Docker运行时，Docker引擎提供一组REST API，docker命令这样的客户端，就是通过这组API与Docker引擎交互，从而完成各种功能。<br>因此，在进行docker build的时候，看起来像是在本地进行构建，实际上，是先将上下文定义的路径下构建需要的包上传到Docker引擎，在Docker引擎处（服务端）完成构建。之前进行构建示例时候，有一行可以看出，和server进行了交互：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sending build context to Docker daemon  2.048kB</span><br></pre></td></tr></table></figure></p><p>在Dockerfile中经常会需要用到COPY，服务器在执行构建的时候，就需要知道copy的文件的地址，也就是上下文路径，需要注意的是，Docker的镜像构建上下文，即不是docker build执行的路径，也不是Dockerfile当前所在的目录。默认情况下，是建议创建一个空文件夹，然后将构建需要的文件和Dockerfile都放在该文件夹下，这样理所当然的Dockerfile所在路径就是上下文路径。<br>（说实话，这个上下文，有点晕，不是很理解，我只能理解成是构建需要的文件所在的路径为上下文；也就是为什么要创建一个空文件夹，将构建需要的文件和Dockerfile放进该文件夹的原因）<br>一定要记住，<strong>千万不要把Dockerfile放在根目录，不然会打包整个硬盘</strong></p><p>一些Dockerfile指令示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COPY ./package.json /etc/</span><br><span class="line">COPY pachage.json /etc/</span><br></pre></td></tr></table></figure></p><p>上述两句效果是一样的，都是讲上下文下的<code>package.json</code>拷贝到镜像里面的<code>/etc/</code>下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY /usr/local/nginx/nginx.conf /etc/nginx/</span><br></pre></td></tr></table></figure><p>上面这条，会无法工作，因为<code>/usr/local/nginx/nginx.conf</code>已经超出了上下文范文，服务端无法获取该文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f /usr/kyle/dockertest/a/Dockerfile .</span><br></pre></td></tr></table></figure></p><p>当Dockerfile不在构建上下文的根目录下，可以-f指定该文件位置（当前执行docker build在构建上下文下，可以理解为，当前有个空文件夹，里面是构建需要的文件，但是Dockerfile不在当前文件夹下，可以通过-f指定）</p><h4 id="dockerignore"><a href="#dockerignore" class="headerlink" title=".dockerignore"></a>.dockerignore</h4><p>现在上下文中有不想上传到服务端的文件，就需要使用<code>.dockerignore</code>，例如当前文件夹下有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mynginx]# ls -al</span><br><span class="line">总用量 20</span><br><span class="line">drwxr-xr-x  2 root root  96 6月  11 15:23 .</span><br><span class="line">drwxr-xr-x. 6 root root 147 6月  11 11:07 ..</span><br><span class="line">-rw-r--r--  1 root root  99 6月  11 15:22 Dockerfile</span><br><span class="line">-rw-r--r--  1 root root  10 6月  11 15:23 .dockerignore</span><br><span class="line">-rw-r--r--  1 root root  33 6月  11 15:20 text1.txt</span><br><span class="line">-rw-r--r--  1 root root  37 6月  11 15:20 text2.txt</span><br><span class="line">-rw-r--r--  1 root root  19 6月  11 15:22 text3.txt</span><br></pre></td></tr></table></figure></p><p>不想把text3.txt上传到server，其中Dockerfile内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM nginx</span><br><span class="line">COPY text* /home/</span><br><span class="line">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</span><br></pre></td></tr></table></figure></p><p>这样，只需要编辑<code>.dockerignore</code>，将text3.txt添加进去，然后构建镜像即可<br>可以起容器，进去验证：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mynginx]# docker run --name web2 -d -p 8070:80 nginx:v4</span><br><span class="line">76527bd2b0f601e4fa844b9ed3afc4f29da65ee1d202fca6ee6c81380591ad0a</span><br><span class="line">[root@localhost mynginx]# </span><br><span class="line">[root@localhost mynginx]# docker exec -it web2 bash</span><br><span class="line">root@76527bd2b0f6:/# cd /home</span><br><span class="line">root@76527bd2b0f6:/home# ls</span><br><span class="line">text1.txt  text2.txt</span><br></pre></td></tr></table></figure></p><p>可以看到，已经忽略了text3.txt</p><p>tips：<strong>删除镜像</strong>：<code>docker rmi imageid</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mynginx]# docker rmi a59be9875db4</span><br><span class="line">Untagged: nginx:v4</span><br><span class="line">Deleted: sha256:a59be9875db4025dcdab5a26c239302eec9bea47427b04eaa02e2111a800d2ec</span><br><span class="line">Deleted: sha256:7cc4283ef786efa1f9e2885533d3c3eb815a273548f5e7bbfda777726173a7b9</span><br><span class="line">Deleted: sha256:9e87263adf6572244788519ce5c9338c3e70b6e62cc6f1092e9b257a487ecb3c</span><br><span class="line">Deleted: sha256:79b76358156ea32a59800f6d4600a8ce79cc3798cd0ddfcad3362a014f96b397</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;docker简单使用（二）&lt;/p&gt;
-&lt;p&gt;Dockerfile简介一&lt;br&gt;
-    
-    </summary>
-    
-      <category term="容器化" scheme="http://tokyle.com/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/"/>
-    
-    
-      <category term="docker" scheme="http://tokyle.com/tags/docker/"/>
     
   </entry>
   
