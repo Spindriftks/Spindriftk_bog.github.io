@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[python3 MD5加密]]></title>
     <url>%2F2019%2F07%2F05%2Fpython3-MD5%E5%8A%A0%E5%AF%86%2F</url>
-    <content type="text"><![CDATA[python3 MD5加密 123456789101112131415161718192021222324252627#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/5 13:09&quot;&quot;&quot;import timeimport hashlib# ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;# cd63c0e512a99aeabc73d1e6b9f26cbe# m = hashlib.md5(&apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;.# encode(encoding=&apos;utf-8&apos;)).hexdigest()# 生成13位时间戳timestamp = int(time.time()*1000)strs= &apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&apos;md5str = strs + str(timestamp) + &apos;_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;# print(md5str)# 加密m = hashlib.md5(md5str.encode(encoding=&apos;utf-8&apos;)).hexdigest()print(&quot;md5sss:&quot; + m +&quot;&lt;&gt;&quot;) 在windows下放在英文文件路径下，再创建一个.bat脚本：python xxx.python配合Jmeter的OS Process Sampler完成jmeter调用python实现MD5加密，之前写过HmacSHA256加密的 Jmeter调用python完成HmacSHA256加密处理]]></content>
+    <content type="text"><![CDATA[python3 MD5加密 123456789101112131415161718192021222324252627#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/5 13:09&quot;&quot;&quot;import timeimport hashlib# ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;# cd63c0e512a99aeabc73d1e6b9f26cbe# m = hashlib.md5(&apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;.# encode(encoding=&apos;utf-8&apos;)).hexdigest()# 生成13位时间戳timestamp = int(time.time()*1000)strs= &apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&apos;md5str = strs + str(timestamp) + &apos;_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;# print(md5str)# 加密m = hashlib.md5(md5str.encode(encoding=&apos;utf-8&apos;)).hexdigest()print(&quot;md5sss:&quot; + m +&quot;&lt;&gt;&quot;) 在windows下放在英文文件路径下，再创建一个.bat脚本：python xxx.python配合Jmeter的OS Process Sampler完成jmeter调用python实现MD5加密，之前写过HmacSHA256加密的 Jmeter调用python完成HmacSHA256加密处理 附上loadrunner MD5实现（C语言真一窍不通） 1234567891011121314151617181920212223Action()&#123; char* va1; char* va2; char* va3; char sign[500]; web_save_timestamp_param(&quot;tStamp&quot;, LAST); va1=&quot;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&quot;; va2=&quot;&#123;tStamp&#125;&quot;;// va2=&quot;1561529340474&quot;; va3=&quot;_&#123;\&quot;searchText\&quot;:\&quot;鍚村嚡\&quot;&#125;&quot;; strcat(sign,va1); strcat(sign,va2); strcat(sign,va3); lr_output_message(&quot;%s&quot;,CMd5(sign)); return 0;&#125;]]></content>
       <categories>
         <category>性能测试</category>
       </categories>
@@ -55,8 +55,8 @@
       </categories>
       <tags>
         <tag>grafana</tag>
-        <tag>Influxdb</tag>
         <tag>Jmeter</tag>
+        <tag>Influxdb</tag>
       </tags>
   </entry>
   <entry>
@@ -538,8 +538,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -935,9 +935,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1426,8 +1426,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1561,8 +1561,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1620,8 +1620,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1633,8 +1633,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>

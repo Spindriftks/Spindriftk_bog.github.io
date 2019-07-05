@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="它夏了夏天">
 <meta property="og:description" content="python3 MD5加密">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-05T06:12:24.614Z">
+<meta property="og:updated_time" content="2019-07-05T08:25:37.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python3 MD5加密">
 <meta name="twitter:description" content="python3 MD5加密">
@@ -321,6 +321,8 @@
 <blockquote>
 <p><a href="https://tokyle.com/2019/04/23/Jmeter%E8%B0%83%E7%94%A8python%E5%AE%8C%E6%88%90HmacSHA256%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/">Jmeter调用python完成HmacSHA256加密处理</a></p>
 </blockquote>
+<p>附上loadrunner MD5实现（C语言真一窍不通）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Action()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	char* va1;</span><br><span class="line">	char* va2;</span><br><span class="line">	char* va3;</span><br><span class="line">	char sign[500];</span><br><span class="line">	</span><br><span class="line">	web_save_timestamp_param(&quot;tStamp&quot;, LAST);</span><br><span class="line"></span><br><span class="line">	va1=&quot;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&quot;;</span><br><span class="line">	va2=&quot;&#123;tStamp&#125;&quot;;</span><br><span class="line">//	va2=&quot;1561529340474&quot;;</span><br><span class="line">	va3=&quot;_&#123;\&quot;searchText\&quot;:\&quot;鍚村嚡\&quot;&#125;&quot;;</span><br><span class="line">	 </span><br><span class="line">	strcat(sign,va1);</span><br><span class="line">	strcat(sign,va2);</span><br><span class="line">	strcat(sign,va3);</span><br><span class="line">	</span><br><span class="line">	lr_output_message(&quot;%s&quot;,CMd5(sign));</span><br><span class="line">		</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -332,7 +334,7 @@
         <p><span>本文标题:</span><a href="/2019/07/05/python3-MD5加密/">python3 MD5加密</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
         <p><span>发布时间:</span>2019-07-05, 02:11:31</p>
-        <p><span>最后更新:</span>2019-07-05, 02:12:24</p>
+        <p><span>最后更新:</span>2019-07-05, 04:25:37</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/07/05/python3-MD5加密/" title="python3 MD5加密">http://tokyle.com/2019/07/05/python3-MD5加密/</a>
             <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/07/05/python3-MD5加密/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
