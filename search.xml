@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[NumPy中的轴-维度-秩]]></title>
+    <url>%2F2019%2F07%2F09%2FNumPy%E4%B8%AD%E7%9A%84%E8%BD%B4-%E7%BB%B4%E5%BA%A6-%E7%A7%A9%2F</url>
+    <content type="text"><![CDATA[NumPy中的轴-维度-秩 看了某个要求，需要numpy和pandas，先看了numpy，才看到NumPy数组，就已经懵了，NumPy的维度（dimension）、轴（axis）和秩（rank）这几个概念有点绕。 关于维度：In NumPy dimension are called axes。意思是维度称为轴，和学生时代学习的对比，一维不谈，二维空间（x轴和y轴），只需要对应的x和y坐标，就能在二维空间中确定一个点；三维空间（x轴、y轴和z轴），只需要x坐标，y坐标和z坐标，就能在三维空间确定一个固定的点。类比到NumPy中，一维数组，轴的个数就为一；二维数组，轴的个数就为二。 而秩（rank）就是轴的数量，一维数组，秩是1，二维数组，秩是2这样。 NumPy可以用ndim和shape来获取秩和维度源码：1234567891011ndim = property(lambda self: object(), lambda self, v: None, lambda self: None) # default &quot;&quot;&quot;Number of array dimensions. Examples -------- &gt;&gt;&gt; x = np.array([1, 2, 3]) &gt;&gt;&gt; x.ndim 1 &gt;&gt;&gt; y = np.zeros((2, 3, 4)) &gt;&gt;&gt; y.ndim 3&quot;&quot;&quot; 秩是维度的数量（轴的数量）123456789101112131415shape = property(lambda self: object(), lambda self, v: None, lambda self: None) # default &quot;&quot;&quot;Tuple of array dimensions. The shape property is usually used to get the current shape of an array, but may also be used to reshape the array in-place by assigning a tuple of array dimensions to it. As with `numpy.reshape`, one of the new shape dimensions can be -1, in which case its value is inferred from the size of the array and the remaining dimensions. Reshaping an array in-place will fail if a copy is required. Examples -------- &gt;&gt;&gt; x = np.array([1, 2, 3, 4]) &gt;&gt;&gt; x.shape (4,) 直接用例子来辅助理解： 首先记住：NumPy对于轴的编号由外向内，从行到列。 一维数组：1234567891011import numpy as np# 一维数组a = np.array([1, 2, 3])print(a.ndim)print(a.shape)# 输出结果1(3,) 示例的一维数组，秩为1，维度返回值(3,)，表示该数组在一维空间，有三个数据 二维数组：12345678# 二维数组a = np.array([[1, 2, 3], [4, 5, 6]])print(a.ndim)print(a.shape)# 输出2(2, 3) 示例二维数据，秩为2，维度返回值(2, 3)，表示该二维数组有两行三列(0轴长度为2,1轴长度为3)示意图： 二维数组中，轴0表示数组的行，轴1表示数组的列 二维数组，可以看做是在0轴方向叠加一维数组，相应的，数组求和，0轴方向结果应该为：[5, 7, 9]，1轴方向结果应该为[6, 15]验证一下：123456print(a.sum(axis=0))print(a.sum(axis=1))# 输出[5 7 9][ 6 15] 三维数组：123456789101112131415161718192021# 三维数组a = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]]])b = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])c = np.array([[[1, 2, 3]]])# print(a)print(a.ndim)print(a.shape)print(b.ndim)print(b.shape)print(c.ndim)print(c.shape)# 输出3(3, 2, 3)3(2, 2, 3)3(1, 1, 3) 以a为例，秩为3，数组维度返回（3, 2, 3），表示0轴长度为3,1轴长度为2,2轴长度为3,示意图： 从示意图可以看出，三维数组可以理解为二维数组在0轴方向的叠加；0轴方向求和，结果应该是个二维数组：[[21, 24, 27], [30, 33, 36]]1轴方向求和，结果应该是二维数组：[[5, 7, 9], [17, 19, 21], [29, 31, 33]]2轴方向求和，结果应该是二维数组：[[6, 15], [24, 33], [42, 51]]验证求和计算：123456789101112131415print(a.sum(axis=0))print(a.sum(axis=1))print(a.sum(axis=2))# 结果输出[[21 24 27] [30 33 36]]=====================[[ 5 7 9] [17 19 21] [29 31 33]]*********************[[ 6 15] [24 33] [42 51]] 对于更高维度的数组，其实可以采用“降维”的方式进行处理，例如四维数组：12345678a = np.array([[[1, 2, 3, 4], [5, 6, 7, 8]], [[9, 10, 11, 12], [13, 14, 15, 16]]])print(a)[[[ 1 2 3 4] [ 5 6 7 8]] [[ 9 10 11 12] [13 14 15 16]]] 可以这么看：A=[1, 2, 3, 4]B=[5, 6, 7, 8]C=[9, 10, 11, 12]D=[13, 14, 15, 16] 原数组就可以重新表示成：[[A, B], [C, D]]，一个二维数组示意图： 此时进行数组求和，是按照向量进行加减法1234567891011121314151617181920212223# 三维数组# a = np.array([[A, B], [C, D]])# A=[1, 2, 3, 4]# B=[5, 6, 7, 8]# C=[9, 10, 11, 12]# D=[13, 14, 15, 16]# 二维数组，1轴方向# A+B=[1+5, 2+6, 3+7, 4+8]=[6, 8, 10, 12]# C+D=[9+13, 10+14, 11+15, 12+16]=[22, 24, 26, 28]# 原数组1轴方向求和结果：[[6, 8, 10, 12], [22, 24, 26, 28]]# 二维数组，0方向# A+C=[1+9, 2+10, 3+11, 4+12]=[10, 12, 14, 16]# B+D=[5+13, 6+14, 7+15, 8+16]=[18, 20, 22, 24]# 原数组0轴方向求和结果：[[10, 12, 14, 16], [18, 20, 22, 24]]# 原数组2轴方向求和结果即为每个一维数组内元素之和:A=10,B=26,C=42,D=58 --&gt; [[10, 26], [42, 58]]a = np.array([[[1, 2, 3, 4], [5, 6, 7, 8]], [[9, 10, 11, 12], [13, 14, 15, 16]]])# print(a)print(a.sum(axis=0))print(&quot;====================&quot;)print(a.sum(axis=1))print(&quot;....................&quot;)print(a.sum(axis=2)) 结果验证：12345678[[10 12 14 16] [18 20 22 24]]====================[[ 6 8 10 12] [22 24 26 28]]....................[[10 26] [42 58]]]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>NumPy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[python3 MD5加密]]></title>
     <url>%2F2019%2F07%2F05%2Fpython3-MD5%E5%8A%A0%E5%AF%86%2F</url>
     <content type="text"><![CDATA[python3 MD5加密 123456789101112131415161718192021222324252627#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/5 13:09&quot;&quot;&quot;import timeimport hashlib# ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;# cd63c0e512a99aeabc73d1e6b9f26cbe# m = hashlib.md5(&apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_1561529340474_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;.# encode(encoding=&apos;utf-8&apos;)).hexdigest()# 生成13位时间戳timestamp = int(time.time()*1000)strs= &apos;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&apos;md5str = strs + str(timestamp) + &apos;_&#123;&quot;searchText&quot;:&quot;吴凯&quot;&#125;&apos;# print(md5str)# 加密m = hashlib.md5(md5str.encode(encoding=&apos;utf-8&apos;)).hexdigest()print(&quot;md5sss:&quot; + m +&quot;&lt;&gt;&quot;) 在windows下放在英文文件路径下，再创建一个.bat脚本：python xxx.python配合Jmeter的OS Process Sampler完成jmeter调用python实现MD5加密，之前写过HmacSHA256加密的 Jmeter调用python完成HmacSHA256加密处理 附上loadrunner MD5实现（C语言真一窍不通） 1234567891011121314151617181920212223Action()&#123; char* va1; char* va2; char* va3; char sign[500]; web_save_timestamp_param(&quot;tStamp&quot;, LAST); va1=&quot;ZHTTest_f9768ce9e3acd3a743724c8128692d5d_&quot;; va2=&quot;&#123;tStamp&#125;&quot;;// va2=&quot;1561529340474&quot;; va3=&quot;_&#123;\&quot;searchText\&quot;:\&quot;鍚村嚡\&quot;&#125;&quot;; strcat(sign,va1); strcat(sign,va2); strcat(sign,va3); lr_output_message(&quot;%s&quot;,CMd5(sign)); return 0;&#125;]]></content>
@@ -55,8 +66,8 @@
       </categories>
       <tags>
         <tag>grafana</tag>
-        <tag>Influxdb</tag>
         <tag>Jmeter</tag>
+        <tag>Influxdb</tag>
       </tags>
   </entry>
   <entry>
@@ -538,8 +549,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -668,8 +679,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -935,9 +946,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1227,8 +1238,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1348,9 +1359,9 @@
       </categories>
       <tags>
         <tag>selenium</tag>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1387,8 +1398,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1400,9 +1411,9 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
         <tag>单元测试</tag>
+        <tag>python3</tag>
       </tags>
   </entry>
   <entry>
@@ -1425,10 +1436,10 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1476,8 +1487,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
+        <tag>python3</tag>
       </tags>
   </entry>
   <entry>
@@ -1488,8 +1499,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
+        <tag>python3</tag>
         <tag>数据分离</tag>
       </tags>
   </entry>
@@ -1561,8 +1572,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1620,8 +1631,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1633,8 +1644,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>自动化测试</tag>
         <tag>appium</tag>
+        <tag>自动化测试</tag>
       </tags>
   </entry>
   <entry>
