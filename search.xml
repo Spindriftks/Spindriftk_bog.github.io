@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[DES加解密（python3实现）]]></title>
+    <url>%2F2019%2F07%2F11%2FDES%E5%8A%A0%E8%A7%A3%E5%AF%86%EF%BC%88python3%E5%AE%9E%E7%8E%B0%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[DES加解密（python3实现） 安装工具包：pip install pyDes 加解密实现： 1234567891011121314151617181920212223242526272829303132333435363738394041#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/9 17:15&quot;&quot;&quot;import binasciifrom pyDes import des, PAD_PKCS5, ECBdef des_en(msg): &quot;&quot;&quot; DES 加密，分组方式 ECB，填充方式 PAD_PKCS5 :param msg: msg待加密字符串 :return: 返回加密后字符串,16进制 &quot;&quot;&quot; secret_key = &apos;IuFWKUut&apos; iv =secret_key key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5) entrymsg = key.encrypt(msg, padmode=PAD_PKCS5) return binascii.b2a_hex(entrymsg)def des_des(msg): &quot;&quot;&quot; DES 解密，分组方式 ECB，填充方式 PAD_PKCS5 :param msg: 16进制加密码 :return: 解密字符串 &quot;&quot;&quot; secret_key = &apos;IuFWKUut&apos; iv = secret_key key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5) desmsg = key.decrypt(binascii.a2b_hex(msg), padmode=PAD_PKCS5) return desmsgstr_en = des_en(&apos;DESTest&apos;)print(&quot;DES加密DESTest结果为： &quot; + str(str_en))str_des = des_des(str_en)print(&quot;DES解密结果为： &quot; + str(str_des)) 结果输出：12DES加密DESTest结果为： b&apos;9811175955dda6f9&apos;DES解密结果为： b&apos;DESTest&apos;]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>DES</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python-Requests练习（一）]]></title>
     <url>%2F2019%2F07%2F09%2FPython-Requests%E7%BB%83%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
     <content type="text"><![CDATA[Python-Requests练习（一） python requests包(接口自动化) 想看看requests包的东西，主要是为了接口自动化 安装不谈，直接pip install requests 应用安装有个httpbin网站可以用来练习requests的请求： 官网 不过为了防止IP因为过多请求被封，还是本地搭建一个吧 这边使用docker安装：12345安装：docker pull kennethreitz/httpbin运行：docker run --name httpbin -d -p 8088:80 kennethreitz/httpbin 成功之后，浏览器就可以访问：http://192.168.0.126:8088/ 快速入门最简单的用法： GET1234import requestsr = requests.get(&quot;http://192.168.0.126:8088/get&quot;)print(r.text) 返回1234567891011121314151617&#123; &quot;args&quot;: &#123;&#125;, &quot;data&quot;: &quot;&quot;, &quot;files&quot;: &#123;&#125;, &quot;form&quot;: &#123;&#125;, &quot;headers&quot;: &#123; &quot;Accept&quot;: &quot;*/*&quot;, &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, &quot;Connection&quot;: &quot;close&quot;, &quot;Content-Length&quot;: &quot;0&quot;, &quot;Host&quot;: &quot;192.168.0.126:8088&quot;, &quot;User-Agent&quot;: &quot;python-requests/2.21.0&quot; &#125;, &quot;json&quot;: null, &quot;origin&quot;: &quot;192.168.11.144&quot;, &quot;url&quot;: &quot;http://192.168.0.126:8088/put&quot;&#125; POST12r = requests.post(&quot;http://192.168.0.126:8088/post&quot;)print(r.text) PUT12r = requests.put(&quot;http://192.168.0.126:8088/put&quot;)print(r.text) DELETE12r = requests.delete(&quot;http://192.168.0.126:8088/delete&quot;)print(r.text) PATCH12r = requests.patch(&quot;http://192.168.0.126:8088/patch&quot;)print(r.text)]]></content>
@@ -690,8 +701,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -702,8 +713,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -921,8 +932,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -957,9 +968,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1249,8 +1260,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>

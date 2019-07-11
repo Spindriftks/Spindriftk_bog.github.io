@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-07-09T09:28:03.074Z</updated>
+  <updated>2019-07-11T08:59:20.227Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DES加解密（python3实现）</title>
+    <link href="http://tokyle.com/2019/07/11/DES%E5%8A%A0%E8%A7%A3%E5%AF%86%EF%BC%88python3%E5%AE%9E%E7%8E%B0%EF%BC%89/"/>
+    <id>http://tokyle.com/2019/07/11/DES加解密（python3实现）/</id>
+    <published>2019-07-11T08:57:43.000Z</published>
+    <updated>2019-07-11T08:59:20.227Z</updated>
+    
+    <content type="html"><![CDATA[<p>DES加解密（python3实现）</p><a id="more"></a><p>安装工具包：<code>pip install pyDes</code></p><p>加解密实现：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*-coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">@author: kyle</span><br><span class="line">@time: 2019/7/9 17:15</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">import binascii</span><br><span class="line">from pyDes import des, PAD_PKCS5, ECB</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def des_en(msg):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    DES 加密，分组方式 ECB，填充方式 PAD_PKCS5</span><br><span class="line">    :param msg: msg待加密字符串</span><br><span class="line">    :return: 返回加密后字符串,16进制</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    secret_key = &apos;IuFWKUut&apos;</span><br><span class="line">    iv =secret_key</span><br><span class="line">    key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5)</span><br><span class="line">    entrymsg = key.encrypt(msg, padmode=PAD_PKCS5)</span><br><span class="line">    return binascii.b2a_hex(entrymsg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def des_des(msg):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    DES 解密，分组方式 ECB，填充方式 PAD_PKCS5</span><br><span class="line">    :param msg: 16进制加密码</span><br><span class="line">    :return: 解密字符串</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    secret_key = &apos;IuFWKUut&apos;</span><br><span class="line">    iv = secret_key</span><br><span class="line">    key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5)</span><br><span class="line">    desmsg = key.decrypt(binascii.a2b_hex(msg), padmode=PAD_PKCS5)</span><br><span class="line">    return desmsg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">str_en = des_en(&apos;DESTest&apos;)</span><br><span class="line">print(&quot;DES加密DESTest结果为： &quot; + str(str_en))</span><br><span class="line"></span><br><span class="line">str_des = des_des(str_en)</span><br><span class="line">print(&quot;DES解密结果为： &quot; + str(str_des))</span><br></pre></td></tr></table></figure><p>结果输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DES加密DESTest结果为： b&apos;9811175955dda6f9&apos;</span><br><span class="line">DES解密结果为： b&apos;DESTest&apos;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;DES加解密（python3实现）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="python基础" scheme="http://tokyle.com/categories/python%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="DES" scheme="http://tokyle.com/tags/DES/"/>
+    
+  </entry>
   
   <entry>
     <title>Python-Requests练习（一）</title>
@@ -439,29 +461,6 @@
     
       &lt;p&gt;docker简单使用（五）&lt;/p&gt;
 &lt;p&gt;仓库&lt;br&gt;
-    
-    </summary>
-    
-      <category term="容器化" scheme="http://tokyle.com/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/"/>
-    
-    
-      <category term="docker" scheme="http://tokyle.com/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker简单使用（四）</title>
-    <link href="http://tokyle.com/2019/06/13/docker%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%EF%BC%88%E5%9B%9B%EF%BC%89/"/>
-    <id>http://tokyle.com/2019/06/13/docker简单使用（四）/</id>
-    <published>2019-06-13T06:48:29.000Z</published>
-    <updated>2019-06-13T06:49:04.406Z</updated>
-    
-    <content type="html"><![CDATA[<p>docker简单使用（四）</p><p>Docker容器操作<br><a id="more"></a></p><h3 id="容器启动"><a href="#容器启动" class="headerlink" title="容器启动"></a>容器启动</h3><h4 id="新建并启动"><a href="#新建并启动" class="headerlink" title="新建并启动"></a>新建并启动</h4><p>构建完镜像之后，启动容器<br>例如：<code>docker run -it ubintu:16.04 bash</code>，启ubuntu，并开启交互终端</p><h4 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h4><p>容器已经关闭，可以使用<code>docker container start containerID(或name)</code>启动<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker run --name web1 -d -p 8088:80 nginx</span><br><span class="line">73a5c1a3ac2300f6e2317ae39c9571b84be07e44beb92fcb98b41ee68aa6672a</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                          PORTS                  NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   14 seconds ago      Up 4 seconds                    0.0.0.0:8088-&gt;80/tcp   web1</span><br></pre></td></tr></table></figure></p><p>关掉容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker kill 73a5c1a3ac23</span><br><span class="line">73a5c1a3ac23</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                        PORTS               NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   About a minute ago   Exited (137) 14 seconds ago                       web1</span><br></pre></td></tr></table></figure></p><p>重新启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost myuser2]# docker container start 73a5c1a3ac23</span><br><span class="line">73a5c1a3ac23</span><br><span class="line"></span><br><span class="line">[root@localhost myuser2]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                     PORTS                  NAMES</span><br><span class="line">73a5c1a3ac23        nginx               &quot;nginx -g &apos;daemon of…&quot;   About a minute ago   Up 9 seconds               0.0.0.0:8088-&gt;80/tcp   web1</span><br></pre></td></tr></table></figure></p><p><code>docker container start -i  5879098886bf</code>以交互模式重启</p><h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><p>推荐<code>docker exec</code>，交互模式：<code>docker exec -it container</code></p><h3 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h3><p>可以<code>docker container stop containerid(name)</code><br>也可以暴力的<code>dokcer kill containerid</code></p><h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><p><code>docker rm containerid</code></p><p>删除镜像：<code>docker rmi imageid</code></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;docker简单使用（四）&lt;/p&gt;
-&lt;p&gt;Docker容器操作&lt;br&gt;
     
     </summary>
     
