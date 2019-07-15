@@ -194,9 +194,9 @@
     
       <category term="grafana" scheme="http://tokyle.com/tags/grafana/"/>
     
-      <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
-    
       <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+      <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
     
   </entry>
   

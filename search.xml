@@ -88,8 +88,8 @@
       </categories>
       <tags>
         <tag>grafana</tag>
-        <tag>Influxdb</tag>
         <tag>Jmeter</tag>
+        <tag>Influxdb</tag>
       </tags>
   </entry>
   <entry>
@@ -571,8 +571,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -968,9 +968,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1459,8 +1459,8 @@
       </categories>
       <tags>
         <tag>python3</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
         <tag>nose</tag>
         <tag>ddt</tag>
       </tags>
@@ -1594,8 +1594,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1653,8 +1653,8 @@
         <category>appium</category>
       </categories>
       <tags>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
@@ -1666,8 +1666,8 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>appium</tag>
         <tag>自动化测试</tag>
+        <tag>appium</tag>
       </tags>
   </entry>
   <entry>
