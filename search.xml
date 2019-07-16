@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Grafana集成进自己web项目]]></title>
+    <url>%2F2019%2F07%2F16%2FGrafana%E9%9B%86%E6%88%90%E8%BF%9B%E8%87%AA%E5%B7%B1web%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[Grafana集成进自己的监控项目 可能有需求是将grafana的dashboard集成到自己的监控系统里面，这样就避免了进grafana再查看 方案有是有，可能有点不安全，建议实在要这么干的话： 尽量是公司内部玩，也就是纯内网操作； 找IT设置网络访问权限，只有公司IP可以访问监控系统和grafana的域名/IP； 以下是方法：嵌grafana监控dashboard，只需要在web监控iframe中嵌进去：1&lt;iframe src=&quot;http://192.168.0.1:3000/d/oidoT24Wk/apache-jmeter?refresh=5s&amp;orgId=1&quot; width=&quot;450&quot; height=&quot;200&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt; src后面放dashboard的页面即可 但是这样有个问题，直接打开，会跳转到登录页面，也就是想这么做的话，需要开启匿名登录 修改grafana配置文件: vim /etc/grafana/grafana.ini修改为123456789101112[auth.anonymous]# enable anonymous access# 去掉注释，改为true，允许匿名访问enabled = true# specify organization name that should be used for unauthenticated users# 匿名用户属于的组织org_name = Main Org.# specify role for unauthenticated users# 匿名用户的角色/权限org_role = Viewer 修改完之后，重启grafana即可:systemctl restart grafana-server]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>grafana</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[DES加解密（python3实现）]]></title>
     <url>%2F2019%2F07%2F11%2FDES%E5%8A%A0%E8%A7%A3%E5%AF%86%EF%BC%88python3%E5%AE%9E%E7%8E%B0%EF%BC%89%2F</url>
     <content type="text"><![CDATA[DES加解密（python3实现） 安装工具包：pip install pyDes 加解密实现： 1234567891011121314151617181920212223242526272829303132333435363738394041#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/9 17:15&quot;&quot;&quot;import binasciifrom pyDes import des, PAD_PKCS5, ECBdef des_en(msg): &quot;&quot;&quot; DES 加密，分组方式 ECB，填充方式 PAD_PKCS5 :param msg: msg待加密字符串 :return: 返回加密后字符串,16进制 &quot;&quot;&quot; secret_key = &apos;IuFWKUut&apos; iv =secret_key key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5) entrymsg = key.encrypt(msg, padmode=PAD_PKCS5) return binascii.b2a_hex(entrymsg)def des_des(msg): &quot;&quot;&quot; DES 解密，分组方式 ECB，填充方式 PAD_PKCS5 :param msg: 16进制加密码 :return: 解密字符串 &quot;&quot;&quot; secret_key = &apos;IuFWKUut&apos; iv = secret_key key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5) desmsg = key.decrypt(binascii.a2b_hex(msg), padmode=PAD_PKCS5) return desmsgstr_en = des_en(&apos;DESTest&apos;)print(&quot;DES加密DESTest结果为： &quot; + str(str_en))str_des = des_des(str_en)print(&quot;DES解密结果为： &quot; + str(str_des)) 结果输出：12DES加密DESTest结果为： b&apos;9811175955dda6f9&apos;DES解密结果为： b&apos;DESTest&apos;]]></content>
@@ -701,8 +712,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1260,8 +1271,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
@@ -1381,9 +1392,9 @@
       </categories>
       <tags>
         <tag>selenium</tag>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1420,8 +1431,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1433,9 +1444,9 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
         <tag>单元测试</tag>
+        <tag>python3</tag>
       </tags>
   </entry>
   <entry>
@@ -1458,10 +1469,10 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
         <tag>appium</tag>
         <tag>nose</tag>
+        <tag>python3</tag>
         <tag>ddt</tag>
       </tags>
   </entry>
@@ -1509,8 +1520,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
+        <tag>python3</tag>
       </tags>
   </entry>
   <entry>
@@ -1521,8 +1532,8 @@
         <category>自动化测试</category>
       </categories>
       <tags>
-        <tag>python3</tag>
         <tag>自动化测试</tag>
+        <tag>python3</tag>
         <tag>数据分离</tag>
       </tags>
   </entry>
