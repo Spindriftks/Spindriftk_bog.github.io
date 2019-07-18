@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python操作excel一些实现]]></title>
+    <url>%2F2019%2F07%2F18%2Fpython%E6%93%8D%E4%BD%9Cexcel%E4%B8%80%E4%BA%9B%E5%AE%9E%E7%8E%B0%2F</url>
+    <content type="text"><![CDATA[python操作excel一些实现 抽了点时间，把python使用openpyxl操作excel的一些实现封装了下，后面有需求直接用吧 numpytest.openexcel.py 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/18 13:17&quot;&quot;&quot;import openpyxldef load_excel(filename): &quot;&quot;&quot; 加载excel :param filename: :return: &quot;&quot;&quot; # 加载execl文件 wb = openpyxl.load_workbook(filename) return wbdef get_excel(filename, sheetname): &quot;&quot;&quot; 获取excel行、列数 :param filename: 待读取文件名 :param sheetname: 列名 :return: 行、列数 &quot;&quot;&quot; wb = load_excel(filename) # 指定读取sheet页 sheet = wb[sheetname] # 获取最大行数 nrows = sheet.max_row ncols = sheet.max_column return nrows, ncolsdef read_excels(filename, sheetname): &quot;&quot;&quot; 读取excel所有数据 :param filename: 待读取文件 :param sheetname: 带读取sheet页 :return: 数据 &quot;&quot;&quot; # 获取指定sheet页 wb = load_excel(filename) sheet = wb[sheetname] # 获取最大行、列数 nrow = get_excel(filename, sheetname)[0] ncol = get_excel(filename, sheetname)[1] # 读取数据 testdata = [] for i in list(range(1, nrow+1)): tmplist = [] for j in list(range(1, ncol+1)): tmplist.append(sheet.cell(row=i, column=j).value) testdata.append(tmplist) return testdatadef read_excel(filename, sheetname, col): &quot;&quot;&quot; 读取excel指定列，返回数据列表 :param filename: 带读取excel文件 :return: 列数据 &quot;&quot;&quot; # 获取指定sheet页 wb = load_excel(filename) sheet = wb[sheetname] # 获取最大行数 nrows = get_excel(filename, sheetname)[0] # 获取数据 testdata = [] for i in list(range(2, nrows+1)): testdata.append(sheet.cell(row=i, column=col).value) return testdatadef write_excel(filename, sheetname, colname, col, testdata): &quot;&quot;&quot; 已知数据集，写数据到指定列 :param filename: 待写数据文件 :param sheetname: 待写数据页签 :param colname: 待写数据列名 :param col: 待写数据列 :param testdata: 待写数据集（列表格式） :return: &quot;&quot;&quot; # 激活写页签 wb = load_excel(filename) sheet = wb[sheetname] # 写入列标题 sheet.cell(row=1, column=col, value=str(colname)) # 写入数据 # 写数据 for i in range(2, len(testdata) + 1): sheet.cell(row=i, column=col, value=str(testdata[i-2])) # 写入缺失的最后一行数据 max_row = len(testdata) + 1 sheet.cell(row=max_row, column=col, value=str(testdata[-1])) # 保存文件 wb.save(filename)def write_col(filename, wfilename, sheetname, wsheetname, colname, col, colnumber): &quot;&quot;&quot; 先读取，再写数据到指定列 :param filename: 数据读取文件 :param wfilename: 待写数据文件 :param sheetname: 读取数据页签 :param wsheetname: 待写数据页签 :param colname: 写数据列名 :param col: 读数据列序号 :param colnumber: 写数据列序号 :return: None &quot;&quot;&quot; # 激活写页签 wb = load_excel(wfilename) sheet = wb[wsheetname] # 写入列标题 sheet.cell(row=1, column=colnumber, value=str(colname)) # 写入数据 # 读取待写数据 testdata = read_excel(filename, sheetname, col) # 写数据 for i in range(2, len(testdata)+1): sheet.cell(row=i, column=colnumber, value=str(testdata[i-2])) # 写入缺失的最后一行数据 max_row = len(testdata) + 1 sheet.cell(row=max_row, column=colnumber, value=str(testdata[-1])) # 保存文件 wb.save(filename)def write_data(filename, wfilename, sheetname, wsheetname, nrow, ncol): &quot;&quot;&quot; 写所有数据 :param filename: 读取文件 :param wfilename: 待写入文件 :param sheetname: 读数据页签 :param wsheetname: 待写数据页签 :param nrow: 写数据行数 :param ncol: 写数据列数 :return: &quot;&quot;&quot; # 激活写页签 wb = load_excel(wfilename) sheet = wb[wsheetname] # 待写数据 testdata = read_excels(filename, sheetname) # 写数据 for i in range(0, nrow): for j in range(0, ncol): sheet.cell(row=i+1, column=j+1, value=str(testdata[i][j])) wb.save(filename) 然后写了个DES加密的client，以后加密直接从excel一列读数据，再写到下一列即可：desclient 1234567891011121314151617181920212223242526272829303132333435363738394041424344#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/7/18 15:22&quot;&quot;&quot;import binasciifrom numpytest import openexcelfrom pyDes import des, ECB, PAD_PKCS5# 获取待加密数据列filename = &apos;E:/DESFile/loginname.xlsx&apos;sheet = &apos;Sheet1&apos;colnumber = 1loginname = openexcel.read_excel(filename, sheet, colnumber)# DES加密方法def des_en(msg): &quot;&quot;&quot; DES 加密，分组方式 ECB，填充方式 PAD_PKCS5 :param msg: msg待加密字符串 :return: 返回加密后字符串,16进制，utf-8格式化，输出结果去除b和\n &quot;&quot;&quot; secret_key = &apos;SKUHWKLL&apos; iv =secret_key key = des(secret_key, ECB, iv, pad=None, padmode=PAD_PKCS5) entrymsg = key.encrypt(msg, padmode=PAD_PKCS5) desstr = binascii.b2a_base64(entrymsg) return str(desstr, &apos;utf8&apos;)# 加密处理username = []for i in loginname: username.append(des_en(i))# 写入excel指定列filename = &apos;E:/DESFile/loginname.xlsx&apos;sheet = &apos;Sheet1&apos;col = 2colname = &apos;Username&apos;openexcel.write_excel(filename, sheet, colname, col, username) 完~]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>DES</tag>
+        <tag>openpyxl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Grafana集成进自己web项目]]></title>
     <url>%2F2019%2F07%2F16%2FGrafana%E9%9B%86%E6%88%90%E8%BF%9B%E8%87%AA%E5%B7%B1web%E9%A1%B9%E7%9B%AE%2F</url>
     <content type="text"><![CDATA[Grafana集成进自己的监控项目 可能有需求是将grafana的dashboard集成到自己的监控系统里面，这样就避免了进grafana再查看 方案有是有，可能有点不安全，建议实在要这么干的话： 尽量是公司内部玩，也就是纯内网操作； 找IT设置网络访问权限，只有公司IP可以访问监控系统和grafana的域名/IP； 以下是方法：嵌grafana监控dashboard，只需要在web监控iframe中嵌进去：1&lt;iframe src=&quot;http://192.168.0.1:3000/d/oidoT24Wk/apache-jmeter?refresh=5s&amp;orgId=1&quot; width=&quot;450&quot; height=&quot;200&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt; src后面放dashboard的页面即可 但是这样有个问题，直接打开，会跳转到登录页面，也就是想这么做的话，需要开启匿名登录 修改grafana配置文件: vim /etc/grafana/grafana.ini修改为123456789101112[auth.anonymous]# enable anonymous access# 去掉注释，改为true，允许匿名访问enabled = true# specify organization name that should be used for unauthenticated users# 匿名用户属于的组织org_name = Main Org.# specify role for unauthenticated users# 匿名用户的角色/权限org_role = Viewer 修改完之后，重启grafana即可:systemctl restart grafana-server]]></content>
@@ -582,8 +594,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>pip3</tag>
         <tag>Centos7</tag>
+        <tag>pip3</tag>
       </tags>
   </entry>
   <entry>
@@ -712,8 +724,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -979,9 +991,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1271,8 +1283,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
