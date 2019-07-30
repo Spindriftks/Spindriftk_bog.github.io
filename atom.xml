@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-07-25T07:40:24.397Z</updated>
+  <updated>2019-07-30T08:41:11.186Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>正则表达式入门</title>
+    <link href="http://tokyle.com/2019/07/30/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A5%E9%97%A8/"/>
+    <id>http://tokyle.com/2019/07/30/正则表达式入门/</id>
+    <published>2019-07-30T08:39:20.000Z</published>
+    <updated>2019-07-30T08:41:11.186Z</updated>
+    
+    <content type="html"><![CDATA[<p>正则表达式入门</p><p>一个个的捡起因为懒放一边的</p><a id="more"></a><h3 id="几个元字符（metecharacter）"><a href="#几个元字符（metecharacter）" class="headerlink" title="几个元字符（metecharacter）"></a>几个元字符（metecharacter）</h3><table><thead><tr><th>语法</th><th>说明</th><th>示例</th><th>示例解释</th></tr></thead><tbody><tr><td>\b</td><td>单词的开头或结尾</td><td>\breg\b</td><td>精确查找reg这个单词</td></tr><tr><td>.</td><td>匹配除换行符以外任意字符</td><td></td><td></td></tr><tr><td>*</td><td>前面内容可以连续重复使用任意次</td><td>.*</td><td>任意数量的不包含换行的字符</td></tr><tr><td>\d</td><td>匹配一位数字（0或1或2…）</td><td>0\d{2}</td><td>0开头，连续重复匹配两次数字，如010</td></tr><tr><td>\s</td><td>匹配任意空白符，包括空格，tab，换行等</td><td></td><td></td></tr><tr><td>\w</td><td>匹配字母或数字或下划线或汉字等</td><td>\ba\w{6}\b</td><td>匹配以a开头的7个字符的单词</td></tr><tr><td>^</td><td>匹配字符串开头</td><td></td><td></td></tr><tr><td>$</td><td>匹配字符串结尾</td><td>^\b{5,12}$</td><td>匹配5到12位数字（QQ号）</td></tr></tbody></table><h3 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h3><p>要匹配<code>.</code>，<code>\</code>，<code>*</code>这样本身，需要加转义<code>\</code><br>例如：<code>C:\\Windows</code>匹配<code>C:\Windows</code></p><h3 id="重复"><a href="#重复" class="headerlink" title="重复"></a>重复</h3><table><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td>*</td><td>重复零次或更多次</td></tr><tr><td>+</td><td>重复一次或更多次</td></tr><tr><td>？</td><td>重复零次或一次</td></tr><tr><td>{n}</td><td>重复n次</td></tr><tr><td>{n,}</td><td>重复n次或更多次</td></tr><tr><td>{n,m}</td><td>重复n到m次</td></tr></tbody></table><h3 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h3><p>想要匹配没有预定义元字符的字符集，只需要在方括号中列出即可，例如</p><ul><li>匹配任何一个英文元音字母： <code>[aeiou]</code></li><li>匹配标点符号： <code>[.?!]</code>（匹配.或?或！）</li><li>匹配一位数字：<code>[0-9]</code>(与<code>\d</code>含义一致)</li><li>匹配字母或数字：<code>[a-z0-9A-Z]</code>(英文下等同于<code>\w</code>)</li></ul><p>示例：<code>\(0\d{2}\)\s\d{4}\s\d{4}|\(0\d{2,3}\)\s\d{7,8}</code><br>匹配结果：</p><table><thead><tr><th>结果</th></tr></thead><tbody><tr><td>(010) 6554 6016</td></tr><tr><td>(010) 6825451</td></tr><tr><td>(0511) 87283179</td></tr><tr><td>(0512) 7708732</td></tr></tbody></table><p>然后对应IP地址的匹配，这个用正则怎么有点长啊。。。可能是我太菜了。。：<br>原来以为IP格式是：<code>1~255.0~255.0~255.0~255</code>，所以写成了这样<br><code>(\b[1-9]\d{0,1}\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)(\.(\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)){3}</code></p><p>然后翻了下格式，有<code>0.0.0.0</code>这个IP（本身）,所以改成了<br><code>((\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)\.){3}(\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)</code></p><p>然后又看到IP中可以有<code>01.02.03.04</code>这样的存在，前导0的意思（leading zeroes），又改成了这样：<br><code>((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)</code> (参考自教程)</p><h3 id="反义"><a href="#反义" class="headerlink" title="反义"></a>反义</h3><p>匹配不属于某个字符类的字符，例如匹配非数字字符</p><table><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td>\W</td><td>匹配任意不是字母，数字，下划线，汉字的字符</td></tr><tr><td>\S</td><td>匹配任意不是空白符的字符</td></tr><tr><td>\D</td><td>匹配任意非数字的字符</td></tr><tr><td>\B</td><td>匹配不是单词开头或结束的位置</td></tr><tr><td>[^x]</td><td>匹配除了x以外的任意字符</td></tr><tr><td>[^aeiou]</td><td>匹配除了aeiou以外的任意字符</td></tr></tbody></table><h3 id="贪婪与懒惰"><a href="#贪婪与懒惰" class="headerlink" title="贪婪与懒惰"></a>贪婪与懒惰</h3><p>贪婪匹配：匹配尽可能多的字符<br>懒惰匹配：匹配尽可能少的字符</p><p>例如有个字符串：<code>aabbabaaab</code><br>贪婪匹配：<code>a.*b</code>，匹配结果为：<code>aabbabaaab</code><br>懒惰匹配：<code>a.*?b</code>，匹配结果为：<code>aab</code>、<code>ab</code>、<code>aaab</code></p><p>懒惰限定符：</p><table><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td>*?</td><td>重复任意次，单尽可能少重复</td></tr><tr><td>+?</td><td>重复一次或更多次，但尽可能少重复</td></tr><tr><td>??</td><td>重复0次或1次，但尽可能少重复</td></tr><tr><td>{n,m}?</td><td>重复n到m次，但尽可能少重复</td></tr><tr><td>{n,}?</td><td>重复n次以上，但尽可能少重复</td></tr></tbody></table><h3 id="一些其他语法"><a href="#一些其他语法" class="headerlink" title="一些其他语法"></a>一些其他语法</h3><table><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td>\a</td><td>报警字符（打印它的效果是电脑嘀的一声）</td></tr><tr><td>\b</td><td>通常是单词分界位置，但如果在字符类里使用代表退格</td></tr><tr><td>\t</td><td>制表符，Tab</td></tr><tr><td>\r</td><td>回车</td></tr><tr><td>\v</td><td>竖向制表符</td></tr><tr><td>\f</td><td>换页符</td></tr><tr><td>\n</td><td>换行符</td></tr><tr><td>\e</td><td>Escape</td></tr><tr><td>\0nn</td><td>ASCII码中八进制代码为00的字符</td></tr><tr><td>\xnn</td><td>ASCII码中十六进制代码为nn的字符</td></tr><tr><td>\unnnn</td><td>Unicode码中十六进制代码为nnnn的字符</td></tr><tr><td>\A</td><td>字符类开头（类似^，但不受处理多行选项的影响）</td></tr><tr><td>\z</td><td>字符类结尾（类似$，但不受处理多行选项的影响）</td></tr><tr><td>\Z</td><td>字符串结尾或行尾，不受处理多行选项的影响</td></tr><tr><td>\G</td><td>当前搜索的开头</td></tr></tbody></table><p>以上只能说是记录的正则的一部分，教程说是30分钟，看了我三个小时都不止。。</p><blockquote><p><a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="noopener">完整教程地址</a></p></blockquote><p>再次感谢deerchao的正则教程！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;正则表达式入门&lt;/p&gt;
+&lt;p&gt;一个个的捡起因为懒放一边的&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机基础" scheme="http://tokyle.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="regex" scheme="http://tokyle.com/tags/regex/"/>
+    
+  </entry>
   
   <entry>
     <title>Macaca试用</title>
@@ -445,30 +468,6 @@
     
     
       <category term="adb" scheme="http://tokyle.com/tags/adb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Service Mesh基础知识</title>
-    <link href="http://tokyle.com/2019/06/21/Service-Mesh%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://tokyle.com/2019/06/21/Service-Mesh基础知识/</id>
-    <published>2019-06-21T06:31:34.000Z</published>
-    <updated>2019-06-21T06:42:33.311Z</updated>
-    
-    <content type="html"><![CDATA[<p>Service Mesh基础知识</p><a id="more"></a><p>微服务大噪一时，可以说是最火的后端架构，微服务架构将原来的单体应用进行服务拆分，做成一个个独立的服务应用，各个服务各司其职，彼此独立，各个服务甚至不需要用同样的编程语言，更方便团队协作。</p><p>微服务包含一些基本组件，服务发现，服务注册，鉴权，熔断降级等。由于微服务是将单体拆分为独立应用，当应用越来越大，微服务越来越多，管理起来也就会越来越麻烦。一套微服务环境，链路追踪，负载均衡，安全配置，流量管理等等，可能就会耗费大量时间去维护。针对微服务不断壮大，微服务管理的相关问题，出现了新的微服务框架<code>Service Mesh</code>(服务网格)</p><h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>在解释service mesh之前，先看看nginx的基本概念</p><p>nginx有几大功能，其中正向代理和反向代理，应该都很熟悉。本来最基本的架构是A和B需要进行通信，A和B可以直接相互传输，买房子为例，买家和卖家直接交易。这样的架构有个问题，A和B传输之间的信息，旁人无法知道，传输状态外界也无法监控，传输的数据包如果太大把带宽占满，外界也无法知晓，这样的情况下，就有了中间加一层，代理,C。</p><p>A和B进行通信，会经过C，A向C发起通知，要和B通信，消息给C，C转给B。C就成了中间人，也就是代理，说两个日常常用但可能没多想的例子：</p><ol><li>国内万里长城的存在，想要见识外部世界，就需要VPN，俗称的翻墙。技术实现其实很简单，VPN其实是搭建在一台可以直接访问外部网站（例如IG）的服务器上的正向代理服务，可能在日本，可能在美国等；本地挂VPN翻墙，其实就是用客户端去访问正向代理服务，再由服务进行转发，达到大陆也可以访问外网的效果。这就是正向代理（Forward Proxy）</li><li>典型的nginx负载均衡，A访问C，C将A的请求，分发给下面的无数个B(B1,B2,B3,B4,B5…)。A其实压根不知道它是最终是在和B进行通信，A也根本不关心有多少个B，只要有C，和C进行通信，就能达到A和无数个B进行通信的效果，C就是反向代理。（Reverse Proxy）</li></ol><p>说完代理的例子，说说中间加这么一层有什么意义：</p><ol><li>拦截：原来A和B直接通信，没人能阻止，现在加了层这个，就可以防止员工上班时间看视频。。。</li><li>统计：既然A和B所有的通信都会经过代理，那么也就可以通过代理来统计网络传输中的数据信息</li><li>缓存：典型应用CDN，访问比较慢，直接将数据缓存到访问快的地方，通过这个地方进行访问，要快很多</li><li>分发：负载均衡</li><li>跳板：堡垒机<br>… …</li></ol><p>说完nginx的代理，说回service mesh，其实service mesh也就是类似于nginx的一个代理，可以看做是分布式微服务代理。在传统的代理模式下，代理一般是单独的代理服务器，所有请求先通过代理，再转发到实际的后端。service mesh中，代理是分布式的，常驻在服务身边（sidecar模式），每个服务可以理解成有两个部分，一个是原来的服务（service），一个是用于service mesh的代理（sidecar），sidecar之间相互连接，和彼此的服务彼此隔离，和传统的代理一样，流量也就是经过sidecar进行管理，所有的服务的sidecar进行连接，组成了mesh（网格）。</p><p>同时，传统的代理，基本是只基于网络流量，但是 Service Mesh 中，代理会知道整个集群的所有应用信息，并且额外添加了热更新、注入服务发现、降级熔断、认证授权、超时重试、日志监控等功能，让这些通用的功能不必每个应用都自己实现，放在代理中即可。换句话说，Service Mesh 中的代理对微服务中的应用做了定制化的改进。</p><p>有了service mesh，管理员只需要和代理层打交道，就能达到对整个微服务系统控制的效果。</p><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48rpbys10g21hc0tee81.gif" alt="Service Mesh原理"></p><h3 id="Istio"><a href="#Istio" class="headerlink" title="Istio"></a>Istio</h3><p>Istio其实就是Service Mesh架构的一种实现，来看看通过istio可以解决什么问题：<br>来自Istio网站：</p><ul><li>HTTP、gRPC、WebSocket和TCP流量的自动负载均衡。</li><li>通过丰富的路由规则、重试、故障转移和故障注入对流量行为进行细粒度控制。</li><li>支持访问控制、速率限制和配额的可拔插策略层和配置API。</li><li>自动指标、日志和集群内所有流量的跟踪，包括集群入口和出口。</li><li>通过集群中的服务之间的强身份断言来实现服务间的身份验证。</li></ul><p><img src="http://ww1.sinaimg.cn/large/a025e134gy1g48ru7eqtng21hc0te7ip.gif" alt="Istio解决的问题"></p><p>以上内容均来自万能的互联网，由于自己目前对k8s理解还比较浅，对k8s的sidecar还只是理论的认知，Service Mesh和Istio以及Serviceless和knative当前也只是在理论阶段，本篇只是敲门，后面再慢慢入门。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Service Mesh基础知识&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="cloud native" scheme="http://tokyle.com/categories/cloud-native/"/>
-    
-    
-      <category term="Service Mesh" scheme="http://tokyle.com/tags/Service-Mesh/"/>
-    
-      <category term="Istio" scheme="http://tokyle.com/tags/Istio/"/>
     
   </entry>
   

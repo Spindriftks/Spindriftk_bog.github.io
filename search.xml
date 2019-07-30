@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[正则表达式入门]]></title>
+    <url>%2F2019%2F07%2F30%2F%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A5%E9%97%A8%2F</url>
+    <content type="text"><![CDATA[正则表达式入门 一个个的捡起因为懒放一边的 几个元字符（metecharacter） 语法 说明 示例 示例解释 \b 单词的开头或结尾 \breg\b 精确查找reg这个单词 . 匹配除换行符以外任意字符 * 前面内容可以连续重复使用任意次 .* 任意数量的不包含换行的字符 \d 匹配一位数字（0或1或2…） 0\d{2} 0开头，连续重复匹配两次数字，如010 \s 匹配任意空白符，包括空格，tab，换行等 \w 匹配字母或数字或下划线或汉字等 \ba\w{6}\b 匹配以a开头的7个字符的单词 ^ 匹配字符串开头 $ 匹配字符串结尾 ^\b{5,12}$ 匹配5到12位数字（QQ号） 转义要匹配.，\，*这样本身，需要加转义\例如：C:\\Windows匹配C:\Windows 重复 语法 说明 * 重复零次或更多次 + 重复一次或更多次 ？ 重复零次或一次 {n} 重复n次 {n,} 重复n次或更多次 {n,m} 重复n到m次 字符类想要匹配没有预定义元字符的字符集，只需要在方括号中列出即可，例如 匹配任何一个英文元音字母： [aeiou] 匹配标点符号： [.?!]（匹配.或?或！） 匹配一位数字：[0-9](与\d含义一致) 匹配字母或数字：[a-z0-9A-Z](英文下等同于\w) 示例：\(0\d{2}\)\s\d{4}\s\d{4}|\(0\d{2,3}\)\s\d{7,8}匹配结果： 结果 (010) 6554 6016 (010) 6825451 (0511) 87283179 (0512) 7708732 然后对应IP地址的匹配，这个用正则怎么有点长啊。。。可能是我太菜了。。：原来以为IP格式是：1~255.0~255.0~255.0~255，所以写成了这样(\b[1-9]\d{0,1}\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)(\.(\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)){3} 然后翻了下格式，有0.0.0.0这个IP（本身）,所以改成了((\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b)\.){3}(\b[1-9]?\d\b|\b1\d{2}\b|\b2[0-4]\d\b|\b25[0-5]\b) 然后又看到IP中可以有01.02.03.04这样的存在，前导0的意思（leading zeroes），又改成了这样：((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?) (参考自教程) 反义匹配不属于某个字符类的字符，例如匹配非数字字符 语法 说明 \W 匹配任意不是字母，数字，下划线，汉字的字符 \S 匹配任意不是空白符的字符 \D 匹配任意非数字的字符 \B 匹配不是单词开头或结束的位置 [^x] 匹配除了x以外的任意字符 [^aeiou] 匹配除了aeiou以外的任意字符 贪婪与懒惰贪婪匹配：匹配尽可能多的字符懒惰匹配：匹配尽可能少的字符 例如有个字符串：aabbabaaab贪婪匹配：a.*b，匹配结果为：aabbabaaab懒惰匹配：a.*?b，匹配结果为：aab、ab、aaab 懒惰限定符： 语法 说明 *? 重复任意次，单尽可能少重复 +? 重复一次或更多次，但尽可能少重复 ?? 重复0次或1次，但尽可能少重复 {n,m}? 重复n到m次，但尽可能少重复 {n,}? 重复n次以上，但尽可能少重复 一些其他语法 语法 说明 \a 报警字符（打印它的效果是电脑嘀的一声） \b 通常是单词分界位置，但如果在字符类里使用代表退格 \t 制表符，Tab \r 回车 \v 竖向制表符 \f 换页符 \n 换行符 \e Escape \0nn ASCII码中八进制代码为00的字符 \xnn ASCII码中十六进制代码为nn的字符 \unnnn Unicode码中十六进制代码为nnnn的字符 \A 字符类开头（类似^，但不受处理多行选项的影响） \z 字符类结尾（类似$，但不受处理多行选项的影响） \Z 字符串结尾或行尾，不受处理多行选项的影响 \G 当前搜索的开头 以上只能说是记录的正则的一部分，教程说是30分钟，看了我三个小时都不止。。 完整教程地址 再次感谢deerchao的正则教程！]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>regex</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Macaca试用]]></title>
     <url>%2F2019%2F07%2F25%2FMacaca%E8%AF%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[Macaca试用 app inspector及UI Recorder Macaca App Inspector首先是元素定位工具，类似uiautomatorviewer.bat 安装：1cnpm i app-inspector -g 备注：起Macaca server：macaca server -p 3456 --verbose（指定端口，打印详细日志） 使用：首先获取设备id:123&#123;lamb&#125; adb devicesList of devices attachedDVD5T18622001756 device 然后起:123456F:\downloads\chrome\移动devops &#123;git&#125;&#123;lamb&#125; app-inspector -u DVD5T18622001756&gt;&gt; UIAutomatorWD http server ready&gt;&gt; Android device started: DVD5T18622001756&gt;&gt; inspector start at: http://192.168.78.1:5678 &lt;-- GET / 然后浏览器就打开个页面，是手机当前界面，开始玩吧。。 Macaca UIRecorder录制工具 安装：1cnpm install uirecorder -g 1.创建新目录并进入，初始化UIRecorder工程目录：1234567891011121314151617181920212223242526272829303132E:\Macaca_workstation\uisample &#123;git&#125;&#123;lamb&#125; uirecorder init __ ______ ____ __ / / / / _/ / __ \___ _________ _________/ /__ _____ / / / // / / /_/ / _ \/ ___/ __ \/ ___/ __ / _ \/ ___/ / /_/ // / / _, _/ __/ /__/ /_/ / / / /_/ / __/ / \____/___/ /_/ |_|\___/\___/\____/_/ \__,_/\___/_/ v3.1.0Official Site: http://uirecorder.com------------------------------------------------------------------? Path扩展属性配置,除id,name,class之外 data-id,data-name,type,data-type,role,data-role,data-value? 属性值黑名单正则? class值黑名单正则? 断言前隐藏? WebDriver域名或IP 127.0.0.1? WebDriver端口号 4444? 需要同时测试的浏览器列表 chrome, ie 11config.json 文件保存成功package.json 文件创建成功README.md 文件创建成功screenshots 文件夹创建成功commons 文件夹创建成功uploadfiles 文件夹创建成功.editorconfig 文件创建成功.gitignore 文件创建成功install.sh 文件创建成功run.bat 文件创建成功run.sh 文件创建成功hosts 文件创建成功.vscode/launch.json 文件创建成功Start install project dependencies... 各字段解释，copy自官方教程 官方教程 123456789101112131415创建新目录并进入，然后初始化UIRecorder工程目录：uirecorder init， 根据具体情况输入相关的参数，几个回车后，我们的准备工作就结束了，这里详细介绍下几个参数分别是什么作用Path扩展属性配置,除id,name,class之外: 此参数，用来定义网页DOM中哪些属性可以用来定位我们的控件，默认值已经包括了主流的属性，一般情况下不需要修改属性值黑名单正则：网页中当某些属性值是随机或者不稳定的时候，我们可以通过这个配置来忽略那些属性值，从而保证我们的自动化脚本稳定性，例如我们可以这样配置：/attr_name_\d+/，如果需要配置多个属性，可以这么写：/attr1_\d+|attr2_\d+|/，详细更多的正则教程请自行搜索class值黑名单正则：某些场景下，class属性的值会干扰自动化录制，比如当鼠标移到某个控件上时会动态的添加一个class样式名称，就可能会被录制到PATH中，从而导致自动化无法稳定重放。此时就可以将那个class名称加到黑名单中，例如:/class_name/，详细值的配置请参考属性值黑名单断言前隐藏：某些业务场景下，会在最上层显示一层透明的div，用来实现一些高级的富应用需求，会导致无法直接断言透明div下方的控件。此种场景下，可以将透明div的PATH配置在此属性中，即可实现在断言时自动移除透明的div，断言后再自动恢复WebDriver域名或IP：WebDriver执行机的IP地址，默认是指向本地，如果有部署grid执行机集群，可以指向对应的执行机集群IPWebDriver端口号：WebDriver端口号，一般情况下是4444端口号，不需要修改需要同时测试的浏览器列表： 需要同时测试的浏览器列表，例如：chrome, firefox, ie 11，可以根据本地或远程执行机集群所支持的浏览器类型自行输入 Start install project dependencies然后就看到卡在这边不动了。。。上github翻半天找到了原因，当前环境装的node版本过高，uirecorder使用的node版本是7.10.0，解决办法就是装个nvm，切node版本 nvm下载 安装之前，卸载原来的node安装完成，验证：1234E:\ &#123;git&#125;&#123;lamb&#125; NVMRunning version 1.1.7. 然后使用nvm来安装node1nvm install 7.10.0 多版本控制12345nvm install 4.4.0nvm lsnvm use 7.10.0 当然，因为卸载了原来装的node，所以这么干的话，要重新配置node环境变量，N多东西要重弄，垃圾，反正我不用录制功能，不折腾了！（直接只装7.10.0的话，用macaca doctor会提示版本低，坑真多） 以上，完~]]></content>
@@ -746,8 +757,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -826,8 +837,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>grafana</tag>
         <tag>Centos7</tag>
+        <tag>grafana</tag>
       </tags>
   </entry>
   <entry>
@@ -1013,9 +1024,9 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1305,8 +1316,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
