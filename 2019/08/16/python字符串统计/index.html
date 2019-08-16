@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="loadrunner判断前一个接口返回，执行第二个接口">
-<meta name="keywords" content="loadrunner">
+<meta name="description" content="python统计字符串中的数字，字母，空格和其他的数量">
+<meta name="keywords" content="python3">
 <meta property="og:type" content="article">
-<meta property="og:title" content="loadrunner判断接口返回">
-<meta property="og:url" content="http://tokyle.com/2018/07/11/loadrunner判断接口返回/index.html">
+<meta property="og:title" content="python字符串统计">
+<meta property="og:url" content="http://tokyle.com/2019/08/16/python字符串统计/index.html">
 <meta property="og:site_name" content="它夏了夏天">
-<meta property="og:description" content="loadrunner判断前一个接口返回，执行第二个接口">
+<meta property="og:description" content="python统计字符串中的数字，字母，空格和其他的数量">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-12T01:42:34.000Z">
+<meta property="og:updated_time" content="2019-08-16T08:34:17.221Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="loadrunner判断接口返回">
-<meta name="twitter:description" content="loadrunner判断前一个接口返回，执行第二个接口">
+<meta name="twitter:title" content="python字符串统计">
+<meta name="twitter:description" content="python统计字符串中的数字，字母，空格和其他的数量">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>loadrunner判断接口返回 | 它夏了夏天</title>
+<title>python字符串统计 | 它夏了夏天</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -269,11 +269,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-loadrunner判断接口返回" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-python字符串统计" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/11/loadrunner判断接口返回/" class="article-date">
-      <time datetime="2018-07-11T11:15:07.000Z" itemprop="datePublished">2018-07-11</time>
+      <a href="/2019/08/16/python字符串统计/" class="article-date">
+      <time datetime="2019-08-16T08:31:28.000Z" itemprop="datePublished">2019-08-16</time>
 </a>
 
 
@@ -288,7 +288,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      loadrunner判断接口返回
+      python字符串统计
     </h1>
   
 
@@ -298,13 +298,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/性能测试/">性能测试</a>
+    <a class="article-category-link" href="/categories/python基础/">python基础</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/loadrunner/">loadrunner</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -314,52 +314,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>loadrunner判断前一个接口返回，执行第二个接口</p>
+        <p>python统计字符串中的数字，字母，空格和其他的数量</p>
 <a id="more"></a>
-<p>Action()<br>{</p>
-<pre><code>/*关联获取接口返回结果，true或者false*/
-web_reg_save_param(&quot;Text&quot;,&quot;LB=\&quot;result\&quot;:&quot;,&quot;RB=,&quot;,LAST);
-/*开始事务*/
-lr_start_transaction(&quot;01_api_1&quot;);
-web_custom_request(&quot;api_1&quot;, 
-            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
-            &quot;Method=GET&quot;, 
-            &quot;TargetFrame=&quot;, 
-            &quot;Resource=0&quot;, 
-            &quot;Snapshot=t2.inf&quot;,
-            &quot;RecContentType=text/html&quot;,  
-            LAST);     
-
-lr_end_transaction(&quot;01_api_1&quot;,LR_AUTO);
-
-/*测试一下输出，用error只是因为会标红。。*/
-lr_error_message(lr_eval_string(&quot;{Text}&quot;));
-
-/*判断第一个接口返回是否为true*/
-if (strcmp(lr_eval_string(&quot;{Text}&quot;),&quot;true&quot;) == 0){
-    lr_start_transaction(&quot;01_api_2&quot;);
-
-        web_reg_find(&quot;Text=false&quot;,
-            LAST);
-
-        web_custom_request(&quot;api_2&quot;, 
-            &quot;URL=https://webapp-n2.test.com/api/test&quot;,  
-            &quot;Method=GET&quot;, 
-            &quot;TargetFrame=&quot;, 
-            &quot;Resource=0&quot;, 
-            &quot;Snapshot=t2.inf&quot;,
-            &quot;RecContentType=text/html&quot;,  
-            LAST);
-
-        lr_end_transaction(&quot;01_api_2&quot;,LR_AUTO);
-        lr_output_message(&quot;第二接口完&quot;);
-}else{
-
-        lr_error_message(&quot;请求失败&quot;);
-        return 0;
-};
-return 0;
-</code></pre><p>}</p>
+<p>想到之前被问过的这个，现在补上，直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># -*-coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">@author: kyle</span><br><span class="line">@time: 2019/8/16 16:04</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def count_num(msg):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 输入字符串，统计出其中字母、数字、空格以及其他的数量</span><br><span class="line">    :param msg: 待统计字符串</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    letter_num = 0</span><br><span class="line">    number_num = 0</span><br><span class="line">    space_num = 0</span><br><span class="line">    others_num = 0</span><br><span class="line">    for i in msg:</span><br><span class="line">        # 数字</span><br><span class="line">        if i.isdigit():</span><br><span class="line">            number_num += 1</span><br><span class="line">        # 字母</span><br><span class="line">        elif i.isalnum():</span><br><span class="line">            letter_num += 1</span><br><span class="line">        # 空格</span><br><span class="line">        elif i.isspace():</span><br><span class="line">            space_num += 1</span><br><span class="line">        # 其他</span><br><span class="line">        else:</span><br><span class="line">            others_num += 1</span><br><span class="line"></span><br><span class="line">    print(&quot;This message has letter: &quot; + str(letter_num) + &quot;, number: &quot; + str(number_num) + &quot;, space: &quot; +</span><br><span class="line">          str(space_num) + &quot;, others: &quot; + str(others_num))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    a = &quot;shaissa sod 9dcd0870d ,&apos;;[;dcdc &quot;</span><br><span class="line">    count_num(a)</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This message has letter: 18, number: 5, space: 4, others: 5</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -368,13 +326,13 @@ return 0;
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/07/11/loadrunner判断接口返回/">loadrunner判断接口返回</a></p>
+        <p><span>本文标题:</span><a href="/2019/08/16/python字符串统计/">python字符串统计</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Kyle</a></p>
-        <p><span>发布时间:</span>2018-07-11, 07:15:07</p>
-        <p><span>最后更新:</span>2018-07-11, 21:42:34</p>
+        <p><span>发布时间:</span>2019-08-16, 04:31:28</p>
+        <p><span>最后更新:</span>2019-08-16, 04:34:17</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/07/11/loadrunner判断接口返回/" title="loadrunner判断接口返回">http://tokyle.com/2018/07/11/loadrunner判断接口返回/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2018/07/11/loadrunner判断接口返回/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/16/python字符串统计/" title="python字符串统计">http://tokyle.com/2019/08/16/python字符串统计/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://tokyle.com/2019/08/16/python字符串统计/　　作者: Kyle" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -386,16 +344,10 @@ return 0;
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/07/19/海贼王TV版目录/">
-                    海贼王TV版目录
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/07/06/Jmeter压测socket-close异常/">
-                    Jmeter压测socket close异常
+                <a href="/2019/08/09/WIN-10及office-2019安装激活/">
+                    WIN 10及office 2019安装激活
                 </a>
             </div>
         
@@ -443,7 +395,7 @@ return 0;
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"loadrunner判断接口返回　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"python字符串统计　| 它夏了夏天　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -486,15 +438,13 @@ return 0;
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/07/19/海贼王TV版目录/" title="上一篇: 海贼王TV版目录">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/07/06/Jmeter压测socket-close异常/" title="下一篇: Jmeter压测socket close异常">
+            <a href="/2019/08/09/WIN-10及office-2019安装激活/" title="下一篇: WIN 10及office 2019安装激活">
                 <i class="fa fa-angle-right"></i>
             </a>
         
