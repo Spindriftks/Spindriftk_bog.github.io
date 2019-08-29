@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter实现事务百分比]]></title>
+    <url>%2F2019%2F08%2F28%2FJmeter%E5%AE%9E%E7%8E%B0%E4%BA%8B%E5%8A%A1%E7%99%BE%E5%88%86%E6%AF%94%2F</url>
+    <content type="text"><![CDATA[Jmeter实现事务百分比 使用Jmeter进行性能测试，需要执行场景时候，没有类似loadrunner的control中事务百分比的插件，但有的时候，为了更真实模拟用户操作，需要对应的业务按一定比例执行，例如，首页和搜索的比例是3:7。 线程组这个方式最容易想到，jmeter的test plan下可以加多个线程组，可以通过设置线程组*循环次数，来实现事务执行次数，从而实现多事务执行总数遵循一定比例，但是这个不准确，因为不是在同一个线程组下，当接口响应时间不同是，比例就无法得到保证。 If Controller逻辑控制器，IF控制器，这个实现原理很简单，首先获取事务执行总数，这个可以通过函数助手的${__counter(true,)}来实现，按照比例写if表达式，满足条件的执行该if控制器下的事务 首先介绍一下${__counter(true,)} true表示，每个线程有自己的计数器，例如10个线程，循环100次，计数范围：[1, 100]false表示，全局的计数器，例如10个线程，循环100次，计数范围：[1, 1000] 回到上面的需求，首页:搜索 = 3:7 那么可以这么做，添加两个if控制器首页的if控制器表达式：${__counter(true,)}%10==0 || ${__counter(true,)}%10&gt;7执行次数除以10，余数为0，或者余数大于7，执行首页事务 搜索的if控制器表达式：${__counter(true,)}%10&lt;8 &amp;&amp; ${__counter(true,)}%10!=0执行次数除以10，余数小于8且不等于0，执行查询事务 这样执行10000次，在聚合报告中就可以看见，首页执行了3000次，查询执行了7000次 需要注意的是，if控制器，需要把Interpret Condition as Variable Expression?选项勾选去掉，当是勾选状态，表达式只会判断true和false，只有去掉，才会执行js表达式（表达式语法遵循JavaScript语法） 以上，完~]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>Jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[python字符串统计]]></title>
     <url>%2F2019%2F08%2F16%2Fpython%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BB%9F%E8%AE%A1%2F</url>
     <content type="text"><![CDATA[python统计字符串中的数字，字母，空格和其他的数量 想到之前被问过的这个，现在补上，直接上代码：123456789101112131415161718192021222324252627282930313233343536373839#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/8/16 16:04&quot;&quot;&quot;def count_num(msg): &quot;&quot;&quot; # 输入字符串，统计出其中字母、数字、空格以及其他的数量 :param msg: 待统计字符串 :return: &quot;&quot;&quot; letter_num = 0 number_num = 0 space_num = 0 others_num = 0 for i in msg: # 数字 if i.isdigit(): number_num += 1 # 字母 elif i.isalnum(): letter_num += 1 # 空格 elif i.isspace(): space_num += 1 # 其他 else: others_num += 1 print(&quot;This message has letter: &quot; + str(letter_num) + &quot;, number: &quot; + str(number_num) + &quot;, space: &quot; + str(space_num) + &quot;, others: &quot; + str(others_num))if __name__ == &apos;__main__&apos;: a = &quot;shaissa sod 9dcd0870d ,&apos;;[;dcdc &quot; count_num(a) 运行结果：1This message has letter: 18, number: 5, space: 4, others: 5]]></content>
@@ -696,8 +707,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -826,8 +837,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1093,9 +1104,9 @@
         <category>Devops</category>
       </categories>
       <tags>
+        <tag>Centos7</tag>
         <tag>elasticsearch</tag>
         <tag>elasticsearch head</tag>
-        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1385,8 +1396,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>

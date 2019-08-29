@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-08-16T08:34:17.221Z</updated>
+  <updated>2019-08-29T04:00:15.283Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jmeter实现事务百分比</title>
+    <link href="http://tokyle.com/2019/08/28/Jmeter%E5%AE%9E%E7%8E%B0%E4%BA%8B%E5%8A%A1%E7%99%BE%E5%88%86%E6%AF%94/"/>
+    <id>http://tokyle.com/2019/08/28/Jmeter实现事务百分比/</id>
+    <published>2019-08-29T03:59:23.000Z</published>
+    <updated>2019-08-29T04:00:15.283Z</updated>
+    
+    <content type="html"><![CDATA[<p>Jmeter实现事务百分比</p><a id="more"></a><p>使用Jmeter进行性能测试，需要执行场景时候，没有类似loadrunner的control中事务百分比的插件，但有的时候，为了更真实模拟用户操作，需要对应的业务按一定比例执行，例如，首页和搜索的比例是3:7。</p><h3 id="线程组"><a href="#线程组" class="headerlink" title="线程组"></a>线程组</h3><p>这个方式最容易想到，jmeter的test plan下可以加多个线程组，可以通过设置线程组*循环次数，来实现事务执行次数，从而实现多事务执行总数遵循一定比例，但是这个不准确，因为不是在同一个线程组下，当接口响应时间不同是，比例就无法得到保证。</p><h3 id="If-Controller"><a href="#If-Controller" class="headerlink" title="If Controller"></a>If Controller</h3><p>逻辑控制器，IF控制器，这个实现原理很简单，首先获取事务执行总数，这个可以通过函数助手的<code>${__counter(true,)}</code>来实现，按照比例写if表达式，满足条件的执行该if控制器下的事务</p><p>首先介绍一下<code>${__counter(true,)}</code></p><p><strong>true</strong>表示，每个线程有自己的计数器，例如10个线程，循环100次，计数范围：[1, 100]<br><strong>false</strong>表示，全局的计数器，例如10个线程，循环100次，计数范围：[1, 1000]</p><p>回到上面的需求，<code>首页</code>:<code>搜索</code> = <code>3:7</code></p><p>那么可以这么做，添加两个if控制器<br>首页的if控制器表达式：<code>${__counter(true,)}%10==0 || ${__counter(true,)}%10&gt;7</code><br>执行次数除以10，余数为0，或者余数大于7，执行<code>首页</code>事务</p><p>搜索的if控制器表达式：<code>${__counter(true,)}%10&lt;8 &amp;&amp; ${__counter(true,)}%10!=0</code><br>执行次数除以10，余数小于8且不等于0，执行<code>查询</code>事务</p><p>这样执行10000次，在聚合报告中就可以看见，首页执行了3000次，查询执行了7000次</p><p>需要注意的是，if控制器，需要把<code>Interpret Condition as Variable Expression?</code>选项勾选去掉，当是勾选状态，表达式只会判断true和false，只有去掉，才会执行js表达式（表达式语法遵循JavaScript语法）</p><p>以上，完~</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Jmeter实现事务百分比&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+  </entry>
   
   <entry>
     <title>python字符串统计</title>
@@ -450,28 +472,6 @@
       <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
     
       <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Influxdb启动失败日志定位</title>
-    <link href="http://tokyle.com/2019/06/26/Influxdb%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E6%97%A5%E5%BF%97%E5%AE%9A%E4%BD%8D/"/>
-    <id>http://tokyle.com/2019/06/26/Influxdb启动失败日志定位/</id>
-    <published>2019-06-27T03:15:54.000Z</published>
-    <updated>2019-06-27T03:17:47.756Z</updated>
-    
-    <content type="html"><![CDATA[<p>Influxdb启动失败日志定位</p><a id="more"></a><p>之前做过Jmeter使用influxdb和grafana展示测试数据，当时使用了graphite，现在看到Jmeter好像可以直接存在influxdb中，就想尝试下，就找了台机器搭建influxdb，然后悲剧了，起不来。</p><p>其实问题很简单，基本不是端口占用就是文件夹权限问，主要是找不到日志。。</p><p>下面是完整的经过<br>搭建完influxdb，并且<code>systemctl start influxdb</code>之后，想连进去看看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# influx</span><br><span class="line">Failed to connect to http://localhost:8086: Get http://localhost:8086/ping: dial tcp [::1]:8086: connect: connection refused</span><br><span class="line">Please check your connection settings and ensure &apos;influxd&apos; is running.</span><br></pre></td></tr></table></figure></p><p>进不去。。检查状态：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# systemctl  status  influxdb</span><br><span class="line">● influxdb.service - InfluxDB is an open-source, distributed, time series database</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/influxdb.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: failed (Result: start-limit) since 四 2019-06-27 11:00:45 CST; 2min 0s ago</span><br><span class="line">     Docs: https://docs.influxdata.com/influxdb/</span><br><span class="line">  Process: 3587 ExecStart=/usr/bin/influxd -config /etc/influxdb/influxdb.conf $INFLUXD_OPTS (code=exited, status=1/FAILURE)</span><br><span class="line"> Main PID: 3587 (code=exited, status=1/FAILURE)</span><br><span class="line"></span><br><span class="line">6月 27 11:00:44 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 11:00:44 tokyle.com systemd[1]: influxdb.service failed.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 11:00:45 tokyle.com systemd[1]: influxdb.service failed.</span><br></pre></td></tr></table></figure></p><p>压根没起来</p><p>找日志，先到<code>/var/lib/influxdb</code>下，没知道，<code>/var/log/</code>没找到</p><p>找<strong>系统日志</strong><br><code>journalctl -u influxdb</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u influxdb</span><br><span class="line"></span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: Unit influxdb.service entered failed state.</span><br><span class="line">6月 27 10:46:02 tokyle.com systemd[1]: influxdb.service failed.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: influxdb.service holdoff time over, scheduling restart.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: Stopped InfluxDB is an open-source, distributed, time series database.</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: start request repeated too quickly for influxdb.service</span><br><span class="line">6月 27 10:46:03 tokyle.com systemd[1]: Failed to start InfluxDB is an open-source, distributed, time series database.</span><br></pre></td></tr></table></figure></p><p>还是看不出什么问题</p><p>最后，不使用systemctl直接手工启动influxdb：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop influxdb</span><br><span class="line"></span><br><span class="line">cd /usr/bin</span><br><span class="line"></span><br><span class="line">[root@tokyle bin]# influxd -config /etc/influxdb/influxdb.conf </span><br><span class="line"></span><br><span class="line"> 8888888           .d888 888                   8888888b.  888888b.</span><br><span class="line">   888            d88P&quot;  888                   888  &quot;Y88b 888  &quot;88b</span><br><span class="line">   888            888    888                   888    888 888  .88P</span><br><span class="line">   888   88888b.  888888 888 888  888 888  888 888    888 8888888K.</span><br><span class="line">   888   888 &quot;88b 888    888 888  888  Y8bd8P&apos; 888    888 888  &quot;Y88b</span><br><span class="line">   888   888  888 888    888 888  888   X88K   888    888 888    888</span><br><span class="line">   888   888  888 888    888 Y88b 888 .d8&quot;&quot;8b. 888  .d88P 888   d88P</span><br><span class="line"> 8888888 888  888 888    888  &quot;Y88888 888  888 8888888P&quot;  8888888P&quot;</span><br><span class="line"></span><br><span class="line">2019-06-27T03:04:08.786635ZinfoInfluxDB starting&#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;1.6.1&quot;, &quot;branch&quot;: &quot;1.6&quot;, &quot;commit&quot;: &quot;5766854b95ae86cccf6cc8ffe4c5bb9eacc994b8&quot;&#125;</span><br><span class="line">2019-06-27T03:04:08.786678ZinfoGo runtime&#123;&quot;log_id&quot;: &quot;0GHj5JKW000&quot;, &quot;version&quot;: &quot;go1.10.3&quot;, &quot;maxprocs&quot;: 4&#125;</span><br><span class="line">run: open server: listen: listen tcp 127.0.0.1:8088: bind: address already in use</span><br></pre></td></tr></table></figure></p><p>终于看见了，端口被占用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tokyle bin]# netstat -anp | grep 8088</span><br><span class="line">tcp6       0      0 :::8088                 :::*                    LISTEN      22329/docker-proxy</span><br></pre></td></tr></table></figure><p>docker占了8088,问题解决</p><p>以上经过，记住，influxdb找不到日志：</p><ol><li>journalctl -u influxdb</li><li>/usr/bin/influxd -config /etc/influxdb/influxdb.conf</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Influxdb启动失败日志定位&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Devops" scheme="http://tokyle.com/categories/Devops/"/>
-    
-    
-      <category term="Influxdb" scheme="http://tokyle.com/tags/Influxdb/"/>
     
   </entry>
   
