@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[日常python记忆（一）]]></title>
+    <url>%2F2019%2F09%2F06%2F%E6%97%A5%E5%B8%B8python%E8%AE%B0%E5%BF%86%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[日常python记忆（一） 有个功能测试任务，首先很多条件，随机选取条件值，组合成filter，然后将filter传到接口，再拿接口返回的count值 也就是： 随机生成N个filter，传给接口 获取count值，记录回excel 就是生成filter写excel，再request接口，拿返回，写count进excel的过程之间遇到过一点折腾，记录一下： 关于时间1234567891011import datetimefrom dateutil.relativedelta import relativedeltadef date_string(date): &quot;&quot;&quot; 日期格式化：2019-09-05格式化为 20190905 :param date: 日期 :return: &quot;&quot;&quot; data_print = datetime.datetime.strftime(date, &quot;%Y%m%d&quot;) return data_print 获取当前时间，去年，前年…1234567891011121314151617181920# 20180905，20160905， 20150905， 20090905# 今天today_date = datetime.date.today()today = date_string(today_date)# 去年 20180905last_year_date = today_date - relativedelta(years=1)last_year = date_string(last_year_date)# 三年前 20160905last_3year_date = today_date - relativedelta(years=3)last_3year = date_string(last_3year_date)# 四年前 20150905last_4year_date = today_date - relativedelta(years=4)last_4year = date_string(last_4year_date)# 十年前 20090905last_10year_date = today_date - relativedelta(years=10)last_10year = date_string(last_10year_date) 列表转换因为接口传参都是使用的双引号，python的list，使用的单引号，需要将单引号转换成双引号：12345678import jsondef get_double_quotes(data_list): &quot;&quot;&quot; 列表中单引号转换为双引号 :return: &quot;&quot;&quot; exp_list = json.dumps(data_list) return exp_list filterfilter是一个集合，中间的格式类似：&quot;i&quot;:[&quot;94&quot;,&quot;34&quot;] 生成方法：12345678910111213141516171819202122232425def get_projects_by_num(data_list, num, param_name): &quot;&quot;&quot; 通用方法，根据数据集名及数量，输出filter :param data_list: 数据集 :param num: 输出数量 :param param_name: 输出参数名 :return: &quot;&quot;&quot; if num == 0: return &apos;&apos; # 1-5 elif num in range(1, 6): # 获取指定数量随机参数 list_param = sample(data_list, num) # 单引号转换为双引号 list_i = get_double_quotes(list_param) # 标准格式输出 param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(param_name) + list_i return param # 大于5 else: list_param = sample(industry, 5) list_i = get_double_quotes(list_param) param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(param_name) + list_i return param 1234567891011121314151617181920212223242526def get_filters(num): &quot;&quot;&quot; filter :param num: 返回参数个数，不大于3，该写法有缺陷 :return: &quot;&quot;&quot; data_list = [industry, dates, status, registered_capital, currency, company_type, organization, insured_count] param_names = [&quot;i&quot;, &quot;d&quot;, &quot;s&quot;, &quot;rc&quot;, &quot;c&quot;, &quot;ct&quot;, &quot;st&quot;, &quot;ic&quot;] param_dates = list(zip(data_list, param_names)) # param_dates = [(industry, i),(dates, d)] filter_param = [] for i in range(8): filter_param.append(get_projects_by_num(param_dates[i][0], num, param_dates[i][1])) r_param = get_region(1, &quot;r&quot;) t_param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(&quot;t&quot;) + &apos;&quot;&#123;&#125;&quot;&apos;.format(choice(tech)) filter_param.append(r_param) filter_param.append(t_param) # 去除空格 while &apos;&apos; in filter_param: filter_param.remove(&apos;&apos;) # 转集合 s_param = set(filter_param) # 去除单引号 filter_p = str(s_param).replace(&apos;\&apos;&apos;, &apos;&apos;) return filter_p 其中去除集合单引号有点心累，原来输出格式是类似：{&#39;&quot;r&quot;:[{&quot;pr&quot;:&quot;HUB&quot;},&#39;{&quot;pr&quot;:&quot;SD&quot;}]&#39;,&#39;&quot;i&quot;:[&quot;12&quot;,&quot;77&quot;]&#39;,&#39;&quot;s&quot;:[&quot;80&quot;]&#39;,&#39;&quot;f&quot;:[&quot;N_LQ&quot;]&#39;}需要把单引号去掉，折腾好久，居然没想到直接转成string，再用replace替换掉，唉。。 request123456789101112131415161718192021222324252627282930313233343536373839404142434445464748#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/9/3 14:37&quot;&quot;&quot;import requests,timefrom openexcel import *from get_data import *# 获取filter_listfilter_list = []for i in range(100): filter_param = get_filters() filter_list.append(filter_param)# # 写到excel第一列filename = &quot;E:/Performance_workstation/05_getListForWeb/filters.xlsx&quot;write_excel(filename, &quot;filter&quot;, &quot;filter&quot;, 1, filter_list)# 读取第一列数据# filter_list = read_excel(filename, &quot;filter&quot;, 1)# 获取count值counts = []cookies = &#123;&quot;SESSID&quot;: &quot;sahdoadoadheocapasdsicj&quot;&#125;header = &#123;&quot;Content-Type&quot;:&quot;application/x-www-form-urlencoded&quot;&#125;url = &quot;http://192.169.0.1/search_key?ajax=1&quot;# 对应filter获取所有count值for filter in filter_list: payload = &#123;&quot;filter&quot;: filter&#125; r = requests.post(url, data=payload, headers=header, cookies=cookies) time.sleep(1) results = r.json() count = results[&quot;count&quot;] if count is None: counts.append(&quot;code_201&quot;) else: counts.append(count)# 写数据到excel第三列（actual results）# filename, sheetname, colname, col, testdatawrite_excel(filename, &quot;filter&quot;, &quot;actual_results&quot;, 2, counts) 其中写数据到excel之前写过：12345678910111213141516171819202122232425def write_excel(filename, sheetname, colname, col, testdata): &quot;&quot;&quot; 已知数据集，写数据到指定列 :param filename: 待写数据文件 :param sheetname: 待写数据页签 :param colname: 待写数据列名 :param col: 待写数据列 :param testdata: 待写数据集（列表格式） :return: &quot;&quot;&quot; # 激活写页签 wb = load_excel(filename) sheet = wb[sheetname] # 写入列标题 sheet.cell(row=1, column=col, value=str(colname)) # 写入数据 # 写数据 for i in range(2, len(testdata) + 1): sheet.cell(row=i, column=col, value=str(testdata[i-2])) # 写入缺失的最后一行数据 max_row = len(testdata) + 1 sheet.cell(row=max_row, column=col, value=str(testdata[-1])) # 保存文件 wb.save(filename) python还是需要从基础好好看啊。以上，完~]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Jmeter实现事务百分比]]></title>
     <url>%2F2019%2F08%2F28%2FJmeter%E5%AE%9E%E7%8E%B0%E4%BA%8B%E5%8A%A1%E7%99%BE%E5%88%86%E6%AF%94%2F</url>
     <content type="text"><![CDATA[Jmeter实现事务百分比 使用Jmeter进行性能测试，需要执行场景时候，没有类似loadrunner的control中事务百分比的插件，但有的时候，为了更真实模拟用户操作，需要对应的业务按一定比例执行，例如，首页和搜索的比例是3:7。 线程组这个方式最容易想到，jmeter的test plan下可以加多个线程组，可以通过设置线程组*循环次数，来实现事务执行次数，从而实现多事务执行总数遵循一定比例，但是这个不准确，因为不是在同一个线程组下，当接口响应时间不同是，比例就无法得到保证。 If Controller逻辑控制器，IF控制器，这个实现原理很简单，首先获取事务执行总数，这个可以通过函数助手的${__counter(true,)}来实现，按照比例写if表达式，满足条件的执行该if控制器下的事务 首先介绍一下${__counter(true,)} true表示，每个线程有自己的计数器，例如10个线程，循环100次，计数范围：[1, 100]false表示，全局的计数器，例如10个线程，循环100次，计数范围：[1, 1000] 回到上面的需求，首页:搜索 = 3:7 那么可以这么做，添加两个if控制器首页的if控制器表达式：${__counter(true,)}%10==0 || ${__counter(true,)}%10&gt;7执行次数除以10，余数为0，或者余数大于7，执行首页事务 搜索的if控制器表达式：${__counter(true,)}%10&lt;8 &amp;&amp; ${__counter(true,)}%10!=0执行次数除以10，余数小于8且不等于0，执行查询事务 这样执行10000次，在聚合报告中就可以看见，首页执行了3000次，查询执行了7000次 需要注意的是，if控制器，需要把Interpret Condition as Variable Expression?选项勾选去掉，当是勾选状态，表达式只会判断true和false，只有去掉，才会执行js表达式（表达式语法遵循JavaScript语法） 以上，完~]]></content>
@@ -707,8 +718,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>pip3</tag>
         <tag>Centos7</tag>
+        <tag>pip3</tag>
       </tags>
   </entry>
   <entry>
@@ -837,8 +848,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -849,8 +860,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1068,8 +1079,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Nginx</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -1396,8 +1407,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>Linux</tag>
+        <tag>Centos7</tag>
         <tag>yum</tag>
       </tags>
   </entry>
