@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tokyle.com/"/>
-  <updated>2019-09-06T07:57:05.685Z</updated>
+  <updated>2019-09-17T03:44:57.780Z</updated>
   <id>http://tokyle.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jmeter使用beanshell进行接口解密</title>
+    <link href="http://tokyle.com/2019/09/16/Jmeter%E4%BD%BF%E7%94%A8beanshell%E8%BF%9B%E8%A1%8C%E6%8E%A5%E5%8F%A3%E8%A7%A3%E5%AF%86/"/>
+    <id>http://tokyle.com/2019/09/16/Jmeter使用beanshell进行接口解密/</id>
+    <published>2019-09-17T03:38:44.000Z</published>
+    <updated>2019-09-17T03:44:57.780Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用BeanShell PreProcessor进行加密</p><a id="more"></a><p>直接上示例</p><p>脚本结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- 线程组</span><br><span class="line">- 简单控制器</span><br><span class="line">- User Defined Variables</span><br><span class="line">- BeanShell PreProcessor</span><br><span class="line">- HTTP请求</span><br><span class="line">- Debug Sampler</span><br><span class="line">- 察看结果树</span><br></pre></td></tr></table></figure></p><p>其他部分不说了，直接上<code>BeanShell PreProcessor</code>内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import com.ijiami.*;</span><br><span class="line">//初始化dll/so的路径</span><br><span class="line">JMEncryptBox.initLoadDllPath(&quot;I:/Performance/apache-jmeter-5.1.1/dependencies/lib&quot;);</span><br><span class="line"></span><br><span class="line">//获取用户自定义变量，sign</span><br><span class="line">//调用工具类中的方法进行加密,值赋给变量sign1</span><br><span class="line">String sign1 =JMEncryptBoxByRandom.encryptToBase64(&quot;$&#123;sign&#125;&quot;,AlgorithmType.AES);</span><br><span class="line">//把值保存到jmeter变量encrysign中，可供后续组件使用$&#123;encrysign&#125;</span><br><span class="line">vars.put(&quot;encrysign&quot;,sign1);</span><br><span class="line"></span><br><span class="line">//解密，将密文sign1进行解密，值赋给变量sign2</span><br><span class="line">String sign2 = JMEncryptBoxByRandom.decryptFromBase64(sign1,AlgorithmType.AES).getText();</span><br><span class="line">////把值保存到jmeter变量decrysign中，可供后续组件使用$&#123;decrysign&#125;</span><br><span class="line">vars.put(&quot;decrysign&quot;,sign2);</span><br><span class="line"></span><br><span class="line">//String getencodesign=vars.get(&quot;encrysign&quot;);</span><br><span class="line">//log.info(&quot;Get my encode sign : &quot; + getencodesign);</span><br><span class="line"></span><br><span class="line">//获取用户自定义变量，timestamp</span><br><span class="line">//调用工具类中的方法进行加密,值赋给变量timestamp1</span><br><span class="line">String timestamp1 =JMEncryptBoxByRandom.encryptToBase64(&quot;$&#123;timestamp&#125;&quot;,AlgorithmType.AES);</span><br><span class="line">//把值保存到jmeter变量encrytimestamp中，可供后续组件使用$&#123;encrytimestamp&#125;</span><br><span class="line">vars.put(&quot;encrytimestamp&quot;,timestamp1);</span><br><span class="line"></span><br><span class="line">//解密，将密文timestamp1进行解密，值赋给变量timestamp2</span><br><span class="line">String timestamp2 = JMEncryptBoxByRandom.decryptFromBase64(timestamp1,AlgorithmType.AES).getText();</span><br><span class="line">////把值保存到jmeter变量decrytimestamp中，可供后续组件使用$&#123;decrytimestamp&#125;</span><br><span class="line">vars.put(&quot;decrytimestamp&quot;,timestamp2);</span><br></pre></td></tr></table></figure><p>仅供自己后面如果要使用的时候参考用，同样的加密，可可以通过<code>OS Process Sampler</code>调用外部脚本文件实现（python，shell等）</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用BeanShell PreProcessor进行加密&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
+    
+  </entry>
   
   <entry>
     <title>日常python记忆（一）</title>
@@ -446,28 +468,6 @@
     
     
       <category term="wordpress" scheme="http://tokyle.com/tags/wordpress/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jmeter生成Report Dashboard</title>
-    <link href="http://tokyle.com/2019/07/02/Jmeter%E7%94%9F%E6%88%90Report-Dashboard/"/>
-    <id>http://tokyle.com/2019/07/02/Jmeter生成Report-Dashboard/</id>
-    <published>2019-07-03T01:51:12.000Z</published>
-    <updated>2019-07-03T02:02:28.280Z</updated>
-    
-    <content type="html"><![CDATA[<p>Jmeter生成Report Dashboard</p><a id="more"></a><h3 id="Report-Dashboard"><a href="#Report-Dashboard" class="headerlink" title="Report Dashboard"></a>Report Dashboard</h3><p>Jmeter最后生成的测试结果报告一直是被吐槽的，今天翻官方教程时候，发现，人家报告根本就很好看啊，自己不会用。。</p><blockquote><p><a href="https://jmeter.apache.org/usermanual/generating-dashboard.html#top" target="_blank" rel="noopener">Generating Report Dashboard</a></p></blockquote><p>生成方法很简单，命令行运行jmeter脚本即可，格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t &lt;test JMX file&gt; -l &lt;test log file&gt; -e -o &lt;Path to output folder&gt;</span><br></pre></td></tr></table></figure></p><p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t 111.jmx -l report\01-result.csv -e -o report\01-Dashboard</span><br></pre></td></tr></table></figure></p><p>运行完成之后，会在report文件夹下，生成一个<code>01-Dashboard</code>文件夹，浏览器打开<code>index.html</code>就是一个很完整的<strong>Report Dashboard</strong></p><p>效果图：<br><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g4mecnxu8xj21h30phmyo.jpg" alt="dashboard"></p><p>响应时间图<br><img src="http://ww1.sinaimg.cn/mw690/a025e134gy1g4medfxay2j21gz0q60uk.jpg" alt></p><p>另一种生成dashboard的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generation from an existing sample CSV log file（从结果csv文件产生）</span><br><span class="line">jmeter -g &lt;log file&gt; -o &lt;Path to output folder&gt;</span><br></pre></td></tr></table></figure></p><p>这是在已经执行完测试，生成了csv的测试结果</p><h3 id="Jmeter几条常用命令"><a href="#Jmeter几条常用命令" class="headerlink" title="Jmeter几条常用命令"></a>Jmeter几条常用命令</h3><p>算是自己平时可能用的比较多的：</p><h4 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h4><p>jmeter命令行模式（脚本和jmeter.bat在一个目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jmeter -n -t test1.jmx  -r -l report\01-result.csv -j report\01-log.log（分布式）</span><br><span class="line"></span><br><span class="line">jmeter -n -t APP.jmx   -l report\01-result.csv -j report\01-log.log（单台）</span><br></pre></td></tr></table></figure></p><p>顺便记点不相关的：<br>iostat安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y sysstat</span><br></pre></td></tr></table></figure></p><p>htop安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line"></span><br><span class="line">yum install htop</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Jmeter生成Report Dashboard&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="性能测试" scheme="http://tokyle.com/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="Jmeter" scheme="http://tokyle.com/tags/Jmeter/"/>
     
   </entry>
   

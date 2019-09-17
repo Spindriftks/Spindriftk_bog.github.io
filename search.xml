@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jmeter使用beanshell进行接口解密]]></title>
+    <url>%2F2019%2F09%2F16%2FJmeter%E4%BD%BF%E7%94%A8beanshell%E8%BF%9B%E8%A1%8C%E6%8E%A5%E5%8F%A3%E8%A7%A3%E5%AF%86%2F</url>
+    <content type="text"><![CDATA[使用BeanShell PreProcessor进行加密 直接上示例 脚本结构：1234567- 线程组 - 简单控制器 - User Defined Variables - BeanShell PreProcessor - HTTP请求 - Debug Sampler - 察看结果树 其他部分不说了，直接上BeanShell PreProcessor内容： 12345678910111213141516171819202122232425262728import com.ijiami.*;//初始化dll/so的路径JMEncryptBox.initLoadDllPath(&quot;I:/Performance/apache-jmeter-5.1.1/dependencies/lib&quot;);//获取用户自定义变量，sign//调用工具类中的方法进行加密,值赋给变量sign1String sign1 =JMEncryptBoxByRandom.encryptToBase64(&quot;$&#123;sign&#125;&quot;,AlgorithmType.AES);//把值保存到jmeter变量encrysign中，可供后续组件使用$&#123;encrysign&#125;vars.put(&quot;encrysign&quot;,sign1);//解密，将密文sign1进行解密，值赋给变量sign2String sign2 = JMEncryptBoxByRandom.decryptFromBase64(sign1,AlgorithmType.AES).getText();////把值保存到jmeter变量decrysign中，可供后续组件使用$&#123;decrysign&#125;vars.put(&quot;decrysign&quot;,sign2);//String getencodesign=vars.get(&quot;encrysign&quot;);//log.info(&quot;Get my encode sign : &quot; + getencodesign);//获取用户自定义变量，timestamp//调用工具类中的方法进行加密,值赋给变量timestamp1String timestamp1 =JMEncryptBoxByRandom.encryptToBase64(&quot;$&#123;timestamp&#125;&quot;,AlgorithmType.AES);//把值保存到jmeter变量encrytimestamp中，可供后续组件使用$&#123;encrytimestamp&#125;vars.put(&quot;encrytimestamp&quot;,timestamp1);//解密，将密文timestamp1进行解密，值赋给变量timestamp2String timestamp2 = JMEncryptBoxByRandom.decryptFromBase64(timestamp1,AlgorithmType.AES).getText();////把值保存到jmeter变量decrytimestamp中，可供后续组件使用$&#123;decrytimestamp&#125;vars.put(&quot;decrytimestamp&quot;,timestamp2); 仅供自己后面如果要使用的时候参考用，同样的加密，可可以通过OS Process Sampler调用外部脚本文件实现（python，shell等）]]></content>
+      <categories>
+        <category>性能测试</category>
+      </categories>
+      <tags>
+        <tag>Jmeter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[日常python记忆（一）]]></title>
     <url>%2F2019%2F09%2F06%2F%E6%97%A5%E5%B8%B8python%E8%AE%B0%E5%BF%86%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
     <content type="text"><![CDATA[日常python记忆（一） 有个功能测试任务，首先很多条件，随机选取条件值，组合成filter，然后将filter传到接口，再拿接口返回的count值 也就是： 随机生成N个filter，传给接口 获取count值，记录回excel 就是生成filter写excel，再request接口，拿返回，写count进excel的过程之间遇到过一点折腾，记录一下： 关于时间1234567891011import datetimefrom dateutil.relativedelta import relativedeltadef date_string(date): &quot;&quot;&quot; 日期格式化：2019-09-05格式化为 20190905 :param date: 日期 :return: &quot;&quot;&quot; data_print = datetime.datetime.strftime(date, &quot;%Y%m%d&quot;) return data_print 获取当前时间，去年，前年…1234567891011121314151617181920# 20180905，20160905， 20150905， 20090905# 今天today_date = datetime.date.today()today = date_string(today_date)# 去年 20180905last_year_date = today_date - relativedelta(years=1)last_year = date_string(last_year_date)# 三年前 20160905last_3year_date = today_date - relativedelta(years=3)last_3year = date_string(last_3year_date)# 四年前 20150905last_4year_date = today_date - relativedelta(years=4)last_4year = date_string(last_4year_date)# 十年前 20090905last_10year_date = today_date - relativedelta(years=10)last_10year = date_string(last_10year_date) 列表转换因为接口传参都是使用的双引号，python的list，使用的单引号，需要将单引号转换成双引号：12345678import jsondef get_double_quotes(data_list): &quot;&quot;&quot; 列表中单引号转换为双引号 :return: &quot;&quot;&quot; exp_list = json.dumps(data_list) return exp_list filterfilter是一个集合，中间的格式类似：&quot;i&quot;:[&quot;94&quot;,&quot;34&quot;] 生成方法：12345678910111213141516171819202122232425def get_projects_by_num(data_list, num, param_name): &quot;&quot;&quot; 通用方法，根据数据集名及数量，输出filter :param data_list: 数据集 :param num: 输出数量 :param param_name: 输出参数名 :return: &quot;&quot;&quot; if num == 0: return &apos;&apos; # 1-5 elif num in range(1, 6): # 获取指定数量随机参数 list_param = sample(data_list, num) # 单引号转换为双引号 list_i = get_double_quotes(list_param) # 标准格式输出 param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(param_name) + list_i return param # 大于5 else: list_param = sample(industry, 5) list_i = get_double_quotes(list_param) param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(param_name) + list_i return param 1234567891011121314151617181920212223242526def get_filters(num): &quot;&quot;&quot; filter :param num: 返回参数个数，不大于3，该写法有缺陷 :return: &quot;&quot;&quot; data_list = [industry, dates, status, registered_capital, currency, company_type, organization, insured_count] param_names = [&quot;i&quot;, &quot;d&quot;, &quot;s&quot;, &quot;rc&quot;, &quot;c&quot;, &quot;ct&quot;, &quot;st&quot;, &quot;ic&quot;] param_dates = list(zip(data_list, param_names)) # param_dates = [(industry, i),(dates, d)] filter_param = [] for i in range(8): filter_param.append(get_projects_by_num(param_dates[i][0], num, param_dates[i][1])) r_param = get_region(1, &quot;r&quot;) t_param = &apos;&quot;&#123;&#125;&quot;:&apos;.format(&quot;t&quot;) + &apos;&quot;&#123;&#125;&quot;&apos;.format(choice(tech)) filter_param.append(r_param) filter_param.append(t_param) # 去除空格 while &apos;&apos; in filter_param: filter_param.remove(&apos;&apos;) # 转集合 s_param = set(filter_param) # 去除单引号 filter_p = str(s_param).replace(&apos;\&apos;&apos;, &apos;&apos;) return filter_p 其中去除集合单引号有点心累，原来输出格式是类似：{&#39;&quot;r&quot;:[{&quot;pr&quot;:&quot;HUB&quot;},&#39;{&quot;pr&quot;:&quot;SD&quot;}]&#39;,&#39;&quot;i&quot;:[&quot;12&quot;,&quot;77&quot;]&#39;,&#39;&quot;s&quot;:[&quot;80&quot;]&#39;,&#39;&quot;f&quot;:[&quot;N_LQ&quot;]&#39;}需要把单引号去掉，折腾好久，居然没想到直接转成string，再用replace替换掉，唉。。 request123456789101112131415161718192021222324252627282930313233343536373839404142434445464748#!/usr/bin/env python3# -*-coding: utf-8 -*-&quot;&quot;&quot;@author: kyle@time: 2019/9/3 14:37&quot;&quot;&quot;import requests,timefrom openexcel import *from get_data import *# 获取filter_listfilter_list = []for i in range(100): filter_param = get_filters() filter_list.append(filter_param)# # 写到excel第一列filename = &quot;E:/Performance_workstation/05_getListForWeb/filters.xlsx&quot;write_excel(filename, &quot;filter&quot;, &quot;filter&quot;, 1, filter_list)# 读取第一列数据# filter_list = read_excel(filename, &quot;filter&quot;, 1)# 获取count值counts = []cookies = &#123;&quot;SESSID&quot;: &quot;sahdoadoadheocapasdsicj&quot;&#125;header = &#123;&quot;Content-Type&quot;:&quot;application/x-www-form-urlencoded&quot;&#125;url = &quot;http://192.169.0.1/search_key?ajax=1&quot;# 对应filter获取所有count值for filter in filter_list: payload = &#123;&quot;filter&quot;: filter&#125; r = requests.post(url, data=payload, headers=header, cookies=cookies) time.sleep(1) results = r.json() count = results[&quot;count&quot;] if count is None: counts.append(&quot;code_201&quot;) else: counts.append(count)# 写数据到excel第三列（actual results）# filename, sheetname, colname, col, testdatawrite_excel(filename, &quot;filter&quot;, &quot;actual_results&quot;, 2, counts) 其中写数据到excel之前写过：12345678910111213141516171819202122232425def write_excel(filename, sheetname, colname, col, testdata): &quot;&quot;&quot; 已知数据集，写数据到指定列 :param filename: 待写数据文件 :param sheetname: 待写数据页签 :param colname: 待写数据列名 :param col: 待写数据列 :param testdata: 待写数据集（列表格式） :return: &quot;&quot;&quot; # 激活写页签 wb = load_excel(filename) sheet = wb[sheetname] # 写入列标题 sheet.cell(row=1, column=col, value=str(colname)) # 写入数据 # 写数据 for i in range(2, len(testdata) + 1): sheet.cell(row=i, column=col, value=str(testdata[i-2])) # 写入缺失的最后一行数据 max_row = len(testdata) + 1 sheet.cell(row=max_row, column=col, value=str(testdata[-1])) # 保存文件 wb.save(filename) python还是需要从基础好好看啊。以上，完~]]></content>
@@ -234,8 +245,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>grafana</tag>
         <tag>Influxdb</tag>
+        <tag>grafana</tag>
         <tag>Jmeter</tag>
       </tags>
   </entry>
@@ -718,8 +729,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Centos7</tag>
         <tag>pip3</tag>
+        <tag>Centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -848,8 +859,8 @@
         <category>skill</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -860,8 +871,8 @@
         <category>性能测试</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1079,8 +1090,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Centos7</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1349,8 +1360,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>Centos7</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1407,8 +1418,8 @@
         <category>Devops</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Centos7</tag>
+        <tag>Linux</tag>
         <tag>yum</tag>
       </tags>
   </entry>
